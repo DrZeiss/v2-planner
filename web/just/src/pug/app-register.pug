@@ -1,0 +1,43 @@
+extends ./layout/layout-empty.pug
+block vars
+  - var page = 'app-register'
+block main
+  .st-auth
+    .st-auth__cont
+      .st-panel
+        .st-panel__cont
+          .st-panel__header
+            .fluid-cols
+              .expand-col
+                span.st-panel__title
+                  span Create Account
+          .st-panel__content
+            form.form#register-form(action="index.html", method="post")
+              .form-group
+                input.form-control(type="email", placeholder="Email", required)
+              .form-group
+                input.form-control(type="text", placeholder="Username", required)
+              .form-group
+                input.form-control(type="password", placeholder="Password", required)
+              .form-group
+                .fluid-cols
+                  .expand-col
+                    .checkbox#register-terms
+                      input#terms(type='checkbox', required)
+                      label(for='terms') Terms
+                  .min-col
+                    .btn-group.btn-group-inline
+                      button.btn.btn-info(type="submit") Register
+                      button.btn.btn-info.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true") <span class="caret"></span>
+                      ul.dropdown-menu
+                        li
+                          a(href="app-login.html") Login
+                        li
+                          a(href="app-password.html") Restore Password
+      .st-auth__back
+        a.btn.btn-default(href="app-auth.html") <i class="fa fa-angle-left"></i>&nbsp;&nbsp;Back to Dashboard
+block css
+block js
+  script(src="libs/bootstrap-validator/validator.min.js")
+block js-last
+  script(src="js/modules/pages/auth.js")

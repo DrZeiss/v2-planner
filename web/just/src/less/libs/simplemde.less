@@ -1,0 +1,52 @@
+textarea.simplemde {
+  display: none;
+}
+
+.editor-toolbar.fullscreen,
+.CodeMirror-fullscreen {
+    z-index: 9000;
+}
+
+.CodeMirror {
+  border: 1px solid @border-dark;
+  color: @color;
+  padding: 15px;
+  min-height: 200px;
+
+  pre {
+    padding: 0;
+  }
+}
+
+.CodeMirror-lines {
+  padding: 0;
+}
+
+.editor-preview {
+  padding: 15px;
+}
+
+.CodeMirror-scroll {
+  margin-right: -33px;
+  margin-bottom: -33px;
+  min-height: 170px;
+  max-height: 300px;
+}
+
+.editor-toolbar {
+  border: 1px solid @border-dark;
+  border-bottom: 0;
+  opacity: 1;
+
+  &:hover {
+
+    a,i {
+      opacity: 1;
+    }
+  }
+
+  a, i {
+    opacity: 0.6;
+    outline: 0;
+  }
+}

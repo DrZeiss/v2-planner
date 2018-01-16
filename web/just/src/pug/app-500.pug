@@ -1,0 +1,13 @@
+extends ./layout/layout-empty.pug
+block vars
+  - var page = 'app-500'
+block main
+  .st-error
+    .st-error__cont
+      .st-error__code 500
+      .st-error__message Something has gone seriously wrong. Sorry about that. Please, try again later.
+      .st-error__back
+        a.btn.btn-default(href="app-errors.html") <i class="fa fa-angle-left"></i>&nbsp;&nbsp;Return Back
+block css
+block js
+block js-last

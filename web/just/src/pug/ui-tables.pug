@@ -1,0 +1,250 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'ui-tables'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Tables
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") UI
+          li
+            span Tables
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-6.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Basic Example
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#basic")
+                        i.fa.fa-code
+              .st-panel__content
+                p For basic styling add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.
+                .table-responsive(style="margin-bottom: 0;")
+                  table#basic.table(style="margin-bottom: 2px;")
+                    thead
+                      tr
+                        th #
+                        th First Name
+                        th Last Name
+                        th Username
+                    tbody
+                      tr
+                        th 1
+                        td Mark
+                        td Otto
+                        td @mdo
+                      tr
+                        th 2
+                        td Jacob
+                        td Thornton
+                        td @fat
+                      tr
+                        th 3
+                        td Larry
+                        td the Bird
+                        td @twitter
+        .col-md-6.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Bordered Table
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#bordered")
+                        i.fa.fa-code
+              .st-panel__content
+                p Add <code>.table-bordered</code> for borders on all sides of the table and cells.
+                .table-responsive.table-responsive-bordered(style="margin-bottom: 0;")
+                  table#bordered.table.table-bordered(style="margin-bottom: 0;")
+                    thead
+                      tr
+                        th.content-width #
+                        th First Name
+                        th Last Name
+                        th Username
+                    tbody
+                      tr
+                        th.content-width 1
+                        td Mark
+                        td Otto
+                        td @mdo
+                      tr
+                        th.content-width 2
+                        td Jacob
+                        td Thornton
+                        td @fat
+                      tr
+                        th.content-width 3
+                        td Larry
+                        td the Bird
+                        td @twitter
+      .row
+        .col-md-6.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Striped Rows
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#striped")
+                        i.fa.fa-code
+              .st-panel__content
+                p Use <code>.table-striped</code> to add zebra-striping to any table row.
+                .table-responsive(style="margin-bottom: 0;")
+                  table#striped.table.table-striped(style="margin-bottom: 2px;")
+                    thead
+                      tr
+                        th #
+                        th First Name
+                        th Last Name
+                        th Username
+                    tbody
+                      tr
+                        th 1
+                        td Mark
+                        td Otto
+                        td @mdo
+                      tr
+                        th 2
+                        td Jacob
+                        td Thornton
+                        td @fat
+                      tr
+                        th 3
+                        td Larry
+                        td the Bird
+                        td @twitter
+        .col-md-6.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Filled Header
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#filled")
+                        i.fa.fa-code
+              .st-panel__content
+                p Use <code>.table-filled</code> to fill cells with a color.
+                .table-responsive.table-responsive-bordered(style="margin-bottom: 0;")
+                  table#filled.table.table-bordered.table-filled(style="margin-bottom: 0;")
+                    thead
+                      tr
+                        th.content-width #
+                        th First Name
+                        th Last Name
+                        th Username
+                    tbody
+                      tr
+                        th.content-width 1
+                        td Mark
+                        td Otto
+                        td @mdo
+                      tr
+                        th.content-width 2
+                        td Jacob
+                        td Thornton
+                        td @fat
+                      tr
+                        th.content-width 3
+                        td Larry
+                        td the Bird
+                        td @twitter
+      .row
+        .col-md-6.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Hover Rows
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#hover")
+                        i.fa.fa-code
+              .st-panel__content
+                p Add <code>.table-hover</code> to enable a hover state on table rows.
+                .table-responsive.table-responsive-bordered(style="margin-bottom: 0;")
+                  table#hover.table.table-bordered.table-hover(style="margin-bottom: 0;")
+                    thead
+                      tr
+                        th.content-width #
+                        th First Name
+                        th Last Name
+                        th Username
+                    tbody
+                      tr
+                        th.content-width 1
+                        td Mark
+                        td Otto
+                        td @mdo
+                      tr
+                        th.content-width 2
+                        td Jacob
+                        td Thornton
+                        td @fat
+                      tr
+                        th.content-width 3
+                        td Larry
+                        td the Bird
+                        td @twitter
+        .col-md-6
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Responsive Table
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#responsive")
+                        i.fa.fa-code
+              .st-panel__content
+                p Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive</code>.
+                #responsive.table-responsive.table-responsive-bordered(style="margin-bottom: 10px;")
+                  table.table.table-bordered.table-filled(style="margin-bottom: 10px; min-width: 1000px;")
+                    thead
+                      tr
+                        th.content-width #
+                        th First Name
+                        th Last Name
+                        th Username
+                    tbody
+                      tr
+                        th.content-width 1
+                        td Mark
+                        td Otto
+                        td @mdo
+                      tr
+                        th.content-width 2
+                        td Jacob
+                        td Thornton
+                        td @fat
+block css
+block js

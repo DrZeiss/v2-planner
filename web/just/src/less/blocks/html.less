@@ -1,0 +1,106 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: @font-family;
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box;
+  color: @color;
+  background: @background;
+}
+
+a {
+  color: @link-color;
+  text-decoration: underline;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: @link-color;
+    text-decoration: none;
+  }
+}
+
+p {
+  margin: 0;
+
+  & + p {
+    margin-top: 1em;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1em;
+  }
+}
+
+.clearfix {
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.disable-scroll {
+  overflow: hidden;
+}
+
+.unstyled {
+
+  a& {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fluid-cols {
+  display: table;
+  width: 100%;
+
+  > .expand-col {
+    display: table-cell;
+    max-width: 0px;
+    vertical-align: top;
+  }
+
+  > .min-col {
+    display: table-cell;
+    width: 1px;
+    vertical-align: top;
+  }
+
+}
+
+.mb {
+  margin-bottom: 20px;
+}
+
+.mt {
+  margin-top: 20px;
+}
+
+.border-right {
+  border-right: 20px solid transparent;
+}

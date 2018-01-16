@@ -1,0 +1,36 @@
+.table-images {
+
+  table& {
+    margin-bottom: 0;
+
+    &:not(:first-child) {
+      margin-top: 15px;
+    }
+
+    > tbody {
+      > tr {
+        > td {
+          padding: 15px;
+        }
+      }
+    }
+  }
+
+  &__preview {
+    display: block;
+    width: 150px;
+    height: 85px;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-color: @background-dark;
+  }
+
+  &__res {
+    display: block;
+  }
+
+  &__order {
+    text-align: center;
+    width: 45px;
+  }
+}

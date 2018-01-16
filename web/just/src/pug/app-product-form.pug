@@ -1,0 +1,304 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'app-product-form'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Product Form
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") App Pages
+          li
+            span Product Form
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-9.mb
+          form#product-form
+            .st-panel.st-panel--border
+              .st-panel__cont
+                .st-panel__header
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span.st-panel__title
+                        span New Product
+                        small#product-form-subtitle Main Info
+                    .min-col
+                      .st-panel__tabs
+                        ul.nav.nav-tabs(role="tablist", data-subtitle="#product-form-subtitle")
+                          li.active(role="presentation")
+                            a(href="#info", data-toggle="tab") Info
+                          li(role="presentation")
+                            a(href="#fields", data-toggle="tab") Fields
+                          li(role="presentation")
+                            a(href="#cover", data-toggle="tab") Cover
+                          li(role="presentation")
+                            a(href="#images", data-toggle="tab") Images
+                          li(role="presentation")
+                            a(href="#related", data-toggle="tab") Related
+                          li(role="presentation")
+                            a(href="#seo", data-toggle="tab") SEO
+                .st-panel__content
+                  .tab-content
+                    .tab-pane.active(role="tabpanel", id="info")
+                      .form-horizontal
+                        .form-group
+                          label.col-sm-2.mb.control-label Product Name
+                          .col-sm-5.mb
+                            input.form-control(type="text", placeholder="Name")
+                          .col-sm-5.mb
+                            input.form-control(type="text", placeholder="URL Slug")
+                        .form-group
+                          label.col-sm-2.mb.control-label Price
+                          .col-sm-10
+                            .container-fluid.no-paddings
+                              .row
+                                .col-sm-4.mb
+                                  input.form-control(type="text", placeholder="$10.00")
+                                .col-sm-4.mb
+                                  input.form-control(type="text", placeholder="€10.00")
+                                .col-sm-4.mb
+                                  input.form-control(type="text", placeholder="₽10.00")
+                        .form-group
+                          label.col-sm-2.mb.control-label Category
+                          .col-sm-10.mb
+                            select.form-control#product-category(data-placeholder="Category", data-minimum-results-for-search="Infinity", style="width: 100%")
+                              option
+                              option(value="1") Category 1
+                              option(value="2") Category 2
+                              option(value="3") Category 3
+                              option(value="4") Category 4
+                        .form-group
+                          label.col-sm-2.mb.control-label Description
+                          .col-sm-10.mb
+                            textarea.form-control.noresize(placeholder='Describe Product', rows='5', style="height: 112px")
+                        .form-group
+                          label.col-sm-2.mb.control-label Tags
+                          .col-sm-10.mb
+                            select.form-control#product-tags(multiple="multiple", data-placeholder="Tags", data-tags="true", data-token-separators="[',', ' ']", style="width: 100%")
+                              option(value="just") Just
+                              option(value="admin", selected="selected") Admin
+                              option(value="bootstrap", selected="selected") Bootstrap
+                              option(value="template") Template
+                        .form-group
+                          label.col-sm-2.mb.control-label Status
+                          .col-sm-10.mb
+                            .radio.radio-inline
+                                input(type="radio", id="inlineRadio1", value="active", name="status", checked="checked")
+                                label(for="inlineRadio1") Active
+                            .radio.radio-inline
+                                input(type="radio", id="inlineRadio2", value="disabled", name="status")
+                                label(for="inlineRadio2") Disabled
+                            .radio.radio-inline
+                                input(type="radio", id="inlineRadio3", value="archive", name="status")
+                                label(for="inlineRadio3") Archive
+                    .tab-pane(role="tabpanel", id="fields")
+                      .form.form-horizontal
+                        .form-group.hide#product-field-template
+                          .col-xs-5.col-sm-3
+                            select.form-control(data-placeholder="Type", style="width: 100%")
+                              option
+                              option(value="1") Version
+                              option(value="2") Articul
+                              option(value="3") License
+                              option(value="4") Language
+                          .col-xs-7.col-sm-9
+                            .st-inputbar
+                              .st-inputbar-input
+                                input.form-control(type="text", placeholder="Value")
+                              .st-inputbar-btn
+                                button.remove-field.btn.btn-default(type="button")
+                                  i.fa.fa-minus
+                        .form-group
+                          .col-xs-5.col-sm-3
+                            select.select2-box.form-control(data-placeholder="Type", style="width: 100%")
+                              option
+                              option(value="1") Version
+                              option(value="2") Articul
+                              option(value="3") License
+                              option(value="4") Language
+                          .col-xs-7.col-sm-9
+                            .st-inputbar
+                              .st-inputbar-input
+                                input.form-control(type="text", placeholder="Value")
+                              .st-inputbar-btn
+                                button.remove-field.btn.btn-default(type="button")
+                                  i.fa.fa-minus
+                        .form-group
+                          .col-xs-12
+                            button.add-field.btn.btn-default(type="button")
+                              i.fa.fa-plus
+                    .tab-pane(role="tabpanel", id="cover")
+                      .st-cropper
+                        input.hide#cRemoved(type="hidden", name="cRemoved", value="0")
+                        input.hide#cDataX(type="hidden", name="cDataX", value="5")
+                        input.hide#cDataY(type="hidden", name="cDataY", value="5")
+                        input.hide#cDataHeight(type="hidden", name="cDataHeight", value="10")
+                        input.hide#cDataWidth(type="hidden", name="cDataWidth", value="10")
+                        input.hide#cDataScaleX(type="hidden", name="cDataScaleX", value="2")
+                        input.hide#cDataScaleY(type="hidden", name="cDataScaleY", value="2")
+                        input.hide#cDataRotate(type="hidden", name="cDataRotate", value="")
+                        input.hide#cDataBoxLeft(type="hidden", name="cDataBoxLeft", value="")
+                        input.hide#cDataBoxTop(type="hidden", name="cDataBoxTop", value="")
+                        input.hide#cDataBoxWidth(type="hidden", name="cDataBoxWidth", value="")
+                        input.hide#cDataBoxHeight(type="hidden", name="cDataBoxHeight", value="")
+                        .container-fluid.no-paddings
+                          .row
+                            .col-sm-7.mb
+                              h2 Main Cover
+                              .st-cropper__cont
+                                img.st-cropper-img(src="http://lh3.ggpht.com/yV7Txp2Dgk7-k0OJFu8j7JcTCkwshvXo_U4yMSxQ1Aez1_XH5pwPUp5W0of6YwJjvolXqdpkFiRLjWKQZg=s620")
+                            .col-sm-5.mb
+                              h2 Preview
+                              .st-cropper__preview
+                              .st-cropper__upload
+                                .btn-group
+                                  label.btn.btn-info(for="cFile")
+                                    input#cFile.hide(type="file", accept="image/*")
+                                    | Upload Image
+                                  button#cRemove.btn.btn-info(type="button") Remove
+                              .st-cropper__actions
+                                .btn-group
+                                  a#cPreview.btn.btn-default(href="#") Preview
+                                  a#cDownload.btn.btn-default(href="", download="ProductCover") Download
+                                  button#cRestore.btn.btn-default.disabled(type="button") Restore
+                              .st-cropper__ratio
+                                h2 Aspect Ratio
+                                div
+                                  .radio.radio-inline
+                                      input(type="radio", id="ratio1", value="1.777777777", name="cDataRatio", checked="checked")
+                                      label(for="ratio1") 16:9
+                                  .radio.radio-inline
+                                      input(type="radio", id="ratio2", value="1.333333333", name="cDataRatio")
+                                      label(for="ratio2") 4:3
+                                  .radio.radio-inline
+                                      input(type="radio", id="ratio3", value="1", name="cDataRatio")
+                                      label(for="ratio3") 1:1
+                                  .radio.radio-inline
+                                      input(type="radio", id="ratio4", value="0.666666666", name="cDataRatio")
+                                      label(for="ratio4") 2:3
+                                  .radio.radio-inline
+                                      input(type="radio", id="ratio5", value="NaN", name="cDataRatio")
+                                      label(for="ratio5") Free
+                    .tab-pane(role="tabpanel", id="images")
+                      .st-form-images
+                        .table-responsive.table-responsive-bordered
+                          table#product-images-stored.table.table-bordered.table-filled.table-images
+                            thead
+                              tr
+                                th Preview
+                                th URL
+                                th Size
+                                th Order
+                                th
+                            tbody
+                              tr
+                                td.content-width
+                                  a.table-images__preview.fancybox(href="img/media/bike.jpg", rel="stored", style="background-image: url('img/media/bike.jpg')")
+                                td
+                                  .input-group
+                                    input.form-control.table-images__name(type="text", disabled="disabled", value="img/media/bike.jpg")
+                                    .input-group-btn
+                                      button.btn.btn-default.table-images__copy.st-clip(type="button", data-clipboard-text="img/media/bike.jpg")
+                                        i.fa.fa-clipboard
+                                td.content-width
+                                  b.table-images__size.text-nowrap 1.53 MB
+                                  small.table-images__res 1920x1080
+                                td.content-width
+                                  input.form-control.table-images__order(type="text", value="1")
+                                td.content-width
+                                  button.btn.btn-default.table-images__delete(type="button")
+                                    i.fa.fa-fw.fa-trash
+                              tr
+                                td.content-width
+                                  a.table-images__preview.fancybox(href="img/media/bike.jpg", rel="images", style="background-image: url('img/media/bike.jpg')")
+                                td
+                                  .input-group
+                                    input.form-control.table-images__name(type="text", disabled="disabled", value="img/media/bike.jpg")
+                                    .input-group-btn
+                                      button.btn.btn-default.table-images__copy.st-clip(type="button", data-clipboard-text="img/media/bike.jpg")
+                                        i.fa.fa-clipboard
+                                td.content-width
+                                  b.table-images__size.text-nowrap 1.53 MB
+                                  small.table-images__res 1920x1080
+                                td.content-width
+                                  input.form-control.table-images__order(type="text", value="1")
+                                td.content-width
+                                  button.btn.btn-default.table-images__delete(type="button")
+                                    i.fa.fa-fw.fa-trash
+                        div
+                          label#product-images-add.btn.btn-info(for="product-images-files")
+                            input.hide#product-images-files(type="file", name="images[]", accept="image/*", multiple="")
+                            | Add Images
+                        div
+                          button#product-images-remove.btn.btn-danger.hide(type="button") Remove Added
+                        .table-responsive.table-responsive-bordered.hide(style="margin: 15px 0 0;")
+                          table#product-images-added.table.table-bordered.table-filled.table-images
+                            tbody
+                              tr#table-images__template.hide
+                                td.content-width
+                                  a.table-images__preview(href="")
+                                td
+                                  input.form-control.table-images__name(type="text", disabled="disabled", value="")
+                                td.content-width
+                                  b.table-images__size.text-nowrap
+                                  small.table-images__res
+                                td.content-width
+                                  input.form-control.table-images__order(type="text", value="1")
+                                td.content-width
+                                  a.btn.btn-default.table-images__view.fancybox(href="")
+                                    i.fa.fa-fw.fa-image
+                    .tab-pane(role="tabpanel", id="related")
+                      select#product-related(name="", multiple="multiple", size="10")
+                        option(value="1") Product 1
+                        option(value="2", selected="selected") Product 2
+                        option(value="3") Product 3
+                        option(value="4") Product 4
+                        option(value="5") Product 5
+                    .tab-pane(role="tabpanel", id="seo")
+                      .form-horizontal
+                        .form-group
+                          label.col-sm-2.control-label Title
+                          .col-sm-10
+                            input.form-control(type="text", placeholder="Title")
+                        .form-group
+                          label.col-sm-2.control-label Description
+                          .col-sm-10
+                            textarea.form-control.noresize(placeholder='Description', rows='5', style="height: 112px")
+                        .form-group
+                          label.col-sm-2.control-label Keywords
+                          .col-sm-10
+                            textarea.form-control.noresize(placeholder='Keywords', rows='5', style="height: 112px")
+                .st-panel__footer(style="padding: 10px 20px;")
+                  .fluid-cols
+                    .expand-col
+                    .min-col
+                      button.btn.btn-info Submit
+        .col-md-3
+          .panel.panel-info
+            .panel-heading Main Info
+            .panel-body
+              p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+          .alert.alert-danger
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+block css
+  link(href='libs/fancybox/jquery.fancybox.css', rel='stylesheet')
+  link(href='libs/fancybox/helpers/jquery.fancybox-thumbs.css', rel='stylesheet')
+  link(href='libs/cropper/cropper.min.css', rel='stylesheet')
+  link(href='libs/duallistbox/bootstrap-duallistbox.min.css', rel='stylesheet')
+block js
+  script(src='libs/fancybox/jquery.fancybox.pack.js')
+  script(src='libs/fancybox/helpers/jquery.fancybox-thumbs.js')
+  script(src='libs/cropper/cropper.min.js')
+  script(src='libs/duallistbox/jquery.bootstrap-duallistbox.min.js')
+block js-last
+  script(src='js/modules/widgets/cropper.js')
+  script(src='js/modules/pages/product-form.js')

@@ -1,0 +1,53 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'plugins-editors'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Editors
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") Plugins
+          li
+            span Editors
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-12.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Markdown Editor
+                      small SimpleMDE
+              .st-panel__content
+                p A drop-in JavaScript textarea replacement for writing beautiful and understandable Markdown.
+                textarea#markdown-editor.
+                  #### Intro
+                  Go ahead, play around with the editor! Be sure to check out **bold** and *italic* styling, or even [links](https://google.com). You can type the Markdown syntax, use the toolbar, or use shortcuts like `cmd-b` or `ctrl-b`.
+
+                  #### Unordered
+                  * Lists are a piece of cake
+                  * They even auto continue as you type
+                  * A double enter will end them
+                  * Tabs and shift-tabs work too
+
+                  #### Ordered
+                  1. Numbered lists...
+                  2. ...work too!
+block css
+  link(href='libs/simplemde/simplemde.min.css', rel='stylesheet')
+block js
+  script(src='libs/simplemde/simplemde.min.js')
+block js-last
+  script(src='js/demo/editors.js')

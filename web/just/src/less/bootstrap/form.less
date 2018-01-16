@@ -1,0 +1,129 @@
+@import 'mixins/forms.less';
+
+label {
+  font-weight: normal;
+}
+
+.input-control() {
+  color: @content-color;
+  //background-color: @input-bg;
+  background-image: none;
+  border: 1px solid @input-border;
+  border-radius: 3px;
+  box-shadow: none;
+  outline: 0;
+  padding: 6px 12px 7px;
+  height: 34px;
+
+  .focus();
+
+  .placeholder();
+
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: @input-bg-disabled;
+  }
+}
+
+.form-control {
+  .input-control();
+
+  &.input-sm {
+    height: 30px;
+    padding: 4px 10px 5px;
+    font-size: 13px;
+    line-height: inherit;;
+    border-radius: 3px;
+  }
+}
+
+.has-success {
+  .form-control-validation(@state-success-text; @state-success-border; @state-success-bg);
+}
+.has-warning {
+  .form-control-validation(@state-warning-text; @state-warning-border; @state-warning-bg);
+}
+.has-error {
+  .form-control-validation(@state-danger-text; @state-danger-border; @state-danger-bg);
+}
+
+.form-group {
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-horizontal {
+
+  .form-group {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  .control-label {
+    text-align: left;
+    padding-top: 6px;
+  }
+
+  .mb {
+    margin-bottom: 10px;
+  }
+}
+
+.form-inline {
+
+  .form-group {
+    margin-bottom: 10px;
+    margin-right: 5px;
+  }
+
+  label {
+    margin-right: 5px;
+  }
+
+  .btn {
+    vertical-align: top;
+  }
+}
+
+.form-spacious {
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .help-block {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+
+.input-group-addon {
+  color: @content-color;
+  text-align: center;
+  background-color: @background;
+  border: 1px solid @input-border;
+
+  .fa {
+    width: 15px;
+    text-align: center;
+  }
+}
+
+.help-block {
+  color: @color-light;
+  padding: 0 13px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.noresize {
+  resize: none;
+}
+
+select option[disabled] {
+  color: @input-placeholder;
+}

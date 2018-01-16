@@ -1,0 +1,71 @@
+input.periodpicker {
+
+  // Avoid flickering unstyled select
+  display: none;
+}
+
+.period_picker_input {
+  width: 100%;
+  line-height: 34px;
+  color: @content-color;
+  font-family: @font-family;
+  text-align: left;
+  font-size: 14px;
+
+  &:before {
+    box-shadow: 0 0 0 1px @border-dark;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+
+    &:before {
+      background-color: darken(#fff, 7%);
+      box-shadow: 0 0 0 1px darken(@border-dark, 7%);
+    }
+  }
+
+  .period_button_text {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+  }
+
+  .icon_calendar,
+  .icon_clear {
+    opacity: 0.35;
+  }
+}
+
+.period_picker_box {
+  //height: auto !important;
+
+  .period_picker_show {
+    line-height: 1.42857143;
+    height: 34px;
+    font-size: 14px;
+  }
+
+
+  .period_picker_submit_dates {
+
+    .period_picker_date {
+      width: 100px;
+      font-size: 14px;
+
+      .input_box {
+        padding: 0;
+        box-shadow: none !important;
+        background: none;
+
+        input.input_control {
+          .input-control();
+        }
+      }
+    }
+  }
+}

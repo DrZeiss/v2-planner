@@ -1,0 +1,15 @@
+.modal.fade(id="source-modal", tabindex="-1", role="dialog")
+  .modal-dialog.modal-lg(role="document")
+    .modal-content
+      .modal-header
+        button.close(type="button", data-dismiss="modal", aria-label="Close")
+          span(aria-hidden="true") &times;
+        h4.modal-title
+      .modal-body
+        .st-source.st-source--copy
+          .st-source__copy.st-clip(data-clipboard-target="#source-code") Copy
+          pre
+            code.html#source-code
+              :code
+      .modal-footer
+        button.btn.btn-default(type="button", data-dismiss="modal") Close

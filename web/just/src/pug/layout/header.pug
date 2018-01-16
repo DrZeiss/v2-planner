@@ -1,0 +1,50 @@
+.st-header
+  .fluid-cols
+    .min-col
+      .st-header__menu
+        button.btn.st-sidebar__toggle
+          i.fa.fa-bars
+    .expand-col.text-ellipsis
+      .st-header__title
+        block title
+    .min-col
+      ul.st-header__actions.text-nowrap
+        li.hidden-xs.st-header__act.st-spanel__open.st-header__notifications(data-tab="#notifications")
+          i.fa.fa-bell
+          .st-header__count.st-notifications-count
+        li.hidden-xs.st-header__act.st-spanel__open.st-header__settings(data-tab="#settings")
+          i.fa.fa-cog
+        li.st-header__act.st-header__user(data-toggle="popup", data-target="#user-popup")
+          i.fa.fa-user
+          .st-popup.st-userpopup#user-popup
+            .st-userpopup__cont
+              .st-userpopup__main
+                .st-userpopup__photo
+                  .st-userpopup__img(style="background-image: url('img/apple-touch-favicon.png')")
+                .st-userpopup__info
+                  .st-userpopup__name.text-ellipsis AdminBootstrap
+                  .st-userpopup__status
+                    span.label.label-success Manager
+              ul.st-userpopup__menu
+                li.st-spanel__open(data-tab="#notifications", data-toggle="popup", data-target="#user-popup", data-method="hide")
+                  a()
+                    .fluid-cols
+                      .expand-col.text-ellipsis
+                        span Alerts
+                      .min-col
+                        i.fa.fa-bell
+                        .st-userpopup__count.st-notifications-count
+                li(data-toggle="popup", data-target="#user-popup", data-method="hide")
+                  a(href="app-profile.html")
+                    .fluid-cols
+                      .expand-col.text-ellipsis
+                        span Profile
+                      .min-col
+                        i.fa.fa-user
+                li
+                  a(href="app-login.html")
+                    .fluid-cols
+                      .expand-col.text-ellipsis
+                        span Log Out
+                      .min-col
+                        i.fa.fa-sign-out

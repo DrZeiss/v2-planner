@@ -1,0 +1,103 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'ui-tabs'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Tabs
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") UI
+          li
+            span Tabs
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-6.mb
+          div
+            ul.nav.nav-tabs(role="tablist")
+              li.active(role="presentation")
+                a(href="#first", aria-controls="first", role="tab", data-toggle="tab") First
+              li(role="presentation")
+                a(href="#second", aria-controls="second", role="tab", data-toggle="tab") Second
+              li(role="presentation")
+                a(href="#third", aria-controls="third", role="tab", data-toggle="tab") Third
+            .tabs-container
+              .tab-content
+                .tab-pane.active(role="tabpanel", id="first")
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                .tab-pane(role="tabpanel", id="second")
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                .tab-pane(role="tabpanel", id="third")
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        .col-md-6.mb
+          div
+            ul.nav.nav-tabs.tabs-right(role="tablist")
+              li.tabs-title
+                span Right Tabs
+                +space()
+                small with Title
+              li.active(role="presentation")
+                a(href="#right-first", aria-controls="right-first", role="tab", data-toggle="tab") First
+              li(role="presentation")
+                a(href="#right-second", aria-controls="right-second", role="tab", data-toggle="tab") Second
+              li(role="presentation")
+                a(href="#right-third", aria-controls="right-third", role="tab", data-toggle="tab") Third
+            .tabs-container
+              .tab-content
+                .tab-pane.active(role="tabpanel", id="right-first")
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                .tab-pane(role="tabpanel", id="right-second")
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                .tab-pane(role="tabpanel", id="right-third")
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      .row
+        .col-md-12
+          div
+            ul.nav.nav-pills(role="tablist")
+              li.active(role="presentation")
+                a(href="#pills-first", aria-controls="pills-first", role="tab", data-toggle="tab") Pill One <span class="badge">5</span>
+              li(role="presentation")
+                a(href="#pills-second", aria-controls="pills-second", role="tab", data-toggle="tab") Two
+              li(role="presentation")
+                a(href="#pills-third", aria-controls="pills-third", role="tab", data-toggle="tab") Three
+            .tabs-container
+              .tab-content
+                .tab-pane.active(role="tabpanel", id="pills-first")
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                .tab-pane(role="tabpanel", id="pills-second")
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                .tab-pane(role="tabpanel", id="pills-third")
+                  p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

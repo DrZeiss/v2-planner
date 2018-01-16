@@ -1,0 +1,41 @@
+extends ./layout/layout-empty.pug
+block vars
+  - var page = 'app-login'
+block main
+  .st-auth
+    .st-auth__cont
+      .st-panel
+        .st-panel__cont
+          .st-panel__header
+            .fluid-cols
+              .expand-col
+                span.st-panel__title
+                  span Login
+          .st-panel__content
+            form.form#login-form(action="index.html", method="post")
+              .form-group
+                input#login-email.form-control(type="email", placeholder="Email", required)
+              .form-group
+                input#login-password.form-control(type="password", placeholder="Password", required)
+              .form-group
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    .checkbox
+                      input#login-remember(type='checkbox', checked='checked')
+                      label(for='login-remember') Remember
+                  .min-col
+                    .btn-group.btn-group-inline
+                      button#login-submit.btn.btn-info(type="submit") Login
+                      button.btn.btn-info.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true") <span class="caret"></span>
+                      ul.dropdown-menu
+                        li
+                          a(href="app-register.html") Create Account
+                        li
+                          a(href="app-password.html") Forgot Password
+      .st-auth__back
+        a.btn.btn-default(href="app-auth.html") <i class="fa fa-angle-left"></i>&nbsp;&nbsp;Back to Dashboard
+block css
+block js
+  script(src="libs/bootstrap-validator/validator.min.js")
+block js-last
+  script(src="js/modules/pages/auth.js")

@@ -1,0 +1,195 @@
+/*
+    Colors Variables
+*/
+
+// Bootstrap Colors
+@bs-default: #ffffff;
+@bs-primary: #3FA7D6;
+@bs-info: #45BDDC;
+@bs-success: #59CD90;
+@bs-warning: #F7B267;
+@bs-danger: #EE6352;
+
+// Additional Colors
+@pink: #E56399;
+@purple-light: #974680;
+@purple: #803b6c;
+
+// Common
+@font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+@color: #686e71;
+@color-dark: #787f83;
+@color-light: #93989b;
+@link-color: #3EBAE8;
+@content-color: #81888b;
+@background: #f2f5f7;
+@background-dark: #e7edf1;
+@shadow: 0 6px 12px rgba(0,0,0,.175);
+@border: #eaedef;
+@border-dark: #d7dce0;
+
+// Sidebar
+@sidebar: @purple;
+@sidebar-color: #e7d8e2;
+@sidebar-menu: @purple;
+@sidebar-menu-active: darken(@purple, 4%);
+@sidebar-menu-hover: darken(@purple, 4%);
+@sidebar-menu-nested-hover: rgba(0, 0, 0, 0.1);
+@sidebar-menu-nested-active-color: #ffffff;
+@sidebar-collapse-duration: 150ms;
+
+// Side Panel
+@spanel: #ffffff;
+
+// Header
+@header: #f2f5f7;
+
+// Crumbs
+@crumbs: #ffffff;
+
+// Panels
+@panel: #ffffff;
+@panel-transition: 150ms;
+
+@bs-panel-heading-color: #ffffff;
+@bs-panel-default-bg: #f2f3f5;
+
+// Tabs
+@tab: #ffffff;
+
+// Tooltip
+@tooltip: #686e71;
+
+// Popover
+@popover: #ffffff;
+
+// Buttons
+@btn-default-color: @content-color;
+@btn-default-border: @border-dark;
+
+@btn-primary-color: #ffffff;
+@btn-primary-border: darken(@bs-primary, 5%);
+
+@btn-info-color: #ffffff;
+@btn-info-border: darken(@bs-info, 5%);
+
+@btn-success-color: #ffffff;
+@btn-success-border: darken(@bs-success, 5%);
+
+@btn-warning-color: #ffffff;
+@btn-warning-border: darken(@bs-warning, 5%);
+
+@btn-danger-color: #ffffff;
+@btn-danger-border: darken(@bs-danger, 5%);
+
+@btn-purple-color: #ffffff;
+@btn-purple-border: lighten(@purple-light, 10%);
+
+@btn-padding-base-vertical: 6px;
+@btn-padding-base-horizontal: 12px;
+
+@btn-padding-large-vertical:    10px;
+@btn-padding-large-horizontal:  16px;
+
+@btn-padding-small-vertical:    5px;
+@btn-padding-small-horizontal:  10px;
+
+@btn-padding-xs-vertical:       1px;
+@btn-padding-xs-horizontal:     5px;
+
+@btn-font-size-base: 14px;
+@btn-font-size-large: 18px;
+@btn-font-size-small: 13px;
+@btn-font-size-xs: 12px;
+
+@btn-line-height-base: 1.42857143;
+@btn-line-height-small: 18px;
+@btn-border-radius-base: 3px;
+
+
+// Inputs
+
+@input-border: @border-dark;
+@input-focus-border: #56d0e9;
+@input-focus-shadow: 0 0 5px #56d0e9;
+@input-placeholder: darken(@border-dark, 15%);
+@input-bg-disabled: @background;
+
+
+// Form states and alerts
+
+@state-success-text:             #3c763d;
+@state-success-bg:               #dff0d8;
+@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
+
+@state-info-text:                #31708f;
+@state-info-bg:                  #d9edf7;
+@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+
+@state-warning-text:             #8a6d3b;
+@state-warning-bg:               #fcf8e3;
+@state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
+
+@state-danger-text:              #a94442;
+@state-danger-bg:                #f2dede;
+@state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
+
+// Alerts
+
+@alert-success-bg:            @state-success-bg;
+@alert-success-text:          @state-success-text;
+@alert-success-border:        @state-success-border;
+
+@alert-info-bg:               @state-info-bg;
+@alert-info-text:             @state-info-text;
+@alert-info-border:           @state-info-border;
+
+@alert-warning-bg:            @state-warning-bg;
+@alert-warning-text:          @state-warning-text;
+@alert-warning-border:        @state-warning-border;
+
+@alert-danger-bg:             @state-danger-bg;
+@alert-danger-text:           @state-danger-text;
+@alert-danger-border:         @state-danger-border;
+
+
+// Badges
+
+@badge-bg: @background;
+@badge-border: @border-dark;
+@badge-color: @color-light;
+
+
+
+// Progress bars
+
+@progress-bg:                 @background;
+@progress-bar-color:          #fff;
+
+@progress-bar-bg:             @bs-info;
+@progress-bar-success-bg:     @bs-success;
+@progress-bar-warning-bg:     @bs-warning;
+@progress-bar-danger-bg:      @bs-danger;
+@progress-bar-info-bg:        @bs-info;
+
+
+// Wells
+@well-bg: #fff;
+@well-border: @border;
+
+
+// Media queries breakpoints
+
+// Small screen / tablet
+@screen-sm-min:              768px;
+
+// Medium screen / desktop
+@screen-md-min:              992px;
+
+// Large screen / wide desktop
+@screen-lg-min:              1200px;
+
+// So media queries don't overlap when required, provide a maximum
+@screen-xs-max:              (@screen-sm-min - 1);
+@screen-sm-max:              (@screen-md-min - 1);
+@screen-md-max:              (@screen-lg-min - 1);

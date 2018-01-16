@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Just - Admin Bootstrap Template</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
+    <link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet"><!-- Common Libs CSS -->
+    <link href="css/libs.common.min.css" rel="stylesheet"><!-- Page Libs CSS -->
+    <link href="libs/datatables/css/dataTables.bootstrap.css" rel="stylesheet"><!-- Just Bootstrap Theme -->
+    <link href="css/just.css" rel="stylesheet"><!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  </head>
+  <body class="sidebar-collapsible sidebar-open">
+    <div class="st-wrapper">
+      <div class="st-sidebar">
+        <div class="st-sidebar__header"><a class="st-sidebar__logo" href="index.html">Just</a>
+          <div class="st-sidebar__mico st-sidebar__toggle"><i class="fa fa-bars"></i></div>
+        </div>
+        <div class="st-sidebar__cont">
+          <div class="st-sidebar__scroll scrollbar">
+            <div class="st-sidebar__nav">
+              <ul>
+                <li class="active"><a href="index.html">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-star st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Overview</span></div>
+                    </div></a></li>
+                <li><a href="#">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-th st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Layouts</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                    </div></a>
+                  <ul class="st-sidebar__nested">
+                    <li><a href="lay-sidebar.html">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span>Sidebar</span></div>
+                        </div></a></li>
+                    <li><a href="lay-blank.html">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span>Blank Page</span></div>
+                        </div></a></li>
+                  </ul>
+                </li>
+                <li><a href="#">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="st-sidebar__ico">B</i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Bootstrap UI</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                    </div></a>
+                  <ul class="st-sidebar__nested">
+                    <li><a href="ui-panels.html">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span>Panels</span></div>
+                          <div class="min-col"><span class="label label-danger">AWSM</span></div>
+                        </div></a></li>
+                    <li><a href="ui-buttons.html"><span>Buttons</span></a></li>
+                    <li><a href="ui-tabs.html"><span>Tabs</span></a></li>
+                    <li><a href="ui-modals.html"><span>Modals</span></a></li>
+                    <li><a href="ui-tables.html"><span>Tables</span></a></li>
+                    <li><a href="ui-miscellaneous.html"><span>Miscellaneous</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="#">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-clipboard st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Forms</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                    </div></a>
+                  <ul class="st-sidebar__nested">
+                    <li><a href="forms-controls.html"><span>Controls</span></a></li>
+                    <li><a href="forms-basic.html"><span>Basic Forms</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="widgets.html">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-pie-chart st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Widgets</span></div>
+                      <div class="min-col text-right"><span class="label label-success">8</span></div>
+                    </div></a></li>
+                <li><a href="#">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-clone st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">App Pages</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                    </div></a>
+                  <ul class="st-sidebar__nested">
+                    <li><a href="app-profile.html"><span>Profile</span></a></li>
+                    <li><a href="app-products.html"><span>Products List</span></a></li>
+                    <li><a href="app-product-form.html"><span>Product Form</span></a></li>
+                    <li><a href="app-users.html"><span>Users</span></a></li>
+                    <li><a href="app-auth.html">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Auth Forms</span></div>
+                          <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                        </div></a>
+                      <ul class="st-sidebar__nested">
+                        <li><a href="app-login.html"><span>Login</span></a></li>
+                        <li><a href="app-register.html"><span>Register</span></a></li>
+                        <li><a href="app-password.html"><span>Restore Password</span></a></li>
+                      </ul>
+                    </li>
+                    <li><a href="app-errors.html">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Error Pages</span></div>
+                          <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                        </div></a>
+                      <ul class="st-sidebar__nested">
+                        <li><a href="app-404.html"><span>404 Page</span></a></li>
+                        <li><a href="app-500.html"><span>500 Page</span></a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="#">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-flask st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Plugins</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                    </div></a>
+                  <ul class="st-sidebar__nested">
+                    <li><a href="plugins-editors.html"><span>Editors</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="#">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-outdent st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Menu Levels</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                    </div></a>
+                  <ul class="st-sidebar__nested">
+                    <li><a href="#"><span>Second Level 1</span></a></li>
+                    <li><a href="#">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Second Level 2</span></div>
+                          <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                        </div></a>
+                      <ul class="st-sidebar__nested">
+                        <li><a href="#"><span>Third Level 1</span></a></li>
+                        <li><a href="#"><span>Third Level 2</span></a></li>
+                        <li><a href="#"><span>Third Level 3</span></a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#">
+                        <div class="fluid-cols">
+                          <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Second Level 3</span></div>
+                          <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                        </div></a>
+                      <ul class="st-sidebar__nested">
+                        <li><a href="#">
+                            <div class="fluid-cols">
+                              <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Third Level 1</span></div>
+                              <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
+                            </div></a>
+                          <ul class="st-sidebar__nested">
+                            <li><a href="#"><span>Fourth Level 1</span></a></li>
+                            <li><a href="#"><span>Fourth Level 2</span></a></li>
+                            <li><a href="#"><span>Fourth Level 3</span></a></li>
+                          </ul>
+                        </li>
+                        <li><a href="#"><span>Third Level 2</span></a></li>
+                        <li><a href="#"><span>Third Level 3</span></a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="../docs/index.html" target="_blank">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-book st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Documentation</span></div>
+                    </div></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="st-sidebar__popup"></div>
+        </div>
+      </div>
+      <div class="st-main">
+        <div class="st-header">
+          <div class="fluid-cols">
+            <div class="min-col">
+              <div class="st-header__menu">
+                <button class="btn st-sidebar__toggle"><i class="fa fa-bars"></i></button>
+              </div>
+            </div>
+            <div class="expand-col text-ellipsis">
+              <div class="st-header__title"><span>Overview</span>
+              </div>
+            </div>
+            <div class="min-col">
+              <ul class="st-header__actions text-nowrap">
+                <li class="hidden-xs st-header__act st-spanel__open st-header__notifications" data-tab="#notifications"><i class="fa fa-bell"></i>
+                  <div class="st-header__count st-notifications-count"></div>
+                </li>
+                <li class="hidden-xs st-header__act st-spanel__open st-header__settings" data-tab="#settings"><i class="fa fa-cog"></i></li>
+                <li class="st-header__act st-header__user" data-toggle="popup" data-target="#user-popup"><i class="fa fa-user"></i>
+                  <div class="st-popup st-userpopup" id="user-popup">
+                    <div class="st-userpopup__cont">
+                      <div class="st-userpopup__main">
+                        <div class="st-userpopup__photo">
+                          <div class="st-userpopup__img" style="background-image: url('img/apple-touch-favicon.png');"></div>
+                        </div>
+                        <div class="st-userpopup__info">
+                          <div class="st-userpopup__name text-ellipsis">AdminBootstrap</div>
+                          <div class="st-userpopup__status"><span class="label label-success">Manager</span></div>
+                        </div>
+                      </div>
+                      <ul class="st-userpopup__menu">
+                        <li class="st-spanel__open" data-tab="#notifications" data-toggle="popup" data-target="#user-popup" data-method="hide"><a>
+                            <div class="fluid-cols">
+                              <div class="expand-col text-ellipsis"><span>Alerts</span></div>
+                              <div class="min-col"><i class="fa fa-bell"></i>
+                                <div class="st-userpopup__count st-notifications-count"></div>
+                              </div>
+                            </div></a></li>
+                        <li data-toggle="popup" data-target="#user-popup" data-method="hide"><a href="app-profile.html">
+                            <div class="fluid-cols">
+                              <div class="expand-col text-ellipsis"><span>Profile</span></div>
+                              <div class="min-col"><i class="fa fa-user"></i></div>
+                            </div></a></li>
+                        <li><a href="app-login.html">
+                            <div class="fluid-cols">
+                              <div class="expand-col text-ellipsis"><span>Log Out</span></div>
+                              <div class="min-col"><i class="fa fa-sign-out"></i></div>
+                            </div></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="st-crumbs">
+          <div class="fluid-cols">
+            <div class="expand-col text-ellipsis">
+              <ul>
+                <li><span>The <b>Just</b> 1.0.0 by Admin<b>Bootstrap</b></span></li>
+              </ul>
+            </div>
+            <div class="min-col">
+              <div class="st-search">
+                <input class="form-control input-sm" type="text" placeholder="Search">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="st-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6 col-md-3 mb">
+                <div class="st-panel st-panel--border">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-panel__title"><span>Income</span><small>Month</small></span></div>
+                        <div class="min-col">
+                          <div class="st-panel__tools">
+                            <div class="st-panel-tool"><span class="label label-success">$1,200</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content">
+                      <div class="text-ellipsis text-center" style="font-size: 24px;">$25,235.00</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3 mb">
+                <div class="st-panel st-panel--border">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-panel__title"><span>Payments</span><small>Out</small></span></div>
+                        <div class="min-col">
+                          <div class="st-panel__tools">
+                            <div class="st-panel-tool">
+                              <div class="sparkline" values="15, 14, 13, 14, 16, 17, 15" sparkType="bar" sparkBarColor="#45BDDC" sparkBarWidth="3" sparkBarSpacing="1" sparkChartRangeMin1="0"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content">
+                      <div class="text-ellipsis text-center" style="font-size: 24px;">$120,840.00</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-2 mb">
+                <div class="st-panel st-panel--border">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-panel__title"><span>Rating</span><small>Avg</small></span></div>
+                        <div class="min-col">
+                          <div class="st-panel__tools">
+                            <div class="st-panel-tool"><i class="text-warning fa fa-star"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content">
+                      <div class="text-ellipsis text-center" style="font-size: 24px;">4.8</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-2 mb">
+                <div class="st-panel st-panel--border">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-panel__title"><span>Growth</span></span></div>
+                        <div class="min-col">
+                          <div class="st-panel__tools">
+                            <div class="st-panel-tool"><span class="label label-info">25</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content" style="height: 36px;">
+                      <iframe id="resize-iframe" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+                      <div class="sparkline" values="8, 2, 4, 3, 5, 4, 3, 5, 5, 6, 3, 9, 7, 3, 5, 6, 9, 5, 6, 7, 2, 3, 9, 6, 6, 7, 8, 10, 15, 16, 17, 15" sparkType="line" sparkWidth="100%" sparkHeight="36" sparkFillColor="#dff7fd" sparkLineWidth="1" sparkLineColor="#45BDDC" sparkHighlightLineColor="#45BDDC" sparkChartRangeMin="" sparkSpotColor="" sparkMinSpotColor="" sparkMaxSpotColor=""></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-2 mb">
+                <div class="st-panel st-panel--border">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis text-center"><span class="st-panel__title"><span>Users</span></span></div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content">
+                      <div class="text-ellipsis text-center" style="font-size: 24px;">180 / <small>20</small></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-fluid mb">
+                <div class="st-panel">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-panel__title"><span>Detailed Analytics</span><small>Sales & Users</small></span></div>
+                        <div class="min-col">
+                          <div class="st-panel__form">
+                            <div class="btn btn-sm btn-default" id="dc-range"><i class="fa fa-calendar"></i><span class="hidden-xs">Set Dates Range</span></div>
+                          </div>
+                          <div class="st-panel__tools">
+                            <div class="st-popup" id="dc-settings" style="width: 250px;">
+                              <div class="form">
+                                <div class="container-fluid no-paddings">
+                                  <div class="row">
+                                    <div class="col-xs-5"><b>Group By</b>
+                                      <div class="form-group">
+                                        <div class="radio">
+                                          <input type="radio" name="dc-set-group" value="hour" id="dc-group-hour">
+                                          <label for="dc-group-hour">Hour</label>
+                                        </div>
+                                        <div class="radio">
+                                          <input type="radio" name="dc-set-group" value="day" id="dc-group-day" checked="checked">
+                                          <label for="dc-group-day">Day</label>
+                                        </div>
+                                        <div class="radio">
+                                          <input type="radio" name="dc-set-group" value="week" id="dc-group-week">
+                                          <label for="dc-group-week">Week</label>
+                                        </div>
+                                        <div class="radio">
+                                          <input type="radio" name="dc-set-group" value="month" id="dc-group-month">
+                                          <label for="dc-group-month">Month</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-7"><b>Settings</b>
+                                      <div class="form-group">
+                                        <div class="checkbox">
+                                          <input type="checkbox" id="dc-set-legend">
+                                          <label for="dc-set-legend">Show Legend</label>
+                                        </div>
+                                        <div class="checkbox">
+                                          <input type="checkbox" id="dc-set-scrollbar">
+                                          <label for="dc-set-scrollbar">Scrollbar</label>
+                                        </div>
+                                        <div class="checkbox">
+                                          <input type="checkbox" id="dc-set-tables" checked="checked">
+                                          <label for="dc-set-tables">Data Tables</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="st-panel-tool" data-toggle="popup" data-target="#dc-settings"><i class="fa fa-cog"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content">
+                      <div id="dc-chart" style="height: 300px; margin: 0 -15px 0px;"></div>
+                      <div id="dc-tables">
+                        <ul class="nav nav-tabs tabs-right" role="tablist" data-subtitle="#dc-tables-subtitle">
+                          <li class="tabs-title" style="padding-left: 15px;"><span>Data</span> <small id="dc-tables-subtitle">Sales</small>
+                          </li>
+                          <li class="active"><a href="#dc-tab-sales" data-toggle="tab">Sales</a></li>
+                          <li><a href="#dc-tab-users" data-toggle="tab">Users</a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="dc-tab-sales">
+                            <div class="table-responsive table-responsive-bordered" width="100%" style="margin: 15px 0;">
+                              <table class="table table-bordered table-filled table-hover" id="dc-table-sales">
+                                <thead>
+                                  <tr>
+                                    <th class="text-nowrap">Product</th>
+                                    <th class="content-width">Price</th>
+                                    <th class="content-width">Date</th>
+                                    <th class="content-width">Status</th>
+                                    <th class="content-width">                      </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td class="text-nowrap">Test Row</td>
+                                    <td data-filter="30">$30.00</td>
+                                    <td class="text-nowrap" data-filter="1476903600000" data-sort="1476903600000" data-search="20 October 2016">20 Oct 2016 23:10</td>
+                                    <td data-filter="1" data-sort="1"><span class="label label-success">Completed</span></td>
+                                    <td class="text-right"><a class="btn btn-default btn-xs">View</a></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="pagination-xs text-center" id="dc-table-sales-p"></div>
+                          </div>
+                          <div class="tab-pane" id="dc-tab-users">
+                            <div class="table-responsive table-responsive-bordered" width="100%" style="margin: 15px 0;">
+                              <table class="table table-bordered table-filled table-hover" id="dc-table-users">
+                                <thead>
+                                  <tr>
+                                    <th class="text-nowrap">Name</th>
+                                    <th class="text-nowrap">Username</th>
+                                    <th class="content-width">Date</th>
+                                    <th class="content-width">Status</th>
+                                    <th class="content-width"></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Nick</td>
+                                    <td>@fury_road</td>
+                                    <td class="text-nowrap" data-filter="1476903600000" data-sort="1476903600000" data-search="20 October 2016">20 Oct 2016 23:10</td>
+                                    <td data-filter="1" data-sort="1"><span class="label label-success">Active</span></td>
+                                    <td class="text-right"><a class="btn btn-default btn-xs" href="app-profile.html">View</a></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="pagination-xs text-center" id="dc-table-users-p"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-fixed">
+                <div class="st-panel st-afeed">
+                  <div class="st-panel__cont">
+                    <div class="st-panel__header">
+                      <div class="fluid-cols">
+                        <div class="expand-col">
+                          <div class="st-panel__title text-center"><span>Activity Feed</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-panel__content">
+                      <div class="st-afeed-calendar">
+                        <div id="afeed-calendar"></div>
+                        <div class="text-center" id="afeed-calendar__cont"></div>
+                      </div>
+                      <div class="st-afeed__body">
+                        <div class="st-afeed__tabs">
+                          <ul role="tablist">
+                            <li class="active"><a href="#afeed-stats" data-toggle="tab">Stats</a></li>
+                            <li><a href="#afeed-events" data-toggle="tab">Events <span class="badge st-afeed-events__counter"></span></a></li>
+                            <li><a href="#afeed-feed" data-toggle="tab">Feed</a></li>
+                          </ul>
+                        </div>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="afeed-stats">
+                            <div class="st-afeed-stats"></div>
+                          </div>
+                          <div class="tab-pane" id="afeed-events">
+                            <div class="st-afeed-events scrollbar">
+                              <div class="st-afeed-events__list"></div>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="afeed-feed">
+                            <div class="st-afeed-feed scrollbar">
+                              <div class="st-afeed-feed__list"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="st-spanel">
+          <div class="st-spanel__tabs">
+            <ul class="nav">
+              <li class="active alt"><a href="#settings" data-toggle="tab" tabindex="-1">Settings</a></li>
+              <li><a href="#notifications" data-toggle="tab" tabindex="-1">Notifications</a></li>
+              <li class="st-spanel__close"><a class="fa fa-long-arrow-right" tabindex="-1"></a></li>
+            </ul>
+          </div>
+          <div class="st-spanel__content">
+            <div class="tab-content">
+              <div class="tab-pane fade in active" id="settings">
+                <div class="st-spanel__settings">
+                  <div class="st-spanel__scroll scrollbar">
+                    <div class="st-settings" id="app-settings">
+                      <div class="st-settings__list">
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label"><b>App Settings</b></div>
+                            <div class="st-settings__control"><i class="fa fa-spin fa-circle-o-notch st-settings__loader"></i></div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label">Site Available</div>
+                            <div class="st-settings__control">
+                              <input id="app-settings__site" type="checkbox" name="site" checked="checked">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label">Notifications</div>
+                            <div class="st-settings__control">
+                              <input id="app-settings__notifications" type="checkbox" name="notifications" checked="checked">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label">Debug Mode</div>
+                            <div class="st-settings__control">
+                              <input id="app-settings__debug" type="checkbox" name="debug">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row st-settings__expand">
+                            <div class="st-settings__label">Cron Workers</div>
+                            <div class="st-settings__control text-nowrap"><i class="fa fa-angle-right st-settings__ico"></i></div>
+                          </div>
+                          <div class="st-settings__sub">
+                            <div class="st-settings__item">
+                              <div class="st-settings__row">
+                                <div class="st-settings__label">Backuper</div>
+                                <div class="st-settings__control">
+                                  <input id="app-settings__backuper" type="checkbox" name="backuper" checked="checked">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="st-settings__item">
+                              <div class="st-settings__row">
+                                <div class="st-settings__label">Storage Optimizer</div>
+                                <div class="st-settings__control">
+                                  <input id="app-settings__optimizer" type="checkbox" name="optimizer" checked="checked">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="st-settings__item">
+                              <div class="st-settings__row">
+                                <div class="st-settings__label">Reports Export</div>
+                                <div class="st-settings__control">
+                                  <input id="app-settings__reports" type="checkbox" name="reports" checked="checked">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="st-settings" id="mailing-settings">
+                      <div class="st-settings__list">
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label"><b>Mailing</b></div>
+                            <div class="st-settings__control"><i class="fa fa-spin fa-circle-o-notch st-settings__loader"></i></div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label">Send Mails</div>
+                            <div class="st-settings__control">
+                              <input id="mailing-settings__send" type="checkbox" name="send" checked="checked">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label">Driver</div>
+                            <div class="st-settings__control">
+                              <div class="select2-contented select2-sm">
+                                <select class="form-control" id="mailing-settings__driver" name="driver" data-minimum-results-for-search="Infinity">
+                                  <option value="smpt">SMPT</option>
+                                  <option value="mailgun" selected="selected">Mailgun</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="st-settings__item">
+                          <div class="st-settings__row">
+                            <div class="st-settings__label">Daily Limit</div>
+                            <div class="st-settings__control text-nowrap"><span class="label label-danger settings-label">2500</span></div>
+                          </div>
+                          <div class="st-settings__row">
+                            <div class="st-settings__control">
+                              <div class="slider-danger slider-novalues">
+                                <input id="mailing-settings__limit" name="limit" data-grid="true" data-min="0" data-max="5000" data-from="2500" data-step="50" data-hide-min-max="true" data-hide-from-to="true">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="notifications">
+                <div class="st-notifications">
+                  <div class="st-notifications__head">
+                    <div class="fluid-cols">
+                      <div class="expand-col">
+                        <div class="st-notifications__title">New Alerts</div><small>You have <span class="st-notifications__count">0</span> alerts.</small>
+                      </div>
+                      <div class="min-col">
+                        <button class="btn btn-default btn-sm st-notifications__all">Mark All</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="st-notifications__list">
+                    <div class="st-spanel__scroll scrollbar">
+                      <div class="st-notification new">
+                        <div class="st-notification__ico"><i class="fa fa-cog"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>System</b><small>25m ago</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p>Lorem ipsum dolor sit.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification new">
+                        <div class="st-notification__ico"><i class="fa fa-check"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Verification</b><small>1h 30m ago</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p>Lorem ipsum dolor sit. Lorem ipsum.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                      <div class="st-notification">
+                        <div class="st-notification__ico"><i class="fa fa-user"></i></div>
+                        <div class="st-notification__main">
+                          <div class="st-notification__title"><b>Account</b><small>25 Feb 21:30</small>
+                            <div class="st-notification__mark"><i class="fa fa-check"></i></div>
+                          </div>
+                          <p><a href="">John Doe</a> has been registered.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="source-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="st-source st-source--copy">
+              <div class="st-source__copy st-clip" data-clipboard-target="#source-code">Copy</div>
+              <pre><code class="html" id="source-code"></code></pre>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- Common Libs JS -->
+    <script src="js/libs.common.min.js"></script><!-- Common App Modules -->
+    <script src="js/modules/app.js"></script>
+    <script src="js/modules/layout/sidebar.js"></script>
+    <script src="js/modules/layout/spanel.js"></script>
+    <script src="js/modules/widgets/settings.js"></script>
+    <script src="js/modules/widgets/notifications.js"></script><!-- Page Libs JS -->
+    <script src="libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="libs/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+    <script src="libs/faker/faker.min.js"></script>
+    <script src="libs/underscore/underscore-min.js"></script>
+    <script src="libs/datatables/js/jquery.dataTables.js"></script>
+    <script src="libs/datatables/js/dataTables.bootstrap.js"></script><!-- Page App Modules -->
+    <script src="js/modules/service/api.js"></script>
+    <script src="js/modules/service/data-mapper.js"></script>
+    <script src="js/modules/widgets/am-chart.js"></script>
+    <script src="js/modules/widgets/table.js"></script>
+    <script src="js/modules/widgets/detailed-chart.js"></script>
+    <script src="js/modules/widgets/afeed.js"></script>
+    <script src="js/modules/pages/overview.js"></script>
+  </body>
+</html>

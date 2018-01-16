@@ -1,0 +1,62 @@
+.st-crumbs {
+  background: @crumbs;
+  padding: 5px 20px;
+  border-bottom: 1px solid @border;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0;
+    display: inline;
+
+    li {
+      display: inline;
+
+      &:not(:last-child):after {
+        content: '\\';
+        display: inline-block;
+        padding: 0 10px;
+        font-size: 14px;
+      }
+
+      a, span {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      a {
+        text-decoration: underline;
+        color: @color;
+
+        &:hover {
+          color: @color;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  > .fluid-cols {
+    > .expand-col {
+      padding: 7px 0;
+      border-right: 20px solid transparent;
+    }
+
+    > .min-col {
+      width: 180px;
+    }
+  }
+
+  @media (max-width: 530px) {
+    > .fluid-cols {
+      > .expand-col {
+        display: none;
+      }
+
+      > .min-col {
+        width: 100%;
+      }
+    }
+  }
+}

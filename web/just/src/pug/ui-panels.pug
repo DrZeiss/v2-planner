@@ -1,0 +1,314 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'ui-panels'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Panels
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") UI
+          li
+            span Panels
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-6.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Basic Panel
+                      small Subtitle
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool(data-tool="source",
+                                     data-source-exclude=".st-panel__content")
+                        i.fa.fa-code
+              .st-panel__content
+                p A panel is basic UI element that you are probably going to use a lot. It is necessary for displaying the content in a compelling form. Panels can contain <code>tables</code>, <code>plain text</code>, <code>lists</code> and almost all types of content you want to display.
+                p Panels are great for widgets. They can be combined with various tools like <code>icons</code>, <code>dropdowns</code>, <code>buttons</code>, form elements and <code>tabs</code>. They could be closable, collapsible and maximizable.
+              .st-panel__footer
+                .fluid-cols
+                  .expand-col
+                    span The Footer Text
+                  .min-col
+                    span.text-nowrap Right Text
+          .st-panel.st-panel--border#tools-panel
+            .st-panel__cont
+              .st-panel__header(data-tool="collapse")
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Tools Bar
+                      small With Border
+                  .min-col
+                    .st-panel__tools
+                      ul.dropdown-menu.dropdown-menu-right
+                        li
+                          a(data-tool="source", data-tool-target="#tools-panel", data-source-exclude=".st-panel__content") Source
+                        li
+                          a(data-tool="collapse", data-tool-target="#tools-panel") Collapse
+                        li
+                          a(data-tool="refresh", data-tool-target="#tools-panel") Refresh
+                      .st-panel-tool(data-tool="class", data-tool-class="hey")
+                        i.fa.fa-refresh
+                      .st-panel-tool(data-tool="resize")
+                        i.fa.fa-window-maximize
+                      .st-panel-tool.st-panel-tool--menu.dropdown-toggle(data-toggle="dropdown", data-container="body")
+                        i.fa.fa-ellipsis-v
+              .st-panel__content
+                p Tools are great way to expand your panels functionality. You can put them separately to the place you need or combine together with the <code>dropdown</code> menu.
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Panel with Tabs
+                      small#tabs-subtitle Preview
+                  .min-col
+                    .st-panel__tabs
+                      ul.nav.nav-tabs(role="tablist", data-subtitle="#tabs-subtitle")
+                        li.active(role="presentation")
+                          a(href="#preview", role="tab", aria-controls="preview", data-toggle="tab") Preview
+                        li(role="presentation")
+                          a(href="#source", role="tab", aria-controls="source", data-toggle="tab") Source
+              .st-panel__content
+                .tab-content
+                  .tab-pane.active(role="tabpanel", id="preview")
+                    p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    p Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    p Duis aute irure dolor in reprehenderit in voluptate. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  .tab-pane(role="tabpanel", id="source")
+                    .st-source.st-source--copy
+                      .st-source__copy.st-clip(data-clipboard-target="#tabs-code") Copy
+                      pre
+                        code.html#tabs-code
+                          :code
+                            <div class="st-panel st-panel--border">
+                              <div class="st-panel__cont">
+                                <div class="st-panel__header">
+                                  <div class="fluid-cols">
+                                    <div class="expand-col text-ellipsis">
+                                      <span class="st-panel__title">
+                                        <span>Panel with Tabs</span>
+                                        <small id="tabs-subtitle">Source</small>
+                                      </span>
+                                    </div>
+                                    <div class="min-col">
+                                      <div class="st-panel__tabs">
+                                        <ul class="nav nav-tabs" data-subtitle="#tabs-subtitle">
+                                          <li class="" role="presentation">
+                                            <a href="#preview" data-toggle="tab">Preview</a>
+                                          </li>
+                                          <li role="presentation" class="active">
+                                            <a href="#source" data-toggle="tab">Source</a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="st-panel__content">
+                                  <div class="tab-content">
+                                    <div class="tab-pane" id="preview">
+                                      ...
+                                    </div>
+                                    <div class="tab-pane active" id="source">
+                                      ...
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+        .col-md-6.mb
+          .st-panel.st-panel--collapsed
+            .st-panel__cont
+              .st-panel__header(data-tool="collapse")
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Collapsible and Closable
+                      small Click to Toggle
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-exclude=".st-panel__content")
+                        i.fa.fa-code
+                      .st-panel-tool(data-tool="hide")
+                        i.fa.fa-remove
+              .st-panel__content
+                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                p Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate.            
+          .st-panel
+            .st-panel__cont
+              .st-panel__header(data-tool="collapse")
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Input Bar
+                  .min-col
+                    .st-panel__form
+                      .st-inputbar
+                        .st-inputbar-input.hidden-xs
+                          input#persons-table-search.form-control.input-sm(type="text", placeholder="Search", style="width: 200px")
+                        .st-inputbar-btn
+                          .btn-group
+                            a.btn.btn-success.btn-sm(href='#') Create
+                            button.btn.btn-success.btn-sm.dropdown-toggle(type='button', data-toggle="dropdown", data-container="body")
+                              i.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a(href="#") Delete
+                              li
+                                a(href="#") Activate
+                              li
+                                a(href="#") Disable
+              .st-panel__content
+                .table-responsive.table-responsive-bordered
+                  table#persons-table.table.table-bordered.table-hover.table-filled.table-select.table-headless(style="margin-bottom: 0;")
+                    thead
+                      tr
+                        th.content-width #
+                        th First Name
+                        th Last Name
+                        th Status
+                    tbody
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p1(type="checkbox")
+                            label(for="p1")
+                        td Mark
+                        td Otto
+                        td.content-width
+                          span.label.label-default Active
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p2(type="checkbox")
+                            label(for="p2")
+                        td Jacob
+                        td Thornton
+                        td.content-width
+                          span.label.label-default Active
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p3(type="checkbox")
+                            label(for="p3")
+                        td Larry
+                        td the Bird
+                        td.content-width
+                          span.label.label-default Disabled
+              .st-panel__footer
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span#persons-table-info
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool(data-tool="resize")
+                        i.fa.fa-window-maximize
+                      a.st-panel-tool(data-tool="source")
+                        i.fa.fa-code
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Pagination
+                  .min-col
+                    .st-panel__form
+                      ul.pagination.pagination-xs
+                        li
+                          a(href="#")
+                            span &laquo;
+                        li
+                          a(href="#") 1
+                        li
+                          a(href="#") 2
+                        li
+                          a(href="#") 3
+                        li
+                          a(href="#") 4
+                        li
+                          a(href="#") 5
+                        li
+                          a(href="#")
+                            span &raquo;
+              .st-panel__content
+                p Panels could contain various types of elements in their heads. For example, <code>inputs</code>, <code>buttons</code>, <code>labels</code>, <code>pagination</code>. Anything you can fit in 30px height.
+          .st-panel
+            .st-panel__cont
+              .st-panel__content
+                p When all you need is just to place some content in the box.
+                .st-source.st-source--copy
+                  .st-source__copy.st-clip(data-clipboard-target="#box-code") Copy
+                  pre
+                    code.html#box-code
+                      :code
+                        <div class="st-panel">
+                          <div class="st-panel__cont">
+                            <div class="st-panel__content">
+                              ..Content..
+                            </div>
+                          </div>
+                        </div>
+      .row
+        .col-md-12
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Bootstrap Panels
+              .st-panel__content(style="padding-bottom: 0;")
+                .container-fluid.no-paddings
+                  .row
+                    .col-md-4
+                      .panel.panel-default
+                        .panel-heading Default Panel
+                        .panel-body
+                          p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                    .col-md-4
+                      .panel.panel-info
+                        .panel-heading Info Panel
+                        .panel-body
+                          p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                    .col-md-4
+                      .panel.panel-success
+                        .panel-heading Success Panel
+                        .panel-body
+                          p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                  .row
+                    .col-md-4
+                      .panel.panel-primary
+                        .panel-heading Primary Panel
+                        .panel-body
+                          p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                    .col-md-4
+                      .panel.panel-warning
+                        .panel-heading Warning Panel
+                        .panel-body
+                          p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                    .col-md-4
+                      .panel.panel-danger
+                        .panel-heading Danger Panel
+                        .panel-body
+                          p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+block js
+  script(src='libs/datatables/js/jquery.dataTables.js')
+  script(src='libs/datatables/js/dataTables.select.js')
+  script(src='js/demo/panel-inputbar.js')

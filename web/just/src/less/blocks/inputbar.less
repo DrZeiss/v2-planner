@@ -1,0 +1,50 @@
+.st-inputbar {
+  display: table;
+  width: 100%;
+
+  .form-control {
+    width: 100%;
+  }
+
+  .btn-group {
+    font-size: 0;
+    vertical-align: top;
+
+    .btn {
+      float: none;
+      white-space: nowrap;
+    }
+  }
+}
+
+.st-inputbar-input {
+  display: table-cell;
+  vertical-align: top;
+
+  & + .st-inputbar-btn {
+    padding-left: 8px;
+
+    .form-horizontal & {
+      padding-left: 20px;
+    }
+  }
+}
+
+.st-inputbar-btn {
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: top;
+
+  .btn {
+    vertical-align: top;
+  }
+
+  .select2-container {
+    vertical-align: top;
+  }
+
+  & + .st-inputbar-input {
+    padding-left: 8px;
+  }
+}

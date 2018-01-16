@@ -1,0 +1,301 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Supply Chain Jobs{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="active"><span>Supply Chain Jobs</span></li>
+{% endblock %}
+
+{% block body %}
+    <h2>Supply Chain Job list</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th style="border:solid" rowspan=2>Name</th>
+                <th style="border:solid" rowspan=2>SO #</th>
+                <th style="border:solid" rowspan=2>ESD</th>
+                <th style="border:solid" rowspan=2>Qty</th>
+                <th style="border:solid" rowspan=2>MO #</th>
+                <th style="border:solid" rowspan=2>MAC PO#</th>
+                <th style="border:solid" rowspan=2>Build Location</th>
+                <th style="border:solid" rowspan=2>Planner ESD</th>
+                <th style="border:solid" rowspan=2>Updated by</th>
+                <th style="border:solid" rowspan=2>Completion Date</th>
+                <th style="border:solid" rowspan=2>Filled Completely?</th>
+                <th style="border:solid;text-align:center" colspan=10>Short #1</th>
+                <th style="border:solid;text-align:center" colspan=10>Short #2</th>
+                <th style="border:solid;text-align:center" colspan=10>Short #3</th>
+                <th style="border:solid;text-align:center" colspan=10>Short #4</th>
+            </tr>
+            <tr>
+                {# Short #1 #}
+                <th style="border:solid">Part Number</th>
+                <th style="border:solid">Painted Part</th>
+                <th style="border:solid">Date Needed</th>
+                <th style="border:solid">Vendor</th>
+                <th style="border:solid">Vendor PO#</th>
+                <th style="border:solid">Mod WO#</th>
+                <th style="border:solid">EDD</th>
+                <th style="border:solid">Mod Done Date</th>
+                <th style="border:solid">Received Date</th>
+                <th style="border:solid">Notes</th>
+                {# Short #2 #}
+                <th style="border:solid">Part Number</th>
+                <th style="border:solid">Painted Part</th>
+                <th style="border:solid">Date Needed</th>
+                <th style="border:solid">Vendor</th>
+                <th style="border:solid">Vendor PO#</th>
+                <th style="border:solid">Mod WO#</th>
+                <th style="border:solid">EDD</th>
+                <th style="border:solid">Mod Done Date</th>
+                <th style="border:solid">Received Date</th>
+                <th style="border:solid">Notes</th>
+                {# Short #3 #}
+                <th style="border:solid">Part Number</th>
+                <th style="border:solid">Painted Part</th>
+                <th style="border:solid">Date Needed</th>
+                <th style="border:solid">Vendor</th>
+                <th style="border:solid">Vendor PO#</th>
+                <th style="border:solid">Mod WO#</th>
+                <th style="border:solid">EDD</th>
+                <th style="border:solid">Mod Done Date</th>
+                <th style="border:solid">Received Date</th>
+                <th style="border:solid">Notes</th>
+                {# Short #4 #}
+                <th style="border:solid">Part Number</th>
+                <th style="border:solid">Painted Part</th>
+                <th style="border:solid">Date Needed</th>
+                <th style="border:solid">Vendor</th>
+                <th style="border:solid">Vendor PO#</th>
+                <th style="border:solid">Mod WO#</th>
+                <th style="border:solid">EDD</th>
+                <th style="border:solid">Mod Done Date</th>
+                <th style="border:solid">Received Date</th>
+                <th style="border:solid">Notes</th>
+            </tr>            
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <td>{{ job.name }}</td>
+                    <td>{{ job.salesOrder }}</td>   
+                    <td>{{ job.estimatedShipDate|date('Y-m-d') }}</td>
+                    <td>{{ job.quantity }}</td>
+                    <td>{{ job.manufacturingOrder }}</td>
+                    <td><a href="#" class="macPurchaseOrder" data-name="macPurchaseOrder" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_job_mac_purchase_order', {'jobId': job.id}) }}">{{ job.macPurchaseOrder }}</td>
+                    <td>{{ job.buildLocation.name }}</td>
+                    <td>
+                        {% if job.plannerEstimatedShipDate %}
+                            {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
+                        {% else %}
+                            TBD
+                        {% endif %}
+                    </td>
+                    <td>{{job.kitting.updatedBy}}</td>
+                    <td>{{job.kitting.completionDate|date('Y-m-d')}}</td>
+                    <td>{{job.kitting.filledCompletely}}</td>
+                    {# Short #1 #}
+                    <td>{{ job.kitting.kittingShort1.partNumber | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort1.paintedPart | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.dateNeeded | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="vendor1" data-name="vendor1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.vendor : null }}</a></td>
+                    <td><a href="#" class="vendorPoNumber1" data-name="vendorPoNumber1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.vendorPoNumber : null }}</a></td>
+                    <td><a href="#" class="modWo1" data-name="modWo1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_mod_wo', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.modWo : null }}</a></td>
+                    <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.modDoneDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.receivedDate | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="notes1" data-name="notes1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.notes : null }}</a></td>
+                    {# Short #2 #}
+                    <td>{{ job.kitting.kittingShort2.partNumber | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort2.paintedPart | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.dateNeeded | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="vendor2" data-name="vendor2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.vendor : null }}</a></td>
+                    <td><a href="#" class="vendorPoNumber2" data-name="vendorPoNumber2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.vendorPoNumber : null }}</a></td>
+                    <td><a href="#" class="modWo2" data-name="modWo2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_mod_wo', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.modWo : null }}</a></td>
+                    <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.modDoneDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.receivedDate | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="notes2" data-name="notes2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.notes : null }}</a></td>
+                    {# Short #3 #}
+                    <td>{{ job.kitting.kittingShort3.partNumber | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort3.paintedPart | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.dateNeeded | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="vendor3" data-name="vendor3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.vendor : null }}</a></td>
+                    <td><a href="#" class="vendorPoNumber3" data-name="vendorPoNumber3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.vendorPoNumber : null }}</a></td>
+                    <td><a href="#" class="modWo3" data-name="modWo3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_mod_wo', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.modWo : null }}</a></td>
+                    <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.modDoneDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.receivedDate | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="notes3" data-name="notes3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.notes : null }}</a></td>
+                    {# Short #4 #}
+                    <td>{{ job.kitting.kittingShort4.partNumber | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort4.paintedPart | default("") }}</a></td>
+                    <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.dateNeeded | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="vendor4" data-name="vendor4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.vendor : null }}</a></td>
+                    <td><a href="#" class="vendorPoNumber4" data-name="vendorPoNumber4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.vendorPoNumber : null }}</a></td>
+                    <td><a href="#" class="modWo4" data-name="modWo4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_mod_wo', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.modWo : null }}</a></td>
+                    <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.modDoneDate | date('Y-m-d') : "" }}</td>
+                    <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</td>
+                    <td><a href="#" class="notes4" data-name="notes4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.notes : null }}</a></td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    $(document).ready(function() {
+        //toggle `popup` / `inline` mode
+        $.fn.editable.defaults.mode = 'popup';
+
+        $('.macPurchaseOrder').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter MAC PO#',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        
+        $('.notes1').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter notes #1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.notes2').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter notes #2',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.notes3').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter notes #3',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.notes4').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter notes #4',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendor1').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor #1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendor2').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor #2',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendor3').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor #3',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendor4').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor #4',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+        
+        $('.vendorPoNumber1').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor PO# 1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendorPoNumber2').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor PO# 2',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendorPoNumber3').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor PO# 3',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendorPoNumber4').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                url: obj.dataset.url,
+                title: 'Enter vendor PO# 4',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,28 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'lay-blank'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Blank Page
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            span Blank Page
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-12
+          .st-panel
+            .st-panel__cont        
+              .st-panel__content
+                p This is a Blank Page.
+block css
+block js

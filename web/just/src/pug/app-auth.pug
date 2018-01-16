@@ -1,0 +1,24 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'app-auth'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Auth Forms
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") App Pages
+          li
+            span Auth Forms
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+block css
+
+block js

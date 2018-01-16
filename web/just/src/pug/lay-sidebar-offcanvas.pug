@@ -1,0 +1,71 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'lay-sidebar'
+  - var sidebar = 'sidebar-offcanvas'
+block title
+  span Sidebar Layouts
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            span Sidebar Layouts
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-sm-4.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Inner Collapsible
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        a.btn.btn-default.btn-xs(href="lay-sidebar.html") View
+              .st-panel__content
+                p Inner sidebar that could be collapsed in smaller one.
+                p: img(src="img/demo/sb-colble.png", width="100%")
+                
+        .col-sm-4.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Offcanvas
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        a.btn.btn-default.btn-xs.disabled(href="lay-sidebar-offcanvas.html") Current
+              .st-panel__content
+                p It lives out and appears without shifting the content.
+                p: img(src="img/demo/sb-off.png", width="100%")
+        .col-sm-4.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Offcanvas Collapsible
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        a.btn.btn-default.btn-xs(href="lay-sidebar-off-collapse.html") View
+              .st-panel__content
+                p Small sidebar that opens without shifting the content.
+                p: img(src="img/demo/sb-colble-off.png", width="100%")
+block css
+block js
+  script(src="libs/jquery-sparkline/jquery.sparkline.min.js")
+  script(src="libs/chart.js/Chart.min.js")

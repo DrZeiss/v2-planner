@@ -1,0 +1,40 @@
+.st-auth {
+  height: 100%;
+  position: relative;
+  text-align: center;
+  margin: 0 20px;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  &__cont {
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  &__back {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    text-align: center;
+
+    @media screen and (max-width: @screen-xs-max) {
+      position: static;
+    }
+  }
+
+  .popover {
+    min-width: 250px;
+  }
+
+  .alert {
+    margin-bottom: 10px;
+  }
+}

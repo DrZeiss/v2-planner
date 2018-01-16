@@ -1,0 +1,31 @@
+.st-datatable {
+
+  td small {
+    color: @color-light;
+  }
+
+  div&__footer {
+    margin-top: 10px;
+
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .dataTables_length {
+      float: left;
+
+      label {
+        font-size: 0;
+        margin: 0;
+      }
+    }
+
+    div.dataTables_paginate {
+      float: right;
+      margin-top: 0;
+      text-align: right;
+    }
+  }
+}

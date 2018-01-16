@@ -1,0 +1,197 @@
+.st-spanel
+  .st-spanel__tabs
+    ul.nav
+      li.active.alt
+        a(href="#settings", data-toggle="tab", tabindex="-1") Settings
+      li
+        a(href="#notifications", data-toggle="tab", tabindex="-1") Notifications
+      li.st-spanel__close
+        a.fa.fa-long-arrow-right(tabindex="-1")
+  .st-spanel__content
+    .tab-content
+      .tab-pane.fade.in.active(id="settings")
+        .st-spanel__settings
+          .st-spanel__scroll.scrollbar
+            .st-settings#app-settings
+              .st-settings__list
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label
+                      b App Settings
+                    .st-settings__control
+                      i.fa.fa-spin.fa-circle-o-notch.st-settings__loader
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label Site Available
+                    .st-settings__control
+                      input#app-settings__site(type="checkbox", name="site", checked="checked")
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label Notifications
+                    .st-settings__control
+                      input#app-settings__notifications(type="checkbox", name="notifications", checked="checked")
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label Debug Mode
+                    .st-settings__control
+                      input#app-settings__debug(type="checkbox", name="debug")
+                .st-settings__item
+                  .st-settings__row.st-settings__expand
+                    .st-settings__label Cron Workers
+                    .st-settings__control.text-nowrap
+                      i.fa.fa-angle-right.st-settings__ico
+                  .st-settings__sub
+                    .st-settings__item
+                      .st-settings__row
+                        .st-settings__label Backuper
+                        .st-settings__control
+                          input#app-settings__backuper(type="checkbox", name="backuper", checked="checked")
+                    .st-settings__item
+                      .st-settings__row
+                        .st-settings__label Storage Optimizer
+                        .st-settings__control
+                          input#app-settings__optimizer(type="checkbox", name="optimizer", checked="checked")
+                    .st-settings__item
+                      .st-settings__row
+                        .st-settings__label Reports Export
+                        .st-settings__control
+                          input#app-settings__reports(type="checkbox", name="reports", checked="checked")
+            .st-settings#mailing-settings
+              .st-settings__list
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label
+                      b Mailing
+                    .st-settings__control
+                      i.fa.fa-spin.fa-circle-o-notch.st-settings__loader
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label Send Mails
+                    .st-settings__control
+                      input#mailing-settings__send(type="checkbox", name="send", checked="checked")
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label Driver
+                    .st-settings__control
+                      .select2-contented.select2-sm
+                        select.form-control#mailing-settings__driver(name="driver", data-minimum-results-for-search="Infinity")
+                          option(value="smpt") SMPT
+                          option(value="mailgun", selected="selected") Mailgun
+                .st-settings__item
+                  .st-settings__row
+                    .st-settings__label Daily Limit
+                    .st-settings__control.text-nowrap
+                      span.label.label-danger.settings-label 2500
+                  .st-settings__row
+                    .st-settings__control
+                      .slider-danger.slider-novalues
+                        input#mailing-settings__limit(
+                                name="limit",
+                                data-grid="true",
+                                data-min="0",
+                                data-max="5000",
+                                data-from="2500",
+                                data-step="50",
+                                data-hide-min-max="true",
+                                data-hide-from-to="true")
+      .tab-pane.fade(id="notifications")
+          .st-notifications
+            .st-notifications__head
+              .fluid-cols
+                .expand-col
+                  .st-notifications__title New Alerts
+                  small You have <span class="st-notifications__count">0</span> alerts.
+                .min-col
+                  button.btn.btn-default.btn-sm.st-notifications__all Mark All
+            .st-notifications__list
+              .st-spanel__scroll.scrollbar
+                .st-notification.new
+                  .st-notification__ico
+                    i.fa.fa-cog
+                  .st-notification__main
+                    .st-notification__title
+                      b System
+                      small 25m ago
+                      .st-notification__mark
+                        i.fa.fa-check
+                    p Lorem ipsum dolor sit.
+                .st-notification.new
+                  .st-notification__ico
+                    i.fa.fa-check
+                  .st-notification__main
+                    .st-notification__title
+                        b Verification
+                        small 1h 30m ago
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p Lorem ipsum dolor sit. Lorem ipsum.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.
+                .st-notification
+                  .st-notification__ico
+                    i.fa.fa-user
+                  .st-notification__main
+                    .st-notification__title
+                        b Account
+                        small 25 Feb 21:30
+                        .st-notification__mark
+                          i.fa.fa-check
+                    p <a href="">John Doe</a> has been registered.

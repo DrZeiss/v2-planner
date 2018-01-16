@@ -1,0 +1,110 @@
+.irs {
+  height: 34px;
+
+  &.irs-with-grid {
+    height: 60px;
+  }
+}
+
+.irs-line, .irs-bar, .irs-bar-edge {
+  top: 22px;
+}
+
+.irs-slider {
+  top: 19px;
+}
+
+.irs-line {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid @background-dark;
+  cursor: pointer;
+}
+
+.irs-line-mid, .irs-line-left, .irs-line-right, .irs-bar, .irs-slider, .irs-min, .irs-max, .irs-bar-edge {
+  background: none;
+}
+
+.irs-bar-edge {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.irs-min, .irs-max {
+  background-color: #fff;
+  border: 1px solid @background-dark;
+  color: @content-color;
+}
+
+.irs-slider {
+  background-color: #fff;
+  border: 1px solid @background-dark;
+  width: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.irs-from:after, .irs-to:after, .irs-single:after {
+  display: none;
+}
+
+.irs-grid-pol {
+  background-color: @content-color;
+}
+
+.irs-grid-text {
+  color: @content-color;
+}
+
+
+.irs-bar, .irs-from, .irs-to, .irs-single, .irs-bar-edge {
+  background-color: darken(@background-dark, 20%);
+  cursor: pointer;
+}
+
+.slider-danger {
+  .irs-bar, .irs-from, .irs-to, .irs-single, .irs-bar-edge {
+    background-color: #ed5565;
+    cursor: pointer;
+  }
+}
+
+.slider-success {
+  .irs-bar, .irs-from, .irs-to, .irs-single, .irs-bar-edge {
+    background-color: @bs-success;
+    cursor: pointer;
+  }
+}
+
+.slider-info {
+  .irs-bar, .irs-from, .irs-to, .irs-single, .irs-bar-edge {
+    background-color: @bs-info;
+    cursor: pointer;
+  }
+}
+
+.slider-warning {
+  .irs-bar, .irs-from, .irs-to, .irs-single, .irs-bar-edge {
+    background-color: @bs-warning;
+    cursor: pointer;
+  }
+}
+
+.slider-novalues {
+
+  .irs {
+    height: 15px;
+
+    &.irs-with-grid {
+      height: 41px;
+    }
+  }
+
+  .irs-line, .irs-bar, .irs-bar-edge {
+    top: 3px;
+  }
+
+  .irs-slider {
+    top: 0px;
+  }
+}

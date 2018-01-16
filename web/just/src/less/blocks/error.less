@@ -1,0 +1,34 @@
+.st-error {
+  height: 100%;
+  position: relative;
+  text-align: center;
+  margin: 0 20px;
+
+  &__cont {
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 100px;
+    width: 100%;
+    max-width: 358px;
+
+    @media screen and (max-width: @screen-xs-max) {
+      margin-top: 50px;
+    }
+  }
+
+  &__code {
+    font-size: 150px;
+    line-height: 150px;
+    font-weight: bold;
+
+    @media screen and (max-width: @screen-xs-max) {
+      font-size: 90px;
+      line-height: 90px;
+    }
+  }
+
+  &__message {
+    margin: 10px 0 20px;
+  }
+}

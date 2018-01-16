@@ -1,0 +1,96 @@
+.pagination {
+  margin: 0;
+  border-radius: 3px;
+  vertical-align: top;
+
+  > li {
+    > a,
+    > span {
+      padding: 6px 12px;
+      color: @content-color;
+      background-color: #fff;
+      border: 1px solid @border-dark;
+    }
+    &:first-child {
+      > a,
+      > span {
+        margin-left: 0;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+    }
+  }
+
+  > li > a,
+  > li > span {
+    &:hover,
+    &:focus {
+      color: @content-color;
+      background-color: @background;
+      border-color: @border-dark;
+      outline: 0;
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      color: @content-color;
+      background-color: @background;
+      border-color: @border-dark ;
+    }
+  }
+
+  > .disabled {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus {
+      color: lighten(@color-light, 15%);
+      background-color: #fff;
+      border-color: @border-dark;
+    }
+  }
+}
+
+.pagination-sm {
+  li {
+    > a,
+    > span {
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  }
+}
+
+.pagination-xs {
+  li {
+    > a,
+    > span {
+      padding: 3px 8px;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+}
+
+.pagination-inline {
+  white-space: nowrap;
+  
+  li {
+    display: inline-block;
+    vertical-align: top;
+  }
+}

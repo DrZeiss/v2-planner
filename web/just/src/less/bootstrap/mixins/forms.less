@@ -1,0 +1,69 @@
+.placeholder(@color: @input-placeholder) {
+
+  &::-moz-placeholder {
+    color: @color;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: @color;
+    opacity: 1;
+  }
+
+  &::-webkit-input-placeholder  {
+    color: @color;
+    opacity: 1;
+  }
+}
+
+.focus() {
+
+  &:focus {
+    border-color: @input-focus-border;
+    outline: 0;
+    box-shadow: @input-focus-shadow;
+  }
+}
+
+.form-control-validation(@text-color: @content-color; @border-color: @border-dark; @background-color: @background) {
+  // Color the label and help text
+  .help-block,
+  .control-label  {
+    color: @text-color;
+  }
+  // Set the border and box shadow on specific inputs to match
+  .form-control {
+    border-color: @border-color;
+    background-color: @background-color;
+    color: @text-color;
+    box-shadow: none;
+
+    &:focus {
+      border-color: @input-focus-border;
+      outline: 0;
+      box-shadow: @input-focus-shadow;
+    }
+
+    .placeholder(darken(@border-color, 15%))
+  }
+  // Set validation states also for addons
+  .input-group-addon {
+    color: @text-color;
+    border-color: @border-color;
+    background-color: @background-color;
+  }
+  // Optional feedback icon
+  .form-control-feedback {
+    color: @text-color;
+  }
+
+  .radio label,
+  .checkbox label,
+  .radio-inline label,
+  .checkbox-inline label {
+    &:before {
+      border: 1px solid @border-color;
+      background-color: @background-color;
+    }
+  }
+}

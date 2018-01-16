@@ -1,0 +1,53 @@
+.badge {
+  color: @badge-color;
+  font-weight: normal;
+  background-color: @badge-bg;
+
+  a& {
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: @color-light;
+      text-decoration: none;
+      background-color: @badge-bg;
+    }
+  }
+
+  .nav-pills > li:hover > a > & {
+    background-color: #fff;
+  }
+
+  .list-group-item.active > &,
+  .nav-pills > li.active > a > & {
+    color: @color-light;
+    background-color: @badge-bg;
+  }
+}
+
+.badge-default {}
+
+.badge-primary {
+  background-color: @bs-primary;
+  color: #ffffff;
+}
+
+.badge-success {
+  background-color: @bs-success;
+  color: #ffffff;
+}
+
+.badge-info {
+  background-color: @bs-info;
+  color: #ffffff;
+}
+
+.badge-warning {
+  background-color: @bs-warning;
+  color: #ffffff;
+}
+
+.badge-danger {
+  background-color: @bs-danger;
+  color: #ffffff;
+}

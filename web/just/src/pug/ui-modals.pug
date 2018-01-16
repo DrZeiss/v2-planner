@@ -1,0 +1,157 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'ui-modals'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Modals
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") UI
+          li
+            span Modals
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-xs-12.col-md-8.hidden-xs.col-right.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Base Modal View
+              .st-panel__content
+                p A rendered modal with header, body, and set of actions in the footer.
+                .modal(tabindex="-1", role="dialog", style="background: rgba(0, 0, 0, 0.5); position: relative; top: auto; right: auto; bottom: auto; left: auto; z-index: 1; display: block;")
+                  .modal-dialog(role="document")
+                    .modal-content
+                      .modal-header
+                        button.close(type="button", data-dismiss="modal", aria-label="Close")
+                          span(aria-hidden="true") &times;
+                        h4.modal-title Modal Title
+                      .modal-body
+                        p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      .modal-footer
+                        button.btn.btn-default(type="button", data-dismiss="modal") Close
+                        button.btn.btn-primary(type="button") Save changes
+        .col-xs-12.col-md-4.col-right
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Demo Modal
+              .st-panel__content
+                p Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.
+                p
+                  button.btn.btn-info(type="button", data-toggle="modal", data-target="#demo-modal") Launch Modal
+                  button.btn.btn-info(type="button", data-toggle="modal", data-target="#large-modal") Large
+                  button.btn.btn-info(type="button", data-toggle="modal", data-target="#small-modal") Small
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Various Animation
+              .st-panel__content
+                p Modals can be shown with custom effects via transitions <code>.fade.scale-in</code>, <code>.fade.scale-out</code>.
+                p
+                  button.btn.btn-info(type="button", data-toggle="modal", data-target="#demo-modal") SlideDown
+                  button.btn.btn-info(type="button", data-toggle="modal", data-target="#scale-in-modal") ScaleIn
+                  button.btn.btn-info(type="button", data-toggle="modal", data-target="#scale-out-modal") ScaleOut
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Custom Dialogs
+                      small via Bootbox.js
+              .st-panel__content
+                p Bootstrap powered <code>alert</code>, <code>confirm</code>, <code>prompt</code> and flexible dialog boxes.
+                p
+                  button.btn.btn-info.bootbox-alert(type='button') Run Alert
+                  button.btn.btn-info.bootbox-confirm(type='button') Confirm
+                  button.btn.btn-info.bootbox-prompt(type='button') Prompt
+    .modal.fade#demo-modal(tabindex="-1", role="dialog")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4.modal-title Modal Title
+          .modal-body
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button.btn.btn-primary(type="button") Save changes
+    .modal.fade#large-modal(tabindex="-1", role="dialog")
+      .modal-dialog.modal-lg(role="document")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4.modal-title Large Modal
+          .modal-body
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button.btn.btn-primary(type="button") Save changes
+    .modal.fade#small-modal(tabindex="-1", role="dialog")
+      .modal-dialog.modal-sm(role="document")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4.modal-title Small Modal
+          .modal-body
+            p Lorem ipsum dolor sit amet, consur adipisicing elit.
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button.btn.btn-primary(type="button") Save changes
+    .modal.modal-middle.fade.scale-in#scale-in-modal(tabindex="-1", role="dialog")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4.modal-title Modal Title
+          .modal-body
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button.btn.btn-primary(type="button") Save changes
+    .modal.modal-middle.fade.scale-out#scale-out-modal(tabindex="-1", role="dialog")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4.modal-title Modal Title
+          .modal-body
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            p Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button.btn.btn-primary(type="button") Save changes
+block js
+  script(src='libs/bootbox/bootbox.min.js')
+block js-last
+  script(src='js/demo/modals.js')

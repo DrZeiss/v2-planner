@@ -1,0 +1,228 @@
+.st-sidebar
+  .st-sidebar__header
+    a(href="index.html").st-sidebar__logo Just
+    .st-sidebar__mico.st-sidebar__toggle
+      i.fa.fa-bars
+  .st-sidebar__cont
+    .st-sidebar__scroll.scrollbar
+      .st-sidebar__nav
+        ul
+          li(class=page == 'overview' ? 'active' : '')
+            a(href="index.html")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-star.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Overview
+          li(class=page == 'lay-blank' || page == 'lay-sidebar' ? 'active open' : '')
+            a(href="#")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-th.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Layouts
+                .min-col
+                  i.fa.fa-angle-right.st-sidebar__arrow
+            ul.st-sidebar__nested
+              li(class=page == 'lay-sidebar' ? 'active' : '')
+                a(href="lay-sidebar.html")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span Sidebar
+              li(class=page == 'lay-blank' ? 'active' : '')
+                a(href="lay-blank.html")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span Blank Page
+          li(class=page == 'ui-panels' || page == 'ui-buttons' || page == 'ui-tabs' || page == 'ui-modals' || page == 'ui-miscellaneous' || page == 'ui-tables' ? 'active open' : '')
+            a(href="#")
+              .fluid-cols
+                .min-col
+                  i.st-sidebar__ico B
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Bootstrap UI
+                .min-col
+                  i.fa.fa-angle-right.st-sidebar__arrow
+            ul.st-sidebar__nested
+              li(class=page == 'ui-panels' ? 'active' : '')
+                a(href="ui-panels.html")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span Panels
+                    .min-col
+                      span.label.label-danger AWSM
+              li(class=page == 'ui-buttons' ? 'active' : '')
+                a(href="ui-buttons.html")
+                  span Buttons
+              li(class=page == 'ui-tabs' ? 'active' : '')
+                a(href="ui-tabs.html")
+                  span Tabs
+              li(class=page == 'ui-modals' ? 'active' : '')
+                a(href="ui-modals.html")
+                  span Modals
+              li(class=page == 'ui-tables' ? 'active' : '')
+                a(href="ui-tables.html")
+                  span Tables
+              li(class=page == 'ui-miscellaneous' ? 'active' : '')
+                a(href="ui-miscellaneous.html")
+                  span Miscellaneous
+          li(class=page == 'forms-basic' || page == 'forms-controls' ? 'active open' : '')
+            a(href="#")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-clipboard.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Forms
+                .min-col
+                  i.fa.fa-angle-right.st-sidebar__arrow
+            ul.st-sidebar__nested
+              li(class=page == 'forms-controls' ? 'active' : '')
+                a(href="forms-controls.html")
+                  span Controls
+              li(class=page == 'forms-basic' ? 'active' : '')
+                a(href="forms-basic.html")
+                  span Basic Forms
+          li(class=page == 'widgets' ? 'active' : '')
+            a(href="widgets.html")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-pie-chart.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Widgets
+                .min-col.text-right
+                  span.label.label-success 8
+          li(class=page == 'app-profile' || page == 'app-products' || page == 'app-product-form' || page == 'app-users' || page == 'app-auth' || page == 'app-errors' ? 'active open' : '')
+            a(href="#")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-clone.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title App Pages
+                .min-col
+                  i.fa.fa-angle-right.st-sidebar__arrow
+            ul.st-sidebar__nested
+              li(class=page == 'app-profile' ? 'active' : '')
+                a(href="app-profile.html")
+                  span Profile
+              li(class=page == 'app-products' ? 'active' : '')
+                a(href="app-products.html")
+                  span Products List
+              li(class=page == 'app-product-form' ? 'active' : '')
+                a(href="app-product-form.html")
+                  span Product Form
+              li(class=page == 'app-users' ? 'active' : '')
+                a(href="app-users.html")
+                  span Users
+              li(class=page == 'app-auth' ? 'active open' : '')
+                a(href="app-auth.html")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span.st-sidebar__title Auth Forms
+                    .min-col
+                      i.fa.fa-angle-right.st-sidebar__arrow
+                ul.st-sidebar__nested
+                  li
+                    a(href="app-login.html")
+                      span Login
+                  li
+                    a(href="app-register.html")
+                      span Register
+                  li
+                    a(href="app-password.html")
+                      span Restore Password
+              li(class=page == 'app-errors' ? 'active open' : '')
+                a(href="app-errors.html")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span.st-sidebar__title Error Pages
+                    .min-col
+                      i.fa.fa-angle-right.st-sidebar__arrow
+                ul.st-sidebar__nested
+                  li
+                    a(href="app-404.html")
+                      span 404 Page
+                  li
+                    a(href="app-500.html")
+                      span 500 Page
+          li(class=page == 'plugins-editors' ? 'active open' : '')
+            a(href="#")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-flask.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Plugins
+                .min-col
+                  i.fa.fa-angle-right.st-sidebar__arrow
+            ul.st-sidebar__nested
+              li(class=page == 'plugins-editors' ? 'active' : '')
+                a(href="plugins-editors.html")
+                  span Editors
+          li
+            a(href="#")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-outdent.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Menu Levels
+                .min-col
+                  i.fa.fa-angle-right.st-sidebar__arrow
+            ul.st-sidebar__nested
+              li
+                a(href="#")
+                  span Second Level 1
+              li
+                a(href="#")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span.st-sidebar__title Second Level 2
+                    .min-col
+                      i.fa.fa-angle-right.st-sidebar__arrow
+                ul.st-sidebar__nested
+                  li
+                    a(href="#")
+                      span Third Level 1
+                  li
+                    a(href="#")
+                      span Third Level 2
+                  li
+                    a(href="#")
+                      span Third Level 3
+              li
+                a(href="#")
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      span.st-sidebar__title Second Level 3
+                    .min-col
+                      i.fa.fa-angle-right.st-sidebar__arrow
+                ul.st-sidebar__nested
+                  li
+                    a(href="#")
+                      .fluid-cols
+                        .expand-col.text-ellipsis
+                          span.st-sidebar__title Third Level 1
+                        .min-col
+                          i.fa.fa-angle-right.st-sidebar__arrow
+                    ul.st-sidebar__nested
+                      li
+                        a(href="#")
+                          span Fourth Level 1
+                      li
+                        a(href="#")
+                          span Fourth Level 2
+                      li
+                        a(href="#")
+                          span Fourth Level 3
+                  li
+                    a(href="#")
+                      span Third Level 2
+                  li
+                    a(href="#")
+                      span Third Level 3
+          li
+            a(href="../docs/index.html", target="_blank")
+              .fluid-cols
+                .min-col
+                  i.fa.fa-book.st-sidebar__ico
+                .expand-col.text-ellipsis
+                  span.st-sidebar__title Documentation
+    .st-sidebar__popup

@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Update Kitting{% endblock %}
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('jobs') }}">Jobs</a>
+</li>
+<li class="active">
+    <span><strong>Update Kitting</strong></span>
+</li>
+{% endblock %}
+
+{% block body %}
+            <div>
+                <form method="POST" class="form-horizontal" action="{{ path('edit_kitting', {'jobId': kitting.job.id}) }}">
+                    <div class="form-group">
+                        {{ form_row(form.completionDate) }}
+                        {{ form_row(form.initials) }}
+                        
+                        {{ form_label(form.filledCompletely) }}
+                        {% for child in form.filledCompletely %}
+                            {{ form_label(child) }}
+                            {{ form_widget(child) }}
+                            <br>
+                        {% endfor %}
+
+                        {{ form_row(form.location) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(form.epoxyNeeded) }}
+                        <div id="epoxyDone" style="display:none;padding-left:20px">
+                            {{ form_label(form.epoxyDone) }}
+                            {% for child in form.epoxyDone %}
+                                {{ form_label(child) }} {{ form_widget(child) }}
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_row(form.tubeNeeded) }}
+                        <div id="tubeDone" style="display:none;padding-left:20px">
+                            {{ form_label(form.tubeDone) }}
+                            {% for child in form.tubeDone %}
+                                {{ form_label(child) }} {{ form_widget(child) }}
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {{ form_row(form.kittingShort1) }}
+
+                    <a href="{{ path('jobs') }}" class="btn btn-warning">Cancel</a>
+                    {{ form_widget(form.update) }}
+
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('input[name="v2_mainbundle_kitting[tubeNeeded]"]').on('click', function(){
+            if ($(this).is(':checked')) {
+                $('#tubeDone').show();
+            } else {
+                $('#tubeDone').hide();
+            }
+        });
+        $('input[name="v2_mainbundle_kitting[epoxyNeeded]"]').on('click', function(){
+            if ($(this).is(':checked')) {
+                $('#epoxyDone').show();
+            } else {
+                $('#epoxyDone').hide();
+            }
+        });
+    </script>
+{% endblock %}

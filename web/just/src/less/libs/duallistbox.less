@@ -1,0 +1,53 @@
+.bootstrap-duallistbox-container {
+
+  .info-container {
+    overflow: hidden;
+    display: block;
+  }
+
+  .info {
+    vertical-align: top;
+  }
+
+  .filter {
+    margin: 0 0 10px;
+  }
+
+  .box1.filtered .clear1,
+  .box2.filtered .clear2 {
+    line-height: 13px;
+  }
+
+  &.moveonselect {
+
+    .btn-group {
+
+      button.btn.removeall {
+        margin-left: 0;
+        border-top-left-radius: 3px;
+      }
+
+      button.btn.moveall {
+        border-top-right-radius: 3px;
+      }
+    }
+  }
+
+  label {
+    color: @color-dark;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  select {
+    padding: 5px 0 0 10px;
+  }
+
+  .box1, .box2 {
+    margin-bottom: 20px;
+
+    @media (min-width: 990px) {
+      margin-bottom: 0;
+    }
+  }
+}

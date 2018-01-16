@@ -1,0 +1,106 @@
+.st-spanel {
+  position: fixed;
+  z-index: 1000;
+  top: 60px;
+  bottom: 0;
+  right: -250px;
+  background: @spanel;
+  border: 1px solid @border-dark;
+  border-right: 0;
+  width: 250px;
+  transition: right 150ms;
+
+  &.open {
+    right: 0px;
+    box-shadow: 0 7px 6px 3px rgba(0, 0, 0, 0.14);
+  }
+
+  &__tabs {
+    position: relative;
+    z-index: 2;
+
+    > ul {
+      display: table;
+      width: 100%;
+
+      li {
+        display: table-cell;
+
+        &.active {
+          a {
+            background: transparent;
+            border-bottom: 0;
+          }
+
+          &.alt {
+            a {
+              background: #f8f8f8;
+              border-bottom: 1px solid #f8f8f8;
+            }
+          }
+        }
+
+        a {
+          color: @color;
+          text-decoration: none;
+          background: @background-dark;
+          border-right: 1px solid @border-dark;
+          border-bottom: 1px solid @border-dark;
+          outline: 0;
+
+          &:hover {
+            background: transparent;
+            color: @color;
+            text-decoration: none;
+          }
+        }
+
+        &:last-child a {
+          border-right: 0;
+        }
+      }
+    }
+  }
+
+  &__content {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top: 40px solid transparent;
+    width: 100%;
+
+    .tab-content,
+    .tab-pane {
+      height: 100%;
+    }
+  }
+
+  &__close {
+    cursor: pointer;
+    text-align: center;
+    vertical-align: top;
+
+    a {
+      line-height: 19px;
+    }
+  }
+
+  &__settings {
+    padding: 15px 0;
+    background-color: #f8f8f8;
+    height: 100%;
+
+    .st-settings {
+      padding: 0 15px;
+    }
+  }
+
+  .st-notifications {
+    height: 100%;
+  }
+
+  &__scroll {
+    height: 100%;
+  }
+}

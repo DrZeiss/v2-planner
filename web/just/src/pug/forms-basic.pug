@@ -1,0 +1,200 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'forms-basic'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Basic Forms
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") Forms
+          li
+            span Basic Forms
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-3.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Simple Form
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#simple-form")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#simple-form
+                  .form-group
+                      input.form-control(type="email", placeholder="Email")
+                  .form-group
+                      input.form-control(type="password", placeholder="Password")
+                  .form-group
+                    .fluid-cols
+                      .expand-col.text-ellipsis
+                        .checkbox
+                          input#chb1(type='checkbox', checked='checked')
+                          label(for='chb1') Remember
+                      .min-col
+                        .btn-group.btn-group-inline
+                          button.btn.btn-info(type="submit") Login
+                          button.btn.btn-info.dropdown-toggle(type="button", data-toggle="dropdown") <span class="caret"></span>
+                          ul.dropdown-menu
+                            li
+                              a(href="#") Create Account
+                            li
+                              a(href="#") Forgot Password
+        .col-md-9.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Horizontal Form
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#horizontal-form")
+                        i.fa.fa-code
+              .st-panel__content
+                form.form-horizontal#horizontal-form
+                  .form-group
+                    label.col-sm-2.control-label(for="h-email") Email
+                    .col-sm-10
+                      input.form-control(type="email", id="h-email", placeholder="Email")
+                  .form-group
+                    label.col-sm-2.control-label(for="h-password") Password
+                    .col-sm-10
+                      input.form-control(type="password", id="h-password", placeholder="Password")
+                  .form-group
+                    .col-sm-offset-2.col-sm-10
+                      button.btn.btn-default(type="submit") Sign In
+      .row
+        .col-md-5.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Contact Form
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#contact-form")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#contact-form
+                  .form-group
+                    label.control-label Email
+                    input.form-control(type="email", placeholder="name@email.com")
+                  .form-group
+                    label.control-label Message
+                    textarea.form-control.noresize(placeholder='Your question here', rows='5', style="height: 112px")
+                  .form-group
+                    label.control-label Attachment
+                    div
+                      .fileinput.fileinput-new.fileinput-buttons(data-provides="fileinput")
+                          .btn-group
+                            button.btn.btn-default.btn-file
+                              span.fileinput-new Select File
+                              span.fileinput-exists Change
+                              input(type="file", name="...")
+                            button.btn.btn-default.fileinput-exists(data-dismiss="fileinput" )
+                              i.fa.fa-remove
+                          span.fileinput-filename
+                  .form-group.clearfix
+                    .pull-right
+                      input.btn.btn-default(type='button', value='Cancel')
+                      input.btn.btn-info(type='button', value='Submit')
+        .col-md-7
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Inline Form
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#inline-form")
+                        i.fa.fa-code
+              .st-panel__content
+                form.form-inline#inline-form
+                  .form-group
+                    label(for="i-name") Name
+                    input.form-control(type="text", id="i-name", placeholder="Jane Doe")
+                  .form-group
+                    label(for="i-email") Email
+                    input.form-control(type="email", id="i-email", placeholder="jane.doe@example.com")
+                  button.btn.btn-info(type="submit") Send Invite
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span File Inputs
+                      small Jasny Bootstrap
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#file-inputs")
+                        i.fa.fa-code
+              .st-panel__content
+                .container-fluid.no-paddings#file-inputs
+                  .row
+                    .col-md-6
+                      .form
+                        .form-group
+                          label.control-label Image Upload
+                          div
+                            .fileinput.fileinput-new(data-provides="fileinput", style="width: 100%; margin-bottom: 5px;")
+                              .fileinput-new.thumbnail(style="max-width: 100%; width: 190px; height: 120px;")
+                                img(data-src="holder.js/100px100p", alt="...")
+                              .fileinput-preview.fileinput-exists.thumbnail(style="max-width: 200px; max-height: 150px;")
+                              div
+                                .btn-group
+                                  span.btn.btn-default.btn-file
+                                    span.fileinput-new Select Image
+                                    span.fileinput-exists Change
+                                    input(type="file", name="...")
+                                  a.btn.btn-default.fileinput-exists(href="#", data-dismiss="fileinput")
+                                    i.fa.fa-remove
+                    .col-md-6
+                      .form
+                        .form-group
+                          label.control-label Input Control
+                          div
+                            .fileinput.fileinput-new.fileinput-input.input-group(data-provides="fileinput")
+                              input.form-control.fileinput-inputname(type="text", data-trigger="fileinput", tabindex="-1", placeholder="File Name")
+                              span.input-group-addon.btn.btn-default.btn-file
+                                span.fileinput-new Select File
+                                span.fileinput-exists Change
+                                input(type="file", name="...")
+                              a.input-group-addon.btn.btn-default.fileinput-exists(href="#", data-dismiss="fileinput")
+                                i.fa.fa-remove
+                        .form-group
+                          label.control-label Input Button
+                          div
+                            .fileinput.fileinput-new.fileinput-buttons(data-provides="fileinput")
+                                .btn-group
+                                  button.btn.btn-default.btn-file
+                                    span.fileinput-new Select File
+                                    span.fileinput-exists Change
+                                    input(type="file", name="...")
+                                  button.btn.btn-default.fileinput-exists(data-dismiss="fileinput" )
+                                    i.fa.fa-remove
+                                span.fileinput-filename
+block css
+block js
+  script(src='libs/jasny-bootstrap/fileinput/fileinput.js')
+  script(src='libs/holder.js/holder.min.js')

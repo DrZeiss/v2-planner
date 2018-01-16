@@ -1,0 +1,260 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'app-profile'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span User Profile
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            span User Profile
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content.st-profile
+    .container-fluid
+      .row
+        .col-fixed.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__content
+                .st-profile__photo
+                  .st-profile__img(style="background-image: url('img/media/person-1.jpg')")
+                  .st-profile__menu
+                    i.fa.fa-cog.dropdown-toggle(data-toggle="dropdown")
+                    ul.dropdown-menu
+                      li
+                        a(href="#") Delete
+                      li
+                        a(href="#") Disable
+                .st-profile__title
+                  span.st-profile__name Emily Show
+                  span.st-profile__username @coolemily
+                  .st-profile__role
+                    span.label.label-success Manager
+                .st-profile__info
+                  .st-profile__field
+                    .st-profile__value
+                      i.fa.fa-map-marker
+                      span Palo Alto, CA, US
+                  .st-profile__field
+                    .st-profile__value
+                      i.fa.fa-calendar
+                      span 05/05/2017 15:30
+                .st-profile__info
+                  .st-profile__field
+                    .fluid-cols
+                      .expand-col.text-ellipsis.text-center
+                        | hello@example.com
+                .st-profile__links
+                  a.fa.fa-globe(href="")
+                  a.fa.fa-twitter(href="")
+                  a.fa.fa-facebook(href="")
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span About
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        i.fa.fa-edit
+              .st-panel__content
+                p Let's create something beautiful together.
+        .col-fluid
+          .st-panel
+            .st-panel__cont
+              .st-panel__content
+                .air-tabs
+                  ul.nav.nav-tabs.st-profile__tabs(role="tablist")
+                    li.active(role="presentation")
+                      a(href="#profile-overview", data-toggle="tab") Overview
+                    li(role="presentation")
+                      a(href="#profile-orders", data-toggle="tab") Orders
+                    li(role="presentation")
+                      a(href="#profile-settings", data-toggle="tab") Settings
+                  .tabs-container
+                    .tab-content
+                      .tab-pane.active(role="tabpanel", id="profile-overview")
+                        .st-profile-overview
+                          .container-fluid.no-paddings
+                            .row
+                              .col-md-6.mb
+                                h2 General
+                                .table-responsive.table-responsive-bordered
+                                  table.table.table-bordered
+                                    tbody
+                                      tr
+                                        td Status
+                                        td.content-width.text-nowrap.text-center
+                                          span.label.label-success Active
+                                      tr
+                                        td Rating
+                                        td.content-width.text-nowrap.text-center
+                                          span 4.5
+                                          | &nbsp;
+                                          i.fa.fa-star.text-warning.text-center
+                                      tr
+                                        td Activity
+                                        td.content-width.text-nowrap.text-center
+                                          .st-profile__spark(
+                                            values="15, 14, 13, 14, 16, 17, 15",
+                                            sparkType="bar",
+                                            sparkBarColor="#45BDDC",
+                                            sparkBarWidth="3",
+                                            sparkBarSpacing="1",
+                                            sparkChartRangeMin1="0")
+                                      tr
+                                        td Last Login
+                                        td.content-width.text-nowrap.text-center 10/05/2017
+                              .col-md-6.mb
+                                h2 Orders
+                                .table-responsive.table-responsive-bordered
+                                  table.table.table-bordered
+                                    tbody
+                                      tr
+                                        td Total
+                                        td.content-width.text-nowrap.text-right 200
+                                      tr
+                                        td Amount
+                                        td.content-width.text-nowrap.text-right $1,320.80
+                                      tr
+                                        td Completed
+                                        td.content-width.text-nowrap.text-right
+                                          span.text-success 120
+                                          | &nbsp;/&nbsp;
+                                          span 80
+                                      tr
+                                        td Last
+                                        td.content-width.text-nowrap.text-right 02/04/2017
+                            .row
+                              .col-md-12
+                                .st-profile__bookmarks
+                                  h2 Bookmarks
+                                  .container-fluid.no-paddings
+                                    .row
+                                      .col-sm-6.col-md-3
+                                        .st-profile__bookmark(style="background-image: url('img/img.png')")
+                                      .col-sm-6.col-md-3
+                                        .st-profile__bookmark(style="background-image: url('img/img.png')")
+                                      .col-sm-6.col-md-3
+                                        .st-profile__bookmark(style="background-image: url('img/img.png')")
+                                      .col-sm-6.col-md-3
+                                        .st-profile__bookmark(style="background-image: url('img/img.png')")
+                      .tab-pane(role="tabpanel", id="profile-orders")
+                        .table-responsive.table-responsive-bordered(width="100%")
+                            table#profile-orders-table.table.table-bordered.table-filled.table-hover
+                              thead
+                                tr
+                                  th.text-nowrap Product
+                                  th.content-width Price
+                                  th.content-width Date
+                                  th.content-width Status
+                                  th.content-width                       
+                              tbody
+                                tr
+                                  td.text-nowrap Test Row
+                                  td(data-filter="30") $30.00
+                                  td.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016 23:10
+                                  td(data-filter="1", data-sort="1")
+                                    span.label.label-success Completed
+                                  td.text-right
+                                    a.btn.btn-default.btn-xs() Details
+                        .pagination-sm#profile-orders-pagination.text-center
+                      .tab-pane(role="tabpanel", id="profile-settings")
+                        .form.st-profile-settings#profile-settings-form
+                          .container-fluid.no-paddings
+                            .row
+                              .col-md-8
+                                .st-profile-settings__section
+                                  .st-profile-settings__title Account Information
+                                  .container-fluid.no-paddings
+                                    .row
+                                      .col-md-6
+                                        .form-group
+                                          label.control-label First Name
+                                          input.form-control(type="text", placeholder="John")
+                                      .col-md-6
+                                        .form-group
+                                          label.control-label Last Name
+                                          input.form-control(type="text", placeholder="Smith")
+                                    .row
+                                      .col-md-12
+                                        .form-group
+                                          label.control-label Email
+                                          input.form-control(type="email", placeholder="hello@example.com")
+                                .st-profile-settings__section
+                                  .st-profile-settings__title Change Password
+                                  .container-fluid.no-paddings
+                                    .row
+                                      .col-md-12
+                                        .form-group
+                                          label.control-label New Password
+                                          input.form-control(type="password")
+                                    .row
+                                      .col-md-12
+                                        .form-group
+                                          label.control-label Confirm Password
+                                          input.form-control(type="password")
+                                .st-profile-settings__section
+                                  .st-profile-settings__title Links
+                                  .form-group
+                                    .input-group
+                                      span.input-group-addon
+                                        i.fa.fa-globe
+                                      input.form-control(type="text", placeholder="Site")
+                                  .form-group
+                                    .input-group
+                                      span.input-group-addon
+                                        i.fa.fa-twitter
+                                      input.form-control(type="text", placeholder="Twitter")
+                                  .form-group
+                                    .input-group
+                                      span.input-group-addon
+                                        i.fa.fa-facebook
+                                      input.form-control(type="text", placeholder="Facebook")    
+                              .col-md-4
+                                .st-profile-settings__section
+                                  .st-profile-settings__title Photo
+                                  .form-group
+                                    .fileinput.fileinput-new(data-provides="fileinput")
+                                      .fileinput-new.thumbnail(style="max-width: 200px; max-height: 200px;")
+                                        img(src="img/photo-placeholder.png")
+                                      .fileinput-preview.fileinput-exists.thumbnail(style="max-width: 200px; max-height: 200px;")
+                                      .fileinput-upload
+                                        .btn-file Upload
+                                          input(type="file", name="profile-photo")
+                                      .fileinput-remove.fileinput-exists(data-dismiss="fileinput") ×
+                                .st-profile-settings__section
+                                  .st-profile-settings__title Subscriptions
+                                  .form-group
+                                    .checkbox
+                                      input#ps-1(type='checkbox', checked='checked')
+                                      label(for='ps-1') News
+                                    .checkbox
+                                      input#ps-2(type='checkbox', checked='checked')
+                                      label(for='ps-2') Blog Posts
+                                    .checkbox
+                                      input#ps-3(type='checkbox', checked='checked')
+                                      label(for='ps-3') Promo Offers                                  
+                            .st-profile-settings__submit
+                              .btn.btn-info(type="submit") Submit
+block css
+  link(href='libs/datatables/css/dataTables.bootstrap.css', rel='stylesheet')
+block js
+  script(src="libs/jquery-sparkline/jquery.sparkline.min.js")
+  script(src="libs/faker/faker.min.js")
+  script(src='libs/datatables/js/jquery.dataTables.js')
+  script(src='libs/datatables/js/dataTables.bootstrap.js')
+  script(src='libs/jasny-bootstrap/fileinput/fileinput.js')
+block js-last
+  script(src='js/modules/service/api.js')
+  script(src='js/modules/widgets/table.js')
+  script(src='js/modules/pages/profile.js')

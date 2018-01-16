@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Update Shipping{% endblock %}
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('jobs') }}">Jobs</a>
+</li>
+<li class="active">
+    <span><strong>Update Shipping</strong></span>
+</li>
+{% endblock %}
+
+{% block body %}
+            <div>
+                <form method="POST" class="form-horizontal" action="{{ path('edit_shipping', {'jobId': shipping.job.id}) }}">
+                    {{ form_row(form.shipDate) }}
+                    <div class="col-sm-12">
+                    {{ form_row(form.isComplete) }}
+                    </div>
+                    {{ form_row(form.secondShipDate) }}
+                    <a href="{{ path('jobs') }}" class="btn btn-warning">Cancel</a>
+                    {{ form_widget(form.update) }}
+
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+.st-main {
+  width: 100%;
+  padding-left: 220px;
+  min-height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  transition: all @sidebar-collapse-duration;
+}
+
+body.sidebar-collapsible:not(.sidebar-open) {
+
+  .st-main {
+    padding-left: 45px;
+  }
+}
+
+body.sidebar-offcanvas {
+
+  .st-main {
+    padding-left: 0;
+  }
+
+  &.sidebar-collapsible {
+
+    .st-main {
+      padding-left: 45px;
+    }
+  }
+}

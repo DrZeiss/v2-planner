@@ -1,0 +1,43 @@
+@import 'mixins/labels.less';
+
+.label {
+  font-weight: normal;
+  border: 1px solid transparent;
+  color: #ffffff;
+  padding: 4px 6px;
+  display: inline-block;
+}
+
+.label-default {
+  .label-variant(@bs-default);
+
+  color: @content-color;
+  border: 1px solid @border-dark;
+
+  a& {
+    &:hover,
+    &:focus {
+      color: @content-color;
+    }
+  }
+}
+
+.label-primary {
+  .label-variant(@bs-primary);
+}
+
+.label-success {
+  .label-variant(@bs-success);
+}
+
+.label-info {
+  .label-variant(@bs-info);
+}
+
+.label-warning {
+  .label-variant(@bs-warning);
+}
+
+.label-danger {
+  .label-variant(@bs-danger);
+}

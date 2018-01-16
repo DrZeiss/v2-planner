@@ -1,0 +1,260 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'overview'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Overview
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            span The <b>Just</b> 1.0.0 by Admin<b>Bootstrap</b>
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-sm-6.col-md-3.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Income
+                      small Month
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        span.label.label-success $1,200
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") $25,235.00
+        .col-sm-6.col-md-3.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Payments
+                      small Out
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        .sparkline(
+                          values="15, 14, 13, 14, 16, 17, 15",
+                          sparkType="bar",
+                          sparkBarColor="#45BDDC",
+                          sparkBarWidth="3",
+                          sparkBarSpacing="1",
+                          sparkChartRangeMin1="0")
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") $120,840.00
+        .col-sm-4.col-md-2.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Rating
+                      small Avg
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        i.text-warning.fa.fa-star
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") 4.8
+        .col-sm-4.col-md-2.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Growth
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        span.label.label-info 25
+              .st-panel__content(style="height: 36px")
+                iframe#resize-iframe(style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;")
+                .sparkline(
+                  values="8, 2, 4, 3, 5, 4, 3, 5, 5, 6, 3, 9, 7, 3, 5, 6, 9, 5, 6, 7, 2, 3, 9, 6, 6, 7, 8, 10, 15, 16, 17, 15",
+                  sparkType="line",
+                  sparkWidth="100%",
+                  sparkHeight="36",
+                  sparkFillColor="#dff7fd",
+                  sparkLineWidth="1",
+                  sparkLineColor="#45BDDC",
+                  sparkHighlightLineColor="#45BDDC",
+                  sparkChartRangeMin="",
+                  sparkSpotColor="",
+                  sparkMinSpotColor="",
+                  sparkMaxSpotColor="")
+        .col-sm-4.col-md-2.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis.text-center
+                    span.st-panel__title
+                      span Users
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") 180 / <small>20</small>
+    .container-fluid
+      .row
+        .col-fluid.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Detailed Analytics
+                      small Sales & Users
+                  .min-col
+                    .st-panel__form
+                      .btn.btn-sm.btn-default#dc-range
+                        i.fa.fa-calendar
+                        span.hidden-xs Set Dates Range
+                    .st-panel__tools
+                      .st-popup#dc-settings(style="width: 250px")
+                        .form
+                          .container-fluid.no-paddings
+                            .row
+                              .col-xs-5
+                                b Group By
+                                .form-group
+                                  .radio
+                                    input(type="radio", name="dc-set-group", value="hour", id="dc-group-hour")
+                                    label(for="dc-group-hour") Hour
+                                  .radio
+                                    input(type="radio", name="dc-set-group", value="day", id="dc-group-day", checked="checked")
+                                    label(for="dc-group-day") Day
+                                  .radio
+                                    input(type="radio", name="dc-set-group", value="week", id="dc-group-week")
+                                    label(for="dc-group-week") Week
+                                  .radio
+                                    input(type="radio", name="dc-set-group", value="month", id="dc-group-month")
+                                    label(for="dc-group-month") Month
+                              .col-xs-7
+                                b Settings
+                                .form-group
+                                  .checkbox
+                                    input(type="checkbox", id="dc-set-legend")
+                                    label(for="dc-set-legend") Show Legend
+                                  .checkbox
+                                    input(type="checkbox", id="dc-set-scrollbar")
+                                    label(for="dc-set-scrollbar") Scrollbar
+                                  .checkbox
+                                    input(type="checkbox", id="dc-set-tables", checked="checked")
+                                    label(for="dc-set-tables") Data Tables
+                      .st-panel-tool(data-toggle="popup", data-target="#dc-settings")
+                        i.fa.fa-cog
+              .st-panel__content
+                div#dc-chart(style="height: 300px; margin: 0 -15px 0px;")
+                div#dc-tables
+                  ul.nav.nav-tabs.tabs-right(role="tablist", data-subtitle="#dc-tables-subtitle")
+                    li.tabs-title(style="padding-left: 15px;")
+                      span Data
+                      +space()
+                      small#dc-tables-subtitle Sales
+                    li.active
+                      a(href="#dc-tab-sales", data-toggle="tab") Sales
+                    li
+                      a(href="#dc-tab-users", data-toggle="tab") Users
+                  .tab-content
+                    .tab-pane.active(id="dc-tab-sales")
+                      .table-responsive.table-responsive-bordered(width="100%", style="margin: 15px 0;")
+                          table#dc-table-sales.table.table-bordered.table-filled.table-hover
+                            thead
+                              tr
+                                th.text-nowrap Product
+                                th.content-width Price
+                                th.content-width Date
+                                th.content-width Status
+                                th.content-width                       
+                            tbody
+                              tr
+                                td.text-nowrap Test Row
+                                td(data-filter="30") $30.00
+                                td.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016 23:10
+                                td(data-filter="1", data-sort="1")
+                                  span.label.label-success Completed
+                                td.text-right
+                                  a.btn.btn-default.btn-xs() View
+                      #dc-table-sales-p.pagination-xs.text-center
+                    .tab-pane(id="dc-tab-users")
+                      .table-responsive.table-responsive-bordered(width="100%", style="margin: 15px 0;")
+                          table#dc-table-users.table.table-bordered.table-filled.table-hover
+                            thead
+                              tr
+                                th.text-nowrap Name
+                                th.text-nowrap Username
+                                th.content-width Date
+                                th.content-width Status
+                                th.content-width
+                            tbody
+                              tr
+                                td Nick
+                                td @fury_road
+                                td.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016 23:10
+                                td(data-filter="1", data-sort="1")
+                                  span.label.label-success Active
+                                td.text-right
+                                  a.btn.btn-default.btn-xs(href="app-profile.html") View
+                      #dc-table-users-p.pagination-xs.text-center
+        .col-fixed
+          .st-panel.st-afeed
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col
+                    .st-panel__title.text-center
+                      span Activity Feed
+              .st-panel__content
+                .st-afeed-calendar
+                  #afeed-calendar
+                  #afeed-calendar__cont.text-center
+                .st-afeed__body
+                  .st-afeed__tabs
+                    ul(role="tablist")
+                      li.active
+                        a(href="#afeed-stats", data-toggle="tab") Stats
+                      li
+                        a(href="#afeed-events", data-toggle="tab") Events <span class="badge st-afeed-events__counter"></span>
+                      li
+                        a(href="#afeed-feed", data-toggle="tab") Feed
+                  .tab-content
+                    .tab-pane.active(id="afeed-stats")
+                      .st-afeed-stats
+                    .tab-pane(id="afeed-events")
+                      .st-afeed-events.scrollbar
+                        .st-afeed-events__list
+                    .tab-pane(id="afeed-feed")
+                      .st-afeed-feed.scrollbar
+                        .st-afeed-feed__list
+block css
+  link(href='libs/datatables/css/dataTables.bootstrap.css', rel='stylesheet')
+block js
+  script(src="libs/jquery-sparkline/jquery.sparkline.min.js")
+  script(src="libs/bootstrap-daterangepicker/daterangepicker.js")
+  script(src="https://www.amcharts.com/lib/3/amcharts.js")
+  script(src="https://www.amcharts.com/lib/3/serial.js")
+  script(src="https://www.amcharts.com/lib/3/themes/light.js")
+  script(src="libs/faker/faker.min.js")
+  script(src="libs/underscore/underscore-min.js")
+  script(src='libs/datatables/js/jquery.dataTables.js')
+  script(src='libs/datatables/js/dataTables.bootstrap.js')
+block js-last
+  script(src='js/modules/service/api.js')
+  script(src='js/modules/service/data-mapper.js')
+  script(src='js/modules/widgets/am-chart.js')
+  script(src='js/modules/widgets/table.js')
+  script(src='js/modules/widgets/detailed-chart.js')
+  script(src='js/modules/widgets/afeed.js')
+  script(src='js/modules/pages/overview.js')

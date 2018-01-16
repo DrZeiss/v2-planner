@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Update Bom{% endblock %}
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('jobs') }}">Jobs</a>
+</li>
+<li class="active">
+    <span><strong>Update Bom</strong></span>
+</li>
+{% endblock %}
+
+{% block body %}
+            <div>
+                <form method="POST" class="form-horizontal" action="{{ path('edit_bom', {'jobId': bom.job.id}) }}">
+                    {{ form_row(form.issuedDate) }}
+                    {{ form_row(form.initials) }}
+                    <br>
+                    {{ form_row(form.serialsGeneratedDate) }}
+
+                    <a href="{{ path('jobs') }}" class="btn btn-warning">Cancel</a>
+                    {{ form_widget(form.update) }}
+
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+{% endblock %}

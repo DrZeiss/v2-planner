@@ -1,0 +1,411 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'app-users'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Users
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") App Pages
+          li
+            span Users
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .st-users.container-fluid
+      .row
+        .col-fixed.mb.pull-right
+          .st-panel.st-panel--collapsed.st-users__filter
+            .st-panel__cont
+              .st-panel__header(data-tool="collapse")
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Filters
+                      small toggle
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool#users-filter-reset.hide
+                        i.fa.fa-refresh
+              .st-panel__content
+                  .form
+                    .form-group
+                      label.control-label.visible-md-block Groups
+                      .select2-sm
+                        select#users-groups.form-control(multiple="multiple", data-placeholder="Groups", data-token-separators="[',', ' ']", style="width: 100%")
+                    .form-group
+                      label.control-label.visible-md-block Dates Range
+                      button#users-date.btn.btn-default.btn-block
+                        i.fa.fa-calendar
+                        span Set Dates Range
+                    .form-group
+                      label.control-label.visible-md-block Status
+                      div
+                        .radio.radio-inline
+                          input(type='radio', id="users-status-all", name="users-status", value="-1", checked)
+                          label(for='users-status-all') All
+                        .radio.radio-inline
+                          input(type='radio', id="users-status-active", name="users-status", value="1")
+                          label(for='users-status-active') Active
+                        .radio.radio-inline
+                          input(type='radio', id="users-status-disabled", name="users-status", value="0")
+                          label(for='users-status-disabled') Disabled
+                    .form-group
+                      label.control-label.visible-md-block Contacts
+                      div
+                        .checkbox
+                          input#users-contacts-address(type='checkbox')
+                          label(for='users-contacts-address') Home Address
+                        .checkbox
+                          input#users-contacts-phone(type='checkbox')
+                          label(for='users-contacts-phone') Phone Number
+                        .checkbox
+                          input#users-contacts-facebook(type='checkbox')
+                          label(for='users-contacts-facebook') Facebook
+                        .checkbox
+                          input#users-contacts-twitter(type='checkbox')
+                          label(for='users-contacts-twitter') Twitter
+        .col-fluid.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Users
+                      small#users-info
+                  .min-col
+                    .st-panel__form
+                      .st-inputbar.hidden-xs
+                        .st-inputbar-input.hidden-xs
+                          input#users-search.form-control.input-sm(type="text", placeholder="Search", style="width: 200px")
+                        .st-inputbar-btn
+                          .btn-group.dropdown
+                            a.btn.btn-success.btn-sm(href='#') Create
+              .st-panel__content
+                .table-responsive.table-responsive-bordered.avoid-flicker(width="100%")
+                  table#users-table.table.table-bordered.table-filled.table-striped.table-hover(width='100%')
+                    thead
+                      tr
+                        th.st-users__name.text-nowrap Name
+                        th.st-users__group.content-width Group
+                        th.st-users__contacts.text-nowrap.content-width Contacts
+                        th.st-users__date.text-nowrap.content-width Date
+                        th.st-users__status.content-width Status
+                        th.st-users__action.content-width
+                        th.st-users__photo-url
+                    tbody
+                      tr(data-user="1")
+                        td.st-users__name.text-nowrap(data-filter='["Emily Show", "coolemily"]') Emily Show <small>@coolemily</small>
+                        td.st-users__group(data-filter="2") Customer
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 2, 3]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="1") Remove
+                              li
+                                a.users-disable(data-user="1") Disable
+                        td.st-users__photo-url img/media/person-7.jpg
+                      tr(data-user="2")
+                        td.st-users__name.text-nowrap(data-filter='["Martin Sanders", "martian"]') Martin Sanders <small>@martian</small>
+                        td.st-users__group(data-filter="1") Admin
+                        td.st-users__contacts.text-nowrap(data-filter="[2, 4]")
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="2") Remove
+                              li
+                                a.users-disable(data-user="2") Disable
+                        td.st-users__photo-url img/media/person-2.jpg
+                      tr(data-user="3")
+                        td.st-users__name.text-nowrap(data-filter='["Rick Sanches", "c137"]') Rick Sanches <small>@c137</small>
+                        td.st-users__group(data-filter="3") Subscriber
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 3, 4]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="0", data-sort="0")
+                          span.label.label-danger Disabled
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="3") Remove
+                              li
+                                a.users-activate(data-user="3") Activate
+                        td.st-users__photo-url img/media/person-3.jpg
+                      tr(data-user="4")
+                        td.st-users__name.text-nowrap(data-filter='["Marcelo Diener", "markdie"]') Marcelo Diener <small>@markdie</small>
+                        td.st-users__group(data-filter="2") Customer
+                        td.st-users__contacts.text-nowrap(data-filter="[2, 3, 4]")
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="4") Remove
+                              li
+                                a.users-disable(data-user="4") Disable
+                        td.st-users__photo-url img/media/person-4.jpg
+                      tr(data-user="5")
+                        td.st-users__name.text-nowrap(data-filter='["Quiana Mizer", "queen"]') Quiana Mizer <small>@queen</small>
+                        td.st-users__group(data-filter="3") Subscriber
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 3, 4]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="5") Remove
+                              li
+                                a.users-disable(data-user="5") Disable
+                        td.st-users__photo-url img/media/person-5.jpg
+                      tr(data-user="6")
+                        td.st-users__name.text-nowrap(data-filter='["Lorna Hearn", "hearyou"]') Lorna Hearn <small>@hearyou</small>
+                        td.st-users__group(data-filter="3") Subscriber
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 4]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="6") Remove
+                              li
+                                a.users-disable(data-user="6") Disable
+                        td.st-users__photo-url img/media/person-6.jpg
+                      tr(data-user="7")
+                        td.st-users__name.text-nowrap(data-filter='["Tuyet Pierre", "2pie"]') Tuyet Pierre <small>@2pie</small>
+                        td.st-users__group(data-filter="1") Admin
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 2, 3]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="7") Remove
+                              li
+                                a.users-disable(data-user="7") Disable
+                        td.st-users__photo-url img/media/person-7.jpg
+                      tr(data-user="8")
+                        td.st-users__name.text-nowrap(data-filter='["Julia Haven", "juheve"]') Julia Haven <small>@juheve</small>
+                        td.st-users__group(data-filter="2") Customer
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 2, 3]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="0", data-sort="0")
+                          span.label.label-danger Disabled
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="8") Remove
+                              li
+                                a.users-activate(data-user="8") Activate
+                        td.st-users__photo-url img/media/person-1.jpg
+                      tr(data-user="9")
+                        td.st-users__name.text-nowrap(data-filter='["Eddy Trosclair", "trosed"]') Eddy Trosclair <small>@trosed</small>
+                        td.st-users__group(data-filter="2") Customer
+                        td.st-users__contacts.text-nowrap(data-filter="[2, 3, 4]")
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="9") Remove
+                              li
+                                a.users-disable(data-user="9") Disable
+                        td.st-users__photo-url img/media/person-1.jpg
+                      tr(data-user="10")
+                        td.st-users__name.text-nowrap(data-filter='["Merrie Watt", "merry"]') Merrie Watt <small>@merry</small>
+                        td.st-users__group(data-filter="2") Customer
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 2, 4]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Phone Number")
+                            i.fa.fa-fw.fa-phone
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="10") Remove
+                              li
+                                a.users-disable(data-user="10") Disable
+                        td.st-users__photo-url img/media/person-4.jpg
+                      tr(data-user="11")
+                        td.st-users__name.text-nowrap(data-filter='["Garret Matthies", "matgar"]') Garret Matthies <small>@matgar</small>
+                        td.st-users__group(data-filter="3") Subscriber
+                        td.st-users__contacts.text-nowrap(data-filter="[1, 3, 4]")
+                          .st-users__contact(title="Home Address")
+                            i.fa.fa-fw.fa-home
+                          .st-users__contact(title="Facebook")
+                            i.fa.fa-fw.fa-facebook
+                          .st-users__contact(title="Twitter")
+                            i.fa.fa-fw.fa-twitter
+                        td.st-users__date.text-nowrap(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                        td.st-users__status(data-filter="1", data-sort="1")
+                          span.label.label-success Active
+                        td.st-users__action
+                          .btn-group.dropdown
+                            a.btn.btn-default.btn-xs(href="#") Edit
+                            button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown", data-container="body")
+                              span.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a.users-remove(data-user="11") Remove
+                              li
+                                a.users-disable(data-user="11") Disable
+                        td.st-users__photo-url img/media/person-5.jpg
+                .st-users__footer.clearfix
+                  .pull-left
+                    .select2-sm.select2-contented
+                      select#users-length.form-control(style="width: auto",
+                                                     data-minimum-results-for-search="Infinity",
+                                                     data-dropdown-css-class="contented")
+                        option(value="10") 10
+                        option(value="50") 50
+                        option(value="100") 100
+                        option(value="-1") All
+                  .pull-right
+                    #users-pagination.pagination-sm
+        .col-fixed
+          .st-panel.st-users-preview.hide
+            .st-panel__cont
+              .st-panel__content
+                .st-users-preview__head
+                  .fluid-cols
+                    .expand-col.text-ellipsis
+                      .st-users-preview__fullname
+                      br
+                      .st-users-preview__username
+                    .min-col.text-nowrap
+                      .btn-group.btn-group-inline
+                        a.btn.btn-info.btn-sm(href="app-profile.html") Profile
+                        button.btn.btn-info.btn-sm.dropdown-toggle(type="button", data-toggle="dropdown")
+                          span.caret
+                        ul.dropdown-menu.dropdown-menu-right
+                          li
+                            a(href="#") Remove
+                          li
+                            a(href="#") Disable
+                .st-users-preview__photo
+                  .thumbnail(style="")
+block css
+  link(href='libs/datatables/css/dataTables.bootstrap.css', rel='stylesheet')
+  link(href='libs/datatables/css/select.bootstrap.css', rel='stylesheet')
+block js
+  script(src="libs/bootstrap-daterangepicker/daterangepicker.js")
+  script(src='libs/datatables/js/jquery.dataTables.js')
+  script(src='libs/datatables/js/dataTables.bootstrap.js')
+  script(src='libs/datatables/js/dataTables.select.js')
+  script(src='libs/bootbox/bootbox.min.js')
+block js-last
+  script(src='js/modules/widgets/table.js')
+  script(src='js/modules/widgets/table-filter.js')
+  script(src='js/modules/pages/users.js')

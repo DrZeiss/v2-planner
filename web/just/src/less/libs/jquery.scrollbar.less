@@ -1,0 +1,73 @@
+.scrollbar {
+  overflow: auto;
+}
+
+.scrollbar > .scroll-element,
+.scrollbar > .scroll-element div
+{
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 10;
+}
+
+.scrollbar > .scroll-element div {
+    display: block;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+.scrollbar > .scroll-element .scroll-element_track { display: none; }
+.scrollbar > .scroll-element .scroll-bar {
+    background-color: rgba(0, 0, 0, 0.15);
+    display: block;
+
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+
+    border-radius: 2px;
+    transition: opacity 0.2s linear;
+}
+.scrollbar:hover > .scroll-element .scroll-bar,
+.scrollbar > .scroll-element.scroll-draggable .scroll-bar {
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+
+.scrollbar > .scroll-element.scroll-x {
+    bottom: 0px;
+    height: 0px;
+    left: 0;
+    min-width: 100%;
+    overflow: visible;
+    width: 100%;
+}
+
+.scrollbar > .scroll-element.scroll-y {
+    height: 100%;
+    min-height: 100%;
+    right: 0px;
+    top: 0;
+    width: 0px;
+}
+
+/* scrollbar height/width & offset from container borders */
+.scrollbar > .scroll-element.scroll-x .scroll-bar { height: 5px; min-width: 10px; top: -5px; }
+.scrollbar > .scroll-element.scroll-y .scroll-bar { left: -5px; min-height: 10px; width: 5px; }
+
+.scrollbar > .scroll-element.scroll-x .scroll-element_outer { left: 2px; }
+.scrollbar > .scroll-element.scroll-x .scroll-element_size { left: -4px; }
+
+.scrollbar > .scroll-element.scroll-y .scroll-element_outer { top: 2px; }
+.scrollbar > .scroll-element.scroll-y .scroll-element_size { top: -4px; }
+
+/* update scrollbar offset if both scrolls are visible */
+.scrollbar > .scroll-element.scroll-x.scroll-scrolly_visible .scroll-element_size { left: -11px; }
+.scrollbar > .scroll-element.scroll-y.scroll-scrollx_visible .scroll-element_size { top: -11px; }

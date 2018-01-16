@@ -1,0 +1,233 @@
+@import 'mixins/buttons.less';
+
+.btn {
+  font-weight: normal;
+  text-decoration: none;
+  outline: none;
+  .button-size(@btn-padding-base-vertical; @btn-padding-base-horizontal; @btn-font-size-base; @btn-line-height-base; @btn-border-radius-base);
+
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline: none;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: @bs-default;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+    box-shadow: inset 0 3px 3px rgba(0,0,0,.125);
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    opacity: 0.65;
+    box-shadow: none;
+  }
+
+  a& {
+    &.disabled,
+    fieldset[disabled] & {
+      pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
+    }
+  }
+
+  > i.fa + span:not(:empty) {
+    padding-left: @btn-padding-base-horizontal - 4;
+  }
+
+}
+
+
+// Alternate buttons
+// --------------------------------------------------
+
+.btn-default {
+  color: @btn-default-color;
+  background-color: @bs-default;
+  border-color: @btn-default-border;
+
+  &:focus,
+  &.focus,
+  &:hover {
+    color: @btn-default-color;
+    background-color: @background;
+        border-color: darken(@background-dark, 5%);
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @btn-default-color;
+    background-color: @background;
+        border-color: darken(@background-dark, 5%);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-default-color;
+      background-color: @background;
+          border-color: darken(@background-dark, 5%);
+    }
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: @background;
+          border-color: darken(@background-dark, 5%);
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @btn-default-color;
+  }
+}
+
+.btn-primary {
+  .button-variant(@btn-primary-color; @bs-primary; @btn-primary-border);
+}
+// Success appears as green
+.btn-success {
+  .button-variant(@btn-success-color; @bs-success; @btn-success-border);
+}
+// Info appears as blue-green
+.btn-info {
+  .button-variant(@btn-info-color; @bs-info; @btn-info-border);
+}
+// Warning appears as orange
+.btn-warning {
+  .button-variant(@btn-warning-color; @bs-warning; @btn-warning-border);
+}
+// Danger and error appear as red
+.btn-danger {
+  .button-variant(@btn-danger-color; @bs-danger; @btn-danger-border);
+}
+
+.btn-purple {
+  .button-variant(@btn-purple-color; lighten(@purple-light, 10%); @btn-purple-border);
+}
+
+
+// Link buttons
+// -------------------------
+
+// Make a button look and behave like a link
+.btn-link {
+  color: @link-color;
+  font-weight: normal;
+  border-radius: 0;
+
+  &,
+  &:active,
+  &.active,
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: transparent;
+  }
+  &:hover,
+  &:focus {
+    color: @link-color;
+    text-decoration: underline;
+    background-color: transparent;
+  }
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus {
+      color: @bs-default;
+      text-decoration: none;
+    }
+  }
+}
+
+
+// Button Sizes
+// --------------------------------------------------
+
+.btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  .button-size(@btn-padding-large-vertical; @btn-padding-large-horizontal; @btn-font-size-large; @btn-line-height-base; @btn-border-radius-base);
+
+  > i.fa + span:not(:empty) {
+    padding-right: @btn-padding-large-horizontal - 6;
+  }
+}
+.btn-sm {
+  // line-height: ensure proper height of button next to small input
+  .button-size(@btn-padding-small-vertical; @btn-padding-small-horizontal; @btn-font-size-small; @btn-line-height-small; @btn-border-radius-base);
+  border-radius: 3px;
+
+  > i.fa + span:not(:empty) {
+    padding-right: @btn-padding-small-horizontal - 2;
+  }
+}
+.btn-xs {
+  .button-size(@btn-padding-xs-vertical; @btn-padding-xs-horizontal; @btn-font-size-xs; @btn-line-height-base; @btn-border-radius-base);
+  border-radius: 2px;
+
+  .btn-group > .btn + &.dropdown-toggle {
+    padding-left: @btn-padding-xs-horizontal;
+    padding-right: @btn-padding-xs-horizontal;
+  }
+}
+
+
+// Block button
+// --------------------------------------------------
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+// Vertically space out multiple block buttons
+.btn-block + .btn-block {
+  margin-top: 5px;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  outline: none;
+
+  &.btn-block {
+    width: 100%;
+  }
+}
+
+.btn-group-inline {
+  white-space: nowrap;
+  font-size: 0;
+
+  .btn {
+    display: inline-block;
+    float: none;
+  }
+}

@@ -1,0 +1,275 @@
+.st-profile {
+
+  .tabs-container {
+    padding-bottom: 0;
+  }
+
+  &__menu {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 15px;
+    right: 13px;
+    text-align: center;
+    line-height: 16px;
+    background-color: @background;
+    border-radius: 50%;
+    cursor: pointer;
+
+    i.fa {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      color: @color-light;
+      vertical-align: top;
+      line-height: 20px;
+
+      &:hover {
+        color: @content-color;
+      }
+    }
+
+    .dropdown-menu {
+      left: -122px;
+      right: auto;
+    }
+  }
+
+  &__photo {
+    margin: 10px auto 5px;
+    width: 150px;
+    height: 150px;
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    border: 5px solid @background;
+    border-radius: 50%;
+    background-color: @background;
+    background-position: center center;
+    background-size: cover;
+  }
+
+  &__status {
+    position: absolute;
+    right: 17px;
+    bottom: 17px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+
+    &.active {
+      background-color: @bs-success;
+    }
+
+    &.disabled {
+      background-color: @bs-danger;
+    }
+  }
+
+  &__title {
+    padding: 10px 0 15px;
+    margin: 0 10px;
+    text-align: center;
+    border-bottom: 1px solid @border;
+  }
+
+  &__name {
+    color: @color;
+  }
+
+  &__username {
+    color: @color-light;
+    padding-left: 4px;
+  }
+
+  &__info {
+    margin: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid @border;
+  }
+
+  &__field {
+    padding: 3px 10px;
+
+    @media (max-width: 768px) {
+      text-align: center;
+    }
+
+    i.fa {
+      width: 25px;
+      text-align: center;
+      padding-right: 10px;
+    }
+  }
+
+  &__value {
+    display: inline-block;
+    min-width: 150px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  &__links {
+    text-align: center;
+    margin: 0 10px;
+
+    a {
+      display: inline-block;
+      padding: 0 10px;
+      text-decoration: none;
+      color: @content-color;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__spark {
+    height: 20px;
+    display: inline-block;
+  }
+
+  &__bookmarks {
+    margin-bottom: -15px;
+  }
+
+  &__bookmark {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 140px;
+    background-color: @background;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.st-profile-overview {
+
+  .table {
+    margin-bottom: 0;
+  }
+}
+
+.st-profile-settings {
+  padding: 0 5px;
+  margin-top: -5px;
+
+  .row {
+    margin-bottom: 10px;
+  }
+
+  > .container-fluid > .row > .col-md-8,
+  > .container-fluid > .row > .col-md-4 {
+
+    @media (min-width: 991px) {
+      padding: 0 15px;
+
+      &:first-child {
+        padding-left: 10px;
+      }
+
+      &:last-child {
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .fileinput {
+    position: relative;
+    overflow: hidden;
+
+    .fileinput-upload {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+
+      .btn-file {
+        position: relative;
+        display: inline-block;
+        padding: 3px 10px 5px;
+        color: rgba(255, 255, 255, 0.9);
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.65);
+        }
+      }
+    }
+
+    .fileinput-remove {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 0 4px;
+      color: rgba(255, 255, 255, 1);
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 2px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 17px;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.65);
+      }
+    }
+  }
+
+  .thumbnail {
+    border: 0;
+    min-width: 70px;
+    background-color: @background;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 0;
+
+    img {
+      border-radius: 3px;
+    }
+  }
+
+  textarea {
+    min-height: 160px;
+    resize: none;
+  }
+
+  &__title {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  &__section {
+    margin-bottom: 20px;
+
+    @media (max-width: 990px) {
+
+      .col-md-6:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  &__submit {
+    text-align: right;
+    padding: 15px 0 0;
+    border-top: 1px solid @border;
+  }
+}

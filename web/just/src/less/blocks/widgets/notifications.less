@@ -1,0 +1,144 @@
+.st-notifications {
+
+  &__head {
+    padding: 15px 15px 15px;
+    border-bottom: 1px solid @border;
+
+    small {
+      display: block;
+      line-height: 14px;
+
+      &.empty {
+        display: none;
+      }
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+    line-height: 16px;
+  }
+
+  &__list {
+    height: 100%;
+    border-top: 61px solid transparent;
+    margin-top: -61px;
+  }
+
+  &__scroll {
+    max-height: 225px;
+  }
+}
+
+.st-notification {
+  padding: 15px 15px 0;
+  border-bottom: 1px solid @border;
+
+  &.new {
+    background-color: #f8f8f8;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+
+    .st-notification__ico {
+      background-color: #ffffff;
+    }
+
+    .st-notification__mark {
+      opacity: 0;
+    }
+  }
+
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  &__ico {
+    float: left;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 15px;
+    border: 1px solid @border;
+    border-radius: 3px;
+    background-color: #f8f8f8;
+
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+
+    i.fa {
+      font-size: 14px;
+      vertical-align: middle;
+    }
+  }
+
+  &__main {
+    float: left;
+    width: 100%;
+    padding-left: 50px;
+    margin-left: -35px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    line-height: 16px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__title {
+    position: relative;
+    padding-right: 15px;
+
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    b {
+      display: inline-block;
+      padding-right: 5px;
+    }
+
+    small {
+      color: @color-light;
+      display: inline-block;
+      font-size: 85%;
+    }
+  }
+
+  &__mark {
+    position: absolute;
+    width: 15px;
+    height: 16px;
+    right: 0;
+    top: 0;
+    text-align: right;
+    color: @color-light;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.150s;
+
+    &:hover {
+      color: @color;
+      opacity: 1;
+    }
+
+    .st-notification.new:hover & {
+      opacity: 1;
+    }
+  }
+}

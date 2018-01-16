@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Update Scheduling{% endblock %}
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('jobs') }}">Jobs</a>
+</li>
+<li class="active">
+    <span><strong>Update Scheduling</strong></span>
+</li>
+{% endblock %}
+
+{% block body %}
+            <div>
+                <form method="POST" class="form-horizontal" action="{{ path('edit_scheduling', {'jobId': scheduling.job.id}) }}">
+                    <div class="form-group">
+                    {{ form_row(form.priority) }}
+                    </div>
+                    
+                    <div class="form-group">
+                    {{ form_label(form.subReady) }}
+                    {% for child in form.subReady %}
+                        {{ form_label(child) }}
+                        {{ form_widget(child) }}
+                        <br>
+                    {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                    {{ form_row(form.completionDate) }}
+                    </div>
+
+                    <a href="{{ path('jobs') }}" class="btn btn-warning">Cancel</a>
+                    {{ form_widget(form.update) }}
+
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+{% endblock %}

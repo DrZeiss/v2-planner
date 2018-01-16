@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="img/apple-touch-favicon.png">
+  <title>Documentation / The Just by AdminBootstrap</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
+  <link href="libs/font-awesome/css/font-awesome.css" rel="stylesheet">
+  <link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="libs/highlight.js/styles/atom-one-light.css" rel="stylesheet">
+  <link href="libs/jquery.scrollbar/jquery.scrollbar.css" rel="stylesheet">
+  <link href="css/docs.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  </head>
+  <body class="" data-spy="scroll" data-target="#side-nav" data-offset="250">
+    <div class="wrapper">
+      <section class="main">
+        <header class="header">
+          <h1>The Just - Admin Bootstrap Template</h1>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-6 mb">
+                <div class="frame inline">
+                  <img src="img/screens/about-600x340-cut.png">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <h3>About</h3>
+                <p class="text">The Just is an Admin Bootstrap Template, created with love and care by AdminBootstrap, on purpose to provide a great UI toolkit for excellent web projects.</p>
+                <p>
+                  <a class="btn btn-info" target="_blank" href="http://demo.adminbootstrap.com/just/1.0.0/">Live Preview</a>
+                  <a class="btn btn-success" target="_blank" href="https://adminbootstrap.com/template/just">Purchase</a>
+                </p>
+                <strong>Version:</strong> 1.0.0
+              </div>
+            </div>
+          </div>
+        </header>
+        <h2 id="introduction">Introduction</h2>
+        <p class="text">What is a Bootstrap Template?</p>
+        <p class="text">A Bootstrap Template or a Bootstrap Theme is a collection of well-designed, cohesive UI components, built on top of the <a href="http://getbootstrap.com/" target="_blank">Bootstrap Framework</a>. It means that you first need to read its official <a href="http://getbootstrap.com/getting-started/" target="_blank">documentation</a> before proceeding with the dive.</p>
+        <p class="text">Also, the template includes a large number of third-party plugins and libraries that have their own documentation. All the links you will be able to find in the <a href="#credits">Credits</a> section.</p>
+        <p class="text">For everything else, including compiling and using this Bootstrap Template, read through the docs below.</p>
+        <h2 id="overview">Overview</h2>
+        <p class="text">The Just is constantly developing. We are working on improving its design, adding new pages and features. With each new version, it becomes more and more advanced, versatile and functional.</p>
+        <p class="text">Currently, it contains:</p>
+        <ul>
+          <li>10 functional pages</li>
+          <li>15 custom widgets</li>
+          <li>25+ suited plugins</li>
+        </ul>
+        <h3 id="included">What's Included</h3>
+        <ul>
+          <li>Compiled HTML and CSS</li>
+          <li>LESS source files</li>
+          <li>Structured JavaScript</li>
+          <li>Pug Templates</li>
+          <li>Gulp Tasks</li>
+        </ul>
+        <h3 id="files">Files Structure</h3>
+        <p class="text">Within your Bootstrap theme you’ll find the following directories and files, grouping common resources and providing both compiled and minified distribution files, as well as raw source files.</p>
+<pre>
+just/
+ ├── dist/
+ │   ├── css/
+ │   │   ├── just.css
+ │   │   ├── just.min.css
+ │   │   ├── libs.common.css
+ │   │   └── libs.common.min.css
+ │   ├── img/
+ │   ├── js/
+ │   │   ├── demo/
+ │   │   ├── modules/
+ │   │   ├── libs.common.js
+ │   │   └── libs.common.min.js
+ │   ├── libs/
+ │   └── *.html
+ ├── docs/
+ ├── src/
+ │   ├── img/
+ │   ├── js/
+ │   │   ├── demo/
+ │   │   └── modules/
+ │   │       ├── layout/
+ │   │       ├── pages/
+ │   │       ├── services/
+ │   │       ├── widgets/
+ │   │       └── app.js
+ │   ├── less/
+ │   │   ├── blocks/
+ │   │   ├── bootstrap/
+ │   │   ├── libs/
+ │   │   ├── pages/
+ │   │   ├── vars/
+ │   │   │   └── colors.less
+ │   │   └── just.less
+ │   └── pug/
+ ├── gulpfile.js
+ └── package.json
+</pre>
+        <h3 id="layout">Layout</h3>
+        <p class="text">The template has a fully responsive layout that changes with the width of the window.</p>
+        <div class="frame">
+          <img src="img/screens/responsive-850x531.png" alt="">
+        </div>
+        <h2 id="development">Development</h2>
+        <p class="text">If you’re after some customization, we’ve also included all files and configs, which can be used to recompile a template's source files quickly.</p>
+        <h3 id="node">Node and NPM</h3>
+        <p class="text">You’ll need to install <a href="https://nodejs.org/en/download/" target="_blank">Node</a>, which comes together with the NPM, a Package Manager we'll use to collect all the dependencies.</p>
+        <p class="text">Once Node is installed, go to the template root directory, which contains a package.json file, and run the following npm command in your OS command line:</p>
+        <pre>npm instal</pre>
+        <p class="text">Now we have all our dependencies installed.</p>
+        <h3 id="gulp">Gulp Tasks</h3>
+        <p class="text"><a href="http://gulpjs.com/">Gulp.js</a> is the automated build system that we will use for generating HTML from <a href="#pug">pug</a> and CSS from <a href="#less">LESS</a>. It also allows you to automate operations such as resource minification, files concatenation and more. There all of the necessary tasks are in the <code>gulpfile.js</code>.</p>
+        <h4 id="gulp-build">Build</h4>
+        <pre>gulp build</pre>
+        <p class="text">This will start the builder that will process all the files in the <code>./src</code> folder and will store the result in <code>./dist</code>.</p>
+        <pre>gulp clean</pre>
+        <p class="text"><code>gulp clean</code> deletes the directory <code>./dist</code>.</p>
+        <h4 id="gulp-watch">Watch</h4>
+        <pre>gulp watch</pre>
+        <p class="text">The command <code>gulp watch</code> will track all the changes in the folder <code>./src</code> in real-time and automatically update the result in <code>./dist</code>.</p>
+        <p class="text">To consistently run the task <code>build</code> and <code>watch</code> you can run just <code>gulp</code> or <code>gulp default</code>.</p>
+        <h4 id="gulp-serve">Local Server</h4>
+        <pre>gulp serve</pre>
+        <p class="text">Run the Local Server and host the <code>./dist</code> directory.</p>
+        <h4 id="npm-scripts">NPM Scripts</h4>
+        <p class="text">These commands are also listed in the NPM <code>scripts</code> section of the <code>package.json</code> file. So you can do:</p>
+        <pre>
+npm run dev   // build + watch
+npm run build
+npm run watch
+npm run clean
+npm run serve
+        </pre>
+        <h3 id="source-code">Source Code</h3>
+        <p class="text">All the sources are in the <code>./src</code> directory.</p>
+        <h4 id="less">LESS</h4>
+        <p class="text"><code>src/less</code> directory structure:</p>
+        <pre>
+just/src/less/
+       ├── blocks/
+       │   ├── widgets/
+       │   │   └── *.less
+       │   └── *.less
+       ├── bootstrap/
+       │   └── *.less
+       ├── libs/
+       │   └── */
+       ├── pages/
+       │   └── *.less
+       ├── vars/
+       │   └── colors.less
+       └── just.less
+        </pre>
+        <p class="text">Leverage these files and <code>gulpfile.js</code> config to customize your Bootstrap Theme for your exact needs. Change variables, exclude components, and more.</p>
+        <ul>
+          <li><code>bootstrap/</code> directory contains custom theme's styles that override original Bootstrap styles, but not completely. You still need to include <code>dist/libs/bootstrap/css/bootstrap.css</code> on your pages.</li>
+          <li><code>just.less</code> is the entry point for all the theme's LESS files.</li>
+          <li><code>variables.less</code> is home to theme’s variables. You can change colors, paddings and other theme properties using this file.</li>
+        </ul>
+        <h4 id="js">JavaScript</h4>
+        <p class="text">Full description of the JavaScript <a href="#app">Application</a> and <a href="#components">Components</a> you can find in the relevant sections.</p>
+        <p class="text">Here is the <code>src/js</code> directory structure:</p>
+        <pre>
+just/src/js/
+       ├── demo/
+       └── modules/
+           ├── layout/
+           ├── pages/
+           ├── services/
+           ├── widgets/
+           └── app.js
+        </pre>
+        <h4 id="pug">Pug Templates</h4>
+        <p class="text"><a href="https://pugjs.org" target="_blank">Pug</a> is a powerful template engine, which allows to speed up and simplify the elaboration of HTML projects.</p>
+        <pre>
+just/src/pug/
+       ├── include/
+       ├── layout/
+       │   ├── header.pug
+       │   ├── layout.pug
+       │   ├── main.pug
+       │   ├── sidebar.pug
+       │   └── spanel.pug
+       └── *.pug
+        </pre>
+        <p class="text">Everything starts with the <code>layout/layout.pug</code> file. It contains the inclusion of separate functional blocks. Then it is inherited by page files located at the root.</p>
+        <h2 id="app">Application</h2>
+        <p class="text">The application is clearly structured and divided into modules. Schematically it can be represented as follows.</p>
+        <img class="img" src="img/just-app.png" alt="">
+        <h3 id="app-module">App Module</h3>
+        <p class="text">The <code>App</code> is the root module of the entire application, which contains links to other modules, services, some basic settings and helper functions. It should be the first on the page among other modules.</p>
+<pre class="code-html">
+&lt;script src="js/modules/app.js"&gt;&lt;/script&gt;
+</pre>
+<pre class="code-js">
+window.App = function() {
+  ...
+  return {
+    classes: {
+      TableWidget: function() {},
+      SettingsWidget: function() {},
+      AmChart: function() {},
+      ...
+    },
+    layout: {
+      Sidebar: {},
+      SPanel: {}
+    },
+    page: {
+      Overview: {}
+    },
+    service: {
+      api: {},
+      dataMapper: {}
+    },
+    settings: {
+      firstWeekDay: 1,
+      ...
+    },
+    utils: {
+      formatNumber: function() {},
+      ...
+    },
+    ...
+  }
+}()
+</pre>
+        <h3 id="app-classes">Classes</h3>
+        <p class="text">Classes here are JavaScript functions that emulate OOP principles in a <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS" target="_blank">functional style</a>. The <code>App.classes</code> is used as a container of class constructors (functions).</p>
+        <p class="text">Let's say you are creating a class for a new News widget. In order not to pollute the global <code>window</code> object and always have access to the constructor of the new class, it should be stored in this container.</p>
+<pre>
+// Declare a new class
+App.classes.NewsWidget = function() { ... }
+
+// Create and store an instance
+App.page.overview.widgets.News = new App.classes.NewsWidget()
+</pre>
+        <p class="text">This is convenient for reusable classes.</p>
+        <h3 id="app-layout">Layout</h3>
+        <p class="text"><code>App.layout</code> is the place where you store main components of the layout, such as Sidebar or SPanel. So you have a direct access to them, their state and widgets.</p>
+<pre>
+App.layout.Sidebar.isOpen()
+
+App.layout.SPanel.widgets.AppSettings = new App.classes.SettingsWidget('#app-settings', {})
+</pre>
+        <h3 id="app-page">Page</h3>
+        <p class="text"><code>App.page</code> is the place for the current page instance. Usually, it initializes plugins and page widgets, and also binds interface actions.</p>
+<pre class="code-html">
+&lt;script src="js/modules/pages/overview.js"&gt;&lt;/script&gt;
+</pre>
+<pre>
+App.page.overview = function() {
+
+  function initWidgets() {}
+  function initPlugins() {}
+  function bindUIActions() {}
+
+  return {
+    ...
+  }
+}()
+</pre>
+        <h3 id="app-service">Service</h3>
+        <p class="text">Service modules are located in the <code>App.service</code> object.</p>
+        <h4 id="api-service">API</h4>
+        <p class="text"><code>App.service.api</code> is the fake API module that generates random data for demo purpose. Most likely you will want to replace it with a real http-client that will provide an access to your database.</p>
+<pre class="code-html">
+&lt;script src="js/modules/service/api.js"&gt;&lt;/script&gt;
+</pre>
+<pre>
+App.service.api = function() {
+  return {
+    getUsers: function(from, to) {
+      var result = [];
+      for(var i = 0; i < 200; i++) {
+        result.push({
+          date: faker.random.number({ min: from, max: to }),
+          name: faker.name.findName(),
+          username: faker.internet.userName(),
+          status: faker.random.boolean()
+        })
+      }
+      return result;
+    }
+  }
+}()
+
+// Get users for last 7 days
+var from = moment().subtract(7, 'days').valueOf(),
+    to = moment().valueOf();
+console.log(App.service.api.getUsers(from, to));
+</pre>
+        <h4 id="data-mapper">DataMapper</h4>
+        <p class="text"><code>App.service.dataMapper</code> is the service module that creates map (object) of dates with specified start, end and step period. It is used to build charts when you need to group raw data by certain time periods and fill empty points.</p>
+        <p class="text">Usage:</p>
+<pre class="code-html">
+&lt;script src="js/modules/service/data-mapper.js"&gt;&lt;/script&gt;
+</pre>
+<pre>
+var users = [
+      { name: 'Jhon', date: moment("04-25-2017 13:05", "MM-DD-YYYY HH:mm").valueOf() },
+      { name: 'Mike', date: moment("04-25-2017 13:40", "MM-DD-YYYY HH:mm").valueOf() },
+      { name: 'Mark', date: moment("04-25-2017 15:30", "MM-DD-YYYY HH:mm").valueOf() },
+    ],
+    dates = {
+      from: moment("04-25-2017 13:00", "MM-DD-YYYY HH:mm").valueOf(),
+      to:   moment("04-25-2017 15:59", "MM-DD-YYYY HH:mm").valueOf()
+    },
+    // create dates map
+    map = App.service.dataMapper.createMap(dates.from, dates.to, 'hour'),
+    result = [];
+
+// created Map from "04-25-2017 13:00" to "04-25-2017 15:59" with an 'hour' period
+console.log(map);
+--> {
+      "1493107200000": {
+        date: 1493107200000 // 04-25-2017 13:00
+      },
+      "1493110800000": {
+        date: 1493110800000 // 04-25-2017 14:00
+      },
+      "1493114400000": {
+        date: 1493114400000 // 04-25-2017 15:00
+      }
+    }
+
+// group users by getting a start of an hour of their dates (using underscore.js)
+var grouped = _.groupBy(users, function(user) {
+  return App.service.dataMapper.getStartOfPeriod(user.date, 'hour')
+})
+
+console.log(grouped)
+--> {
+      // 04-25-2017 13:00
+      "1493107200000": [
+        { "name": "Jhon", "date": 1493107500000 },
+        { "name": "Mike", "date": 1493109600000 }
+      ],
+      // 04-25-2017 15:00
+      "1493114400000": [
+        { "name": "Mark", "date": 1493116200000 }
+      ]
+    }
+
+// link our map with grouped data
+_.mapObject(grouped, function(entries, date) {
+  map[date]['users'] = entries.length;
+})
+
+// fill map empty points and get result array
+_.mapObject(map, function(entry, date) {
+  if (!entry['users']) {
+    entry['users'] = 0;
+  }
+  result.push(entry);
+})
+
+console.log(result);
+--> [
+      {
+        date: 1493107200000, // 04-25-2017 13:00
+        users: 2
+      },
+      {
+        date: 1493110800000, // 04-25-2017 14:00
+        users: 0
+      },
+      {
+        date: 1493114400000, // 04-25-2017 15:00
+        users: 1
+      }
+    ]
+</pre>
+        <p class="text">The whole idea about this is to get the grouped data without empty points for use it in smooth charts. Available periods: <code>hour</code>, <code>day</code>, <code>week</code>, <code>month</code>.</p>
+        <img class="img" src="img/screens/grouped-data-chart.png" alt="">
+        <h3 id="app-settings">Settings</h2>
+        <p class="text"><code>App.settings</code> is the object with some global settings.</p>
+<pre>
+App.settings = {
+  firstWeekDay: 1,
+  ...
+}
+
+$('.daterangepicker').daterangepicker({
+  locale: {
+    firstDay: App.settings.firstWeekDay
+  }
+})
+</pre>
+        <h3 id="app-utils">Utils</h2>
+        <p class="text"><code>App.utils</code> is where you can store your helper functions.</p>
+<pre>
+App.utils = {
+  formatDate: function(timestamp) {
+    return moment(timestamp).format('D MMM YYYY HH:mm');
+  }
+}
+
+console.log(App.utils.formatDate(new Date().getTime))
+--> "30 Apr 2017 00:15"
+</pre>
+        <h2 id="components">Components</h2>
+        <h3 id="c-sidebar">Sidebar</h2>
+        <p class="text">The layout component that provides main navigation.</p>
+<pre class="code-html">
+&lt;script src="js/modules/layout/sidebar.js"&gt;&lt;/script&gt;
+</pre>
+        <p class="text">Can work in three modes:</p>
+        <ul>
+          <li><code>collapsible</code> - Inner sidebar that could be collapsed in smaller one.</li>
+          <li><code>offcanvas</code> - It lives outside the canvas and appears without squeezing the content.</li>
+          <li><code>collapsible offcanvas</code> - Small sidebar that opens without squeezing the content.</li>
+        </ul>
+        <p class="text">Mode is defined by the body element class. Open state conforms to the <code>sidebar-open</code> body class.</p>
+        <div class="container-fluid np">
+          <div class="row">
+            <div class="col-md-4">
+              <p class="text text-center">
+                <b>Collapsible</b>
+              </p>
+              <img  class="img" src="img/screens/sb-colble.png" alt="">
+<pre>
+&lt;body class="sidebar-collapsible"&gt;
+  ...
+&lt;/body&gt;
+</pre>
+            </div>
+            <div class="col-md-4">
+              <p class="text-center">
+                <b>Offcanvas</b>
+              </p>
+              <img  class="img" src="img/screens/sb-off.png" alt="">
+<pre>
+&lt;body class="sidebar-offcanvas"&gt;
+  ...
+&lt;/body&gt;
+</pre>
+            </div>
+            <div class="col-md-4">
+              <p class="text-center">
+                <b>Collapsible Offcanvas</b>
+              </p>
+              <img  class="img" src="img/screens/sb-colble-off.png" alt="">
+<pre>
+&lt;body class="sidebar-collapsible sidebar-offcanvas"&gt;
+  ...
+&lt;/body&gt;
+</pre>
+            </div>
+          </div>
+        </div>
+        <h3 id="c-spanel">SPanel</h2>
+        <div class="container-fluid np">
+          <div class="row">
+            <div class="col-md-7">
+              <p class="text">The layout component that provides additional side panel for widgets.</p>
+<pre class="code-html">
+&lt;script src="js/modules/layout/spanel.js"&gt;&lt;/script&gt;
+</pre>
+            <p class="text">It opens by clicking on an element with the class <code>st-spanel__open</code>.</p>
+            <p class="text">Closing occurs by clicking on the <code>.st-spanel__close</code>.</p>
+            <p class="text">To open a specific tab, the toggle element must contain the <code>data-tab="#{tab-id}"</code> attribute.</p>
+<pre class="code-html">
+&lt;button
+  class="st-spanel__open"
+  data-tab="#settings"&gt;Open Settings
+&lt;/button&gt;
+</pre>
+            <p class="text">
+              SPanel module object:
+            </p>
+<pre>
+App.layout.SPanel = {
+  $el: ...,
+  widgets: {},
+  isOpen: function() {...},
+  init: function() {...}
+}
+</pre>
+            </div>
+            <div class="col-md-5 text-center">
+              <div class="frame inline">
+                <img src="img/screens/spanel.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3 id="c-panels">Panels</h2>
+        <p class="text">The Just uses custom panels to display content. Panels are great for widgets. They can be combined with various tools like <code>icons</code>, <code>dropdowns</code>, <code>buttons</code>, form elements and <code>tabs</code>.</p>
+        <div class="text-center mb">
+          <div class="frame inline">
+            <img src="img/screens/panels.png" alt="">
+          </div>
+        </div>
+        <h4 id="c-panels-markup">Basic Markup</h4>
+<pre>
+&lt;div class="st-panel st-panel--border"&gt;
+  &lt;div class="st-panel__cont"&gt;
+    &lt;!-- Header --&gt;
+    &lt;div class="st-panel__header"&gt;
+      &lt;div class="fluid-cols"&gt;
+        &lt;div class="expand-col text-ellipsis"&gt;
+          &lt;!-- Title --&gt;
+          &lt;span class="st-panel__title"&gt;
+            &lt;span&gt;Basic Panel&lt;/span&gt;
+            &lt;small id="tabs-subtitle"&gt;Subtitle&lt;/small&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="min-col"&gt;
+          &lt;!-- Form Elements Here --&gt;
+          &lt;div class="st-panel__form"&gt;
+            &lt;input class="form-control input-sm" type="text" style="width: 200px;"&gt;
+          &lt;/div&gt;
+          &lt;!-- Tabs Here --&gt;
+          &lt;div class="st-panel__tabs"&gt;
+            &lt;ul class="nav nav-tabs" role="tablist" data-subtitle="#tabs-subtitle"&gt;
+              &lt;li class="active" role="presentation"&gt;
+                &lt;a href="#preview" role="tab" aria-controls="preview" data-toggle="tab"&gt;Preview&lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li role="presentation"&gt;
+                &lt;a href="#source" role="tab" aria-controls="source" data-toggle="tab"&gt;Source&lt;/a&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+          &lt;!-- Tools Here --&gt;
+          &lt;div class="st-panel__tools"&gt;
+            &lt;div class="st-panel-tool" data-tool="source"&gt;
+              &lt;i class="fa fa-code"&gt;&lt;/i&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Content --&gt;
+    &lt;div class="st-panel__content"&gt;
+      ...
+      &lt;!-- If Panel has Tabs --&gt;
+      &lt;div class="tab-content"&gt;
+        &lt;div class="tab-pane active" role="tabpanel" id="preview"&gt;
+          ...
+        &lt;/div&gt;
+        &lt;div class="tab-pane" role="tabpanel" id="source"&gt;
+          ...
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Footer --&gt;
+    &lt;div class="st-panel__footer"&gt;
+      &lt;div class="fluid-cols"&gt;
+        &lt;div class="expand-col"&gt;&lt;span&gt;The Footer Text&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="min-col"&gt;&lt;span class="text-nowrap"&gt;Right Text&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+        <h4 id="c-panels-tools">Panel Tools</h4>
+        <p class="text">Tools are great way to expand your panels functionality.</p>
+        <div class="text-center mb">
+          <div class="frame inline">
+            <img src="img/screens/panel-tools.png" alt="">
+          </div>
+        </div>
+        <p class="text">There are some ready tools that you can use out of the box:</p>
+        <div class="table-responsive table-responsive-bordered">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Attribute</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>hide</td>
+                <td><code>data-tool="hide"</code></td>
+                <td>Hide panel from the page.</td>
+              </tr>
+              <tr>
+                <td>show</td>
+                <td><code>data-tool="show"</code></td>
+                <td>Show panel that was hidden.</td>
+              </tr>
+              <tr>
+                <td>toggle</td>
+                <td><code>data-tool="toggle"</code></td>
+                <td>Toggle Hide/Show tool.</td>
+              </tr>
+              <tr>
+                <td>collapse</td>
+                <td><code>data-tool="collapse"</code></td>
+                <td>Apply jQuery slideUp/slideDown function on the panel content element. Also toggle the <code>st-panel--collapsed</code> class for the panel.</td>
+              </tr>
+              <tr>
+                <td>maximize</td>
+                <td><code>data-tool="maximize"</code></td>
+                <td>Expand the panel to the whole window.</td>
+              </tr>
+              <tr>
+                <td>minimize</td>
+                <td><code>data-tool="minimize"</code></td>
+                <td>Restore normal panel size.</td>
+              </tr>
+              <tr>
+                <td>resize</td>
+                <td><code>data-tool="resize"</code></td>
+                <td>Toggle Maximize/Minimize tool.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text"><b>Usage:</b></p>
+<pre class="code-html">
+&lt;script src="libs/panel-tools/panel-tools.js"&gt;&lt;/script&gt;
+</pre>
+        <p class="text">Include <code>panel-tools.js</code> plugin (already included in <code>libs.common.js</code> bundle). Specify the <code>data-tool</code> attribute of the element you want to bind the tool. It will be initiated and launched automatically by the click.</p>
+        <p class="text">If your tool is located outside the panel itself, you can specify the <code>data-tool-target="#{panel-id}"</code> attr with the panel this tool will be applied to.</p>
+<pre>
+&lt;div class="st-panel__header" data-tool="collapse"&gt;
+  &lt;div class="fluid-cols"&gt;
+    &lt;div class="expand-col text-ellipsis"&gt;
+      &lt;span class="st-panel__title"&gt;
+        &lt;span&gt;Tools Bar&lt;/span&gt;
+        &lt;small&gt;With Border&lt;/small&gt;
+      &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="min-col"&gt;
+      &lt;div class="st-panel__tools"&gt;
+        &lt;div class="st-panel-tool" data-tool="resize"&gt;&lt;i class="fa fa-window-maximize"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="st-panel-tool" data-tool="hide"&gt;&lt;i class="fa fa-remove"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="st-panel-tool" data-tool="refresh" data-tool-target="#other-panel"&gt;
+          &lt;i class="fa fa-refresh"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+        <p><b>Adding your custom tools:</b></p>
+        <p class="text">Let's say you want a tool that will toggle a given class on the panel element. The tool is called "toggl" and the class name is specified via the <code>data-tool-class=""</code> attribute.</p>
+<pre>
+// Set the Prototype of the new tool.
+$.fn.panel.Constructor.prototype.toggl = function(target) {
+  var $panel = this.$element,
+      className = $(target).data('tool-class');
+
+  $panel.toggleClass(toggle);
+}
+</pre>
+<pre>
+// Use new tool
+&lt;div class="st-panel-tool" data-tool="toggl" data-tool-class="test-class"&gt;
+  &lt;i class="fa fa-question-circle"&gt;&lt;/i&gt;
+&lt;/div&gt;
+</pre>
+        <h3 id="c-table">Table</h2>
+        <p class="text">The <code>TableWidget</code> is just a wrapper on the cool <a href="https://datatables.net/" target="_blank">DataTables</a> plugin. It allows you to move the main control elements of the table, such as info, pagination, search, etc., anywhere you want them on the page. You need to study the official documentation of the DataTables plugin before continuing to work with this widget.</p>
+<pre class="code-html">
+&lt;script src="js/modules/widgets/table.js"&gt;&lt;/script&gt;
+</pre>
+        <p class="text">It takes the following options as an object:</p>
+        <div class="responsive-table responsive-table-bordered">
+          <table class="table table-bordered text">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Need</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>table</code></td>
+                <td><span class="label label-danger">required</span></td>
+                <td class="text-nowrap">String | jQuery</td>
+                <td>HTML table.</td>
+              </tr>
+              <tr>
+                <td><code>info</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">String | jQuery</td>
+                <td>The element that will contain the table info.</td>
+              </tr>
+              <tr>
+                <td><code>search</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">String | jQuery</td>
+                <td>The search input.</td>
+              </tr>
+              <tr>
+                <td><code>length</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">String | jQuery</td>
+                <td>The select element that will control table length.</td>
+              </tr>
+              <tr>
+                <td><code>pagination</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">String | jQuery</td>
+                <td>The element that will contain table pagination.</td>
+              </tr>
+              <tr>
+                <td><code>buttons</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">String | jQuery</td>
+                <td>The element that will contain table buttons.</td>
+              </tr>
+              <tr>
+                <td><code>checkboxes</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">Boolean</td>
+                <td>Can be set to <code>true</code> if the first column of the table contains the checkboxes for selecting rows.</td>
+              </tr>
+              <tr>
+                <td><code>dataTable</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">Object</td>
+                <td>The DataTables options object that can extend the default widget object that initializes the table.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text">Default DataTables options used in widget:</p>
+<pre>
+var o = {
+  'dom': 't',
+  'pagingType': 'numbers',
+  'pageLength': $(options.length).val() || 10,
+  'language': {
+    'paginate': {
+        'previous': 'Prev'
+    }
+  }
+}
+
+if (options.checkboxes) {
+  o.select = {
+    'style': 'multi',
+    'selector': 'td:first-child input[type="checkbox"]'
+  }
+}
+</pre>
+        <p class="text">Example usage:</p>
+<pre class="code-html">
+&lt;link href="libs/datatables/css/dataTables.bootstrap.css" rel="stylesheet"&gt;
+&lt;link href="libs/datatables/css/select.bootstrap.css" rel="stylesheet"&gt;
+
+&lt;script src="libs/datatables/js/jquery.dataTables.js"&gt;&lt;/script&gt;
+&lt;script src="libs/datatables/js/dataTables.bootstrap.js"&gt;&lt;/script&gt;
+&lt;script src="libs/datatables/js/dataTables.select.js"&gt;&lt;/script&gt;
+</pre>
+<pre>
+&lt;div class="fluid-cols mb"&gt;
+  &lt;div class="expand-col border-right"&gt;
+    &lt;input id="d-search" class="form-control" type="text" placeholder="Search"/&gt;
+  &lt;/div&gt;
+  &lt;div class="min-col"&gt;
+    &lt;div id="d-pagination" class="pagination-inline"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;table id="d-table" class="table dataTable table-bordered table-filled mb"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th class="content-width text-center"&gt;#&lt;/th&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Count&lt;/th&gt;
+      &lt;th&gt;Status&lt;/th&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;div class="checkbox condensed"&gt;
+          &lt;input id="d-1" type="checkbox"&gt;
+          &lt;label for="d-1"&gt;&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;
+      &lt;td&gt;Mark&lt;/td&gt;
+      &lt;td data-filter="120"&gt;120&lt;/td&gt;
+      &lt;td data-filter="1" data-sort="Active"&gt;
+        &lt;span class="label label-success"&gt;Active&lt;/span&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;div class="checkbox condensed"&gt;
+          &lt;input id="d-2" type="checkbox"&gt;
+          &lt;label for="d-2"&gt;&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;
+      &lt;td&gt;Rick&lt;/td&gt;
+      &lt;td data-filter="140"&gt;140&lt;/td&gt;
+      &lt;td data-filter="0"  data-sort="Disabled"&gt;
+        &lt;span class="label label-danger"&gt;Disabled&lt;/span&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;div class="checkbox condensed"&gt;
+          &lt;input id="d-3" type="checkbox"&gt;
+          &lt;label for="d-3"&gt;&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;
+      &lt;td&gt;Larry&lt;/td&gt;
+      &lt;td data-filter="100"&gt;100&lt;/td&gt;
+      &lt;td data-filter="1"  data-sort="Active"&gt;
+        &lt;span class="label label-success"&gt;Active&lt;/span&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div id="d-info" class="text-center mt"&gt;&lt;/div&gt;
+</pre>
+<pre>
+var table = new App.classes.TableWidget({
+  table: '#d-table',
+  info: '#d-info',
+  search: '#d-search',
+  pagination: '#d-pagination',
+  checkboxes: true,
+  dataTable: {
+    'columnDefs': [
+      { 'orderable': false, 'targets': [0] }
+    ],
+    'pageLength': 3,
+    'pagingType': 'first_last_numbers',
+    'language': {
+      paginate: {
+          first:    '«',
+          previous: '‹',
+          next:     '›',
+          last:     '»'
+      }
+    },
+    'order': [[1, 'asc']]
+  }
+});
+</pre>
+        <p class="text">Result:</p>
+        <div class="text-center mb">
+          <div class="frame inline">
+            <img src="img/screens/table.png" alt="">
+          </div>
+        </div>
+        <p class="text">The TableWidget function returns an object that you can use later to access the instance of the widget:</p>
+<pre>
+var table = new App.classes.TableWidget({...})
+console.log(table)
+--> {
+      dataTable:   [DataTables instance],
+      $table:      [jQuery Object],
+      $info:       [jQuery Object],
+      $length:     [jQuery Object],
+      $search:     [jQuery Object],
+      $pagination: [jQuery Object],
+      $buttons:    [jQuery Object],
+      clearSearch: function () {},
+      getSelected: function () {}
+    }
+</pre>
+        <h3 id="c-table-filter">Table Filter</h2>
+        <p class="text">The <code>TableFilter</code> is an addition to the TableWidget that implements filtering data in a table by the contents of its cells.</p>
+<pre>
+&lt;script src="js/modules/widgets/table-filter.js"&gt;&lt;/script&gt;
+</pre>
+        <p class="text">Let's extend the previous example with a container of filters.</p>
+<pre>
+&lt;div class="container-fluid no-paddings"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-md-6 mb"&gt;
+      &lt;div class="form-group"&gt;
+        &lt;div class="slider-default"&gt;
+          &lt;input id="d-count" class="hide" type="text"/&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="col-md-6"&gt;
+      &lt;select id="d-status" style="width: 100%"&gt;&lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+        <p class="text">To initialize new filters, create an instance of the <code>TableFilter</code> and configure its options:</p>
+<pre>
+var table = new App.classes.TableWidget({...});
+
+var filter = new App.classes.TableFilter({
+  dataTable: table.dataTable,
+  filters: {
+    count: {
+      type: 'slider-range',
+      el: '#d-count',
+      column: 2
+    },
+    status: {
+      type: 'select',
+      el: '#d-status',
+      column: 3,
+      placeholder: 'All'
+    }
+  }
+});
+</pre>
+        <p class="text">That is what we have as a result:</p>
+        <div class="text-center mb">
+          <div class="frame inline">
+            <img src="img/screens/table-filter.png" alt="">
+          </div>
+        </div>
+        <p class="text">Available options:</p>
+        <div class="responsive-table responsive-table-bordered">
+          <table class="table table-bordered text">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Need</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>dataTable</code></td>
+                <td><span class="label label-danger">required</span></td>
+                <td class="text-nowrap">DataTables Instance</td>
+                <td>Its what the DataTables plugin returns after initialization.</td>
+              </tr>
+              <tr>
+                <td><code>filters</code></td>
+                <td><span class="label label-danger">required</span></td>
+                <td class="text-nowrap">Object</td>
+                <td>The list of the filters.</td>
+              </tr>
+              <tr>
+                <td><code>types</code></td>
+                <td><span class="label label-default">optional</span></td>
+                <td class="text-nowrap">Object</td>
+                <td>The list of custom filter types.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text">Each <code>filters</code> item is an Object that defines a particular filter. It should contain at least these fields:</p>
+<pre>
+{
+  type: 'select',   \\ { string } - one of the defined filter types
+  el: '#d-status',  \\ { string } - css-selector of the control element
+  column: 2         \\ { number } - number of column that filter will be applied to
+}
+</pre>
+        <p class="text">It may contain any other fields as well. That could be useful while defining custom filter types.</p>
+        <p class="text">The <code>types</code> is a optional Object. With it, you can define your own filter types. Like following:</p>
+<pre>
+types: {
+  radio: {
+    init: function(f, dt) {
+      $(f.el).on('change', function() {
+        dt.draw();
+      })
+    },
+    reset: function(f, dt) {
+      $(f.el).prop('checked', false);
+      $(f.el).filter('input[value="-1"]').prop('checked', true).change();
+    },
+    compare: function(f, dt, row) {
+      var checked = $(f.el).filter(':checked').val(),
+          value = row[f.column];
+      if (( checked == '-1' ) || (checked == value)) {
+        return true;
+      }
+      return false;
+    }
+  }
+}
+</pre>
+        <p class="text">Each <code>type</code> is an Object that contains 3 functions:</p>
+        <div class="responsive-table responsive-table-bordered">
+          <table class="table table-bordered text">
+            <thead>
+              <tr>
+                <th>Function</th>
+                <th width="70%">Arguments</th>
+                <th width="30%">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>init(f, dt)</code></td>
+                <td>
+                  <div>
+                    <code>f</code>&nbsp;&nbsp;&nbsp;&nbsp;{ Object } - The filter item described above.
+                  </div>
+                  <div>
+                    <code>dt</code>&nbsp;&nbsp;{ Object } - DataTables Instance.
+                  </div>
+                </td>
+                <td>Initializes control, sets up a change handler.</td>
+              </tr>
+              <tr>
+                <td><code>reset(f, dt)</code></td>
+                <td>
+                  <div>
+                    <code>f</code>&nbsp;&nbsp;&nbsp;&nbsp;{ Object } - The filter item described above.
+                  </div>
+                  <div>
+                    <code>dt</code>&nbsp;&nbsp;{ Object } - DataTables Instance.
+                  </div>
+                </td>
+                <td>Sets the initial value of the filter.</td>
+              </tr>
+              <tr>
+                <td><code>compare(f, dt, row)</code></td>
+                <td>
+                  <div>
+                    <code>f</code>&nbsp;&nbsp;&nbsp;&nbsp;{ Object } - The filter item described above.
+                  </div>
+                  <div>
+                    <code>dt</code>&nbsp;&nbsp;{ Object } - DataTables Instance.
+                  </div>
+                  <div>
+                    <code>row</code>&nbsp;{ Array } - DataTables row data.
+                  </div>
+                </td>
+                <td>Compares the value of the filter with the contents of the columns during the filtering process.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text">You can learn more about the operation of this widget using the example pages: <code>dist/app-products.html</code> and <code>dist/app-users.html</code>.</p>
+        <h2 id="credits">Credits</h2>
+        <p class="text">Here a list of all third-party libraries that are present in the template.</p>
+        <div class="responsive-table responsive-table-bordered">
+          <table class="table table-bordered text">
+            <thead>
+              <tr>
+                <th>Libs</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="https://www.amcharts.com/" target="_blank">amCharts</a></td>
+                <td>JavaScript Charts & Maps.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/flatlogic/awesome-bootstrap-checkbox" target="_blank">Awesome Bootstrap Checkbox</a></td>
+                <td>Bootstrap Checkboxes & Radios.</td>
+              </tr>
+              <tr>
+                <td><a href="http://bootboxjs.com/" target="_blank">Bootbox.js</a></td>
+                <td>Alert, confirm and flexible dialogs for the Bootstrap.</td>
+              </tr>
+              <tr>
+                <td><a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></td>
+                <td>Most popular HTML, CSS, and JS framework for web.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/dangrossman/bootstrap-daterangepicker" target="_blank">Date Range Picker</a></td>
+                <td>Date Range Picker for Bootstrap.</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.eyecon.ro/bootstrap-tabdrop/" target="_blank">Bootstrap Tabdrop</a></td>
+                <td>Responsive Bootstrap Tabs.</td>
+              </tr>
+              <tr>
+                <td><a href="http://1000hz.github.io/bootstrap-validator/" target="_blank">Bootstrap Validator</a></td>
+                <td>Form validator plugin for Bootstrap.</td>
+              </tr>
+              <tr>
+                <td><a href="https://clipboardjs.com/" target="_blank">clipboard.js</a></td>
+                <td>A modern approach to copy text to clipboard.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/fengyuanchen/cropper" target="_blank">Cropper</a></td>
+                <td>A simple jQuery image cropping plugin.</td>
+              </tr>
+              <tr>
+                <td><a href="https://datatables.net/" target="_blank">DataTables</a></td>
+                <td>Table plug-in for jQuery.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox/" target="_blank">Bootstrap Dual Listbox</a></td>
+                <td>Responsive dual listbox widget.</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/Marak/faker.js" target="_blank">faker.js</a></td>
+                <td>Generate massive amounts of fake data.</td>
+              </tr>
+              <tr>
+                <td><a href="http://fancyapps.com/fancybox/" target="_blank">fancyBox</a></td>
+                <td>Fancy jQuery Lightbox Alternative.</td>
+              </tr>
+              <tr>
+                <td><a href="http://fontawesome.io/" target="_blank">Font Awesome</a></td>
+                <td>The iconic font and CSS toolkit.</td>
+              </tr>
+              <tr>
+                <td><a href="https://highlightjs.org/" target="_blank">highlight.js</a></td>
+                <td>Syntax highlighting for the Web.</td>
+              </tr>
+              <tr>
+                <td><a href="http://holderjs.com" target="_blank">Holder.js</a></td>
+                <td>Holder renders image placeholders entirely in browser.</td>
+              </tr>
+              <tr>
+                <td><a href="http://ionden.com/a/plugins/ion.rangeSlider/en.html" target="_blank">Ion.RangeSlider</a></td>
+                <td>Range slider with skin support.</td>
+              </tr>
+              <tr>
+                <td><a href="http://www.jasny.net/bootstrap/javascript/#fileinput" target="_blank">Jasny Bootstrap</a></td>
+                <td>The missing components for Bootstrap.</td>
+              </tr>
+              <tr>
+                <td><a href="http://jquery.com/" target="_blank">jQuery</a></td>
+                <td>Fast, small, and feature-rich JavaScript library.</td>
+              </tr>
+              <tr>
+                <td><a href="http://omnipotent.net/jquery.sparkline/" target="_blank">jQuery Sparklines</a></td>
+                <td>Generates sparklines (small inline charts).</td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/gromo/jquery.scrollbar/" target="_blank">jQuery Scrollbar</a></td>
+                <td>jQuery CSS Customizable Scrollbar.</td>
+              </tr>
+              <tr>
+                <td><a href="https://momentjs.com/" target="_blank">Moment.js</a></td>
+                <td>Manipulate and display dates and times in JavaScript.</td>
+              </tr>
+              <tr>
+                <td><a href="https://select2.github.io" target="_blank">Select2</a></td>
+                <td>The jQuery replacement for select boxes.</td>
+              </tr>
+              <tr>
+                <td><a href="https://simplemde.com/" target="_blank">SimpleMDE</a></td>
+                <td>Simple, embeddable, and beautiful JS markdown editor.</td>
+              </tr>
+              <tr>
+                <td><a href="http://abpetkov.github.io/switchery/" target="_blank">Switchery</a></td>
+                <td>iOS 7 style switches for your checkboxes.</td>
+              </tr>
+              <tr>
+                <td><a href="http://underscorejs.org" target="_blank">Underscore</a></td>
+                <td>A whole mess of useful functional programming helpers.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="support">Support</h2>
+        <p class="text">That's it. Hope you will enjoy our template. If you will have any issues you can contact us to <a href="mailto:support@adminbootstrap.com">support@adminbootstrap.com</a> or join our <a href="https://gitter.im/AdminBootstrap/Help" target="_blank">Support Chat</a>.</p>
+        <div class="footer"></div>
+      </section>
+      <aside class="side">
+        <div class="side-wrapper">
+          <div class="side-menu">
+            <span class="fa fa-book"></span>
+          </div>
+          <div class="side-cont">
+            <nav class="side-nav" id="side-nav">
+              <div class="side-title">Documentation:</div>
+              <ul class="nav">
+                <li><a href="#introduction">Introduction</a></li>
+                <li>
+                  <a href="#overview">Overview</a>
+                  <ul class="nav">
+                    <li><a href="#included">What's Included</a></li>
+                    <li><a href="#files">Files Sructure</a></li>
+                    <li><a href="#layout">Layout Structure</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#development">Development</a>
+                  <ul class="nav">
+                    <li><a href="#node">Node and NPM</a></li>
+                    <li>
+                      <a href="#gulp">Gulp Tasks</a>
+                      <ul class="nav">
+                        <li><a href="#gulp-build">Build</a></li>
+                        <li><a href="#gulp-watch">Watch</a></li>
+                        <li><a href="#gulp-serve">Local Server</a></li>
+                        <li><a href="#npm-scripts">NPM Scripts</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#source-code">Source Code</a>
+                      <ul class="nav">
+                        <li><a href="#less">LESS</a></li>
+                        <li><a href="#js">JavaScript</a></li>
+                        <li><a href="#pug">Pug Templates</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#app">Application</a>
+                  <ul class="nav">
+                    <li><a href="#app-module">App Module</a></li>
+                    <li><a href="#app-classes">Classes</a></li>
+                    <li><a href="#app-layout">Layout</a></li>
+                    <li><a href="#app-page">Page</a></li>
+                    <li>
+                      <a href="#app-service">Service</a>
+                      <ul class="nav">
+                        <li><a href="#api-service">API</a></li>
+                        <li><a href="#data-mapper">Data Mapper</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#app-settings">Settings</a></li>
+                    <li><a href="#app-utils">Utils</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#components">Components</a>
+                  <ul class="nav">
+                    <li><a href="#c-sidebar">Sidebar</a></li>
+                    <li><a href="#c-spanel">SPanel</a></li>
+                    <li>
+                      <a href="#c-panels">Panels</a>
+                      <ul class="nav">
+                        <li><a href="#c-panels-markup">Basic Markup</a></li>
+                        <li><a href="#c-panels-tools">Panel Tools</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#c-table">Table</a></li>
+                    <li><a href="#c-table-filter">TableFilter</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#credits">Credits</a>
+                </li>
+                <li>
+                  <a href="#support">Support</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="side-footer">
+            <div class="side-social">
+              <ul>
+                <li><a href="https://adminbootstrap.com" target="_blank" class="fa fa-star"></a></li>
+                <li><a href="https://www.facebook.com/adminbootstrap" target="_blank" class="fa fa-facebook"></a></li>
+                <li><a href="https://twitter.com/adminbootstrap" target="_blank" class="fa fa-twitter"></a></li>
+                <li><a href="https://github.com/AdminBootstrap" target="_blank" class="fa fa-github"></a></li>
+                <li><a href="https://vk.com/adbootstrap" target="_blank" class="fa fa-vk"></a></li>
+              </ul>
+            </div>
+            <div class="side-about">2017 © <a href="https://adminbootstrap.com" target="_blank">adminbootstrap.com</a></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="libs/highlight.js/highlight.pack.js"></script>
+    <script src="js/docs.js"></script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter44536084 = new Ya.Metrika({
+                        id:44536084,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true,
+                        ut:"noindex"
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/44536084?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+  </body>
+</html>

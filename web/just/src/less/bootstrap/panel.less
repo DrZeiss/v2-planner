@@ -1,0 +1,30 @@
+@import 'mixins/panels.less';
+
+.panel {
+  background-color: @panel;
+  box-shadow: none;
+}
+
+.panel-footer {
+  background-color: @panel;
+  border-top: 1px solid @border-dark;
+}
+
+.panel-default {
+  .panel-variant(@border-dark; @color-dark; @bs-panel-default-bg; @border-dark);
+}
+.panel-info {
+  .panel-variant(@bs-info; @bs-panel-heading-color; @bs-info; @bs-info);
+}
+.panel-primary {
+  .panel-variant(@bs-primary; @bs-panel-heading-color; @bs-primary; @bs-primary);
+}
+.panel-success {
+  .panel-variant(@bs-success; @bs-panel-heading-color; @bs-success; @bs-success);
+}
+.panel-warning {
+  .panel-variant(@bs-warning; @bs-panel-heading-color; @bs-warning; @bs-warning);
+}
+.panel-danger {
+  .panel-variant(@bs-danger; @bs-panel-heading-color; @bs-danger; @bs-danger);
+}

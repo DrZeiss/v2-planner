@@ -1,0 +1,379 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'app-products'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Products List
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") App Pages
+          li
+            span Products List
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .tab-content
+      .tab-pane.active(role="tabpanel", id="items")
+        .container-fluid
+          .row
+            .col-md-7.mb
+              .form-group
+                .st-inputbar
+                  .st-inputbar-btn
+                    .select2-contented
+                      select#items-length.form-control(style="width: auto",
+                                                       data-minimum-results-for-search="Infinity",
+                                                       data-dropdown-css-class="contented")
+                        option(value="10") 10
+                        option(value="50") 50
+                        option(value="100") 100
+                        option(value="-1") All
+                  .st-inputbar-input
+                    input#items-search.form-control(type="text", placeholder="Search in Products")
+                  .st-inputbar-btn
+                    .btn-group#items-filter-buttons
+                      button.btn.btn-default(data-toggle="collapse", data-target="#items-filter") Filters
+            .col-md-5.mb
+              .form-group.text-right
+                .btn-group.dropdown
+                  button#items-selected.btn.btn-default.dropdown-toggle.disabled(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true") Selected  <span class="caret"></span>
+                  ul.dropdown-menu
+                    li
+                      a#items-remove Remove
+                    li
+                      a#items-activate Activate
+                    li
+                      a#items-deactivate Deactivate
+                    li
+                      a#items-deselect Deselect
+                .btn-group.dropdown#items-export.hidden-xs
+                  button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true") Export  <span class="caret"></span>
+                .btn-group
+                  a.btn.btn-success(href="app-product-form.html") Add New
+          .collapse.in#items-filter
+            .row
+              .col-md-3.mb
+                .form-group
+                  select#items-category.select2-box.form-control(data-placeholder="Category", style="width: 100%")
+                    option(value="-1", checked="checked") All Categories
+              .col-md-3.mb
+                .form-group
+                  .slider-default
+                    input#items-price.hide(type="text", name="", value="")
+              .col-md-3.mb
+                .form-group
+                  button.btn.btn-default.btn-block.text-ellipsis#items-date(type="button") 
+                    i.fa.fa-calendar
+                    span Set Dates Range
+              .col-md-3.mb
+                .form-group
+                  .checkbox
+                    input#items-active(type='checkbox')
+                    label(for='items-active') Active Only
+          .row
+            .col-md-12.mb
+              .st-panel.st-panel--border
+                .st-panel__cont
+                  .st-panel__header
+                    .fluid-cols
+                      .expand-col.text-ellipsis
+                        span.st-panel__title
+                          span Products
+                          small#items-info
+                      .min-col
+                        .st-panel__tabs
+                          ul.nav.nav-tabs.tables-tabs(role="tablist")
+                            li.active(role="presentation")
+                              a(href="#items") Items
+                            li(role="presentation")
+                              a(href="#categories") Categories
+                  .st-panel__content
+                    .tab-content
+                      .table-responsive.avoid-flicker(width="100%")
+                        table#items-table.table.table-bordered.table-filled.table-striped.table-hover
+                          thead
+                            tr
+                              th.items-check.content-width
+                                .checkbox.condensed
+                                    input#items-all.table-select-all(type='checkbox')
+                                    label(for='items-all')
+                              th.items-name.text-nowrap Product Name
+                              th.items-category.text-nowrap Category
+                              th.items-price.content-width Price
+                              th.items-date.content-width Date
+                              th.items-img.content-width Img
+                              th.items-status.content-width Status
+                              th.items-action.content-width Action
+                          tbody
+                            tr
+                              td.items-check.content-width
+                                .checkbox.condensed
+                                    input#p1(type='checkbox')
+                                    label(for='p1')
+                              td.items-name.text-nowrap Product 1
+                              td.items-category.text-nowrap(data-filter="1", data-search="Category 1") Category 1
+                              td.items-price(data-filter="10.00") $10.00
+                              td.items-date.content-width(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                              td.items-img.text-center
+                                a.unstyled.text-nowrap.fancybox(href="img/img-placeholder.png", rel="p1")
+                                  i.fa.fa-image
+                                  span <small>&nbsp;x</small> 3
+                                .hide
+                                  a.fancybox(rel="p1", href="img/img-placeholder.png")
+                                  a.fancybox(rel="p1", href="img/img-placeholder.png")
+                              td.items-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.items-action.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.items-check.content-width
+                                .checkbox.condensed
+                                    input#p2(type='checkbox')
+                                    label(for='p2')
+                              td.items-name.text-nowrap Product 2
+                              td.items-category.text-nowrap(data-filter="3") Category 3
+                              td.items-price(data-filter="15.00") $15.00
+                              td.items-date.content-width(data-filter="1477594800000", data-sort="1477594800000", data-search="28 October 2016") 28 Oct 2016
+                              td.items-img.text-center
+                                a.unstyled.text-nowrap.fancybox(href="img/img-placeholder.png", rel="p2")
+                                  i.fa.fa-image
+                                  span <small>&nbsp;x</small> 2
+                                .hide
+                                  a.fancybox(rel="p2", href="img/img-placeholder.png")
+                              td.items-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.items-action.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.items-check.content-width
+                                .checkbox.condensed
+                                    input#p3(type='checkbox')
+                                    label(for='p3')
+                              td.items-name.text-nowrap Product 3
+                              td.items-category.text-nowrap(data-filter="2") Category 2
+                              td.items-price(data-filter="25.00") $25.00
+                              td.items-date.content-width(data-filter="1479254400000", data-sort="1479254400000", data-search="16 November 2016") 16 Nov 2016
+                              td.items-img.text-center
+                                a.unstyled.text-nowrap.fancybox(href="img/img-placeholder.png", rel="p3")
+                                  i.fa.fa-image
+                                  span <small>&nbsp;x</small> 3
+                                .hide
+                                  a.fancybox(rel="p3", href="img/img-placeholder.png")
+                                  a.fancybox(rel="p3", href="img/img-placeholder.png")
+                              td.items-status(data-filter="0", data-sort="0")
+                                span.label.label-danger Disabled
+                              td.items-action.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.items-check.content-width
+                                .checkbox.condensed
+                                    input#p4(type='checkbox')
+                                    label(for='p4')
+                              td.items-name.text-nowrap Product 4
+                              td.items-category.text-nowrap(data-filter="2") Category 2
+                              td.items-price(data-filter="30.00") $30.00
+                              td.items-date.content-width(data-filter="1479945600000", data-sort="1479945600000", data-search="24 November 2016") 24 Nov 2016
+                              td.items-img.text-center
+                                a.unstyled.text-nowrap.fancybox(href="img/img-placeholder.png", rel="p4")
+                                  i.fa.fa-image
+                                  span <small>&nbsp;x</small> 1
+                              td.items-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.items-action.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.items-check.content-width
+                                .checkbox.condensed
+                                    input#p5(type='checkbox')
+                                    label(for='p5')
+                              td.items-name.text-nowrap Product 5
+                              td.items-category.text-nowrap(data-filter="3") Category 3
+                              td.items-price(data-filter="20.50") $20.50
+                              td.items-date.content-width(data-filter="1477872000000", data-sort="1477872000000", data-search="31 October 2016") 31 Oct 2016
+                              td.items-img.text-center
+                                a.unstyled.text-nowrap.fancybox(href="img/img-placeholder.png", rel="p5")
+                                  i.fa.fa-image
+                                  span <small>&nbsp;x</small> 4
+                                .hide
+                                  a.fancybox(rel="p5", href="img/img-placeholder.png")
+                                  a.fancybox(rel="p5", href="img/img-placeholder.png")
+                                  a.fancybox(rel="p5", href="img/img-placeholder.png")
+                              td.items-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.items-action.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                      .text-center#items-pagination.pagination-sm
+      .tab-pane(role="tabpanel", id="categories")
+        .container-fluid
+          .row
+            .col-md-7.mb
+              .form-group
+                .st-inputbar
+                  .st-inputbar-btn
+                    .select2-contented
+                      select#cats-length.select2-box.form-control(style="width: auto",
+                                                                    data-minimum-results-for-search="Infinity",
+                                                                    data-dropdown-css-class="contented")
+                        option(value="10") 10
+                        option(value="50") 50
+                        option(value="100") 100
+                        option(value="-1") All
+                  .st-inputbar-input
+                    input#cats-search.form-control(type="text", placeholder="Search in Categories")
+                  .st-inputbar-btn
+                    .btn-group#cats-filter-button
+            .col-md-5.mb
+              .form-group.text-right
+                .btn-group.dropdown
+                  button#cats-selected.btn.btn-default.dropdown-toggle.disabled(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true") Selected  <span class="caret"></span>
+                  ul.dropdown-menu
+                    li
+                      a#cats-remove() Delete
+                    li
+                      a#cats-activate() Activate
+                    li
+                      a#cats-deactivate() Deactivate
+                    li
+                      a#cats-deselect() Deselect
+                .btn-group
+                  a.btn.btn-success(href="app-product-form.html") Add New
+          .row
+            .col-md-12.mb
+              .st-panel.st-panel--border
+                .st-panel__cont
+                  .st-panel__header
+                    .fluid-cols
+                      .expand-col.text-ellipsis
+                        span.st-panel__title
+                          span Categories
+                          small#cats-info
+                      .min-col
+                        .st-panel__tabs
+                          ul.nav.nav-tabs.tables-tabs(role="tablist")
+                            li(role="presentation")
+                              a(href="#items") Items
+                            li.active(role="presentation")
+                              a(href="#categories") Categories
+                  .st-panel__content
+                    .tab-content
+                      .table-responsive.avoid-flicker(width="100%")
+                        table#cats-table.products-table.table.table-bordered.table-filled.table-striped.table-hover
+                          thead
+                            tr
+                              th.cats-check.content-width
+                                .checkbox.condensed
+                                    input#cats-all.table-select-all(type='checkbox')
+                                    label(for='cats-all')
+                              th.cats-title.text-nowrap Title
+                              th.cats-slug Slug
+                              th.cats-items.content-width Items
+                              th.cats-date Date
+                              th.cats-status.content-width Status
+                              th.cats-action.content-width Action
+                          tbody
+                            tr
+                              td.content-width
+                                .checkbox.condensed
+                                    input#c1(type='checkbox')
+                                    label(for='c1')
+                              td.text-nowrap Category 1
+                              td.text-nowrap /category-1
+                              td.text-center 1
+                              td.content-width(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                              td.cats-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.content-width
+                                .checkbox.condensed
+                                    input#c2(type='checkbox')
+                                    label(for='c2')
+                              td.text-nowrap.text-nowrap.text-nowrap Category 2
+                              td.text-nowrap.text-nowrap.text-nowrap /category-2
+                              td.text-center 2
+                              td.content-width(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                              td.cats-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.content-width
+                                .checkbox.condensed
+                                    input#c3(type='checkbox')
+                                    label(for='c3')
+                              td.text-nowrap.text-nowrap Category 3
+                              td.text-nowrap.text-nowrap /category-3
+                              td.text-center 2
+                              td.content-width(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                              td.cats-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                            tr
+                              td.content-width
+                                .checkbox.condensed
+                                    input#c4(type='checkbox')
+                                    label(for='c4')
+                              td.text-nowrap Category 4
+                              td.text-nowrap /category-4
+                              td.text-center 0
+                              td.content-width(data-filter="1476903600000", data-sort="1476903600000", data-search="20 October 2016") 20 Oct 2016
+                              td.cats-status(data-filter="1", data-sort="1")
+                                span.label.label-success Active
+                              td.text-left
+                                .btn-group
+                                  a.btn.btn-default.btn-xs(href="#") View
+                                  a.btn.btn-default.btn-xs(href="app-product-form.html") Edit
+                      .text-center
+                        #cats-pagination.pagination-sm
+block css
+  link(href='libs/datatables/css/dataTables.bootstrap.css', rel='stylesheet')
+  link(href='libs/datatables/css/select.bootstrap.css', rel='stylesheet')
+  link(href='libs/datatables/css/buttons.bootstrap.css', rel='stylesheet')
+  link(href='libs/fancybox/jquery.fancybox.css', rel='stylesheet')
+  link(href='libs/fancybox/helpers/jquery.fancybox-thumbs.css', rel='stylesheet')
+block js
+  script(src='libs/datatables/js/jquery.dataTables.js')
+  script(src='libs/datatables/js/dataTables.bootstrap.js')
+  script(src='libs/datatables/js/dataTables.select.js')
+  script(src='libs/datatables/js/dataTables.buttons.js')
+  script(src='libs/datatables/js/buttons.print.js')
+  script(src='libs/datatables/js/buttons.html5.js')
+  script(src='libs/datatables/js/buttons.bootstrap.js')
+  script(src="libs/bootstrap-daterangepicker/daterangepicker.js")
+  
+  // Libs for pdf export, very heavy
+  script(src='libs/pdfmake/pdfmake.min.js')
+  script(src='libs/pdfmake/vfs_fonts.js')
+
+  script(src='libs/fancybox/jquery.fancybox.pack.js')
+  script(src='libs/fancybox/helpers/jquery.fancybox-thumbs.js')
+block js-last
+  script(src='js/modules/widgets/table.js')
+  script(src='js/modules/widgets/table-filter.js')
+  script(src='js/modules/pages/products.js')
+  script(src='js/modules/pages/categories.js')

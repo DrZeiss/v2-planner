@@ -1,0 +1,188 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'ui-buttons'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Buttons
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") UI
+          li
+            span Buttons
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-8.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Different Colors
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#colors")
+                        i.fa.fa-code
+              .st-panel__content
+                p Use available button classes on an <code>&lt;a&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;input&gt;</code> element to quickly create a styled button.
+                p#colors
+                  a.btn.btn-default(href="#") Default
+                  +space()
+                  a.btn.btn-primary(href="#") Primary
+                  +space()
+                  a.btn.btn-success(href="#") Success
+                  +space()
+                  a.btn.btn-info(href="#") Info
+                  +space()
+                  a.btn.btn-warning(href="#") Warning
+                  +space()
+                  a.btn.btn-danger(href="#") Danger
+                  +space()
+                  a.btn.btn-purple(href="#") Purple
+                  +space()
+                  a.btn.btn-link(href="#") Link Button
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Button Groups
+                      small Toolbar
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#groups")
+                        i.fa.fa-code
+              .st-panel__content
+                p Wrap a series of buttons with <code>.btn</code> in <code>.btn-group</code>. Combine sets of <code>.btn-group</code> into a <code>.btn-toolbar</code>.
+                .btn-toolbar#groups(role="toolbar")
+                  .btn-group(data-toggle="buttons")
+                    label.btn.btn-danger.active
+                      input(type="checkbox", name="options", checked="checked")
+                      | Left
+                    label.btn.btn-danger.active
+                      input(type="checkbox", name="options")
+                      | Center
+                    label.btn.btn-danger
+                      input(type="checkbox", name="options")
+                      | Right
+                  .btn-group(data-toggle="buttons")
+                    label.btn.btn-primary
+                      input(type="radio", name="options", checked="checked")
+                      i.fa.fa-align-left
+                    label.btn.btn-primary.active
+                      input(type="radio", name="options")
+                      i.fa.fa-align-center
+                    label.btn.btn-primary
+                      input(type="radio", name="options")
+                      i.fa.fa-align-justify
+                    label.btn.btn-primary
+                      input(type="radio", name="options")
+                      i.fa.fa-align-right
+                  .btn-group
+                    button.btn.btn-default 1
+                    button.btn.btn-default 2
+                    button.btn.btn-default 3
+                    button.btn.btn-default 4
+                    button.btn.btn-default 5
+                  .btn-group
+                    button.btn.btn-info Single
+                    .btn-group
+                      button.btn.btn-info.dropdown-toggle(type="button", data-toggle="dropdown") Group  <span class="caret"></span>
+                      ul.dropdown-menu
+                        li
+                          a(href="#") One
+                        li
+                          a(href="#") Two
+                        li
+                          a(href="#") Three
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Icon Buttons
+                      small via Font Awesome
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#icons")
+                        i.fa.fa-code
+              .st-panel__content
+                p To any button you can add an icon with <code>&lt;i class="fa fa-{icon}" /&gt;</code> and <code>&lt;span&gt;Text&lt;/span&gt;</code>.
+                p#icons
+                  button.btn.btn-default(type="button")
+                    i.fa.fa-star
+                    span Star
+                  button.btn.btn-success(type="button")
+                    i.fa.fa-plus
+                    span Create
+                  button.btn.btn-warning(type="button")
+                    i.fa.fa-edit
+                    span Edit
+                  button.btn.btn-danger(type="button")
+                    i.fa.fa-remove
+                    span Delete
+                  button.btn.btn-info(type="button")
+                    i.fa.fa-refresh
+                    span Reload
+                  button.btn.btn-primary(type="button")
+                    i.fa.fa-send
+                    span Send
+                  button.btn.btn-purple(type="button")
+                    i.fa.fa-heart
+        .col-md-4
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Different Size
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#sizes")
+                        i.fa.fa-code
+              .st-panel__content
+                p Add <code>.btn-lg</code>, <code>.btn-sm</code>, or <code>.btn-xs</code> for additional sizes, <code>.btn-block</code> for full-width.
+                p#sizes
+                  button.btn.btn-default.btn-block(type="button") Default Block Button
+                  button.btn.btn-primary.btn-lg(type="button") Large button
+                  button.btn.btn-default.btn-lg(type="button") Large button
+                  br
+                  button.btn.btn-primary(type="button") Default button
+                  button.btn.btn-default(type="button") Default button
+                  br
+                  button.btn.btn-primary.btn-sm(type="button") Small button
+                  button.btn.btn-default.btn-sm(type="button") Small button
+                  br
+                  button.btn.btn-primary.btn-xs(type="button") Mini
+                  button.btn.btn-default.btn-xs(type="button") Mini
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Button States
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#states")
+                        i.fa.fa-code
+              .st-panel__content
+                p#states
+                  button.btn.btn-primary(type="button") Normal
+                  button.btn.btn-primary.active(type="button") Active
+                  button.btn.btn-primary.disabled(type="button") Disabled
+block css
+block js

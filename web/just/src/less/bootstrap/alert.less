@@ -1,0 +1,47 @@
+@import 'mixins/alerts.less';
+
+.alert {
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.alert-dismissible {
+  .close {
+    top: -1px !important;
+    outline: 0;
+
+    &:hover,
+    &:focus {
+      color: inherit;
+    }
+  }
+}
+
+.alert-sm {
+  padding: 6px 10px;
+  margin-bottom: 10px;
+
+  p {
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
+
+.alert-success {
+  .alert-variant(@alert-success-bg; @alert-success-border; @alert-success-text);
+}
+
+.alert-info {
+  .alert-variant(@alert-info-bg; @alert-info-border; @alert-info-text);
+}
+
+.alert-warning {
+  .alert-variant(@alert-warning-bg; @alert-warning-border; @alert-warning-text);
+}
+
+.alert-danger {
+  .alert-variant(@alert-danger-bg; @alert-danger-border; @alert-danger-text);
+}

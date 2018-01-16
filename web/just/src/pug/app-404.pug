@@ -1,0 +1,13 @@
+extends ./layout/layout-empty.pug
+block vars
+  - var page = 'app-404'
+block main
+  .st-error
+    .st-error__cont
+      .st-error__code 404
+      .st-error__message The page you are looking for cannot be found. Perhaps you can return back to the site's homepage and see if you can find what you need.
+      .st-error__back
+        a.btn.btn-default(href="app-errors.html") <i class="fa fa-angle-left"></i>&nbsp;&nbsp;Return Back
+block css
+block js
+block js-last

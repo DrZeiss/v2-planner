@@ -1,0 +1,363 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'widgets'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Widgets
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            span Widgets
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-sm-3.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Income
+                      small Month
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        span.label.label-success $1,200
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") $25,235.00
+        .col-sm-3.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Payments
+                      small Out
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        .sparkline(
+                          values="15, 14, 13, 14, 16, 17, 15",
+                          sparkType="bar",
+                          sparkBarColor="#45BDDC",
+                          sparkBarWidth="3",
+                          sparkBarSpacing="1",
+                          sparkChartRangeMin1="0")
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") $120,840.00
+        .col-sm-2.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Rating
+                      small Avg
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        i.text-warning.fa.fa-star
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") 4.8
+        .col-sm-2.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Growth
+                  .min-col
+                    .st-panel__tools
+                      .st-panel-tool
+                        span.label.label-info 25
+              .st-panel__content(style="height: 36px")
+                iframe#resize-iframe(style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;")
+                .sparkline(
+                  values="8, 2, 4, 3, 5, 4, 3, 5, 5, 6, 3, 9, 7, 3, 5, 6, 9, 5, 6, 7, 2, 3, 9, 6, 6, 7, 8, 10, 15, 16, 17, 15",
+                  sparkType="line",
+                  sparkWidth="100%",
+                  sparkHeight="36",
+                  sparkFillColor="#dff7fd",
+                  sparkLineWidth="1",
+                  sparkLineColor="#45BDDC",
+                  sparkHighlightLineColor="#45BDDC",
+                  sparkChartRangeMin="",
+                  sparkSpotColor="",
+                  sparkMinSpotColor="",
+                  sparkMaxSpotColor="")
+        .col-sm-2.mb
+          .st-panel.st-panel--border
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis.text-center
+                    span.st-panel__title
+                      span Users
+              .st-panel__content
+                .text-ellipsis.text-center(style="font-size: 24px;") 180 / <small>20</small>
+      .row
+        .col-md-6.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Table
+                      small Widget
+                  .min-col
+                    .st-panel__form
+                      .st-inputbar
+                        .st-inputbar-input.hidden-xs
+                          input#tw-search.form-control.input-sm(type="text", placeholder="Search", style="width: 200px")
+                        .st-inputbar-btn
+                          .btn-group
+                            button.btn.btn-success.btn-sm(type="button") Add
+                            button.btn.btn-success.btn-sm.dropdown-toggle(type='button', data-toggle="dropdown", data-container="body")
+                              i.caret
+                            ul.dropdown-menu.dropdown-menu-right
+                              li
+                                a(href="#") Delete
+                              li
+                                a(href="#") Disable
+              .st-panel__content
+                .table-responsive.avoid-flicker(style="margin-bottom: 0;")
+                  table#tw-table.table.table-bordered.table-hover.table-filled.table-select(style="margin-bottom: 0;")
+                    thead
+                      tr
+                        th.text-nowrap.content-width
+                          .checkbox.condensed
+                            input#tw-all(type="checkbox")
+                            label(for="tw-all")
+                        th.text-nowrap First Name
+                        th.text-nowrap Last Name
+                        th.content-width Status
+                    tbody
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p1(type="checkbox")
+                            label(for="p1")
+                        td Mark
+                        td Otto
+                        td.content-width
+                          span.label.label-default Active
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p2(type="checkbox")
+                            label(for="p2")
+                        td Jacob
+                        td Thornton
+                        td.content-width
+                          span.label.label-default Active
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p3(type="checkbox")
+                            label(for="p3")
+                        td Larry
+                        td the Bird
+                        td.content-width
+                          span.label.label-default Disabled
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p4(type="checkbox")
+                            label(for="p4")
+                        td Casey
+                        td Sanford
+                        td.content-width
+                          span.label.label-default Active
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p5(type="checkbox")
+                            label(for="p5")
+                        td Lina
+                        td Muller
+                        td.content-width
+                          span.label.label-default Active
+                      tr
+                        td.content-width
+                          .checkbox.condensed
+                            input#p6(type="checkbox")
+                            label(for="p6")
+                        td Jose
+                        td Gislason
+                        td.content-width
+                          span.label.label-default Disabled
+              .st-panel__footer
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span#tw-info
+                  .min-col
+                    #tw-pagination
+        .col-md-3.mb
+          .st-panel
+            .st-panel__cont
+              .st-notifications#w-notifications
+                .st-notifications__head
+                  .fluid-cols
+                    .expand-col
+                      .st-notifications__title New Alerts
+                      small You have <span class="st-notifications__count">0</span> alerts.
+                    .min-col
+                      button.btn.btn-default.btn-sm.st-notifications__all Mark All
+                .st-notifications__list
+                  .st-notifications__scroll.scrollbar
+                    .st-notification.new
+                      .st-notification__ico
+                        i.fa.fa-cog
+                      .st-notification__main
+                        .st-notification__title
+                          b System
+                          small 25m ago
+                          .st-notification__mark
+                            i.fa.fa-check
+                        p Lorem ipsum dolor sit.
+                    .st-notification.new
+                      .st-notification__ico
+                        i.fa.fa-check
+                      .st-notification__main
+                        .st-notification__title
+                            b Verification
+                            small 1h 30m ago
+                            .st-notification__mark
+                              i.fa.fa-check
+                        p Lorem ipsum dolor sit. Lorem ipsum.
+                    .st-notification
+                      .st-notification__ico
+                        i.fa.fa-user
+                      .st-notification__main
+                        .st-notification__title
+                            b Account
+                            small 25 Feb 21:30
+                            .st-notification__mark
+                              i.fa.fa-check
+                        p <a href="">John Doe</a> has been registered.
+                    .st-notification
+                      .st-notification__ico
+                        i.fa.fa-user
+                      .st-notification__main
+                        .st-notification__title
+                            b Account
+                            small 25 Feb 21:30
+                            .st-notification__mark
+                              i.fa.fa-check
+                        p <a href="">John Doe</a> has been registered.
+                    .st-notification
+                      .st-notification__ico
+                        i.fa.fa-user
+                      .st-notification__main
+                        .st-notification__title
+                            b Account
+                            small 25 Feb 21:30
+                            .st-notification__mark
+                              i.fa.fa-check
+                        p <a href="">John Doe</a> has been registered.
+                    .st-notification
+                      .st-notification__ico
+                        i.fa.fa-user
+                      .st-notification__main
+                        .st-notification__title
+                            b Account
+                            small 25 Feb 21:30
+                            .st-notification__mark
+                              i.fa.fa-check
+                        p <a href="">John Doe</a> has been registered.
+                    .st-notification
+                      .st-notification__ico
+                        i.fa.fa-user
+                      .st-notification__main
+                        .st-notification__title
+                            b Account
+                            small 25 Feb 21:30
+                            .st-notification__mark
+                              i.fa.fa-check
+                        p <a href="">John Doe</a> has been registered.
+        .col-md-3.mb
+          .st-settings#w-settings
+            .st-settings__list
+              .st-settings__item
+                .st-settings__row
+                  .st-settings__label
+                    b Settings
+                  .st-settings__control
+                    i.fa.fa-spin.fa-circle-o-notch.st-settings__loader
+              .st-settings__item
+                .st-settings__row.st-settings__expand
+                  .st-settings__label Workers
+                  .st-settings__control.text-nowrap
+                    i.fa.fa-angle-right.st-settings__ico
+                .st-settings__sub
+                  .st-settings__item
+                    .st-settings__row
+                      .st-settings__label Backuper
+                      .st-settings__control
+                        input#w-settings__backuper(type="checkbox", name="backuper", checked="checked")
+                  .st-settings__item
+                    .st-settings__row
+                      .st-settings__label Storage Optimizer
+                      .st-settings__control
+                        input#w-settings__optimizer(type="checkbox", name="optimizer", checked="checked")
+                  .st-settings__item
+                    .st-settings__row
+                      .st-settings__label Reports Export
+                      .st-settings__control
+                        input#w-settings__reports(type="checkbox", name="reports", checked="checked")
+              .st-settings__item
+                .st-settings__row
+                  .st-settings__label Send Mails
+                  .st-settings__control
+                    input#w-settings__send(type="checkbox", name="send", checked="checked")
+              .st-settings__item
+                .st-settings__row
+                  .st-settings__label Driver
+                  .st-settings__control
+                    .select2-contented.select2-sm
+                      select.form-control#w-settings__driver(name="driver", data-minimum-results-for-search="Infinity")
+                        option(value="smpt") SMPT
+                        option(value="mailgun", selected="selected") Mailgun
+              .st-settings__item
+                .st-settings__row
+                  .st-settings__label Daily Limit
+                  .st-settings__control.text-nowrap
+                    span.label.label-danger.settings-label 2500
+                .st-settings__row
+                  .st-settings__control
+                    .slider-danger.slider-novalues
+                      input#w-settings__limit(
+                              name="limit",
+                              data-grid="true",
+                              data-min="0",
+                              data-max="5000",
+                              data-from="2500",
+                              data-step="50",
+                              data-hide-min-max="true",
+                              data-hide-from-to="true")
+block css
+  link(href='libs/datatables/css/dataTables.bootstrap.css', rel='stylesheet')
+  link(href='libs/datatables/css/select.bootstrap.css', rel='stylesheet')
+block js
+  script(src="libs/jquery-sparkline/jquery.sparkline.min.js")
+  script(src='libs/datatables/js/jquery.dataTables.js')
+  script(src='libs/datatables/js/dataTables.bootstrap.js')
+  script(src='libs/datatables/js/dataTables.select.js')
+block js-last
+  script(src="js/modules/widgets/table.js")
+  script(src="js/modules/widgets/settings.js")
+  script(src="js/modules/widgets/notifications.js")
+  script(src="js/demo/widgets.js")

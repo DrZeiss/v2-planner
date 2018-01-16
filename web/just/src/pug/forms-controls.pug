@@ -1,0 +1,303 @@
+extends ./layout/layout.pug
+block vars
+  - var page = 'forms-controls'
+  - var sidebar = 'sidebar-collapsible sidebar-open'
+block title
+  span Controls
+block main
+  .st-crumbs
+    .fluid-cols
+      .expand-col.text-ellipsis
+        ul
+          li
+            a(href="index.html") Home
+          li
+            a(href="") Forms
+          li
+            span Controls
+      .min-col
+        .st-search
+          input.form-control.input-sm(type='text', placeholder='Search')
+  .st-content
+    .container-fluid
+      .row
+        .col-md-4.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Input
+                      small Elements
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#inputs")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#inputs
+                  .form-group
+                      input.form-control(type="text", placeholder="Text")
+                  .form-group
+                      textarea.form-control.noresize(placeholder='Textarea', rows='5', style="height: 112px")
+                  .form-group
+                      .checkbox
+                          input#chb1(type='checkbox', checked='checked')
+                          label(for='chb1') Checkbox
+                  .form-group
+                      .radio.radio-inline
+                          input#r1(type='radio', name='controls_radio', checked='checked')
+                          label(for='r1') Radio 1
+                      .radio.radio-inline
+                          input#r2(type='radio', name='controls_radio')
+                          label(for='r2') Radio 2
+                  .form-group
+                      input.btn.btn-info(type='button', value='Submit')
+                      input.btn.btn-default(type='button', value='Cancel')
+        .col-md-4.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Input States
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#states")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#states
+                  .form-group(style="margin-bottom: 8px;")
+                      label.control-label Disabled
+                      input.form-control(type='text', placeholder='Disabled', disabled='disabled')
+                  .form-group.has-error.has-feedback(style="margin-bottom: 8px;")
+                      label.control-label Has error
+                      input.form-control(type='text', value='Error')
+                      span.glyphicon.glyphicon-remove.form-control-feedback
+                  .form-group.has-success.has-feedback(style="margin-bottom: 9px;")
+                      label.control-label Has success
+                      input.form-control(type='text', value='Success')
+                      span.glyphicon.glyphicon-ok.form-control-feedback
+                  .form-group.has-warning.has-feedback
+                      label.control-label Has warning
+                      input.form-control(type='text', value='Warning')
+                      span.glyphicon.glyphicon-exclamation-sign.form-control-feedback
+        .col-md-4.mb
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Input Groups
+                      small and Addons
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#groups")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#groups
+                  .form-group
+                    .input-group
+                      span.input-group-addon $
+                      input.form-control(type="text", placeholder="Amount")
+                      span.input-group-addon .00
+                  .form-group
+                    .input-group
+                      input.form-control(type="password", value="password", placeholder="Password")
+                      .input-group-btn
+                        button.btn.btn-default(type="button")
+                          i.fa.fa-eye
+                        button.btn.btn-default(type="button")
+                          i.fa.fa-remove
+                  .form-group
+                    .input-group
+                      input.form-control(type="text", placeholder="Variant")
+                      span.input-group-btn
+                        button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown") Choose <span class="caret"></span>
+                        ul.dropdown-menu.dropdown-menu-right
+                          li
+                            a(href="#") Action
+                          li
+                            a(href="#") Another action
+                          li
+                            a(href="#") Something else here
+                          li.divider(role="separator")
+                          li
+                            a(href="#") Separated link
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Help Block
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#help")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#help
+                  .form-group
+                    input.form-control(type="text", placeholder="Username")
+                    .help-block(style="margin-bottom: -1px;") At least 6 characters (letters A-Z, numbers 0-9).
+      .row
+        .col-md-4
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Select Box
+                      small via Select2
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#select")
+                        i.fa.fa-code
+              .st-panel__content
+                .form#select
+                  .form-group
+                      label.control-label Single Select Box
+                      select.select2-box.form-control(data-placeholder="Select State", style="width: 100%")
+                        option
+                        option(value="AL") Alabama
+                        option(value="WY") Wyoming
+                        option(value="NY", disabled="disabled") New York (disabled)
+                  .form-group
+                      label.control-label Option Groups
+                      select.select2-box.form-control(data-placeholder="Time Zones", style="width: 100%")
+                        option
+                        optgroup(label="Pacific Time Zone")
+                          option(value="CA") California
+                          option(value="NV") Nevada
+                          option(value="OR") Oregon
+                          option(value="WA") Washington
+                        optgroup(label="Mountain Time Zone")
+                          option(value="AZ") Arizona
+                          option(value="CO") Colorado
+                          option(value="ID") Idaho
+                          option(value="MT") Montana
+                          option(value="NE") Nebraska
+                          option(value="NM") New Mexico
+                          option(value="ND") North Dakota
+                          option(value="UT") Utah
+                          option(value="WY") Wyoming
+                        optgroup(label="Central Time Zone")
+                          option(value="AL") Alabama
+                          option(value="AR") Arkansas
+                          option(value="IL") Illinois
+                          option(value="IA") Iowa
+                          option(value="KS") Kansas
+                          option(value="KY") Kentucky
+                          option(value="LA") Louisiana
+                          option(value="MN") Minnesota
+                          option(value="MS") Mississippi
+                          option(value="MO") Missouri
+                          option(value="OK") Oklahoma
+                          option(value="SD") South Dakota
+                          option(value="TX") Texas
+                          option(value="TN") Tennessee
+                          option(value="WI") Wisconsin
+                  .form-group
+                      label.control-label Taggin Support
+                      select.select2-box.form-control(multiple="multiple", data-placeholder="Tags", data-tags="true", data-token-separators="[',', ' ']", style="width: 100%")
+                        option(value="just", selected="selected") Just
+                        option(value="admin", selected="selected") Admin
+                        option(value="bootstrap") Bootstrap
+                        option(value="template") Template
+        .col-md-4
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Checkbox and Radio
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#checks")
+                        i.fa.fa-code
+              .st-panel__content
+                p(style="margin-bottom: 13px;") Make inputs look prettier with Awesome Bootstrap Checkboxes.
+                .container-fluid.no-paddings#checks
+                  .row
+                    .col-md-6
+                      .checkbox.checkbox-primary
+                          input#ch1(type='checkbox', checked='checked')
+                          label(for='ch1') Primary
+                      .checkbox.checkbox-success
+                          input#ch2(type='checkbox', checked='checked')
+                          label(for='ch2') Success
+                      .checkbox.checkbox-info
+                          input#ch3(type='checkbox', checked='checked')
+                          label(for='ch3') Info
+                      .checkbox.checkbox-warning
+                          input#ch4(type='checkbox', checked='checked')
+                          label(for='ch4') Warning
+                      .checkbox.checkbox-danger
+                          input#ch5(type='checkbox', checked='checked')
+                          label(for='ch5') Danger
+                      .checkbox
+                          input#ch6(type='checkbox', checked='checked')
+                          label(for='ch6') Default
+                    .col-md-6
+                      .radio.radio-primary
+                          input#rad1(type='radio', name='radio', checked='checked')
+                          label(for='rad1') Primary
+                      .radio.radio-success
+                          input#rad2(type='radio', name='radio')
+                          label(for='rad2') Success
+                      .radio.radio-info
+                          input#rad3(type='radio', name='radio')
+                          label(for='rad3') Info
+                      .radio.radio-warning
+                          input#rad4(type='radio', name='radio')
+                          label(for='rad4') Warning
+                      .radio.radio-danger
+                          input#rad5(type='radio', name='radio')
+                          label(for='rad5') Danger
+                      .radio
+                          input#rad6(type='radio', name='radio')
+                          label(for='rad6') Default
+        .col-md-4
+          .st-panel
+            .st-panel__cont
+              .st-panel__header
+                .fluid-cols
+                  .expand-col.text-ellipsis
+                    span.st-panel__title
+                      span Slider
+                      small ion.rangeSlider
+                  .min-col
+                    .st-panel__tools
+                      a.st-panel-tool(data-tool="source", data-source-root="#sliders")
+                        i.fa.fa-code
+              .st-panel__content
+                p(style="margin-bottom: 23px;") Flexible and responsive range slider.
+                .form#sliders
+                  .form-group
+                      label.control-label Double Range
+                      .slider-danger
+                        input.slider(type="text", name="", value="",
+                                      data-type="double",
+                                      data-grid="true",
+                                      data-min="0",
+                                      data-max="1000",
+                                      data-from="200",
+                                      data-to="750",
+                                      data-prefix="$: ",
+                                      data-decorate_both="false")
+                  .form-group
+                      label.control-label Single Slider
+                      .slider-danger
+                        input.slider(type="text", name="", value="",
+                                      data-type="single",
+                                      data-grid="false",
+                                      data-min="0",
+                                      data-max="1000",
+                                      data-from="500",
+                                      data-prefix="$: ")
+block css
+block js

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Create Job{% endblock %}
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('jobs') }}">Jobs</a>
+</li>
+<li class="active">
+    <span><strong>Create Job</strong></span>
+</li>
+{% endblock %}
+
+{% block body %}
+            <div>
+                <form method="POST" class="form-horizontal" action="{{ path('create_job') }}">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.salesOrder) }}
+                    {{ form_row(form.estimatedShipDate) }}
+                    {{ form_row(form.type) }}
+                    {{ form_row(form.model) }}
+                    {{ form_row(form.quantity) }}
+                    {{ form_row(form.manufacturingOrder) }}
+                    {{ form_row(form.macPurchaseOrder) }}
+                    {{ form_row(form.buildLocation) }}
+                    {{ form_row(form.plannerEstimatedShipDate) }}
+
+                    <a href="{{ path('jobs') }}" class="btn btn-warning">Cancel</a>
+                    {{ form_widget(form.save) }}
+
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+{% endblock %}

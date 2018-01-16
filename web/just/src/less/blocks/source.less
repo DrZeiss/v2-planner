@@ -1,0 +1,37 @@
+.st-source {
+  position: relative;
+
+  &:not(.st-source--copy):after {
+    content: 'Source';
+    display: block;
+    position: absolute;
+    font-size: 12px;
+    color: @color-light;
+    top: 1px;
+    right: 1px;
+    padding: 5px 10px;
+    background: @panel;
+    border-left: 1px solid @border-dark;
+    border-bottom: 1px solid @border-dark;
+    border-bottom-left-radius: 2px;
+  }
+
+  &__copy {
+    display: block;
+    position: absolute;
+    font-size: 12px;
+    color: @color-light;
+    top: 1px;
+    right: 1px;
+    padding: 5px 10px;
+    background: @panel;
+    border-left: 1px solid @border-dark;
+    border-bottom: 1px solid @border-dark;
+    border-bottom-left-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(@panel, 2%);
+    }
+  }
+}
