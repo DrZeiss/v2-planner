@@ -58,20 +58,6 @@ class Kitting
     private $epoxy;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="epoxy_needed", type="boolean")
-     */
-    private $epoxyNeeded;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="epoxy_done", type="boolean", nullable=true)
-     */
-    private $epoxyDone;
-
-    /**
      * 0: No
      * 1: Yes
      * 2: Done
@@ -79,20 +65,6 @@ class Kitting
      * @ORM\Column(name="tube", type="integer", nullable=true)
      */
     private $tube;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tube_needed", type="boolean")
-     */
-    private $tubeNeeded;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="tube_done", type="boolean", nullable=true)
-     */
-    private $tubeDone;
 
     /**
      * @ORM\ManyToOne(targetEntity="V2\MainBundle\Entity\KittingShort")
@@ -145,8 +117,6 @@ class Kitting
      */
     public function __construct()
     {
-        $this->epoxyNeeded= false;
-        $this->tubeNeeded = false;
         $this->createTime = new \DateTime();
         $this->updateTime = new \DateTime();
     }
@@ -279,102 +249,6 @@ class Kitting
     public function getTube()
     {
         return $this->tube;
-    }
-
-    /**
-     * Set epoxyNeeded
-     *
-     * @param boolean $epoxyNeeded
-     *
-     * @return Kitting
-     */
-    public function setEpoxyNeeded($epoxyNeeded)
-    {
-        $this->epoxyNeeded = $epoxyNeeded;
-
-        return $this;
-    }
-
-    /**
-     * Get epoxyNeeded
-     *
-     * @return bool
-     */
-    public function getEpoxyNeeded()
-    {
-        return $this->epoxyNeeded;
-    }
-
-    /**
-     * Set epoxyDone
-     *
-     * @param boolean $epoxyDone
-     *
-     * @return Kitting
-     */
-    public function setEpoxyDone($epoxyDone)
-    {
-        $this->epoxyDone = $epoxyDone;
-
-        return $this;
-    }
-
-    /**
-     * Get epoxyDone
-     *
-     * @return bool
-     */
-    public function getEpoxyDone()
-    {
-        return $this->epoxyDone;
-    }
-
-    /**
-     * Set tubeNeeded
-     *
-     * @param boolean $tubeNeeded
-     *
-     * @return Kitting
-     */
-    public function setTubeNeeded($tubeNeeded)
-    {
-        $this->tubeNeeded = $tubeNeeded;
-
-        return $this;
-    }
-
-    /**
-     * Get tubeNeeded
-     *
-     * @return bool
-     */
-    public function getTubeNeeded()
-    {
-        return $this->tubeNeeded;
-    }
-
-    /**
-     * Set tubeDone
-     *
-     * @param boolean $tubeDone
-     *
-     * @return Kitting
-     */
-    public function setTubeDone($tubeDone)
-    {
-        $this->tubeDone = $tubeDone;
-
-        return $this;
-    }
-
-    /**
-     * Get tubeDone
-     *
-     * @return bool
-     */
-    public function getTubeDone()
-    {
-        return $this->tubeDone;
     }
 
     /**

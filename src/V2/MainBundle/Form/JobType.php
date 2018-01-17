@@ -39,7 +39,11 @@ class JobType extends AbstractType
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-3 control-label',
                 ),
-                'widget'                => 'single_text',
+                'widget'                =>  'single_text',
+                'html5'                 =>  false,
+                'attr'                  =>  array(
+                    'class'             =>  'js-datepicker'
+                ),
             ))
             ->add('type', TextType::class, array(
                 'label'                 =>  'Type',
@@ -89,7 +93,11 @@ class JobType extends AbstractType
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-3 control-label',
                 ),
-                'widget'                => 'single_text',
+                'widget'                =>  'single_text',
+                'html5'                 =>  false,
+                'attr'                  =>  array(
+                    'class'             =>  'js-datepicker'
+                ),
                 'required'              => false,
             ))
             ->add('save', SubmitType::class, array(

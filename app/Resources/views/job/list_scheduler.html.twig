@@ -124,11 +124,11 @@
                     <td>{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</td>
                     <td>{{ job.bom ? job.bom.issuedBy : ""}}</td>
                     {# Kitting #}
-                    <td>{{ job.kitting.completionDate|date('Y-m-d') }}</td>
-                    <td>{{ job.kitting.updatedBy }}</td>
-                    <td>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
+                    <td>{{ job.kitting ? job.kitting.completionDate|date('Y-m-d') : ""}}</td>
+                    <td>{{ job.kitting ? job.kitting.updatedBy : "" }}</td>
+                    <td>{{ job.kitting ? job.kitting.filledCompletely ? "Yes" : "No" : ""}}</td>
                     {# Short #1 #}
-                    <td><a href="#" class="shortPartNumber" data-name="shortPartNumber" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : "" }}</a></td>
+                    <td><a href="#" class="shortPartNumber" data-name="shortPartNumber" data-pk="{{job.kitting ? job.kitting.id}}" data-value="{{job.kitting and job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting and job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting and job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : "" }}</a></td>
                     <td><a href="#" class="paintedPart" data-name="paintedPart" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.kittingShort1 ? job.kitting.kittingShort1.paintedPart : 0}}" data-url="{{ path('edit_kitting_short_painted_part', {'shortId': (job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.paintedPart : "" }}</td>
                     <td><a href="#" class="dateNeeded" data-name="dateNeeded" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_date_needed', {'shortId': (job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.dateNeeded | date('Y-m-d') : "" }}</td>
                     <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>

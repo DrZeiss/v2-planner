@@ -31,7 +31,7 @@
                 {% for job in jobs %}
                 <tr>
                     <td style="border-left:solid">{{ job.name }}<br>
-                        <button type="button" class="btn btn-default btn-sm" onclick="toggleDetails({{job.id}})"><span id="button-details-{{job.id}}" class="glyphicon glyphicon-expand"></span>Details</button>
+                        {# <button type="button" class="btn btn-default btn-sm" onclick="toggleDetails({{job.id}})"><span id="button-details-{{job.id}}" class="glyphicon glyphicon-expand"></span>Details</button> #}
                     </td>
                     <td>{{ job.salesOrder }}</td>
                     <td>{{ job.estimatedShipDate|date('Y-m-d') }}</td>
@@ -49,7 +49,7 @@
                         {% endif %}
                     </td>
                 </tr>
-                <tr id="details_{{ job.id }}" style="display:none">
+{#                 <tr id="details_{{ job.id }}" style="display:none">
                     <td colspan="10">
                         <table class="table table-condensed">
                             <th colspan="2">Bom Building</th>
@@ -141,7 +141,7 @@
                     <a href="{{ path('edit_scheduling', { 'jobId': job.id }) }}" class="btn btn-sm" style="background-color:olive;color:white">Scheduling</a>
                     </td>
                 </tr>
-                {% endfor %}
+ #}                {% endfor %}
             </tbody>
         </table>
     </div>

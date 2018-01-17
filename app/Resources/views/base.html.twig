@@ -30,20 +30,20 @@
           <div class="st-sidebar__scroll scrollbar">
             <div class="st-sidebar__nav">
               <ul>
+              {% if is_granted('ROLE_ADMIN') %} 
                 <li><a href="{{ path('dashboard') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-star st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Dashboard</span></div>
                     </div></a></li>
+              {% endif %}
 
-              {% if is_granted('ROLE_ADMIN') %} 
                 <li><a href="{{ path('all') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-eye st-sidebar__ico"></i></div>
-                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Sauron</span></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">All Jobs</span></div>
                     </div></a>
                 </li>
-              {% endif %}
               {% if is_granted('ROLE_KITTER') %} 
                 <li><a href="{{ path('kitter') }}">
                     <div class="fluid-cols">
@@ -169,7 +169,7 @@
                               <div class="expand-col text-ellipsis"><span>Profile</span></div>
                               <div class="min-col"><i class="fa fa-user"></i></div>
                             </div></a></li>
-                        <li><a href="app-login.html">
+                        <li><a href="{{ path('fos_user_security_logout') }}">
                             <div class="fluid-cols">
                               <div class="expand-col text-ellipsis"><span>Log Out</span></div>
                               <div class="min-col"><i class="fa fa-sign-out"></i></div>
@@ -261,6 +261,7 @@
     <script src="{{ asset('just/dist/js/modules/widgets/settings.js') }}"></script>
     <script src="{{ asset('just/dist/js/modules/widgets/notifications.js') }}"></script><!-- Page Libs JS --><!-- Page App Modules -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
     {% block javascripts %}
     {% endblock %}
   </body>

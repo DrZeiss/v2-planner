@@ -44,7 +44,7 @@ class Scheduling
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="completion_date", type="datetime")
+     * @ORM\Column(name="completion_date", type="datetime", nullable=true)
      */
     private $completionDate;
 
@@ -64,6 +64,7 @@ class Scheduling
      */
     public function __construct()
     {
+        $this->priority = 0;
         $this->subReady = false;
     }
 

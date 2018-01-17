@@ -161,18 +161,31 @@ class JobController extends Controller
 
             if ($form->isValid()) {
                 try {
-                    $job->setUpdateBy(1); // TODO: Add users
+                    $job->setUpdatedBy($this->getUser());
                     $job->setUpdateTime(new \DateTime());
-
                     $this->em->persist($job);
-                    $this->em->flush();                    
+                    $this->em->flush();
+
+                    $kitting = new Kitting();
+                    $kitting->setJob($job);
+                    $kitting->setCreatedBy($this->getUser());
+                    $kitting->setUpdatedBy($this->getUser());
+                    $this->em->persist($kitting);
+
+                    $scheduling = new Scheduling();
+                    $scheduling->setJob($job);
+                    $scheduling->setUpdatedBy($this->getUser());
+                    $scheduling->setUpdateTime(new \DateTime());
+                    $this->em->persist($scheduling);
+
+                    $this->em->flush();
                 } catch (\Exception $e) {
-                    $this->addFlash('error', 'Error while updating!');
+                    $this->addFlash('error', 'Error while updating! '.$e->getMessage());
                     return $this->redirect($request->getUri());
                 }
 
                 $this->addFlash('success', 'Job created!');
-                return $this->redirect($this->generateUrl('jobs'));
+                return $this->redirect($this->generateUrl('all'));
             }
         }
 

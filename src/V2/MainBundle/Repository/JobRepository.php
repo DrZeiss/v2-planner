@@ -107,8 +107,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 1")
-            ->andWhere("j.macPurchaseOrder IS NULL");
+            ->where("j.macPurchaseOrder IS NULL");
             
         $results = $qb->addOrderBy("scheduling.priority", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
