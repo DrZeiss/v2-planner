@@ -39,6 +39,6 @@ services:
        arguments: ["@doctrine.orm.entity_manager"]
 
     V2\UserBundle\Controller\:
-       resource: '../../src/V2/USerBundle/Controller'
+       resource: '../../src/V2/UserBundle/Controller'
        public: true
        arguments: ["@doctrine.orm.entity_manager"]
