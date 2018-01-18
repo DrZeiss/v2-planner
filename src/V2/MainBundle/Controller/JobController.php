@@ -166,10 +166,17 @@ class JobController extends Controller
                     $this->em->persist($job);
                     $this->em->flush();
 
+                    $bom = new Bom();
+                    $bom->setJob($job);
+                    $bom->setUpdatedBy($this->getUser());
+                    $bom->setUpdateTime(new \DateTime());
+                    $this->em->persist($bom);
+
                     $kitting = new Kitting();
                     $kitting->setJob($job);
                     $kitting->setCreatedBy($this->getUser());
                     $kitting->setUpdatedBy($this->getUser());
+                    $kitting->setUpdateTime(new \DateTime());
                     $this->em->persist($kitting);
 
                     $scheduling = new Scheduling();

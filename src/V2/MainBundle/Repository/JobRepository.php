@@ -10,6 +10,21 @@ namespace V2\MainBundle\Repository;
  */
 class JobRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getJobStats()
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->select('COUNT(j.id) as total')
+            ->leftJoin('j.kitting', 'kitting')
+            ->leftJoin('j.bom', 'bom')
+            ->leftJoin('j.shipping', 'shipping')
+            ->leftJoin('j.scheduling', 'scheduling');
+        
+        $results = $qb->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
     public function findKitterJobs()
     {
         $qb         = $this->createQueryBuilder('j');

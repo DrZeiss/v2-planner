@@ -89,10 +89,7 @@
         $('.completionDate').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
-                // mode: 'inline',
-                datepicker: {
-                    orientation: 'auto',
-                },
+                placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Completion Date',
                 success: function(response, newValue) {

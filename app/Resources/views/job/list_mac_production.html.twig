@@ -83,7 +83,7 @@
                     <td>{{ job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</td>
                     <td><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
                     <td><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
-                    <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
+                    <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
                     <td>{{job.kitting.completionDate|date('Y-m-d')}}</td>
                     {# Short #1 #}
                     <td>{{ job.kitting.kittingShort1.partNumber | default("") }}</td>

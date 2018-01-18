@@ -30,7 +30,7 @@ class Bom
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="issued_date", type="datetime")
+     * @ORM\Column(name="issued_date", type="datetime", nullable=true)
      */
     private $issuedDate;
 

@@ -153,9 +153,7 @@
         $('.receivedDate1').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
-                datepicker: {
-                    orientation: 'bottom',
-                },
+                placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Received Date',
                 success: function(response, newValue) {
@@ -177,6 +175,7 @@
         $('.receivedDate2').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
+                placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Received Date',
                 success: function(response, newValue) {
@@ -198,6 +197,7 @@
         $('.receivedDate3').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
+                placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Received Date',
                 success: function(response, newValue) {
@@ -219,6 +219,7 @@
         $('.receivedDate4').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
+                placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Received Date',
                 success: function(response, newValue) {
