@@ -1024,7 +1024,7 @@ class JobController extends Controller
      */
     public function editKittingShortEstimatedDeliveryDate(Request $request, $shortId)
     {
-        $estimateDeliveryDate = $request->request->get('value');
+        $estimatedDeliveryDate = $request->request->get('value');
 
         $short = $this->kittingShortRepository->findOneBy(array('id' => $shortId));
         if (!$short) {

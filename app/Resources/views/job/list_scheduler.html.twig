@@ -158,9 +158,7 @@
                     <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                     <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.modDoneDate | date('Y-m-d') : "" }}</td>
                     <td>{{ job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</td>                    
-                    <td><a href="#" class="notes" data-name="notes" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4) ? job.kitting.kittingShort4.id : 0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.notes : null }}</a></td>
-                    {# location #}
-                    <td>{{job.kitting.location}}</td>
+                    <td><a href="#" class="notes" data-name="notes" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4) ? job.kitting.kittingShort4.id : 0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.notes : null }}</a></td>                    
                     {# epoxy #}
                     <td><a href="#" class="epoxy" data-name="epoxy" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.epoxy}}" data-url="{{ path('edit_kitting_epoxy', {'jobId': job.id}) }}">{% if job.kitting.epoxy is same as(0) %}No{% elseif job.kitting.epoxy == 1 %}Yes{% elseif job.kitting.epoxy == 2 %}Done{% endif %}</a></td>
                     {# tube #}
