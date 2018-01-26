@@ -44,6 +44,14 @@
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Jobs</span></div>
                     </div></a>
                 </li>
+              {% if is_granted('ROLE_BOM_BUILDER') %} 
+                <li><a href="{{ path('bom_builder') }}">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-user st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">BOM Builder</span></div>
+                    </div></a>
+                </li>
+              {% endif %}                
               {% if is_granted('ROLE_KITTER') %} 
                 <li><a href="{{ path('kitter') }}">
                     <div class="fluid-cols">

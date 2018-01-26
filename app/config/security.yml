@@ -7,7 +7,8 @@ security:
 
     role_hierarchy:
         ROLE_SUPER_ADMIN:   [ROLE_ADMIN]
-        ROLE_ADMIN:         [ROLE_USER, 
+        ROLE_ADMIN:         [ROLE_USER,
+                             ROLE_BOM_BUILDER, 
                              ROLE_KITTER, 
                              ROLE_RECEIVER, 
                              ROLE_MANUFACTURER, 

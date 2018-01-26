@@ -2,6 +2,7 @@
 
 namespace V2\MainBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -83,6 +84,10 @@ class JobType extends AbstractType
                     'class'             =>  'col-sm-3 control-label',
                 ),
                 'class'                 =>  'V2\MainBundle\Entity\BuildLocation',
+                'query_builder' => function (EntityRepository $er) {
+                                return $er->createQueryBuilder('bl')
+                                    ->orderBy('bl.id', 'ASC');
+                },
                 'choice_label'          =>  'name',
                 'attr'                  =>  array(
                     'class'             =>  'col-sm-2 select2-box',

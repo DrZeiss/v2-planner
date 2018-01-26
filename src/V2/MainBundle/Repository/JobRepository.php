@@ -25,6 +25,21 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function findBomBuilderJobs()
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.scheduling', 'scheduling')
+            ->join('j.bom', 'bom')
+            ->where("bom.issuedDate IS NULL");
+            
+        $results = $qb->addOrderBy("scheduling.priority", "ASC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
     public function findKitterJobs()
     {
         $qb         = $this->createQueryBuilder('j');

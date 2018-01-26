@@ -20,6 +20,7 @@ class User extends BaseUser
     const ROLE_ADMIN            = 'ROLE_ADMIN';
     const ROLE_DEFAULT          = 'ROLE_USER';
     // Specific roles
+    const ROLE_BOM_BUILDER      = 'ROLE_BOM_BUILDER';
     const ROLE_KITTER           = 'ROLE_KITTER';
     const ROLE_RECEIVER         = 'ROLE_RECEIVER';
     const ROLE_MANUFACTURER     = 'ROLE_MANUFACTURER';

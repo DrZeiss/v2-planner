@@ -65,6 +65,18 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/bomBuilder", name="bom_builder")
+     */
+    public function listBomBuilderJobs()
+    {
+        $jobs           = $this->jobRepository->findBomBuilderJobs();
+
+        return $this->render('job/list_bom_builder.html.twig', array(
+            'jobs'      =>  $jobs,
+        ));
+    }
+
+    /**
      * @Route("/kitter", name="kitter")
      */
     public function listKitterJobs()
@@ -661,38 +673,6 @@ class JobController extends Controller
     }
 
     /**
-     * It is assumed when a part number is specified for a short, it is usually a new short
-     *
-     * @Route("/kitting/{jobId}/editShort1/{shortId}", name="edit_kitting_short1")
-     */
-    public function editKittingShort1(Request $request, $jobId, $shortId)
-    {
-        $job = $this->jobRepository->find($jobId);
-        $partNumber = $request->request->get('value');
-
-        $short1 = $this->kittingShortRepository->findOneBy(array('id' => $shortId));
-        if (!$short1) {
-            $short1 = new KittingShort();
-        }
-        $short1->setPartNumber($partNumber);
-        $short1->setUpdatedBy($this->getUser());
-        $this->em->persist($short1);
-
-        $kitting = $this->kittingRepository->findOneBy(array('job' => $job));
-        if (!$kitting) {
-            $kitting = new Kitting();
-            $kitting->setJob($job);
-        }
-        $kitting->setKittingShort1($short1);
-        $kitting->setUpdateTime(new \DateTime());
-        $kitting->setUpdatedBy($this->getUser());
-
-        $this->em->persist($kitting);
-        $this->em->flush();
-        return $this->json(array('status' => 'success'));
-    }
-
-    /**
      * @Route("/kittingShort/{shortId}/editPaintedPart", name="edit_kitting_short_painted_part")
      */
     public function editKittingShortPaintedPart(Request $request, $shortId)
@@ -733,6 +713,38 @@ class JobController extends Controller
     }
 
     /**
+     * It is assumed when a part number is specified for a short, it is usually a new short
+     *
+     * @Route("/kitting/{jobId}/editShort1/{shortId}", name="edit_kitting_short1")
+     */
+    public function editKittingShort1(Request $request, $jobId, $shortId)
+    {
+        $job = $this->jobRepository->find($jobId);
+        $partNumber = $request->request->get('value');
+
+        $short1 = $this->kittingShortRepository->findOneBy(array('id' => $shortId));
+        if (!$short1) {
+            $short1 = new KittingShort();
+        }
+        $short1->setPartNumber($partNumber);
+        $short1->setUpdatedBy($this->getUser());
+        $this->em->persist($short1);
+
+        $kitting = $this->kittingRepository->findOneBy(array('job' => $job));
+        if (!$kitting) {
+            $kitting = new Kitting();
+            $kitting->setJob($job);
+        }
+        $kitting->setKittingShort1($short1);
+        $kitting->setUpdateTime(new \DateTime());
+        $kitting->setUpdatedBy($this->getUser());
+
+        $this->em->persist($kitting);
+        $this->em->flush();
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
      * @Route("/kitting/{jobId}/editShort2/{shortId}", name="edit_kitting_short2")
      */
     public function editKittingShort2(Request $request, $jobId, $shortId)
@@ -745,6 +757,7 @@ class JobController extends Controller
             $short2 = new KittingShort();
         }
         $short2->setPartNumber($partNumber);
+        $short2->setUpdatedBy($this->getUser());
         $this->em->persist($short2);
 
         $kitting = $this->kittingRepository->findOneBy(array('job' => $job));
@@ -774,6 +787,7 @@ class JobController extends Controller
             $short3 = new KittingShort();
         }
         $short3->setPartNumber($partNumber);
+        $short3->setUpdatedBy($this->getUser());
         $this->em->persist($short3);
 
         $kitting = $this->kittingRepository->findOneBy(array('job' => $job));
@@ -803,6 +817,7 @@ class JobController extends Controller
             $short4 = new KittingShort();
         }
         $short4->setPartNumber($partNumber);
+        $short4->setUpdatedBy($this->getUser());
         $this->em->persist($short4);
 
         $kitting = $this->kittingRepository->findOneBy(array('job' => $job));
