@@ -4,6 +4,7 @@ namespace V2\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\EntityManager;
 use V2\MainBundle\Entity\Job;
@@ -50,6 +51,23 @@ class JobController extends Controller
     {
         echo "404!";
         exit;
+    }
+
+    /**
+     * @Route("/jobNames", name="job_names")
+     */
+    public function jobNames(Request $request)
+    {
+        $searchValue = $request->get('searchValue', '');
+
+        $jobs = $this->jobRepository->findByJobName($searchValue);
+        $jobNames = array();
+        foreach ($jobs as $job) {
+            if (!in_array($job->getName(), $jobNames)) {
+                $jobNames[] = $job->getName();
+            }
+        }
+        return new JsonResponse($jobNames);
     }
 
     /**
@@ -170,7 +188,6 @@ class JobController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-
             if ($form->isValid()) {
                 try {
                     $job->setUpdatedBy($this->getUser());

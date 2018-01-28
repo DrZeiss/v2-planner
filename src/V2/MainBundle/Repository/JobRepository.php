@@ -25,6 +25,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function findByJobName($name)
+    {
+        $qb         = $this->createQueryBuilder('j');
+        $results    = $qb->where("upper(j.name) LIKE :name")
+            ->setParameter('name', "%" . strtoupper($name) . "%")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
     public function findBomBuilderJobs()
     {
         $qb = $this->createQueryBuilder('j')

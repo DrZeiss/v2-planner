@@ -8,112 +8,117 @@
 
 {% block body %}
     <h2>MAC Production Job list</h2>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
-            <thead>
-            <tr>
-                <th style="border:solid" rowspan=2>Name</th>
-                <th style="border:solid" rowspan=2>SO #</th>
-                <th style="border:solid" rowspan=2>Type</th>
-                <th style="border:solid" rowspan=2>Model</th>
-                <th style="border:solid" rowspan=2>Qty</th>
-                <th style="border:solid" rowspan=2>MO #</th>
-                <th style="border:solid" rowspan=2>MAC PO#</th>
-                <th style="border:solid" rowspan=2>Build Location</th>
-                <th style="border:solid" rowspan=2>Planner ESD (Week #)</th>
-                <th style="border:solid;text-align:center" colspan=4>Shipped</th>
-                <th style="border:solid" rowspan=2>Kit Completion Date</th>
-                <th style="border:solid;text-align:center" colspan=4>Short #1</th>
-                <th style="border:solid;text-align:center" colspan=4>Short #2</th>
-                <th style="border:solid;text-align:center" colspan=4>Short #3</th>
-                <th style="border:solid;text-align:center" colspan=4>Short #4</th>
-                <th style="border:solid" rowspan=2>Location</th>
-                <th style="border:solid" rowspan=2>Epoxy</th>
-                <th style="border:solid" rowspan=2>Priority</th>
-                <th style="border:solid" rowspan=2>Sub Ready</th>
-                <th style="border:solid" rowspan=2>Build Completion Date</th>
-                <th style="border:solid" rowspan=2>Last Updated by</th>
-            </tr>
-            <tr>
-                {# Shipped #}
-                <th style="border:solid">Serials Generated Date</th>
-                <th style="border:solid">Date</th>
-                <th style="border:solid">Complete or Partial</th>
-                <th style="border:solid">2nd Shipped Date</th>
-                {# Short #1 #}
-                <th style="border:solid">Part Number</th>
-                <th style="border:solid">Painted Part</th>
-                <th style="border:solid">EDD</th>
-                <th style="border:solid">Received Date</th>
-                {# Short #2 #}
-                <th style="border:solid">Part Number</th>
-                <th style="border:solid">Painted Part</th>
-                <th style="border:solid">EDD</th>
-                <th style="border:solid">Received Date</th>
-                {# Short #3 #}
-                <th style="border:solid">Part Number</th>
-                <th style="border:solid">Painted Part</th>
-                <th style="border:solid">EDD</th>
-                <th style="border:solid">Received Date</th>
-                {# Short #4 #}
-                <th style="border:solid">Part Number</th>
-                <th style="border:solid">Painted Part</th>
-                <th style="border:solid">EDD</th>
-                <th style="border:solid">Received Date</th>
-            </tr>            
-            </thead>
-            <tbody>
-                {% for job in jobs %}
+    <div id="table-listing">
+        <div class="table-responsive table-scrollable">
+            <table class="table table-bordered table-striped table-hover" data-count-fixed-columns="2">
+                <thead>
                 <tr>
-                    <td>{{ job.name }}</td>
-                    <td>{{ job.salesOrder }}</td>   
-                    <td>{{ job.type }}</td>
-                    <td>{{ job.model }}</td>
-                    <td>{{ job.quantity }}</td>
-                    <td>{{ job.manufacturingOrder }}</td>
-                    <td>{{ job.macPurchaseOrder }}</td>
-                    <td>{{ job.buildLocation.name }}</td>
-                    <td>
-                        {% if job.plannerEstimatedShipDate %}
-                            {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
-                        {% else %}
-                            TBD
-                        {% endif %}
-                    </td>
-                    <td>{{ job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</td>
-                    <td><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
-                    <td><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
-                    <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
-                    <td>{{job.kitting.completionDate|date('Y-m-d')}}</td>
+                    <th style="border:solid;border-right:none;border-bottom:none">Name</th>
+                    <th style="border:solid;border-bottom:none">SO #</th>
+                    <th style="border:solid" rowspan=2>Type</th>
+                    <th style="border:solid" rowspan=2>Model</th>
+                    <th style="border:solid" rowspan=2>Qty</th>
+                    <th style="border:solid" rowspan=2>MO #</th>
+                    <th style="border:solid" rowspan=2>MAC PO#</th>
+                    <th style="border:solid" rowspan=2>Build Location</th>
+                    <th style="border:solid" rowspan=2>Planner ESD (Week #)</th>
+                    <th style="border:solid;text-align:center" colspan=4>Shipped</th>
+                    <th style="border:solid" rowspan=2>Kit Completion Date</th>
+                    <th style="border:solid;text-align:center" colspan=4>Short #1</th>
+                    <th style="border:solid;text-align:center" colspan=4>Short #2</th>
+                    <th style="border:solid;text-align:center" colspan=4>Short #3</th>
+                    <th style="border:solid;text-align:center" colspan=4>Short #4</th>
+                    <th style="border:solid" rowspan=2>Location</th>
+                    <th style="border:solid" rowspan=2>Epoxy</th>
+                    <th style="border:solid" rowspan=2>Priority</th>
+                    <th style="border:solid" rowspan=2>Sub Ready</th>
+                    <th style="border:solid" rowspan=2>Build Completion Date</th>
+                    <th style="border:solid" rowspan=2>Last Updated by</th>
+                </tr>
+                <tr>
+                    <th style="border:solid;border-right:none;border-top:none"></th>
+                    <th style="border:solid;border-top:none"></th>
+                    {# Shipped #}
+                    <th style="border:solid">Serials Generated Date</th>
+                    <th style="border:solid">Date</th>
+                    <th style="border:solid">Complete or Partial</th>
+                    <th style="border:solid">2nd Shipped Date</th>
                     {# Short #1 #}
-                    <td>{{ job.kitting.kittingShort1.partNumber | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort1.paintedPart | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
-                    <td><a href="#" class="receivedDate1" data-name="receivedDate1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ (job.kitting.kittingShort1 and job.kitting.kittingShort1.receivedDate) ? job.kitting.kittingShort1.receivedDate | date('Y-m-d') : "" }}</a></td>
+                    <th style="border:solid">Part Number</th>
+                    <th style="border:solid">Painted Part</th>
+                    <th style="border:solid">EDD</th>
+                    <th style="border:solid">Received Date</th>
                     {# Short #2 #}
-                    <td>{{ job.kitting.kittingShort2.partNumber | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort2.paintedPart | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
-                    <td><a href="#" class="receivedDate2" data-name="receivedDate2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ (job.kitting.kittingShort2 and job.kitting.kittingShort2.receivedDate) ? job.kitting.kittingShort2.receivedDate | date('Y-m-d') : "" }}</a></td>
+                    <th style="border:solid">Part Number</th>
+                    <th style="border:solid">Painted Part</th>
+                    <th style="border:solid">EDD</th>
+                    <th style="border:solid">Received Date</th>
                     {# Short #3 #}
-                    <td>{{ job.kitting.kittingShort3.partNumber | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort3.paintedPart | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
-                    <td><a href="#" class="receivedDate3" data-name="receivedDate3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ (job.kitting.kittingShort3 and job.kitting.kittingShort3.receivedDate) ? job.kitting.kittingShort3.receivedDate | date('Y-m-d') : "" }}</a></td>
+                    <th style="border:solid">Part Number</th>
+                    <th style="border:solid">Painted Part</th>
+                    <th style="border:solid">EDD</th>
+                    <th style="border:solid">Received Date</th>
                     {# Short #4 #}
-                    <td>{{ job.kitting.kittingShort4.partNumber | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort4.paintedPart | default("") }}</td>
-                    <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
-                    <td><a href="#" class="receivedDate4" data-name="receivedDate4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ (job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate) ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</a></td>
-                    <td><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
-                    <td><a href="#" class="epoxy" data-name="epoxy" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.epoxy}}" data-url="{{ path('edit_kitting_epoxy', {'jobId': job.id}) }}">{% if job.kitting.epoxy is same as(0) %}No{% elseif job.kitting.epoxy == 1 %}Yes{% elseif job.kitting.epoxy == 2 %}Done{% endif %}</a></td>
-                    <td>{{job.scheduling.priority}}</td>
-                    <td><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
-                    <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
-                    <td>{{ job.updatedBy }}<br>({{ job.updateTime|date('Y-m-d') }})</td>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <th style="border:solid">Part Number</th>
+                    <th style="border:solid">Painted Part</th>
+                    <th style="border:solid">EDD</th>
+                    <th style="border:solid">Received Date</th>
+                </tr>            
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td>{{ job.name }}</td>
+                        <td>{{ job.salesOrder }}</td>   
+                        <td>{{ job.type }}</td>
+                        <td>{{ job.model }}</td>
+                        <td>{{ job.quantity }}</td>
+                        <td>{{ job.manufacturingOrder }}</td>
+                        <td>{{ job.macPurchaseOrder }}</td>
+                        <td>{{ job.buildLocation.name }}</td>
+                        <td>
+                            {% if job.plannerEstimatedShipDate %}
+                                {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                            {% else %}
+                                TBD
+                            {% endif %}
+                        </td>
+                        <td>{{ job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</td>
+                        <td><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
+                        <td><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
+                        <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
+                        <td>{{job.kitting.completionDate|date('Y-m-d')}}</td>
+                        {# Short #1 #}
+                        <td>{{ job.kitting.kittingShort1.partNumber | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort1.paintedPart | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                        <td><a href="#" class="receivedDate1" data-name="receivedDate1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ (job.kitting.kittingShort1 and job.kitting.kittingShort1.receivedDate) ? job.kitting.kittingShort1.receivedDate | date('Y-m-d') : "" }}</a></td>
+                        {# Short #2 #}
+                        <td>{{ job.kitting.kittingShort2.partNumber | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort2.paintedPart | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                        <td><a href="#" class="receivedDate2" data-name="receivedDate2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ (job.kitting.kittingShort2 and job.kitting.kittingShort2.receivedDate) ? job.kitting.kittingShort2.receivedDate | date('Y-m-d') : "" }}</a></td>
+                        {# Short #3 #}
+                        <td>{{ job.kitting.kittingShort3.partNumber | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort3.paintedPart | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                        <td><a href="#" class="receivedDate3" data-name="receivedDate3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ (job.kitting.kittingShort3 and job.kitting.kittingShort3.receivedDate) ? job.kitting.kittingShort3.receivedDate | date('Y-m-d') : "" }}</a></td>
+                        {# Short #4 #}
+                        <td>{{ job.kitting.kittingShort4.partNumber | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort4.paintedPart | default("") }}</td>
+                        <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                        <td><a href="#" class="receivedDate4" data-name="receivedDate4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ (job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate) ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</a></td>
+                        <td><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
+                        <td><a href="#" class="epoxy" data-name="epoxy" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.epoxy}}" data-url="{{ path('edit_kitting_epoxy', {'jobId': job.id}) }}">{% if job.kitting.epoxy is same as(0) %}No{% elseif job.kitting.epoxy == 1 %}Yes{% elseif job.kitting.epoxy == 2 %}Done{% endif %}</a></td>
+                        <td>{{job.scheduling.priority}}</td>
+                        <td><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
+                        <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
+                        <td>{{ job.updatedBy }}<br>({{ job.updateTime|date('Y-m-d') }})</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
 
@@ -121,6 +126,8 @@
     <script>
 
     $(document).ready(function() {
+        app_handle_listing_horisontal_scroll($('#table-listing'));
+
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
 

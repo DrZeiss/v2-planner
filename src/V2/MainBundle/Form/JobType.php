@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use V2\MainBundle\Entity\BuildLocation;
 
@@ -23,12 +24,7 @@ class JobType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                'label'                 =>  'Name',
-                'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
-                ),
-            ))
+            ->add('name', HiddenType::class)
             ->add('salesOrder', TextType::class, array(
                 'label'                 =>  'Sales Order #',
                 'label_attr'            =>  array(
