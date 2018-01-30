@@ -2,6 +2,8 @@
 
 namespace V2\MainBundle\Repository;
 
+use V2\MainBundle\Entity\BuildLocation;
+
 /**
  * JobRepository
  *
@@ -24,6 +26,49 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
         return $results;
     }
+
+    public function getScheduledJobs(BuildLocation $buildLocation, $startDate, $endDate)
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->select('COUNT(j.id) as total')
+            ->leftJoin('j.kitting', 'kitting')
+            ->leftJoin('j.bom', 'bom')
+            ->leftJoin('j.shipping', 'shipping')
+            ->leftJoin('j.scheduling', 'scheduling')
+            ->where('j.buildLocation = :buildLocation')
+            ->setParameter('buildLocation', $buildLocation)
+            ->andWhere('j.estimatedShipDate >= :startDate')
+            ->setParameter('startDate', $startDate)
+            ->andWhere('j.estimatedShipDate <= :endDate')
+            ->setParameter('endDate', $endDate);
+
+        $results = $qb->getQuery()
+            ->getResult();
+
+        if (count($results) <= 0) {
+            return 0;
+        }
+
+        return $results[0];
+    }
+
+    // Gets the number of jobs shipped by a specific number of days
+    public function getJobShippedByDays($numDays)
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->select('COUNT(j.id) as total')
+            ->leftJoin('j.shipping', 'shipping')
+            ->where('shipping.shipDate > :shipDate')
+            ->setParameter('shipDate', date('Y-m-d', strtotime("-$numDays days")));
+        
+        $results = $qb->getQuery()
+            ->getResult();
+        if (count($results) <= 0) {
+            return 0;
+        }
+        return $results[0];
+    }
+
 
     public function findByJobName($name)
     {
