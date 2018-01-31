@@ -129,7 +129,17 @@
                         {# Kitting #}
                         <td>{{ job.kitting ? job.kitting.completionDate|date('Y-m-d') : ""}}</td>
                         <td>{{ job.kitting ? job.kitting.updatedBy : "" }}</td>
-                        <td>{{ job.kitting ? job.kitting.filledCompletely ? "Yes" : "No" : ""}}</td>
+                        <td>
+                            {% if job.kitting and job.kitting.filledCompletely is null %}
+                                N/A
+                            {% elseif job.kitting and (job.kitting.filledCompletely == 1) %}
+                                Yes
+                            {% elseif job.kitting and (job.kitting.filledCompletely == 0) %}
+                                No
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                        </td>
                         {# Short #1 #}
                         <td><a href="#" class="shortPartNumber" data-name="shortPartNumber" data-pk="{{job.kitting ? job.kitting.id}}" data-value="{{job.kitting and job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting and job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting and job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : "" }}</a></td>
                         <td><a href="#" class="paintedPart" data-name="paintedPart" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.kittingShort1 ? job.kitting.kittingShort1.paintedPart : 0}}" data-url="{{ path('edit_kitting_short_painted_part', {'shortId': (job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.paintedPart : "" }}</a></td>
@@ -183,7 +193,7 @@
     <script>
 
     $(document).ready(function() {
-        app_handle_listing_horisontal_scroll($('#table-listing'));
+        app_handle_listing_horizontal_scroll($('#table-listing'));
 
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';

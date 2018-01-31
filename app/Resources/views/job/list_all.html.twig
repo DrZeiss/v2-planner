@@ -14,7 +14,7 @@
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <thead>
-            <tr>
+            <tr style="background-color:white">
                 <th style="border:solid">Name</th>
                 <th style="border:solid">SO #</th>
                 <th style="border:solid">ESD</th>
@@ -148,7 +148,12 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://unpkg.com/sticky-table-headers"></script>
     <script>
+    $(document).ready(function() {
+        $('.table').stickyTableHeaders();
+    });
+
     function toggleDetails(index)
     {
         $('#details_'+index).toggle();
