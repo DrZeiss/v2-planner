@@ -11,149 +11,48 @@
         <span style="float:right"><a href="{{ path('create_job') }}" class="btn btn-primary">Create New Job</a></span>
     </div>
     <h2>Job list</h2>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
-            <thead>
-            <tr style="background-color:white">
-                <th style="border:solid">Name</th>
-                <th style="border:solid">SO #</th>
-                <th style="border:solid">ESD</th>
-                <th style="border:solid">Type</th>
-                <th style="border:solid">Model</th>
-                <th style="border:solid">Qty</th>
-                <th style="border:solid">MO #</th>
-                <th style="border:solid">Mac PO #</th>
-                <th style="border:solid">Build Location</th>
-                <th style="border:solid">Estimated ESD</th>
+    <table class="table table-bordered table-striped table-hover table-freeze-multi" data-scroll-height="500" data-cols-number="2">
+        <thead>
+        <tr style="background-color:white">
+            <th style="width:100px;border:solid">Name</th>
+            <th style="width:100px;border:solid">SO #</th>
+            <th style="width:100px;border:solid">ESD</th>
+            <th style="width:100px;border:solid">Type</th>
+            <th style="width:100px;border:solid">Model</th>
+            <th style="width:100px;border:solid">Qty</th>
+            <th style="width:100px;border:solid">MO #</th>
+            <th style="width:100px;border:solid">Mac PO #</th>
+            <th style="width:100px;border:solid">Build Location</th>
+            <th style="width:100px;border:solid">Estimated ESD</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td style="width:100px;background-color:white">{{ job.name }}</td>
+                <td style="width:100px;background-color:white">{{ job.salesOrder }}</td>
+                <td style="width:100px;">{{ job.estimatedShipDate|date('Y-m-d') }}</td>
+                <td style="width:100px;">{{ job.type }}</td>
+                <td style="width:100px;">{{ job.model }}</td>
+                <td style="width:100px;">{{ job.quantity }}</td>
+                <td style="width:100px;">{{ job.manufacturingOrder }}</td>
+                <td style="width:100px;">{{ job.macPurchaseOrder }}</td>
+                <td style="width:100px;">{{ job.buildLocation.name }}</td>
+                <td style="width:100px;">
+                    {% if job.plannerEstimatedShipDate %}
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
             </tr>
-            </thead>
-            <tbody>
-                {% for job in jobs %}
-                <tr>
-                    <td style="border-left:solid">{{ job.name }}<br>
-                        {# <button type="button" class="btn btn-default btn-sm" onclick="toggleDetails({{job.id}})"><span id="button-details-{{job.id}}" class="glyphicon glyphicon-expand"></span>Details</button> #}
-                    </td>
-                    <td>{{ job.salesOrder }}</td>
-                    <td>{{ job.estimatedShipDate|date('Y-m-d') }}</td>
-                    <td>{{ job.type }}</td>
-                    <td>{{ job.model }}</td>
-                    <td>{{ job.quantity }}</td>
-                    <td>{{ job.manufacturingOrder }}</td>
-                    <td>{{ job.macPurchaseOrder }}</td>
-                    <td>{{ job.buildLocation.name }}</td>
-                    <td style="border-right:solid">
-                        {% if job.plannerEstimatedShipDate %}
-                            {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
-                        {% else %}
-                            TBD
-                        {% endif %}
-                    </td>
-                </tr>
-{#                 <tr id="details_{{ job.id }}" style="display:none">
-                    <td colspan="10">
-                        <table class="table table-condensed">
-                            <th colspan="2">Bom Building</th>
-                                {% if job.bom %}
-                                    <tr>
-                                        <td>Issued Date</td><td>{{job.bom.issuedDate|date('Y-m-d')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Initials</td><td>{{job.bom.initials}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Serials Generated Date</td><td>{% if (job.bom.serialsGeneratedDate) %}{{job.bom.serialsGeneratedDate|date('Y-m-d')}}{% else %}Not generated yet{% endif %}</td>
-                                    </tr>
-                                {% else %}
-                                    <tr><td>No Data</td></tr>
-                                {% endif %}
-                        </table>
-                        <table class="table table-condensed">
-                            <th colspan="2">Kitting</th>
-                                {% if job.kitting %}
-                                    <tr>
-                                        <td>Completion Date</td><td>{{job.kitting.completionDate|date('Y-m-d')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Updated By</td><td>{{job.kitting.updatedBy}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Filled Completely?</td><td>{{ job.kitting.filledCompletely ? 'Yes' : 'No' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Location</td><td>{{job.kitting.location}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Epoxy</td>
-                                        <td>{{job.kitting.epoxyNeeded ? 'Yes' : 'No' }}</td>
-                                        {% if job.kitting.epoxyNeeded %}
-                                            <td>{{job.kitting.epoxyDone ? 'Done' : 'Not done' }}</td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <td>Tube</td>
-                                        <td>{{job.kitting.tubeNeeded ? 'Yes' : 'No' }}</td>
-                                        {% if job.kitting.tubeNeeded %}
-                                            <td>{{job.kitting.tubeDone ? 'Done' : 'Not done' }}</td>
-                                        {% endif %}
-                                    </tr>
-                                {% else %}
-                                    <tr><td>No Data</td></tr>
-                                {% endif %}
-                        </table>
-                        <table class="table table-condensed">
-                            <th colspan="2">Shipping Details</th>
-                                {% if job.shipping %}
-                                    <tr>
-                                        <td>Shipped Date</td><td>{{job.shipping.shipDate|date('Y-m-d')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Complete?</td><td>{{ job.shipping.isComplete ? 'Yes' : 'Partial' }}</td>
-                                    </tr>
-                                {% else %}
-                                    <tr><td>No Data</td></tr>
-                                {% endif %}
-                        </table>
-                        <table class="table table-condensed">
-                            <th colspan="2">Scheduling</th>
-                                {% if job.scheduling %}
-                                    <tr>
-                                        <td>Priority</td><td>{{job.scheduling.priority}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Completion Date</td><td>{{job.scheduling.completionDate|date('Y-m-d')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sub Ready?</td><td>{{ job.scheduling.subReady ? 'Yes' : 'No' }}</td>
-                                    </tr>
-                                {% else %}
-                                    <tr><td>No Data</td></tr>
-                                {% endif %}
-                        </table>
-                    </td>
-                </tr>
-                <tr >
-                    <td colspan="10" style="border-top:dashed; border-bottom:solid; border-left:solid; border-right:solid">
-                    <a href="{{ path('edit_job', { 'jobId': job.id }) }}" class="btn btn-danger btn-sm">Edit</a>
-                    <a href="{{ path('edit_bom', { 'jobId': job.id }) }}" class="btn btn-warning btn-sm">BOM Building</a>
-                    <a href="{{ path('edit_kitting', { 'jobId': job.id }) }}" class="btn btn-info btn-sm">Kitting</a>
-                    <a href="#" class="btn btn-sm" style="background-color:darkmagenta;color:white">Painting</a>
-                    <a href="{{ path('edit_shipping', { 'jobId': job.id }) }}" class="btn btn-success btn-sm">Shipping</a>
-                    <a href="{{ path('edit_scheduling', { 'jobId': job.id }) }}" class="btn btn-sm" style="background-color:olive;color:white">Scheduling</a>
-                    </td>
-                </tr>
- #}                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://unpkg.com/sticky-table-headers"></script>
     <script>
-    $(document).ready(function() {
-        $('.table').stickyTableHeaders();
-    });
-
     function toggleDetails(index)
     {
         $('#details_'+index).toggle();

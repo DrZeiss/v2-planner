@@ -8,74 +8,69 @@
 
 {% block body %}
     <h2>Kitter Job list</h2>
-    <div id="table-listing">
-        <div class="table-responsive table-scrollable">
-            <table class="table table-bordered table-striped table-hover" data-count-fixed-columns="2">
-                <thead>
-                <tr>
-                    <th style="border:solid;border-right:none;">Name</th>
-                    <th style="border:solid">SO #</th>
-                    <th style="border:solid">Type</th>
-                    <th style="border:solid">Qty</th>
-                    <th style="border:solid">MO #</th>
-                    <th style="border:solid">Build Location</th>
-                    <th style="border:solid">Planner ESD</th>
-                    <th style="border:solid; min-width:120px">BOM Issued By (Date)</th>
-                    <th style="border:solid">Completion Date</th>
-                    <th style="border:solid">Updated By</th>
-                    <th style="border:solid">Filled Completely?</th>
-                    <th style="border:solid">Short #1</th>
-                    <th style="border:solid">Short #2</th>
-                    <th style="border:solid">Short #3</th>
-                    <th style="border:solid">Short #4</th>
-                    <th style="border:solid">Location</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for job in jobs %}
-                    <tr>
-                        <td>{{ job.name }}</td>
-                        <td>{{ job.salesOrder }}</td>   
-                        <td>{{ job.type }}</td>
-                        <td>{{ job.quantity }}</td>
-                        <td>{{ job.manufacturingOrder }}</td>
-                        <td>{{ job.buildLocation.name }}</td>
-                        <td>
-                            {% if job.plannerEstimatedShipDate %}
-                                {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
-                            {% else %}
-                                TBD
-                            {% endif %}
-                        </td>
-                        <td>{{ job.bom.issuedBy }} ({{ job.bom.issuedDate|date('Y-m-d') }})</td>
-                        <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate|date('Y-m-d')}}</a></td>
-                        <td>{{job.kitting.updatedBy}}</td>
-                        <td><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">{{job.kitting.filledCompletely}}</a></td>
-                        <td><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
-                        <td><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
-                        <td><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
-                        <td><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
-                        <td><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <table class="table table-bordered table-striped table-hover table-freeze-multi" data-scroll-height="500" data-cols-number="2">
+        <thead>
+        <tr>
+            <th style="width:100px;border:solid;background-color:white">Name</th>
+            <th style="width:100px;border:solid;background-color:white">SO #</th>
+            <th style="width:100px;border:solid">Type</th>
+            <th style="width:100px;border:solid">Qty</th>
+            <th style="width:100px;border:solid">MO #</th>
+            <th style="width:100px;border:solid">Build Location</th>
+            <th style="width:100px;border:solid">Planner ESD</th>
+            <th style="width:100px;border:solid; min-width:120px">BOM Issued By (Date)</th>
+            <th style="width:100px;border:solid">Completion Date</th>
+            <th style="width:100px;border:solid">Updated By</th>
+            <th style="width:100px;border:solid">Filled Completely?</th>
+            <th style="width:100px;border:solid">Short #1</th>
+            <th style="width:100px;border:solid">Short #2</th>
+            <th style="width:100px;border:solid">Short #3</th>
+            <th style="width:100px;border:solid">Short #4</th>
+            <th style="width:100px;border:solid">Location</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td style="width:100px;background-color:white">{{ job.name }}</td>
+                <td style="width:100px;background-color:white">{{ job.salesOrder }}</td>   
+                <td style="width:100px">{{ job.type }}</td>
+                <td style="width:100px">{{ job.quantity }}</td>
+                <td style="width:100px">{{ job.manufacturingOrder }}</td>
+                <td style="width:100px">{{ job.buildLocation.name }}</td>
+                <td style="width:100px">
+                    {% if job.plannerEstimatedShipDate %}
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+                <td style="width:100px">{{ job.bom.issuedBy }} ({{ job.bom.issuedDate|date('Y-m-d') }})</td>
+                <td style="width:100px"><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate|date('Y-m-d')}}</a></td>
+                <td style="width:100px">{{job.kitting.updatedBy}}</td>
+                <td style="width:100px"><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">{{job.kitting.filledCompletely}}</a></td>
+                <td style="width:100px"><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
+                <td style="width:100px"><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
+                <td style="width:100px"><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
+                <td style="width:100px"><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
+                <td style="width:100px"><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
 
 {% block javascripts %}
     <script>
 
     $(document).ready(function() {
-        app_handle_listing_horizontal_scroll($('#table-listing'));
-
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
 
         $('.filledCompletely').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
+                container: 'body',
                 emptytext: 'N/A',
                 source: [
                   {value: 1, text: 'Yes'},
@@ -94,6 +89,7 @@
         $('.completionDate').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
+                container: 'body',
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Completion Date',
@@ -106,6 +102,7 @@
         $('.short1').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
+                container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Part Number for Short #1',
                 success: function(response, newValue) {
@@ -117,6 +114,7 @@
         $('.short2').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
+                container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Part Number for Short #2',
                 success: function(response, newValue) {
@@ -128,6 +126,7 @@
         $('.short3').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
+                container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Part Number for Short #3',
                 success: function(response, newValue) {
@@ -139,6 +138,7 @@
         $('.short4').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
+                container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Part Number for Short #4',
                 success: function(response, newValue) {
@@ -150,6 +150,7 @@
         $('.location').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
+                container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter location',
                 success: function(response, newValue) {
