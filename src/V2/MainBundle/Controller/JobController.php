@@ -71,7 +71,7 @@ class JobController extends Controller
     }
 
     /**
-     * @Route("/all", name="all")
+     * @Route("/all", name="all_jobs")
      */
     public function listAllJobs()
     {
@@ -169,12 +169,20 @@ class JobController extends Controller
     /**
      * @Route("/scheduler", name="scheduler")
      */
-    public function listSchedulerJobs()
+    public function listSchedulerJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findSchedulerJobs();
+        $defaultParameters = array(
+            'name' => null,
+            'esd' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findSchedulerJobs($parameters);
 
         return $this->render('job/list_scheduler.html.twig', array(
             'jobs'      =>  $jobs,
+            'name'      =>  $parameters['name'],
+            'esd'       =>  $parameters['esd'],
         ));
     }
 
@@ -1213,6 +1221,31 @@ class JobController extends Controller
             $scheduling->setJob($job);
         }
         $scheduling->setCompletionDate(new \DateTime($completionDate));
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/scheduling/{jobId}/editPriority", name="edit_scheduling_priority")
+     */
+    public function editSchedulingPriority(Request $request, $jobId)
+    {
+        $priority = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setPriority($priority);
         $scheduling->setUpdateTime(new \DateTime());
         $scheduling->setUpdatedBy($this->getUser());
         $this->em->persist($scheduling);

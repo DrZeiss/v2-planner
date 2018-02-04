@@ -1,13 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block headerTitle %}V2 Production Jobs{% endblock %}
+{% block headerTitle %}Scheduler Jobs{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="active"><span>V2 Production Jobs</span></li>
+    <li class="active"><span>Scheduler Jobs</span></li>
 {% endblock %}
 
 {% block body %}
-    <h2>V2 Production Job list</h2>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('scheduler') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Job Name</label>
+                        <input type="text" name="name" value="{{ name }}" placeholder="Type in job name" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Estimated Ship Date</label>
+                        <input type="text" id="esd" name="esd" value="{{ esd }}" placeholder="YYYY-MM-DD" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h2>Scheduler Job list</h2>
     <table class="table table-bordered table-striped table-hover table-freeze-multi" data-scroll-height="500" data-cols-number="2">
         <thead>
         <tr>
@@ -173,10 +197,10 @@
                 {# tube #}
                 <td style="width:100px"><a href="#" class="tube" data-name="tube" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.tube}}" data-url="{{ path('edit_kitting_tube', {'jobId': job.id}) }}">{% if job.kitting.tube is same as(0) %}No{% elseif job.kitting.tube == 1 %}Yes{% elseif job.kitting.tube == 2 %}Done{% endif %}</a></td>
                 {# Scheduling #}
-                <td style="width:100px">{{job.scheduling.priority}}</td>
-                <td style="width:100px"><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
-                <td style="width:100px"><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
-                <td style="width:100px">{{ job.updatedBy }}<br>({{ job.updateTime|date('Y-m-d') }})</td>
+                <td style="width:100px"><a href="#" class="priority" data-name="priority" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_priority', {'jobId': job.id}) }}">{{ job.scheduling.priority }}</a></td>
+                <td style="width:100px">{{ job.scheduling.subReady ? "Yes" : "No"}}</td>
+                <td style="width:100px">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</td>
+                <td style="width:100px">{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -189,6 +213,10 @@
     $(document).ready(function() {
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
+
+        $('#esd').datepicker({
+            format: 'yyyy-mm-dd'
+        });
 
         $('.name').each(function(i, obj) {
             $(this).editable({
@@ -429,32 +457,14 @@
             });
         });
         
-        $('.subReady').each(function(i, obj) {
-            $(this).editable({
-                type: 'select',
-                emptytext: 'N/A',
-                container: 'body',
-                placement: 'left',
-                value: obj.dataset.value,
-                source: [
-                  {value: 1, text: 'Yes'},
-                  {value: 0, text: 'No'},
-                ],
-                url: obj.dataset.url,
-                title: 'Sub Ready?',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
 
-        $('.completionDate').each(function(i, obj) {
+        $('.priority').each(function(i, obj) {
             $(this).editable({
-                type: 'date',
+                type: 'number',
                 container: 'body',
                 placement: 'left',
                 url: obj.dataset.url,
-                title: 'Select Completion Date',
+                title: 'Priority',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

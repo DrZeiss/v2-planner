@@ -88,7 +88,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.bom', 'bom')
             ->where("bom.issuedDate IS NULL");
             
-        $results = $qb->addOrderBy("scheduling.priority", "ASC")
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -100,7 +100,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb         = $this->createQueryBuilder('j');
         $results    = $qb->join('j.kitting', 'kitting')
+            ->join('j.scheduling', 'scheduling')
             ->where("kitting.filledCompletely IS NULL")
+            ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -111,6 +114,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb         = $this->createQueryBuilder('j');
         $results    = $qb->join('j.kitting', 'kitting')
+            ->join('j.scheduling', 'scheduling')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
@@ -120,6 +124,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.receivedDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.receivedDate IS NULL) OR 
                         (kitting.kittingShort4 IS NOT NULL AND kittingShort4.receivedDate IS NULL)")
+            ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -130,6 +136,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb         = $this->createQueryBuilder('j');
         $results    = $qb->join('j.kitting', 'kitting')
+            ->join('j.scheduling', 'scheduling')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
@@ -139,6 +146,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.modDoneDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.modDoneDate IS NULL) OR 
                         (kitting.kittingShort4 IS NOT NULL AND kittingShort4.modDoneDate IS NULL)")
+            ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -149,11 +158,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb         = $this->createQueryBuilder('j');
         $results    = $qb->join('j.kitting', 'kitting')
+            ->join('j.scheduling', 'scheduling')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 0")
+            ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->addOrderBy("kittingShort1.dateNeeded", "ASC")
             ->addOrderBy("kittingShort2.dateNeeded", "ASC")
             ->addOrderBy("kittingShort3.dateNeeded", "ASC")
@@ -177,7 +189,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->where("kitting.filledCompletely = 1")
             ->andWhere("buildLocation.name = 'MAC'");
             
-        $results = $qb->addOrderBy("scheduling.priority", "ASC")
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -196,7 +208,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("j.macPurchaseOrder IS NULL");
             
-        $results = $qb->addOrderBy("scheduling.priority", "ASC")
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -204,15 +216,26 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findSchedulerJobs()
+    public function findSchedulerJobs($parameters)
     {
+        $name = $parameters['name'];
+        $esd = $parameters['esd'];
+
         $qb = $this->createQueryBuilder('j')
-            ->join('j.scheduling', 'scheduling');
-            // ->join('j.kitting', 'kitting')
-            // ->where("kitting.filledCompletely = 1")
-            // ->andWhere("j.macPurchaseOrder IS NULL");
-            
-        $results = $qb->addOrderBy("scheduling.priority", "ASC")
+            ->join('j.scheduling', 'scheduling')
+            ->where('j.id > 0');
+
+        if ($name) {
+            $qb->andWhere("j.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($esd) {
+            $qb->andWhere("j.estimatedShipDate = :estimatedShipDate")
+                ->setParameter('estimatedShipDate', new \DateTime($esd));
+        }
+
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
