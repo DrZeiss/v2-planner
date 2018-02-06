@@ -369,6 +369,20 @@
                 title: 'Enter Part Number',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                    else {
+                        var newUrl = $(".shortPartNumber:eq(" + i + ")").data('url').replace("0", response.shortId);
+                        $(".shortPartNumber:eq(" + i + ")").attr('data-url', newUrl);
+                        $(".shortPartNumber:eq(" + i + ")").editable('option','url', newUrl);
+                        newUrl = $(".paintedPart:eq(" + i + ")").data('url').replace("0", response.shortId);
+                        $(".paintedPart:eq(" + i + ")").attr('data-url', newUrl);
+                        $(".paintedPart:eq(" + i + ")").editable('option','url', newUrl);
+                        newUrl = $(".dateNeeded:eq(" + i + ")").data('url').replace("0", response.shortId);
+                        $(".dateNeeded:eq(" + i + ")").attr('data-url', newUrl);
+                        $(".dateNeeded:eq(" + i + ")").editable('option','url', newUrl);
+                        newUrl = $(".notes:eq(" + i + ")").data('url').replace("0", response.shortId);
+                        $(".notes:eq(" + i + ")").attr('data-url', newUrl);
+                        $(".notes:eq(" + i + ")").editable('option','url', newUrl);
+                    }
                 }
             });
         });

@@ -7,6 +7,30 @@
 {% endblock %}
 
 {% block body %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('receiver') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Part #</label>
+                        <input type="text" name="part_number" value="{{ part_number }}" placeholder="Type in part #" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Vendor PO #</label>
+                        <input type="text" id="vendor_po_number" name="vendor_po_number" value="{{ vendor_po_number }}" placeholder="Type in Vendor PO #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <h2>Receiver Job list</h2>
     <table class="table table-bordered table-striped table-hover table-freeze-multi" data-scroll-height="500" data-cols-number="2">
         <thead>

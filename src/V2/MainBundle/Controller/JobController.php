@@ -109,36 +109,60 @@ class JobController extends Controller
     /**
      * @Route("/receiver", name="receiver")
      */
-    public function listReceiverJobs()
+    public function listReceiverJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findReceiverJobs();
+        $defaultParameters = array(
+            'part_number' => null,
+            'vendor_po_number' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findReceiverJobs($parameters);
 
         return $this->render('job/list_receiver.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'              =>  $jobs,
+            'part_number'       =>  $parameters['part_number'],
+            'vendor_po_number'  =>  $parameters['vendor_po_number'],
         ));
     }
 
     /**
      * @Route("/manufacturer", name="manufacturer")
      */
-    public function listManufacturerJobs()
+    public function listManufacturerJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findManufacturerJobs();
+        $defaultParameters = array(
+            'date_needed_from' => null,
+            'date_needed_to' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findManufacturerJobs($parameters);
 
         return $this->render('job/list_manufacturer.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'              =>  $jobs,
+            'date_needed_from'  =>  $parameters['date_needed_from'],
+            'date_needed_to'    =>  $parameters['date_needed_to'],            
         ));
     }
 
     /**
      * @Route("/supplyChain", name="supply_chain")
      */
-    public function listSupplyChainJobs()
+    public function listSupplyChainJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findSupplyChainJobs();
+        $defaultParameters = array(
+            'part_number' => null,
+            'vendor' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findSupplyChainJobs($parameters);
 
         return $this->render('job/list_supply_chain.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'          =>  $jobs,
+            'part_number'   =>  $parameters['part_number'],
+            'vendor'        =>  $parameters['vendor'],            
         ));
     }
 
@@ -766,7 +790,7 @@ class JobController extends Controller
 
         $this->em->persist($kitting);
         $this->em->flush();
-        return $this->json(array('status' => 'success'));
+        return $this->json(array('status' => 'success', 'shortId' => $short1->getId()));
     }
 
     /**
@@ -796,7 +820,7 @@ class JobController extends Controller
 
         $this->em->persist($kitting);
         $this->em->flush();
-        return $this->json(array('status' => 'success'));
+        return $this->json(array('status' => 'success', 'shortId' => $short2->getId()));
     }
 
     /**
@@ -826,7 +850,7 @@ class JobController extends Controller
 
         $this->em->persist($kitting);
         $this->em->flush();
-        return $this->json(array('status' => 'success'));
+        return $this->json(array('status' => 'success', 'shortId' => $short3->getId()));
     }
 
     /**
@@ -856,7 +880,7 @@ class JobController extends Controller
 
         $this->em->persist($kitting);
         $this->em->flush();
-        return $this->json(array('status' => 'success'));
+        return $this->json(array('status' => 'success', 'shortId' => $short4->getId()));
     }
 
     /**

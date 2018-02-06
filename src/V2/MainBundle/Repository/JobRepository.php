@@ -110,10 +110,13 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findReceiverJobs()
+    public function findReceiverJobs($parameters)
     {
-        $qb         = $this->createQueryBuilder('j');
-        $results    = $qb->join('j.kitting', 'kitting')
+        $partNumber     = $parameters['part_number'];
+        $vendorPoNumber = $parameters['vendor_po_number'];
+
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
@@ -123,8 +126,25 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.receivedDate IS NULL) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.receivedDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.receivedDate IS NULL) OR 
-                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.receivedDate IS NULL)")
-            ->addOrderBy("scheduling.priority", "DESC")
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.receivedDate IS NULL)");
+
+        if ($partNumber) {
+            $qb->andWhere("kittingShort1.partNumber LIKE :partNumber OR 
+                           kittingShort2.partNumber LIKE :partNumber OR 
+                           kittingShort3.partNumber LIKE :partNumber OR 
+                           kittingShort4.partNumber LIKE :partNumber")
+                ->setParameter('partNumber', "%" . $partNumber . "%");
+        }
+
+        if ($vendorPoNumber) {
+            $qb->andWhere("kittingShort1.vendorPoNumber = :vendorPoNumber OR 
+                           kittingShort2.vendorPoNumber = :vendorPoNumber OR 
+                           kittingShort3.vendorPoNumber = :vendorPoNumber OR 
+                           kittingShort4.vendorPoNumber = :vendorPoNumber")
+                ->setParameter('vendorPoNumber', $vendorPoNumber);
+        }
+
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -132,10 +152,13 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findManufacturerJobs()
+    public function findManufacturerJobs($parameters)
     {
-        $qb         = $this->createQueryBuilder('j');
-        $results    = $qb->join('j.kitting', 'kitting')
+        $dateNeededFrom = $parameters['date_needed_from'];
+        $dateNeededTo   = $parameters['date_needed_to'];
+
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
@@ -145,8 +168,19 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.modDoneDate IS NULL) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.modDoneDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.modDoneDate IS NULL) OR 
-                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.modDoneDate IS NULL)")
-            ->addOrderBy("scheduling.priority", "DESC")
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.modDoneDate IS NULL)");
+        
+        if ($dateNeededFrom) {
+            $qb->andWhere('kittingShort1.dateNeeded >= :dateNeededFrom')
+                ->setParameter('dateNeededFrom', new \DateTime($dateNeededFrom));
+        }
+
+        if ($dateNeededTo) {
+            $qb->andWhere('kittingShort1.dateNeeded <= :dateNeededTo')
+                ->setParameter('dateNeededTo', new \DateTime($dateNeededTo . " 23:59:59"));
+        }
+
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -154,17 +188,37 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findSupplyChainJobs()
+    public function findSupplyChainJobs($parameters)
     {
-        $qb         = $this->createQueryBuilder('j');
-        $results    = $qb->join('j.kitting', 'kitting')
+        $partNumber = $parameters['part_number'];
+        $vendor     = $parameters['vendor'];
+
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0")
-            ->addOrderBy("scheduling.priority", "DESC")
+            ->where("kitting.filledCompletely = 0");
+
+        if ($partNumber) {
+            $qb->andWhere("kittingShort1.partNumber LIKE :partNumber OR 
+                           kittingShort2.partNumber LIKE :partNumber OR 
+                           kittingShort3.partNumber LIKE :partNumber OR 
+                           kittingShort4.partNumber LIKE :partNumber")
+                ->setParameter('partNumber', "%" . $partNumber . "%");
+        }
+
+        if ($vendor) {
+            $qb->andWhere("kittingShort1.vendor LIKE :vendor OR 
+                           kittingShort2.vendor LIKE :vendor OR 
+                           kittingShort3.vendor LIKE :vendor OR 
+                           kittingShort4.vendor LIKE :vendor")
+                ->setParameter('vendor', "%" . $vendor . "%");
+        }
+
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->addOrderBy("kittingShort1.dateNeeded", "ASC")
             ->addOrderBy("kittingShort2.dateNeeded", "ASC")
