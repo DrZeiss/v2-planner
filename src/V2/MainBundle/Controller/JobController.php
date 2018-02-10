@@ -253,7 +253,7 @@ class JobController extends Controller
                 }
 
                 $this->addFlash('success', 'Job created!');
-                return $this->redirect($this->generateUrl('all'));
+                return $this->redirect($this->generateUrl('all_jobs'));
             }
         }
 
