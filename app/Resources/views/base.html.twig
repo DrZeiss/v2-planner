@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <title>{% block title %}v2 Lighting Group, Inc.{% endblock %}</title>
-    {% block stylesheets %}
     <link rel="icon" type="image/png" href="{{ asset('just/dist/img/favicon.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('just/dist/img/apple-touch-favicon.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
@@ -17,7 +16,8 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <link href="{{ asset('css/multifreezer.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/fixedThead.css') }}" rel="stylesheet"/>
+    {% block stylesheets %}
     {% endblock %}  
   </head>
   <body class="sidebar-collapsible sidebar-open">
@@ -101,6 +101,14 @@
                     </div></a>
                 </li>
               {% endif %}
+              {% if is_granted('ROLE_SHIPPER') %} 
+                <li><a href="{{ path('shipper') }}">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-truck st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Shipper</span></div>
+                    </div></a>
+                </li>
+              {% endif %}
               {% if is_granted('ROLE_SCHEDULER') %} 
                 <li><a href="{{ path('scheduler') }}">
                     <div class="fluid-cols">
@@ -158,11 +166,19 @@
                     <div class="st-userpopup__cont">
                       <div class="st-userpopup__main">
                         <div class="st-userpopup__photo">
-                          <div class="st-userpopup__img" style="background-image: url('img/apple-touch-favicon.png');"></div>
+                          <div class="st-userpopup__img" style="background-image: url({{ asset('just/dist/img/apple-touch-favicon.png') }});"></div>
                         </div>
                         <div class="st-userpopup__info">
-                          <div class="st-userpopup__name text-ellipsis">AdminBootstrap</div>
-                          <div class="st-userpopup__status"><span class="label label-success">Manager</span></div>
+                          <div class="st-userpopup__name text-ellipsis">V2LightingGroup</div>
+                          <div class="st-userpopup__status">
+                            <span class="label label-success">
+                              {% if app.user is not null %}
+                                {% for role in app.user.roles %}
+                                    {{ constant('V2\\UserBundle\\Entity\\User::' ~ role) }}<BR>
+                                {% endfor %}
+                              {% endif %}
+                            </span>
+                          </div>
                         </div>
                       </div>
                       <ul class="st-userpopup__menu">
@@ -266,12 +282,8 @@
     <script src="{{ asset('just/dist/js/libs.common.min.js') }}"></script><!-- Common App Modules -->
     <script src="{{ asset('just/dist/js/modules/app.js') }}"></script>
     <script src="{{ asset('just/dist/js/modules/layout/sidebar.js') }}"></script>
-    <script src="{{ asset('just/dist/js/modules/layout/spanel.js') }}"></script>
-    <script src="{{ asset('just/dist/js/modules/widgets/settings.js') }}"></script>
-    <script src="{{ asset('just/dist/js/modules/widgets/notifications.js') }}"></script><!-- Page Libs JS --><!-- Page App Modules -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
-    <script src="{{ asset('js/multifreezer.js') }}"></script>
+    <script src="{{ asset('js/fixedThead.js') }}"></script>
     {% block javascripts %}
     {% endblock %}
   </body>

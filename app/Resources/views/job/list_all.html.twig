@@ -11,34 +11,34 @@
         <span style="float:right"><a href="{{ path('create_job') }}" class="btn btn-primary">Create New Job</a></span>
     </div>
     <h2>Job list</h2>
-    <table class="table table-bordered table-striped table-hover table-freeze-multi" data-scroll-height="500" data-cols-number="2">
+    <table class="table table-bordered table-striped table-hover ">
         <thead>
         <tr style="background-color:white">
-            <th style="width:100px;border:solid">Name</th>
-            <th style="width:100px;border:solid">SO #</th>
-            <th style="width:100px;border:solid">ESD</th>
-            <th style="width:100px;border:solid">Type</th>
-            <th style="width:100px;border:solid">Model</th>
-            <th style="width:100px;border:solid">Qty</th>
-            <th style="width:100px;border:solid">MO #</th>
-            <th style="width:100px;border:solid">Mac PO #</th>
-            <th style="width:100px;border:solid">Build Location</th>
-            <th style="width:100px;border:solid">Estimated ESD</th>
+            <th style="border:solid">Name</th>
+            <th style="border:solid">SO #</th>
+            <th style="border:solid">ESD</th>
+            <th style="border:solid">Type</th>
+            <th style="border:solid">Model</th>
+            <th style="border:solid">Qty</th>
+            <th style="border:solid">MO #</th>
+            <th style="border:solid">Mac PO #</th>
+            <th style="border:solid">Build Location</th>
+            <th style="border:solid">Planner ESD</th>
         </tr>
         </thead>
         <tbody>
             {% for job in jobs %}
             <tr>
-                <td style="width:100px;background-color:white">{{ job.name }}</td>
-                <td style="width:100px;background-color:white">{{ job.salesOrder }}</td>
-                <td style="width:100px;">{{ job.estimatedShipDate|date('Y-m-d') }}</td>
-                <td style="width:100px;">{{ job.type }}</td>
-                <td style="width:100px;">{{ job.model }}</td>
-                <td style="width:100px;">{{ job.quantity }}</td>
-                <td style="width:100px;">{{ job.manufacturingOrder }}</td>
-                <td style="width:100px;">{{ job.macPurchaseOrder }}</td>
-                <td style="width:100px;">{{ job.buildLocation.name }}</td>
-                <td style="width:100px;">
+                <td>{{ job.name }}</td>
+                <td>{{ job.salesOrder }}</td>
+                <td>{{ job.estimatedShipDate|date('Y-m-d') }}</td>
+                <td>{{ job.type }}</td>
+                <td>{{ job.model }}</td>
+                <td>{{ job.quantity }}</td>
+                <td>{{ job.manufacturingOrder }}</td>
+                <td>{{ job.macPurchaseOrder }}</td>
+                <td>{{ job.buildLocation.name }}</td>
+                <td>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
                     {% else %}
@@ -53,16 +53,11 @@
 
 {% block javascripts %}
     <script>
-    function toggleDetails(index)
-    {
-        $('#details_'+index).toggle();
-        $('#button-details-'+index).toggleClass(function() {
-            if ($(this).parent().is('glyphicon-collapse-down')) {
-                return 'glyphicon-expand';
-            } else {
-                return 'glyphicon-collapse-down';
-            }
+        $(document).ready(function() {
+            $('.table').fixedThead({
+              height: 400,
+              col: 2
+            });
         });
-    }
     </script>
 {% endblock %}

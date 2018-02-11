@@ -270,6 +270,21 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function findShipperJobs()
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.scheduling', 'scheduling')
+            ->join('j.shipping', 'shipping')
+            ->where('scheduling.completionDate IS NOT NULL')
+            ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 'Partial' AND shipping.secondShipDate IS NULL)");
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
     public function findSchedulerJobs($parameters)
     {
         $name = $parameters['name'];

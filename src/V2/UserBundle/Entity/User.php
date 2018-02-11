@@ -16,18 +16,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User extends BaseUser
 {
     // General roles
-    const ROLE_SUPER_ADMIN      = 'ROLE_SUPER_ADMIN';
-    const ROLE_ADMIN            = 'ROLE_ADMIN';
+    const ROLE_SUPER_ADMIN      = 'SUPER ADMIN';
+    const ROLE_ADMIN            = 'ADMIN';
     const ROLE_DEFAULT          = 'ROLE_USER';
+    const ROLE_USER             = 'ROLE_USER';    
     // Specific roles
-    const ROLE_BOM_BUILDER      = 'ROLE_BOM_BUILDER';
-    const ROLE_KITTER           = 'ROLE_KITTER';
-    const ROLE_RECEIVER         = 'ROLE_RECEIVER';
-    const ROLE_MANUFACTURER     = 'ROLE_MANUFACTURER';
-    const ROLE_SUPPLY_CHAIN     = 'ROLE_SUPPLY_CHAIN';
-    const ROLE_MAC_PRODUCTION   = 'ROLE_MAC_PRODUCTION';
-    const ROLE_V2_PRODUCTION    = 'ROLE_V2_PRODUCTION';
-    const ROLE_SCHEDULER        = 'ROLE_SCHEDULER';
+    const ROLE_BOM_BUILDER      = 'BOM_BUILDER';
+    const ROLE_KITTER           = 'KITTER';
+    const ROLE_RECEIVER         = 'RECEIVER';
+    const ROLE_MANUFACTURER     = 'MANUFACTURER';
+    const ROLE_SUPPLY_CHAIN     = 'SUPPLY CHAIN';
+    const ROLE_MAC_PRODUCTION   = 'MAC PRODUCTION';
+    const ROLE_V2_PRODUCTION    = 'V2 PRODUCTION';
+    const ROLE_SCHEDULER        = 'SCHEDULER';
+    const ROLE_SHIPPER          = 'SHIPPER';
 
     /**
      * @var int

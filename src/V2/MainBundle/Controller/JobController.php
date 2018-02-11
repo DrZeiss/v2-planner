@@ -191,6 +191,17 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/shipper", name="shipper")
+     */
+    public function listShipperJobs()
+    {
+        $jobs           = $this->jobRepository->findShipperJobs();
+
+        return $this->render('job/list_shipper.html.twig', array(
+            'jobs'      =>  $jobs,
+        ));
+    }
+    /**
      * @Route("/scheduler", name="scheduler")
      */
     public function listSchedulerJobs(Request $request)

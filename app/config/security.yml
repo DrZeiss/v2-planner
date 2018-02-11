@@ -15,7 +15,8 @@ security:
                              ROLE_SUPPLY_CHAIN, 
                              ROLE_MAC_PRODUCTION, 
                              ROLE_V2_PRODUCTION, 
-                             ROLE_SCHEDULER]
+                             ROLE_SCHEDULER,
+                             ROLE_SHIPPER]
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:

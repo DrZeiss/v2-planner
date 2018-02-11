@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block headerTitle %}BOM Builder Jobs{% endblock %}
+{% block headerTitle %}Shipper Jobs{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="active"><span>BOM Builder Jobs</span></li>
+    <li class="active"><span>Shipper Jobs</span></li>
 {% endblock %}
 
 {% block body %}
-    <h2>BOM Builder Job list</h2>
+    <h2>Shipper Job list</h2>
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
@@ -19,19 +19,14 @@
                 <th style="border:solid" rowspan=2>MO #</th>
                 <th style="border:solid" rowspan=2>Build Location</th>
                 <th style="border:solid" rowspan=2>Planner ESD (Week #)</th>
-                <th style="border:solid;text-align:center" colspan=4>Shipped</th>
-                <th style="border:solid;text-align:center" colspan=2>BOM</th>
+                <th style="border:solid;text-align:center" colspan=3>Shipped</th>
                 <th style="border:solid" rowspan=2>Last Updated by</th>
             </tr>
             <tr>
                 {# Shipped #}
-                <th style="border:solid">Serials Generated Date</th>
                 <th style="border:solid">Date</th>
                 <th style="border:solid">Complete or Partial</th>
                 <th style="border:solid">2nd Shipped Date</th>
-                {# BOM #}
-                <th style="border:solid">Issued Date</th>
-                <th style="border:solid">Issued By</th>
             </tr>
         </thead>
         <tbody>
@@ -52,14 +47,9 @@
                     {% endif %}
                 </td>
                 {# Shipped #}
-                <td><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</a></td>
                 <td><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
                 <td><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
                 <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
-                {# BOM #}
-                <td><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</a></td>
-                <td>{{ job.bom ? job.bom.issuedBy : ""}}</td>
-                <td>{{ job.bom.updatedBy }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -74,7 +64,6 @@
           row: 2,
           col: 2
         });
-
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
 
