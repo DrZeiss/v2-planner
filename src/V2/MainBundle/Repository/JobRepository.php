@@ -274,9 +274,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
-            ->join('j.shipping', 'shipping')
+            ->leftJoin('j.shipping', 'shipping')
             ->where('scheduling.completionDate IS NOT NULL')
             ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 'Partial' AND shipping.secondShipDate IS NULL)");
+
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()

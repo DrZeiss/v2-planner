@@ -27,23 +27,27 @@ class KittingShortType extends AbstractType
                     'class'             =>  'col-sm-3 control-label',
                 ),
             ))
-            ->add('paintedPart', CheckboxType::class, array(
-                'label'                 =>  'Part Painted?',
-                'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
-                ),
-                'attr'            =>  array(
-                    'class'             =>  'form-control',
-                    'style'             =>  'width:20%',
-                ),
-                'required'              =>  false,
-            ))
+            // ->add('paintedPart', CheckboxType::class, array(
+            //     'label'                 =>  'Part Painted?',
+            //     'label_attr'            =>  array(
+            //         'class'             =>  'col-sm-3 control-label',
+            //     ),
+            //     'attr'            =>  array(
+            //         'class'             =>  'form-control',
+            //         'style'             =>  'width:20%',
+            //     ),
+            //     'required'              =>  false,
+            // ))
             ->add('dateNeeded', DateType::class, array(
                 'label'                 =>  'Date Needed',
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-3 control-label',
                 ),
-                'widget'                => 'single_text',
+                'widget'                =>  'single_text',
+                'html5'                 =>  false,
+                'attr'                  =>  array(
+                    'class'             =>  'js-datepicker'
+                ),
                 'required'              =>  false,
             ))
             ->add('vendor', TextType::class, array(
@@ -68,35 +72,45 @@ class KittingShortType extends AbstractType
                 'required'              =>  false,
             ))
             ->add('estimatedDeliveryDate', DateType::class, array(
-                'label'                 =>  'Estimated Delivery Date',
+                'label'                 =>  'Estimated Delivery Date (ESD)',
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-3 control-label',
                 ),
-                'widget'                => 'single_text',
-                'required'              =>  false,
-            ))
-            ->add('modDoneDate', DateType::class, array(
-                'label'                 =>  'Mod Done Date',
-                'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                'widget'                =>  'single_text',
+                'html5'                 =>  false,
+                'attr'                  =>  array(
+                    'class'             =>  'js-datepicker'
                 ),
-                'widget'                => 'single_text',
                 'required'              =>  false,
             ))
-            ->add('receivedDate', DateType::class, array(
-                'label'                 =>  'Received Date',
-                'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
-                ),
-                'widget'                => 'single_text',
-                'required'              =>  false,
-            ))
+            // ->add('modDoneDate', DateType::class, array(
+            //     'label'                 =>  'Mod Done Date',
+            //     'label_attr'            =>  array(
+            //         'class'             =>  'col-sm-3 control-label',
+            //     ),
+            //     'widget'                => 'single_text',
+            //     'required'              =>  false,
+            // ))
+            // ->add('receivedDate', DateType::class, array(
+            //     'label'                 =>  'Received Date',
+            //     'label_attr'            =>  array(
+            //         'class'             =>  'col-sm-3 control-label',
+            //     ),
+            //     'widget'                => 'single_text',
+            //     'required'              =>  false,
+            // ))
             ->add('notes', TextareaType::class, array(
                 'label'                 =>  'Notes',
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-3 control-label',
                 ),
                 'required'              =>  false,
+            ))
+            ->add('save', SubmitType::class, array(
+                'label'                 =>  'Create',
+                'attr'                  =>  array(
+                    'class'                 =>  'btn btn-primary',
+                ),
             ));
     }
     

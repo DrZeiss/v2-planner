@@ -17,6 +17,7 @@ use V2\MainBundle\Form\JobType;
 use V2\MainBundle\Form\EditJobType;
 use V2\MainBundle\Form\BomType;
 use V2\MainBundle\Form\KittingType;
+use V2\MainBundle\Form\KittingShortType;
 use V2\MainBundle\Form\ShippingType;
 use V2\MainBundle\Form\SchedulingType;
 
@@ -149,7 +150,7 @@ class JobController extends Controller
     /**
      * @Route("/supplyChain", name="supply_chain")
      */
-    public function listSupplyChainJobs(Request $request)
+    public function listSupplyChainParts(Request $request)
     {
         $defaultParameters = array(
             'part_number' => null,
@@ -157,10 +158,10 @@ class JobController extends Controller
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
-        $jobs           = $this->jobRepository->findSupplyChainJobs($parameters);
+        $parts = $this->kittingShortRepository->findSupplyChainParts($parameters);
 
         return $this->render('job/list_supply_chain.html.twig', array(
-            'jobs'          =>  $jobs,
+            'parts'         =>  $parts,
             'part_number'   =>  $parameters['part_number'],
             'vendor'        =>  $parameters['vendor'],            
         ));
@@ -222,7 +223,7 @@ class JobController extends Controller
     }
 
     /**
-     * @Route("/create", name="create_job")
+     * @Route("/create-job", name="create_job")
      */
     public function createJob(Request $request)
     {
@@ -270,6 +271,39 @@ class JobController extends Controller
 
         return $this->render('job/create.html.twig', array(
             'job'       =>  $job,
+            'form'      =>  $form->createView(),
+        ));
+
+    }
+
+    /**
+     * @Route("/create-part", name="create_part")
+     */
+    public function createPart(Request $request)
+    {
+        $part = new KittingShort();
+        $form = $this->createForm(KittingShortType::class, $part);
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                try {
+                    $part->setUpdatedBy($this->getUser());
+                    $part->setUpdateTime(new \DateTime());
+                    $this->em->persist($part);
+                    $this->em->flush();
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error while creating new Part! '.$e->getMessage());
+                    return $this->redirect($request->getUri());
+                }
+
+                $this->addFlash('success', 'Part created!');
+                return $this->redirect($this->generateUrl('supply_chain'));
+            }
+        }
+
+        return $this->render('part/create.html.twig', array(
+            'part'      =>  $part,
             'form'      =>  $form->createView(),
         ));
 

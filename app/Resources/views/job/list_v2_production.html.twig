@@ -27,8 +27,6 @@
             <th style="border:solid;text-align:center" colspan=4>Short #3</th>
             <th style="border:solid;text-align:center" colspan=4>Short #4</th>
             <th style="border:solid" rowspan=2>Location</th>
-            <th style="border:solid" rowspan=2>Epoxy</th>
-            <th style="border:solid" rowspan=2>Tube</th>
             <th style="border:solid" rowspan=2>Priority</th>
             <th style="border:solid" rowspan=2>Sub Ready</th>
             <th style="border:solid" rowspan=2>Build Completion Date</th>
@@ -119,8 +117,6 @@
                 <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td>{{ job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</td>
                 <td>{{job.kitting.location}}</td>
-                <td><a href="#" class="epoxy" data-name="epoxy" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.epoxy}}" data-url="{{ path('edit_kitting_epoxy', {'jobId': job.id}) }}">{% if job.kitting.epoxy is same as(0) %}No{% elseif job.kitting.epoxy == 1 %}Yes{% elseif job.kitting.epoxy == 2 %}Done{% endif %}</a></td>
-                <td><a href="#" class="tube" data-name="tube" data-pk="{{job.kitting.id}}" data-value="{{job.kitting.tube}}" data-url="{{ path('edit_kitting_tube', {'jobId': job.id}) }}">{% if job.kitting.tube is same as(0) %}No{% elseif job.kitting.tube == 1 %}Yes{% elseif job.kitting.tube == 2 %}Done{% endif %}</a></td>
                 <td>{{job.scheduling.priority}}</td>
                 <td><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
@@ -214,46 +210,6 @@
             });
         });
 
-        $('.epoxy').each(function(i, obj) {
-            $(this).editable({
-                type: 'select',
-                emptytext: 'N/A',
-                container: 'body',
-                placement: 'left',
-                value: obj.dataset.value,
-                source: [
-                  {value: 2, text: 'Done'},
-                  {value: 1, text: 'Yes'},
-                  {value: 0, text: 'No'}
-                ],
-                url: obj.dataset.url,
-                title: 'Epoxy',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.tube').each(function(i, obj) {
-            $(this).editable({
-                type: 'select',
-                emptytext: 'N/A',
-                container: 'body',
-                placement: 'left',
-                value: obj.dataset.value,
-                source: [
-                  {value: 2, text: 'Done'},
-                  {value: 1, text: 'Yes'},
-                  {value: 0, text: 'No'}
-                ],
-                url: obj.dataset.url,
-                title: 'Tube',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-        
         $('.subReady').each(function(i, obj) {
             $(this).editable({
                 type: 'select',

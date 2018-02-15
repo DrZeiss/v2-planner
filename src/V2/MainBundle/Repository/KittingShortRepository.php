@@ -10,4 +10,36 @@ namespace V2\MainBundle\Repository;
  */
 class KittingShortRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findSupplyChainParts($parameters)
+    {
+        $partNumber = $parameters['part_number'];
+        $vendor     = $parameters['vendor'];
+
+        $qb = $this->createQueryBuilder('ks')
+            ->leftJoin('ks.kitting', 'kitting')
+            ->leftJoin('kitting.job', 'job')
+            ->leftJoin('job.scheduling', 'scheduling')
+            ->where('ks.receivedDate IS NULL');
+
+        if ($partNumber) {
+            $qb->andWhere("ks.partNumber LIKE :partNumber")
+                ->setParameter('partNumber', "%" . $partNumber . "%");
+        }
+
+        if ($vendor) {
+            $qb->andWhere("ks.vendor LIKE :vendor")
+                ->setParameter('vendor', "%" . $vendor . "%");
+        }
+
+        $results = $qb
+        // ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
+            ->addOrderBy("ks.dateNeeded", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
+
 }

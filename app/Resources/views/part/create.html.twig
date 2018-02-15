@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Create Part{% endblock %}
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('supply_chain') }}">Parts</a>
+</li>
+<li class="active">
+    <span><strong>Create Part</strong></span>
+</li>
+{% endblock %}
+
+{% block body %}
+            <div>
+                <form method="POST" class="form-horizontal" action="{{ path('create_part') }}">
+                    {{ form_row(form.partNumber) }}
+                    {{ form_row(form.dateNeeded) }}
+                    {{ form_row(form.vendor) }}
+                    {{ form_row(form.vendorPoNumber) }}
+                    {{ form_row(form.modWo) }}
+                    {{ form_row(form.estimatedDeliveryDate) }}
+                    {{ form_row(form.notes) }}
+
+                    <a href="{{ path('supply_chain') }}" class="btn btn-warning">Cancel</a>
+                    {{ form_widget(form.save) }}
+
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+     $(document).ready(function() {
+        // you may need to change this code if you are not using Bootstrap Datepicker
+        $('.js-datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        // $('body').on('keyup', '.search-job', function(e) {
+        //     var searchValue = $(this).val();
+        //     $.ajax({
+        //         url: $(this).data('path'),
+        //         type: 'POST',
+        //         data: { searchValue: searchValue },
+        //         error: function(result) { 
+        //             console.log(result);
+        //             alert("Please contact Engineering Dept!"); 
+        //         },
+        //         success: function(result) {
+        //             var newHtml = '';
+        //             for(i = 0; i < result.length; i++) {
+        //                 console.log(result[i]);
+        //                 newHtml += "<option value='"+result[i]+"'>";
+        //             }
+        //             $('#jobNames').html(newHtml);
+        //         },
+        //     });
+        //     e.preventDefault();
+        // });
+
+    });
+</script>
+{% endblock %}

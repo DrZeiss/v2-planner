@@ -169,25 +169,6 @@
             });
         });
 
-        $('.epoxy').each(function(i, obj) {
-            $(this).editable({
-                type: 'select',
-                emptytext: 'N/A',
-                container: 'body',
-                value: obj.dataset.value,
-                source: [
-                  {value: 2, text: 'Done'},
-                  {value: 1, text: 'Yes'},
-                  {value: 0, text: 'No'}
-                ],
-                url: obj.dataset.url,
-                title: 'Epoxy',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-        
         $('.receivedDate1').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
