@@ -48,7 +48,15 @@
                 <td>{{ job.bom.issuedBy }} {% if job.bom.issuedDate %}({{ job.bom.issuedDate|date('Y-m-d') }}){% endif %}</td>
                 <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate ? job.kitting.completionDate | date('Y-m-d') : "N/A"}}</a></td>
                 <td>{{job.kitting.updatedBy}}</td>
-                <td><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">{{job.kitting.filledCompletely}}</a></td>
+                <td><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
+                    {% if job.kitting.filledCompletely is null %}
+                        N/A
+                    {% elseif job.kitting.filledCompletely == 0 %}
+                        No
+                    {% elseif job.kitting.filledCompletely == 1 %}
+                        Yes
+                    {% endif %}
+                    </a></td>
                 <td><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
                 <td><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
                 <td><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
@@ -65,7 +73,7 @@
     $(document).ready(function() {
         $('.table').fixedThead({
           height: 400,
-          row: 2,
+          row: 1,
           col: 2
         });
 

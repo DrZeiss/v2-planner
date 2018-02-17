@@ -101,7 +101,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb         = $this->createQueryBuilder('j');
         $results    = $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
-            ->where("kitting.filledCompletely IS NULL")
+            ->where("(kitting.filledCompletely IS NULL OR kitting.filledCompletely = 0)")
+            ->addOrderBy("kitting.filledCompletely")
             ->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()

@@ -41,5 +41,35 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function findReceiverParts($parameters)
+    {
+        $partNumber = $parameters['part_number'];
+        $vendorPoNumber = $parameters['vendor_po_number'];
+
+        $qb = $this->createQueryBuilder('ks')
+            ->leftJoin('ks.kitting', 'kitting')
+            ->leftJoin('kitting.job', 'job')
+            ->leftJoin('job.scheduling', 'scheduling')
+            ->where('ks.receivedDate IS NULL');
+
+        if ($partNumber) {
+            $qb->andWhere("ks.partNumber LIKE :partNumber")
+                ->setParameter('partNumber', "%" . $partNumber . "%");
+        }
+
+        if ($vendorPoNumber) {
+            $qb->andWhere("ks.vendorPoNumber LIKE :vendorPoNumber")
+                ->setParameter('vendorPoNumber', "%" . $vendorPoNumber . "%");
+        }
+
+        $results = $qb
+        // ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("ks.estimatedDeliveryDate", "ASC")
+            ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 
 }

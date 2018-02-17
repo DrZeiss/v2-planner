@@ -110,7 +110,7 @@ class JobController extends Controller
     /**
      * @Route("/receiver", name="receiver")
      */
-    public function listReceiverJobs(Request $request)
+    public function listReceiverParts(Request $request)
     {
         $defaultParameters = array(
             'part_number' => null,
@@ -118,10 +118,10 @@ class JobController extends Controller
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
-        $jobs           = $this->jobRepository->findReceiverJobs($parameters);
+        $parts = $this->kittingShortRepository->findReceiverParts($parameters);
 
         return $this->render('job/list_receiver.html.twig', array(
-            'jobs'              =>  $jobs,
+            'parts'             =>  $parts,
             'part_number'       =>  $parameters['part_number'],
             'vendor_po_number'  =>  $parameters['vendor_po_number'],
         ));
