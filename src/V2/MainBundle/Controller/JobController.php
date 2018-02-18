@@ -130,7 +130,7 @@ class JobController extends Controller
     /**
      * @Route("/manufacturer", name="manufacturer")
      */
-    public function listManufacturerJobs(Request $request)
+    public function listManufacturerParts(Request $request)
     {
         $defaultParameters = array(
             'date_needed_from' => null,
@@ -138,10 +138,10 @@ class JobController extends Controller
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
-        $jobs           = $this->jobRepository->findManufacturerJobs($parameters);
+        $parts = $this->kittingShortRepository->findManufacturerParts($parameters);
 
         return $this->render('job/list_manufacturer.html.twig', array(
-            'jobs'              =>  $jobs,
+            'parts'              =>  $parts,
             'date_needed_from'  =>  $parameters['date_needed_from'],
             'date_needed_to'    =>  $parameters['date_needed_to'],            
         ));

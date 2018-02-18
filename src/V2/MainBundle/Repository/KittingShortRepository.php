@@ -72,4 +72,36 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function findManufacturerParts($parameters)
+    {
+        $dateNeededFrom = $parameters['date_needed_from'];
+        $dateNeededTo   = $parameters['date_needed_to'];
+
+        $qb = $this->createQueryBuilder('ks')
+            ->leftJoin('ks.kitting', 'kitting')
+            ->leftJoin('kitting.job', 'job')
+            ->leftJoin('job.scheduling', 'scheduling')
+            ->where("kitting.filledCompletely = 0")
+            ->andWhere("ks.modDoneDate IS NULL")
+            ->andWhere("UPPER(ks.vendor) = 'V2'");
+
+        if ($dateNeededFrom) {
+            $qb->andWhere('ks.dateNeeded >= :dateNeededFrom')
+                ->setParameter('dateNeededFrom', new \DateTime($dateNeededFrom));
+        }
+
+        if ($dateNeededTo) {
+            $qb->andWhere('ks.dateNeeded <= :dateNeededTo')
+                ->setParameter('dateNeededTo', new \DateTime($dateNeededTo . " 23:59:59"));
+        }
+
+        $results = $qb
+        // ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("ks.estimatedDeliveryDate", "ASC")
+            ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 }

@@ -60,7 +60,7 @@
             <tr>
                 <td>{{ part.partNumber}}</a></td>
                 <td>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
-                <td {% if part.estimatedDeliveryDate and date(part.estimatedDeliveryDate) > date(part.dateNeeded) %}style="background-color:yellow"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if part.estimatedDeliveryDate and date(part.estimatedDeliveryDate) > date(part.dateNeeded) %}style="background-color:blue"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
                 <td><a href="#" class="vendor" data-name="vendor" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor', {'shortId': part.id }) }}">{{ part.vendor }}</a></td>
                 <td><a href="#" class="vendorPoNumber" data-name="vendorPoNumber" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'shortId': part.id}) }}">{{ part.vendorPoNumber }}</a></td>
                 <td><a href="#" class="modWo" data-name="modWo" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_wo', {'shortId': part.id}) }}">{{ part.modWo }}</a></td>
