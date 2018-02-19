@@ -111,6 +111,17 @@ class Job
     private $scheduling;
 
     /**
+     * @ORM\Column(name="create_time", type="datetime")
+     */
+    private $createTime;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="V2\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="user_id")
+     */
+    private $createdBy;
+
+    /**
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
@@ -372,6 +383,30 @@ class Job
     }
 
     /**
+     * Set createTime
+     *
+     * @param \DateTime $createTime
+     *
+     * @return Job
+     */
+    public function setCreateTime($createTime)
+    {
+        $this->createTime = $createTime;
+
+        return $this;
+    }
+
+    /**
+     * Get createTime
+     *
+     * @return \DateTime
+     */
+    public function getCreateTime()
+    {
+        return $this->createTime;
+    }
+
+    /**
      * Set updateTime
      *
      * @param \DateTime $updateTime
@@ -393,6 +428,30 @@ class Job
     public function getUpdateTime()
     {
         return $this->updateTime;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \V2\UserBundle\Entity\User $createdBy
+     *
+     * @return Job
+     */
+    public function setCreatedBy(\V2\UserBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \V2\UserBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
     }
 
     /**
@@ -418,6 +477,7 @@ class Job
     {
         return $this->updatedBy;
     }
+
     /**
      * Set bom
      *

@@ -55,7 +55,7 @@
             <tr>
                 <td>{{ part.partNumber}}</td>
                 <td>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
-                <td>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                <td {% if part.estimatedDeliveryDate and date(part.estimatedDeliveryDate) > date(part.dateNeeded) %}style="background-color:blue"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td>{{ part.vendor }}</td>
                 <td>{{ part.vendorPoNumber }}</td>
                 <td>{{ part.modWo }}</td>
