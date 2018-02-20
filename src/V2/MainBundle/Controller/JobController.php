@@ -234,6 +234,8 @@ class JobController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 try {
+                    $job->setCreatedBy($this->getUser());
+                    $job->setCreateTime(new \DateTime());
                     $job->setUpdatedBy($this->getUser());
                     $job->setUpdateTime(new \DateTime());
                     $this->em->persist($job);
