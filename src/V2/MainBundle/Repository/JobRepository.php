@@ -69,6 +69,39 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results[0];
     }
 
+    public function findAllJobs($parameters)
+    {
+        $name                       = $parameters['name'];
+        $salesOrder                 = $parameters['sales_order'];
+        $plannerEstimatedShipDate   = $parameters['planner_esd'];
+
+        $qb         = $this->createQueryBuilder('j')
+            ->join('j.scheduling', 'scheduling')
+            ->leftJoin('j.shipping', 'shipping')
+            ->where('j.id > 0');
+
+        if ($name) {
+            $qb->andWhere("j.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
+        if ($plannerEstimatedShipDate) {
+            $qb->andWhere("j.plannerEstimatedShipDate = :plannerEstimatedShipDate")
+                ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
+        }
+        
+        $results = $qb->addOrderBy("shipping.shipDate", "ASC")
+            ->addOrderBy("shipping.secondShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
 
     public function findByJobName($name)
     {

@@ -122,6 +122,29 @@ class Kitting
     }
 
     /**
+     * Checks if the kitting has all it's shorts received
+     *
+     * @return boolean
+     */
+    public function receivedAllShorts()
+    {
+        // If there's any valid shorts and ANY of them doesn't have a received date, the it's not ALL received
+        if ($this->kittingShort1 && is_null($this->kittingShort1->getReceivedDate())) {
+            return false;
+        }
+        if ($this->kittingShort2 && is_null($this->kittingShort2->getReceivedDate())) {
+            return false;
+        }
+        if ($this->kittingShort3 && is_null($this->kittingShort3->getReceivedDate())) {
+            return false;
+        }
+        if ($this->kittingShort4 && is_null($this->kittingShort4->getReceivedDate())) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Get id
      *
      * @return int

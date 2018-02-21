@@ -58,7 +58,7 @@
         <tbody>
             {% for part in parts %}
             <tr>
-                <td>{{ part.partNumber}}</a></td>
+                <td {% if part.vendor is null %}style="background-color:yellow"{% endif %}>{{ part.partNumber}}</a></td>
                 <td>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
                 <td {% if part.estimatedDeliveryDate and date(part.estimatedDeliveryDate) > date(part.dateNeeded) %}style="background-color:blue"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
                 <td><a href="#" class="vendor" data-name="vendor" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor', {'shortId': part.id }) }}">{{ part.vendor }}</a></td>

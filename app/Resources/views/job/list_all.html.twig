@@ -6,10 +6,39 @@
     <li class="active"><span>Jobs</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right"><a href="{{ path('create_job') }}" class="btn btn-sm btn-warning">Create New Job</a></span>
+{% endblock %}
+
 {% block body %}
-    <div style="height:30px">
-        <span style="float:right"><a href="{{ path('create_job') }}" class="btn btn-primary">Create New Job</a></span>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('all_jobs') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" value="{{ name }}" placeholder="Type in name" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Sales Order #</label>
+                        <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Planner ESD</label>
+                        <input type="text" name="planner_esd" value="{{ planner_esd }}" placeholder="Select Planner ESD" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
     <h2>Job list</h2>
     <table class="table table-bordered table-striped table-hover ">
         <thead>
@@ -65,5 +94,10 @@
               col: 2
             });
         });
+
+        $("input[name='planner_esd'").datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+        });        
     </script>
 {% endblock %}

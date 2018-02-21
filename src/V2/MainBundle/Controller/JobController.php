@@ -74,12 +74,22 @@ class JobController extends Controller
     /**
      * @Route("/all", name="all_jobs")
      */
-    public function listAllJobs()
+    public function listAllJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findAll();
+        $defaultParameters = array(
+            'name' => null,
+            'sales_order' => null,
+            'planner_esd' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findAllJobs($parameters);
 
         return $this->render('job/list_all.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'          =>  $jobs,
+            'name'          =>  $parameters['name'],
+            'sales_order'   =>  $parameters['sales_order'],
+            'planner_esd'   =>  $parameters['planner_esd'],
         ));
     }
 
@@ -1125,6 +1135,14 @@ class JobController extends Controller
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
+
+        // Also check if all shorts have been received so system will automatically set 'filled_completely' to true
+        $kitting = $short->getKitting();
+        if ($kitting->receivedAllShorts()) {
+            $kitting->setFilledCompletely(true);
+            $this->em->persist($kitting);
+        }
+
         $this->em->flush();
 
         return $this->json(array('status' => 'success'));
