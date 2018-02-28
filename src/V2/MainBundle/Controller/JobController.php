@@ -96,24 +96,40 @@ class JobController extends Controller
     /**
      * @Route("/bomBuilder", name="bom_builder")
      */
-    public function listBomBuilderJobs()
+    public function listBomBuilderJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findBomBuilderJobs();
+        $defaultParameters = array(
+            'name' => null,
+            'sales_order' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findBomBuilderJobs($parameters);
 
         return $this->render('job/list_bom_builder.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'          =>  $jobs,
+            'name'          =>  $parameters['name'],
+            'sales_order'   =>  $parameters['sales_order'],
         ));
     }
 
     /**
      * @Route("/kitter", name="kitter")
      */
-    public function listKitterJobs()
+    public function listKitterJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findKitterJobs();
+        $defaultParameters = array(
+            'name' => null,
+            'sales_order' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findKitterJobs($parameters);
 
         return $this->render('job/list_kitter.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'          =>  $jobs,
+            'name'          =>  $parameters['name'],
+            'sales_order'   =>  $parameters['sales_order'],
         ));
     }
 

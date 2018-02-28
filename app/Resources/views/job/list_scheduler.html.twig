@@ -113,7 +113,7 @@
                 {# Job #}
                 <td><a href="#" class="name" data-name="name" data-pk="{{job.id}}" data-url="{{ path('edit_job_name', {'jobId': job.id}) }}">{{ job.name }}</a></td>
                 <td><a href="#" class="salesOrder" data-name="salesOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_sales_order', {'jobId': job.id}) }}">{{ job.salesOrder }}</a></td>   
-                <td><a href="#" class="estimatedShipDate" data-name="estimatedShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_job_estimated_ship_date', {'jobId': job.id}) }}">{{ job.estimatedShipDate|date('Y-m-d') }}</a></td>
+                <td><a href="#" class="estimatedShipDate" data-name="estimatedShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_job_estimated_ship_date', {'jobId': job.id}) }}">{{ job.estimatedShipDate ? job.estimatedShipDate | date('Y-m-d') : "" }}</a></td>
                 <td><a href="#" class="type" data-name="type" data-pk="{{job.id}}" data-url="{{ path('edit_job_type', {'jobId': job.id}) }}">{{ job.type }}</a></td>
                 <td><a href="#" class="model" data-name="model" data-pk="{{job.id}}" data-url="{{ path('edit_job_model', {'jobId': job.id}) }}">{{ job.model }}</a></td>
                 <td><a href="#" class="quantity" data-name="quantity" data-pk="{{job.id}}" data-url="{{ path('edit_job_quantity', {'jobId': job.id}) }}">{{ job.quantity }}</a></td>
@@ -151,7 +151,7 @@
                 <td {% if job.bom and job.bom.issuedDate and date(job.bom.issuedDate) > (date(job.createTime)|date_modify("+3 days")) %}style="background-color:pink"{% endif %}>{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</td>
                 <td>{{ job.bom ? job.bom.issuedBy : ""}}</td>
                 {# Kitting #}
-                <td>{{ job.kitting ? job.kitting.completionDate|date('Y-m-d') : ""}}</td>
+                <td>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('Y-m-d') : ""}}</td>
                 <td>{{ job.kitting ? job.kitting.updatedBy : "" }}</td>
                 <td>
                     {% if job.kitting and job.kitting.filledCompletely is null %}

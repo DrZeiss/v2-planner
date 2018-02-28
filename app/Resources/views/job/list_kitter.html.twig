@@ -7,6 +7,30 @@
 {% endblock %}
 
 {% block body %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('bom_builder') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" value="{{ name }}" placeholder="Type in name" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Sales Order #</label>
+                        <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <h2>Kitter Job list</h2>
     <table class="table table-bordered table-striped table-hover">
         <thead>
@@ -30,8 +54,14 @@
         </tr>
         </thead>
         <tbody>
+            {% set showBuffer = 'notYet' %}            
             {% for job in jobs %}
+                {% if job.kitting.filledCompletely is not null and job.kitting.filledCompletely == 0 and showBuffer == 'notYet' %}
+                {% set showBuffer = 'done' %}
+            <tr style="border-top:solid;border-color:yellow;border-top-width:1em">
+                {% else %}
             <tr>
+                {% endif %}
                 <td>{{ job.name }}</td>
                 <td>{{ job.salesOrder }}</td>   
                 <td>{{ job.type }}</td>

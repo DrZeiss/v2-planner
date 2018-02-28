@@ -97,6 +97,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         
         $results = $qb->addOrderBy("shipping.shipDate", "ASC")
             ->addOrderBy("shipping.secondShipDate", "ASC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -114,13 +115,26 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findBomBuilderJobs()
+    public function findBomBuilderJobs($parameters)
     {
+        $name       = $parameters['name'];
+        $salesOrder = $parameters['sales_order'];
+
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->join('j.bom', 'bom')
             ->where("bom.issuedDate IS NULL");
-            
+
+        if ($name) {
+            $qb->andWhere("j.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
@@ -129,13 +143,27 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findKitterJobs()
+    public function findKitterJobs($parameters)
     {
-        $qb         = $this->createQueryBuilder('j');
-        $results    = $qb->join('j.kitting', 'kitting')
+        $name       = $parameters['name'];
+        $salesOrder = $parameters['sales_order'];
+
+        $qb = $this->createQueryBuilder('j');
+        $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
-            ->where("(kitting.filledCompletely IS NULL OR kitting.filledCompletely = 0)")
-            ->addOrderBy("kitting.filledCompletely")
+            ->where("(kitting.filledCompletely IS NULL OR kitting.filledCompletely = 0)");
+
+        if ($name) {
+            $qb->andWhere("j.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+        
+        $results = $qb->addOrderBy("kitting.filledCompletely")
             ->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
@@ -294,7 +322,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("j.macPurchaseOrder IS NULL");
+            ->where("j.macPurchaseOrder IS NULL")
+            ->andWhere("scheduling.completionDate IS NULL");
             
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")

@@ -55,14 +55,14 @@
                     {% endif %}
                 </td>
                 {# Kitting #}
-                <td>{{ job.kitting.completionDate|date('Y-m-d') }}</td>
+                <td>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate|date('Y-m-d') : "" }}</td>
                 <td>{{ job.kitting.updatedBy }}</td>
                 <td>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
-                <td>{{job.kitting.location}}</td>
-                <td>{{job.scheduling.priority}}</td>
+                <td>{{ job.kitting.location }}</td>
+                <td>{{ job.scheduling.priority }}</td>
                 <td><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
-                <td>{{ job.updatedBy }}<br>({{ job.updateTime|date('Y-m-d') }})</td>
+                <td>{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>
