@@ -111,6 +111,11 @@ class Job
     private $scheduling;
 
     /**
+     * @ORM\OneToOne(targetEntity="V2\MainBundle\Entity\Paint", mappedBy="job")
+     */
+    private $paint;
+
+    /**
      * @ORM\Column(name="create_time", type="datetime")
      */
     private $createTime;
@@ -572,5 +577,29 @@ class Job
     public function getScheduling()
     {
         return $this->scheduling;
+    }
+
+    /**
+     * Set paint
+     *
+     * @param \V2\MainBundle\Entity\Paint $paint
+     *
+     * @return Job
+     */
+    public function setPaint(\V2\MainBundle\Entity\Paint $paint = null)
+    {
+        $this->paint = $paint;
+
+        return $this;
+    }
+
+    /**
+     * Get paint
+     *
+     * @return \V2\MainBundle\Entity\Paint
+     */
+    public function getPaint()
+    {
+        return $this->paint;
     }
 }

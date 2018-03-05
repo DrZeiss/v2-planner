@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Paint View 1{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="active"><span>Paint View 1</span></li>
+{% endblock %}
+
+{% block body %}
+    <h2>Paint View 1 list</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th style="border:solid">Color</th>
+            <th style="border:solid"># of jobs</th>
+            <th style="border:solid">Sum of fixture qty</th>
+            <th style="border:solid">Planner ESD</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for paint in paints %}
+                <td><a href="{{ path('paint_view2', { 'color': paint.color }) }}">{{ paint.color }}</a></td>
+                <td>{{ paint.num_jobs }}</td>   
+                <td>{{ paint.sum_qty }}</td>
+                <td>
+                    {% if paint.planner_esd %}
+                        {{ paint.planner_esd | date('Y-m-d') }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    $(document).ready(function() {
+        $('.table').fixedThead({
+          height: 400,
+          row: 1,
+          col: 1
+        });
+
+        //toggle `popup` / `inline` mode
+        $.fn.editable.defaults.mode = 'popup';
+
+        $('.filledCompletely').each(function(i, obj) {
+            $(this).editable({
+                type: 'select',
+                container: 'body',
+                emptytext: 'N/A',
+                source: [
+                  {value: 1, text: 'Yes'},
+                  {value: 0, text: 'No'}
+                ],
+                url: obj.dataset.url,
+                title: 'Select Completion Status',
+                success: function(response, newValue) {
+                    if (response.status == 'error') {
+                        return response.msg; //msg will be shown in editable form
+                    }
+                }
+            });
+        });
+
+        $('.completionDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Completion Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+        
+        $('.short1').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Part Number for Short #1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.short2').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Part Number for Short #2',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.short3').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Part Number for Short #3',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.short4').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Part Number for Short #4',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.location').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+        
+    });
+    </script>
+{% endblock %}

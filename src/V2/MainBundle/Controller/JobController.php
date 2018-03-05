@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\EntityManager;
 use V2\MainBundle\Entity\Job;
 use V2\MainBundle\Entity\Bom;
+use V2\MainBundle\Entity\Paint;
 use V2\MainBundle\Entity\Kitting;
 use V2\MainBundle\Entity\KittingShort;
 use V2\MainBundle\Entity\Shipping;
@@ -266,6 +267,14 @@ class JobController extends Controller
                     $job->setUpdateTime(new \DateTime());
                     $this->em->persist($job);
                     $this->em->flush();
+
+                    $paint = new Paint();
+                    $paint->setJob($job);
+                    $paint->setColor1($form->get("paint1")->getData());
+                    $paint->setColor2($form->get("paint2")->getData());
+                    $paint->setUpdatedBy($this->getUser());
+                    $paint->setUpdateTime(new \DateTime());
+                    $this->em->persist($paint);
 
                     $bom = new Bom();
                     $bom->setJob($job);

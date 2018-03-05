@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Paint View 2{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="active"><span>Paint View 2</span></li>
+{% endblock %}
+
+{% block body %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('paint_view2') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Color</label>
+                        <input type="text" name="color" value="{{ color }}" placeholder="Type in color" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Job Name</label>
+                        <input type="text" name="name" value="{{ name }}" placeholder="Type in name" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Planner ESD</label>
+                        <input type="text" id="planner_esd" name="planner_esd" value="{{ planner_esd }}" placeholder="YYYY-MM-DD" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h2>Paint View 2 list</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th style="border:solid" rowspan=2>Planner ESD</th>
+            <th style="border:solid" rowspan=2>Job Name</th>
+            <th style="border:solid" rowspan=2>Qty</th>
+            <th style="border:solid" rowspan=2>Color 1</th>
+            <th style="border:solid" rowspan=2>Batch 1 #</th>
+            <th style="border:solid" rowspan=2>Color 2</th>
+            <th style="border:solid" rowspan=2>Batch 2 #</th>
+            <th style="border:solid;text-align:center" colspan=3>Short #1</th>
+            <th style="border:solid;text-align:center" colspan=3>Short #2</th>
+            <th style="border:solid;text-align:center" colspan=3>Short #3</th>
+            <th style="border:solid;text-align:center" colspan=3>Short #4</th>
+        </tr>
+        <tr>
+            {# Short #1 #}
+            <th style="border:solid">Part Number</th>
+            <th style="border:solid">Painted Part</th>
+            <th style="border:solid">EDD</th>
+            {# Short #2 #}
+            <th style="border:solid">Part Number</th>
+            <th style="border:solid">Painted Part</th>
+            <th style="border:solid">EDD</th>
+            {# Short #3 #}
+            <th style="border:solid">Part Number</th>
+            <th style="border:solid">Painted Part</th>
+            <th style="border:solid">EDD</th>
+            {# Short #4 #}
+            <th style="border:solid">Part Number</th>
+            <th style="border:solid">Painted Part</th>
+            <th style="border:solid">EDD</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for paint in paints %}
+                <td>
+                    {% if paint.job.plannerEstimatedShipDate %}
+                        {{ paint.job.plannerEstimatedShipDate | date('Y-m-d') }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+                <td>{{ paint.job.name }}</td>
+                <td>{{ paint.job.quantity }}</td>
+                <td>{{ paint.color1 }}</td>
+                <td><a href="#" class="batch1" data-name="batch1" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': paint.id}) }}">{{ paint.batch1 ? paint.batch1.id }}</a></td>
+                <td>{{ paint.color2 }}</td>
+                <td><a href="#" class="batch2" data-name="batch2" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch2', {'paintId': paint.id}) }}">{{ paint.batch2 ? paint.batch2.id }}</a></td>
+                {# Short #1 #}
+                <td>{{ paint.job.kitting.kittingShort1.partNumber | default("") }}</td>
+                <td>{{ paint.job.kitting.kittingShort1.paintedPart | default("") }}</td>
+                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.estimatedDeliveryDate ? paint.job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                {# Short #2 #}
+                <td>{{ paint.job.kitting.kittingShort2.partNumber | default("") }}</td>
+                <td>{{ paint.job.kitting.kittingShort2.paintedPart | default("") }}</td>
+                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.estimatedDeliveryDate ? paint.job.kitting.kittingShort2.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                {# Short #3 #}
+                <td>{{ paint.job.kitting.kittingShort3.partNumber | default("") }}</td>
+                <td>{{ paint.job.kitting.kittingShort3.paintedPart | default("") }}</td>
+                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.estimatedDeliveryDate ? paint.job.kitting.kittingShort3.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                {# Short #4 #}
+                <td>{{ paint.job.kitting.kittingShort4.partNumber | default("") }}</td>
+                <td>{{ paint.job.kitting.kittingShort4.paintedPart | default("") }}</td>
+                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.estimatedDeliveryDate ? paint.job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    $(document).ready(function() {
+        $('.table').fixedThead({
+          height: 400,
+          row: 2,
+          col: 2
+        });
+
+        $('#planner_esd').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+
+        //toggle `popup` / `inline` mode
+        $.fn.editable.defaults.mode = 'popup';
+        
+        $('.batch1').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Batch # for Color 1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.batch2').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Batch # for Color 2',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+        
+    });
+    </script>
+{% endblock %}

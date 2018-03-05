@@ -72,7 +72,7 @@ class JobType extends AbstractType
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-3 control-label',
                 ),
-                'required'              => false,
+                'required'              =>  false,
             ))
             ->add('buildLocation', EntityType::class, array(
                 'label'                 =>  'Build Location',
@@ -89,6 +89,21 @@ class JobType extends AbstractType
                     'class'             =>  'col-sm-2 select2-box',
                 ),
             ))
+            ->add('paint1', TextType::class, array(
+                'label'                 =>  'Paint Color 1',
+                'label_attr'            =>  array(
+                    'class'             =>  'col-sm-3 control-label',
+                ),
+                'mapped'                =>  false,
+            ))
+            ->add('paint2', TextType::class, array(
+                'label'                 =>  'Paint Color 2',
+                'label_attr'            =>  array(
+                    'class'             =>  'col-sm-3 control-label',
+                ),
+                'mapped'                =>  false,
+                'required'              =>  false,
+            ))
             ->add('plannerEstimatedShipDate', DateType::class, array(
                 'label'                 =>  'Planner ESD',
                 'label_attr'            =>  array(
@@ -99,7 +114,7 @@ class JobType extends AbstractType
                 'attr'                  =>  array(
                     'class'             =>  'js-datepicker'
                 ),
-                'required'              => false,
+                'required'              =>  false,
             ))
             ->add('save', SubmitType::class, array(
                 'label'                 =>  'Create',
