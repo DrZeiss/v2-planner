@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Paint View 4{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="active"><span>Paint View 4</span></li>
+{% endblock %}
+
+{% block body %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('paint_view4') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Job Name</label>
+                        <input type="text" name="name" value="{{ name }}" placeholder="Type in name" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Batch #</label>
+                        <input type="text" name="batch" value="{{ batch }}" placeholder="Type in batch #" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Color</label>
+                        <input type="text" name="color" value="{{ color }}" placeholder="Type in color" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Planner ESD</label>
+                        <input type="text" id="planner_esd" name="planner_esd" value="{{ planner_esd }}" placeholder="YYYY-MM-DD" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h2>Paint View 4 list</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th style="border:solid">Planner ESD</th>
+            <th style="border:solid">Job Name</th>
+            <th style="border:solid">SO#</th>
+            <th style="border:solid">Qty</th>
+            <th style="border:solid">Color 1</th>
+            <th style="border:solid">Batch 1 #</th>
+            <th style="border:solid">Batch 1 EDD</th>
+            <th style="border:solid">Color 2</th>
+            <th style="border:solid">Batch 2 #</th>
+            <th style="border:solid">Batch 2 EDD</th>
+            <th style="border:solid">Paint Location</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for paint in paints %}
+                <td>
+                    {% if paint.job.plannerEstimatedShipDate %}
+                        {{ paint.job.plannerEstimatedShipDate | date('Y-m-d') }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+                <td>{{ paint.job.name }}</td>
+                <td>{{ paint.job.salesOrder }}</td>
+                <td>{{ paint.job.quantity }}</td>
+                <td>{{ paint.color1 }}</td>
+                <td>{{ paint.batch1 ? paint.batch1.id }}</td>
+                <td>{{ paint.batch1EstimatedDeliveryDate }}</td>
+                <td>{{ paint.color2 }}</td>
+                <td>{{ paint.batch2 ? paint.batch2.id }}</td>
+                <td>{{ paint.batch2EstimatedDeliveryDate }}</td>
+                <td>{{ paint.job.kitting.location }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    $(document).ready(function() {
+        $('.table').fixedThead({
+          height: 400,
+          row: 1,
+          col: 1
+        });
+
+        $('#planner_esd').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+
+        //toggle `popup` / `inline` mode
+        $.fn.editable.defaults.mode = 'popup';
+        
+    });
+    </script>
+{% endblock %}

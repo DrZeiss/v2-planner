@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Paint View 3{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="active"><span>Paint View 3</span></li>
+{% endblock %}
+
+{% block body %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('paint_view3') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="form-label">Color</label>
+                        <input type="text" name="color" value="{{ color }}" placeholder="Type in color" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Vendor</label>
+                        <input type="text" name="vendor" value="{{ vendor }}" placeholder="Type in vendor name" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Estimated Release Date</label>
+                        <input type="text" id="estimated_release_date" name="estimated_release_date" value="{{ estimated_release_date }}" placeholder="YYYY-MM-DD" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h2>Paint View 3 list</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th style="border:solid">Estimated Release Date</th>
+            <th style="border:solid">Notes</th>
+            <th style="border:solid">Batch #</th>
+            <th style="border:solid">Color</th>
+            <th style="border:solid">RAL color</th>
+            <th style="border:solid">Vendor</th>
+            <th style="border:solid">V2 PO#</th>
+            <th style="border:solid">Kit Date</th>
+            <th style="border:solid">EDD</th>
+            <th style="border:solid">Received Date</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for batch in batches %}
+                <td><a href="#" class="estimatedReleaseDate" data-name="estimatedReleaseDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_release_date', {'batchId': batch.id}) }}">{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('Y-m-d') : "" }}</td>
+                <td><a href="#" class="notes" data-name="notes" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_notes', {'batchId': batch.id}) }}">{{ batch.notes }}</a></td>
+                <td><a href="{{ path('paint_view4', { 'batch': batch.id }) }}">{{ batch.id }}</a></td>
+                <td>{{ batch.color }}</td>
+                <td>{{ batch.ralColor }}</td>
+                <td><a href="#" class="vendor" data-name="vendor" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_vendor', {'batchId': batch.id}) }}">{{ batch.vendor }}</a></td>
+                <td><a href="#" class="v2PoNumber" data-name="v2PoNumber" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_v2_po_number', {'batchId': batch.id}) }}">{{ batch.v2PoNumber }}</a></td>
+                <td><a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('Y-m-d') : "" }}</a></td>
+                <td><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_delivery_date', {'batchId': batch.id}) }}">{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
+                <td><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_received_date', {'batchId': batch.id}) }}">{{ batch.receivedDate ? batch.receivedDate | date('Y-m-d') : "" }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    $(document).ready(function() {
+        $('.table').fixedThead({
+          height: 400,
+          row: 1,
+          col: 1
+        });
+
+        $('#estimated_release_date').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+
+        //toggle `popup` / `inline` mode
+        $.fn.editable.defaults.mode = 'popup';
+        
+        $('.estimatedReleaseDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'right',
+                url: obj.dataset.url,
+                title: 'Select Estimated Release Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.notes').each(function(i, obj) {
+            $(this).editable({
+                type: 'textarea',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Notes',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.vendor').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Vendor Name',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.v2PoNumber').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter V2 PO #',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.kitDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Kit Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.estimatedDeliveryDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Estimated Delivery Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.receivedDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Received Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+        
+    });
+    </script>
+{% endblock %}

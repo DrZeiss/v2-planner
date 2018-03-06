@@ -68,7 +68,46 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
 
         return $results;
+    }
 
+    public function findJobsInBatch($parameters)
+    {
+        $name                       = $parameters['name'];
+        $color                      = $parameters['color'];
+        $batch                      = $parameters['batch'];
+        $plannerEstimatedShipDate   = $parameters['planner_esd'];
+
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.job', 'job')
+            ->leftJoin('p.batch1', 'batch1')
+            ->leftJoin('p.batch2', 'batch2')
+            ->where('p.id > 0');
+
+        if ($name) {
+            $qb->andWhere("job.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($color) {
+            $qb->andWhere("batch1.color = :color OR batch2.color = :color")
+                ->setParameter('color', $color);
+        }
+
+        if ($batch) {
+            $qb->andWhere("batch1.id = :batch OR batch2.id = :batch")
+                ->setParameter('batch', $batch);
+        }
+
+        if ($plannerEstimatedShipDate) {
+            $qb->andWhere("job.plannerEstimatedShipDate = :plannerEstimatedShipDate")
+                ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
+        }
+        
+        $results = $qb->addOrderBy("job.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
     }
 
 }

@@ -39,7 +39,7 @@ class Batch
      *
      * @ORM\Column(name="ral_color", type="string", length=255)
      */
-    private $ral_color;
+    private $ralColor;
 
     /**
      * @var string
@@ -146,7 +146,7 @@ class Batch
      */
     public function setRalColor($ralColor)
     {
-        $this->ral_color = $ralColor;
+        $this->ralColor = $ralColor;
 
         return $this;
     }
@@ -158,7 +158,7 @@ class Batch
      */
     public function getRalColor()
     {
-        return $this->ral_color;
+        return $this->ralColor;
     }
 
     /**
