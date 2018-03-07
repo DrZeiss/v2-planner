@@ -11,34 +11,33 @@
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th style="border:solid" rowspan=2>Name</th>
-            <th style="border:solid" rowspan=2>SO #</th>
-            <th style="border:solid" rowspan=2>Type</th>
-            <th style="border:solid" rowspan=2>Model</th>
-            <th style="border:solid" rowspan=2>Qty</th>
-            <th style="border:solid" rowspan=2>MO #</th>
-            <th style="border:solid" rowspan=2>Planner ESD (Week#)</th>
+            <th style="border:solid;width:10ch" rowspan=2>Name</th>
+            <th style="border:solid;width:6ch" rowspan=2>SO #</th>
+            <th style="border:solid;width:10ch" rowspan=2>Type</th>
+            <th style="border:solid;width:6ch" rowspan=2>Model</th>
+            <th style="border:solid;width:4ch" rowspan=2>Qty</th>
+            <th style="border:solid;width:6ch" rowspan=2>MO #</th>
+            <th style="border:solid;min-width:12ch" rowspan=2>Planner ESD (Week#)</th>
             <th style="border:solid;text-align:center" colspan=3>Kitting</th>
-            <th style="border:solid" rowspan=2>Location</th>
-            <th style="border:solid" rowspan=2>Priority</th>
-            <th style="border:solid" rowspan=2>Sub Built</th>
-            <th style="border:solid" rowspan=2>Build Completion Date</th>
+            <th style="border:solid;width:10ch" rowspan=2>Location</th>
+            <th style="border:solid;width:4ch" rowspan=2>Sub Built</th>
+            <th style="border:solid;min-width:12ch" rowspan=2>Build Completion Date</th>
             <th style="border:solid" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
             {# Kitting #}
-            <th style="border:solid">Completion Date</th>
-            <th style="border:solid">Completed By</th>
-            <th style="border:solid">Filled Completely?</th>
+            <th style="border:solid;min-width:12ch">Completion Date</th>
+            <th style="border:solid;width:6ch">Completed By</th>
+            <th style="border:solid;width:4ch">Filled Completely?</th>
         </tr>            
         </thead>
         <tbody>
             {% for job in jobs %}
             <tr>
-                <td>{{ job.name }}</td>
+                <td style="font-size:xx-small">{{ job.name }}</td>
                 <td>{{ job.salesOrder }}</td>   
                 <td>{{ job.type }}</td>
-                <td>{{ job.model }}</td>
+                <td style="word-break:break-all">{{ job.model }}</td>
                 <td>{{ job.quantity }}</td>
                 <td>{{ job.manufacturingOrder }}</td>
                 <td style=
@@ -59,7 +58,6 @@
                 <td>{{ job.kitting.updatedBy }}</td>
                 <td>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
                 <td>{{ job.kitting.location }}</td>
-                <td>{{ job.scheduling.priority }}</td>
                 <td><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
                 <td>{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>

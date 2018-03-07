@@ -11,61 +11,60 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-            <th style="border:solid" rowspan=2>Name</th>
-            <th style="border:solid" rowspan=2>SO #</th>
-            <th style="border:solid" rowspan=2>Type</th>
-            <th style="border:solid" rowspan=2>Model</th>
-            <th style="border:solid" rowspan=2>Qty</th>
-            <th style="border:solid" rowspan=2>MO #</th>
-            <th style="border:solid" rowspan=2>MAC PO#</th>
-            <th style="border:solid" rowspan=2>Planner ESD (Week #)</th>
+            <th style="border:solid;width:10ch" rowspan=2>Name</th>
+            <th style="border:solid;width:6ch" rowspan=2>SO #</th>
+            <th style="border:solid;width:10ch" rowspan=2>Type</th>
+            <th style="border:solid;width:6ch" rowspan=2>Model</th>
+            <th style="border:solid;width:4ch" rowspan=2>Qty</th>
+            <th style="border:solid;width:6ch" rowspan=2>MO #</th>
+            <th style="border:solid;width:6ch" rowspan=2>MAC PO#</th>
+            <th style="border:solid;min-width:12ch" rowspan=2>Planner ESD (Week #)</th>
             <th style="border:solid;text-align:center" colspan=4>Shipped</th>
-            <th style="border:solid" rowspan=2>Kit Completion Date</th>
+            <th style="border:solid;min-width:12ch" rowspan=2>Kit Completion Date</th>
             <th style="border:solid;text-align:center" colspan=4>Short #1</th>
             <th style="border:solid;text-align:center" colspan=4>Short #2</th>
             <th style="border:solid;text-align:center" colspan=4>Short #3</th>
             <th style="border:solid;text-align:center" colspan=4>Short #4</th>
-            <th style="border:solid" rowspan=2>Location</th>
-            <th style="border:solid" rowspan=2>Priority</th>
-            <th style="border:solid" rowspan=2>Sub Build</th>
-            <th style="border:solid" rowspan=2>Build Completion Date</th>
+            <th style="border:solid;width:10ch" rowspan=2>Location</th>
+            <th style="border:solid;width:4ch" rowspan=2>Sub Build</th>
+            <th style="border:solid;min-width:12ch" rowspan=2>Build Completion Date</th>
             <th style="border:solid" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
             {# Shipped #}
-            <th style="border:solid">Serials Generated Date</th>
-            <th style="border:solid">Date</th>
-            <th style="border:solid">Complete or Partial</th>
-            <th style="border:solid">2nd Shipped Date</th>
+            <th style="border:solid;min-width:12ch">Serials</th>
+            <th style="border:solid;min-width:12ch">Date</th>
+            <th style="border:solid;width:4ch">Complete or Partial</th>
+            <th style="border:solid;min-width:12ch">2nd Date</th>
             {# Short #1 #}
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Painted Part</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Received Date</th>
+            <th style="border:solid;min-width:11ch">Part Number</th>
+            <th style="border:solid;width:4ch">Painted Part</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;min-width:12ch">Received Date</th>
             {# Short #2 #}
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Painted Part</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Received Date</th>
+            <th style="border:solid;min-width:11ch">Part Number</th>
+            <th style="border:solid;width:4ch">Painted Part</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;min-width:12ch">Received Date</th>
             {# Short #3 #}
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Painted Part</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Received Date</th>
+            <th style="border:solid;min-width:11ch">Part Number</th>
+            <th style="border:solid;width:4ch">Painted Part</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;min-width:12ch">Received Date</th>
             {# Short #4 #}
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Painted Part</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Received Date</th>
+            <th style="border:solid;min-width:11ch">Part Number</th>
+            <th style="border:solid;width:4ch">Painted Part</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;min-width:12ch">Received Date</th>
         </tr>            
         </thead>
         <tbody>
             {% for job in jobs %}
             <tr>
-                <td>{{ job.name }}</td>
+                <td style="font-size:xx-small">{{ job.name }}</td>
                 <td>{{ job.salesOrder }}</td>   
                 <td>{{ job.type }}</td>
-                <td>{{ job.model }}</td>
+                <td style="word-break:break-all">{{ job.model }}</td>
                 <td>{{ job.quantity }}</td>
                 <td>{{ job.manufacturingOrder }}</td>
                 <td>{{ job.macPurchaseOrder }}</td>
@@ -108,7 +107,6 @@
                 <td>{{ job.kitting.kittingShort4 and job.kitting.kittingShort4 and job.kitting.kittingShort4.estimatedDeliveryDate ? job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td><a href="#" class="receivedDate4" data-name="receivedDate4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ (job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate) ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</a></td>
                 <td><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
-                <td>{{job.scheduling.priority}}</td>
                 <td><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
                 <td>{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>

@@ -35,18 +35,18 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Date Needed</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Vendor</th>
-            <th style="border:solid">Vendor PO#</th>
-            <th style="border:solid">Mod WO#</th>
-            <th style="border:solid">Received Date</th>
-            <th style="border:solid">Notes</th>
-            <th style="border:solid">Location</th>            
-            <th style="border:solid">Job Name</th>
-            <th style="border:solid">Job SO #</th>
-            <th style="border:solid">Qty</th>
+            <th style="border:solid;min-width:11ch">Part Number</th>
+            <th style="border:solid;min-width:12ch">Date Needed</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;width:15ch">Vendor</th>
+            <th style="border:solid;width:6ch">Vendor PO#</th>
+            <th style="border:solid;width:6ch">Mod WO#</th>
+            <th style="border:solid;min-width:12ch">Received Date</th>
+            <th style="border:solid;width:20ch">Notes</th>
+            <th style="border:solid;width:10ch">Location</th>            
+            <th style="border:solid;width:10ch">Job Name</th>
+            <th style="border:solid;width:6ch">Job SO #</th>
+            <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid">Updated by</th>
         </tr>
         </thead>
@@ -62,7 +62,7 @@
                 <td><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</a></td>
                 <td>{{ parts.notes | default("") }}</td>
                 <td><a href="#" class="location" data-name="location" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_location', {'jobId': part.id}) }}">{{ part.kitting ? part.kitting.location }}</a></td>
-                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td style="font-size:xx-small">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
                 <td>{{ part.updatedBy }}<br>({{ part.updateTime|date('Y-m-d') }})</td>

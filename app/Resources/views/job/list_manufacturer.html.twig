@@ -34,15 +34,15 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Date Needed</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Mod WO#</th>
-            <th style="border:solid">Received Date</th>
-            <th style="border:solid">Notes</th>
-            <th style="border:solid">Job Name</th>
-            <th style="border:solid">Job SO #</th>
-            <th style="border:solid">Qty</th>
+            <th style="border:solid;width:11ch">Part Number</th>
+            <th style="border:solid;min-width:12ch">Date Needed</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;width:6ch">Mod WO#</th>
+            <th style="border:solid;min-width:12ch">RCVD Date</th>
+            <th style="border:solid;width:20ch">Notes</th>
+            <th style="border:solid;width:10ch">Job Name</th>
+            <th style="border:solid;width:6ch">Job SO #</th>
+            <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid">Updated by</th>
         </tr>
         </thead>
@@ -55,7 +55,7 @@
                 <td>{{ part.modWo }}</td>
                 <td><a href="#" class="modDoneDate" data-name="modDoneDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_done_date', { 'shortId': part.id }) }}">{{ part.modDoneDate ? part.modDoneDate | date('Y-m-d') : "" }}</a></td>
                 <td>{{ part.notes }}</td>
-                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td style="font-size:xx-small">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
                 <td>{{ part.updatedBy }}<br>({{ part.updateTime|date('Y-m-d') }})</td>

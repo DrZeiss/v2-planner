@@ -39,17 +39,17 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-            <th style="border:solid">Part Number</th>
-            <th style="border:solid">Date Needed</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Vendor</th>
-            <th style="border:solid">Vendor PO#</th>
-            <th style="border:solid">Mod WO#</th>
-            <th style="border:solid">Received Date</th>
-            <th style="border:solid">Notes</th>
-            <th style="border:solid">Job Name</th>
-            <th style="border:solid">Job SO #</th>
-            <th style="border:solid">Qty</th>
+            <th style="border:solid;min-width:11ch">Part Number</th>
+            <th style="border:solid;min-width:12ch">Date Needed</th>
+            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;width:15ch">Vendor</th>
+            <th style="border:solid;width:11ch">Vendor PO#</th>
+            <th style="border:solid;width:6ch">Mod WO#</th>
+            <th style="border:solid;min-width:12ch">Received Date</th>
+            <th style="border:solid;width:20ch">Notes</th>
+            <th style="border:solid;width:10ch">Job Name</th>
+            <th style="border:solid;width:6ch">Job SO #</th>
+            <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid">Updated by</th>
         </tr>
         <tr>
@@ -66,7 +66,7 @@
                 <td><a href="#" class="modWo" data-name="modWo" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_wo', {'shortId': part.id}) }}">{{ part.modWo }}</a></td>
                 <td>{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</td>
                 <td><a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ part.notes }}</a></td>
-                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td style="font-size:xx-small">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
                 <td>{{ part.updatedBy }}<br>({{ part.updateTime|date('Y-m-d') }})</td>

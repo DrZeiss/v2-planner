@@ -35,27 +35,27 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th style="border:solid">Name</th>
-                <th style="border:solid">SO #</th>
-                <th style="border:solid">Type</th>
-                <th style="border:solid">Model</th>
-                <th style="border:solid">Qty</th>
-                <th style="border:solid">MO #</th>
-                <th style="border:solid">Build Location</th>
-                <th style="border:solid">Planner ESD (Week #)</th>
-                <th style="border:solid">Serials Generated Date</th>
-                <th style="border:solid">BOM Issued Date</th>
-                <th style="border:solid">BOM Issued By</th>
-                <th style="border:solid">Last Updated by</th>
+                <th style="border:solid;width:10ch">Name</th>
+                <th style="border:solid;width:6ch">SO #</th>
+                <th style="border:solid;width:10ch">Type</th>
+                <th style="border:solid;width:6ch">Model</th>
+                <th style="border:solid;width:4ch">Qty</th>
+                <th style="border:solid;width:6ch">MO #</th>
+                <th style="border:solid;width:3ch">LOC</th>
+                <th style="border:solid;width:12ch">Planner ESD<br>(Week #)</th>
+                <th style="border:solid;width:12ch">Serials</th>
+                <th style="border:solid;width:12ch">BOM Issued Date</th>
+                <th style="border:solid;width:10ch">BOM Issued By</th>
+                <th style="border:solid">Updated by</th>
             </tr>
         </thead>
         <tbody>
             {% for job in jobs %}
             <tr>
-                <td>{{ job.name }}</td>
+                <td style="font-size:xx-small">{{ job.name }}</td>
                 <td>{{ job.salesOrder }}</td>
                 <td>{{ job.type }}</td>
-                <td>{{ job.model }}</td>
+                <td style="word-break:break-all">{{ job.model }}</td>
                 <td>{{ job.quantity }}</td>
                 <td>{{ job.manufacturingOrder }}</td>
                 <td>{{ job.buildLocation.name }}</td>
