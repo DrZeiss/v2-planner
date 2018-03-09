@@ -32,7 +32,7 @@
     </div>
 
     <h2>BOM Builder Job list</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th style="border:solid;width:10ch">Name</th>
@@ -51,21 +51,23 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-            <tr>
-                <td style="font-size:xx-small">{{ job.name }}</td>
-                <td>{{ job.salesOrder }}</td>
-                <td>{{ job.type }}</td>
-                <td style="word-break:break-all">{{ job.model }}</td>
-                <td>{{ job.quantity }}</td>
-                <td>{{ job.manufacturingOrder }}</td>
-                <td>{{ job.buildLocation.name }}</td>
-                <td style=
-                    {% if job.estimatedShipDate and job.plannerEstimatedShipDate and date(job.plannerEstimatedShipDate) > date(job.estimatedShipDate) %}
-                        "background-color:indianred;color:white"
-                    {% elseif job.scheduling and job.scheduling.priority > 0 %}
-                        "background-color:yellow"
+                {% set late = 0 %}
+                {% if job.estimatedShipDate and job.plannerEstimatedShipDate and job.plannerEstimatedShipDate < date() and job.manufacturingOrder is null %}
+                    {% set difference = date(job.plannerEstimatedShipDate).diff(date()) %}
+                        {{difference.days}}
+                    {% if difference.days > 3%}
+                        {% set late = 1 %}
                     {% endif %}
-                    >
+                {% endif %}
+            <tr {% if late %}bgcolor="indianred"{% endif %}>
+                <td style="font-size:xx-small;{% if late %}color:white{% endif %}">{{ job.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ job.model }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
@@ -73,11 +75,11 @@
                     {% endif %}
                 </td>
                 {# Shipped #}
-                <td><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</a></td>
                 {# BOM #}
-                <td><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</a></td>
-                <td>{{ job.bom ? job.bom.issuedBy : ""}}</td>
-                <td>{{ job.bom.updatedBy }}</td>
+                <td {% if late %}style="color:white"{% endif %}><span class="issuedDate_{{job.id}}"></span></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.bom ? job.bom.issuedBy : ""}}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.bom.updatedBy }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -86,6 +88,15 @@
 
 {% block javascripts %}
     <script>
+    function pad(str)
+    {
+        if (str.length == 1) {
+            return "0" + str;
+        } else {
+            return str;
+        }
+    }
+
     $(document).ready(function() {
         $('.table').fixedThead({
           height: 400,
@@ -95,6 +106,25 @@
 
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
+
+        $('.manufacturingOrder').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Manufacturing Order #',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                    else {
+                        var now = new Date();
+                        var month = now.getMonth() + 1;
+                        var date = now.getDate();
+                        var nowStr = now.getFullYear() + "-" + pad(month.toString()) + "-" + pad(date.toString());
+                        $(".issuedDate_"+obj.dataset.pk).text(nowStr);
+                    }
+                }
+            });
+        });
 
         $('.serialsGeneratedDate').each(function(i, obj) {
             $(this).editable({
@@ -148,19 +178,6 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Second Ship Date',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.issuedDate').each(function(i, obj) {
-            $(this).editable({
-                type: 'date',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Select Issued Date',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

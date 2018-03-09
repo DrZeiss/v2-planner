@@ -117,7 +117,7 @@
                 <td style="word-break:break-all"><a href="#" class="model" data-name="model" data-pk="{{job.id}}" data-url="{{ path('edit_job_model', {'jobId': job.id}) }}">{{ job.model }}</a></td>
                 <td><a href="#" class="quantity" data-name="quantity" data-pk="{{job.id}}" data-url="{{ path('edit_job_quantity', {'jobId': job.id}) }}">{{ job.quantity }}</a></td>
                 <td><a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a></td>                    
-                <td>{{ job.macPurchaseOrder }}</td>
+                <td><a href="#" class="macPurchaseOrder" data-name="macPurchaseOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_mac_purchase_order', {'jobId': job.id}) }}">{{ job.macPurchaseOrder }}</a></td>
                 <td><a href="#" class="buildLocation" data-name="buildLocation" data-pk="{{job.id}}" data-value="{{job.buildLocation.id}}" data-url="{{ path('edit_job_build_location', {'jobId': job.id}) }}">{{ job.buildLocation.name }}</a></td>
                 <td style=
                     {% if job.estimatedShipDate and job.plannerEstimatedShipDate and date(job.plannerEstimatedShipDate) > date(job.estimatedShipDate) %}
@@ -136,7 +136,7 @@
                 </td>
                 {# Shipped #}
                 <td><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
-                <td>
+                <td><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">
                     {% if job.shipping and job.shipping.isComplete == 2 %}
                         Complete
                     {% elseif job.shipping and job.shipping.isComplete == 1 %}
@@ -144,10 +144,10 @@
                     {% else %}
                         N/A
                     {% endif %}
-                </td>
+                </a></td>
                 <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
                 {# BOM #}
-                <td {% if job.bom and job.bom.issuedDate and date(job.bom.issuedDate) > (date(job.createTime)|date_modify("+3 days")) %}style="background-color:pink"{% endif %}>{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</td>
+                <td {% if job.bom and job.bom.issuedDate and date(job.bom.issuedDate) > (date(job.createTime)|date_modify("+3 days")) %}style="background-color:pink"{% endif %}><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</a></td>
                 <td>{{ job.bom ? job.bom.issuedBy : ""}}</td>
                 {# Kitting #}
                 <td>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('Y-m-d') : ""}}</td>
@@ -323,6 +323,18 @@
             });
         });
 
+        $('.macPurchaseOrder').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter MAC Purchase Order #',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
         $('.buildLocation').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
@@ -368,6 +380,25 @@
             });
         });
 
+        $('.isComplete').each(function(i, obj) {
+            $(this).editable({
+                type: 'select',
+                emptytext: 'N/A',
+                container: 'body',
+                placement: 'left',
+                value: obj.dataset.value,
+                source: [
+                  {value: 2, text: 'Complete'},
+                  {value: 1, text: 'Partial'}
+                ],
+                url: obj.dataset.url,
+                title: 'Is Complete?',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
         $('.secondShipDate').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
@@ -375,6 +406,19 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Second Ship Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.issuedDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Issued Date',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

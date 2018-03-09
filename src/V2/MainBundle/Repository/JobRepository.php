@@ -71,6 +71,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function findAllJobs($parameters)
     {
+        $seeAll                     = $parameters['see_all'];
         $name                       = $parameters['name'];
         $salesOrder                 = $parameters['sales_order'];
         $plannerEstimatedShipDate   = $parameters['planner_esd'];
@@ -95,7 +96,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
         }
         
-        $results = $qb->addOrderBy("shipping.shipDate", "ASC")
+        if ($seeAll === 0) {
+            $qb->andWhere("j.plannerEstimatedShipDate IS NULL");
+        }
+
+        $results = $qb->addOrderBy("j.createTime", "ASC")
+            ->addOrderBy("shipping.shipDate", "ASC")
             ->addOrderBy("shipping.secondShipDate", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()

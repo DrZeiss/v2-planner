@@ -78,6 +78,7 @@ class JobController extends Controller
     public function listAllJobs(Request $request)
     {
         $defaultParameters = array(
+            'see_all' => 0,
             'name' => null,
             'sales_order' => null,
             'planner_esd' => null,
@@ -88,6 +89,7 @@ class JobController extends Controller
 
         return $this->render('job/list_all.html.twig', array(
             'jobs'          =>  $jobs,
+            'see_all'       =>  $parameters['see_all'],
             'name'          =>  $parameters['name'],
             'sales_order'   =>  $parameters['sales_order'],
             'planner_esd'   =>  $parameters['planner_esd'],
@@ -557,6 +559,16 @@ class JobController extends Controller
         if (!$job) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
         }
+
+        $bom = $this->bomRepository->findOneBy(array('job' => $job));
+        if (!$bom) {
+            $bom = new Bom();
+            $bom->setJob($job);
+        }
+
+        $bom->setIssuedDate(new \DateTime());
+        $bom->setIssuedBy($this->getUser());
+        $this->em->persist($bom);
 
         $job->setManufacturingOrder($manufacturingOrder);
         $job->setUpdateTime(new \DateTime());

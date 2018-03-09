@@ -60,13 +60,6 @@ class JobType extends AbstractType
                     'class'             =>  'col-sm-3 control-label',
                 ),
             ))
-            ->add('manufacturingOrder', TextType::class, array(
-                'label'                 =>  'Manufacturing Order #',
-                'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
-                ),
-                'required'              => false,
-            ))
             ->add('macPurchaseOrder', TextType::class, array(
                 'label'                 =>  'MAC Purchase Order #',
                 'label_attr'            =>  array(
