@@ -298,8 +298,11 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findMacProductionJobs()
+    public function findMacProductionJobs($parameters)
     {
+        $salesOrder                 = $parameters['sales_order'];
+        $plannerEstimatedShipDate   = $parameters['planner_esd'];
+
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
@@ -310,17 +313,29 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 1")
             ->andWhere("buildLocation.name = 'MAC'");
-            
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
+        if ($plannerEstimatedShipDate) {
+            $qb->andWhere("j.plannerEstimatedShipDate = :plannerEstimatedShipDate")
+                ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
+        }
+
+        $results = $qb->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
         return $results;
     }
 
-    public function findV2ProductionJobs()
+    public function findV2ProductionJobs($parameters)
     {
+        $salesOrder                 = $parameters['sales_order'];
+        $plannerEstimatedShipDate   = $parameters['planner_esd'];
+
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
@@ -331,8 +346,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->where("j.macPurchaseOrder IS NULL")
             ->andWhere("scheduling.completionDate IS NULL");
             
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
+        if ($plannerEstimatedShipDate) {
+            $qb->andWhere("j.plannerEstimatedShipDate = :plannerEstimatedShipDate")
+                ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
+        }
+
+        $results = $qb->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -357,10 +381,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function findSchedulerJobs($parameters)
     {
-        $name = $parameters['name'];
-        $esd = $parameters['esd'];
+        $name               = $parameters['name'];
+        $esd                = $parameters['esd'];
+        $filledCompletely   = $parameters['filled_completely'];
 
         $qb = $this->createQueryBuilder('j')
+            ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->where('j.id > 0');
 
@@ -374,8 +400,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('estimatedShipDate', new \DateTime($esd));
         }
 
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+        if ($filledCompletely) {
+            $qb->andWhere("kitting.filledCompletely = :filledCompletely")
+                ->setParameter('filledCompletely', $filledCompletely);
+        }
+
+        $results = $qb->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 

@@ -54,8 +54,7 @@
                 {% set late = 0 %}
                 {% if job.estimatedShipDate and job.plannerEstimatedShipDate and job.plannerEstimatedShipDate < date() and job.manufacturingOrder is null %}
                     {% set difference = date(job.plannerEstimatedShipDate).diff(date()) %}
-                        {{difference.days}}
-                    {% if difference.days > 3%}
+                    {% if difference.days > 3 %}
                         {% set late = 1 %}
                     {% endif %}
                 {% endif %}

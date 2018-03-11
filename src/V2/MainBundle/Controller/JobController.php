@@ -199,24 +199,40 @@ class JobController extends Controller
     /**
      * @Route("/macProduction", name="mac_production")
      */
-    public function listMacProductionJobs()
+    public function listMacProductionJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findMacProductionJobs();
+        $defaultParameters = array(
+            'sales_order' => null,
+            'planner_esd' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findMacProductionJobs($parameters);
 
         return $this->render('job/list_mac_production.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'          =>  $jobs,
+            'sales_order'   =>  $parameters['sales_order'],
+            'planner_esd'   =>  $parameters['planner_esd'],            
         ));
     }
 
     /**
      * @Route("/v2Production", name="v2_production")
      */
-    public function listV2ProductionJobs()
+    public function listV2ProductionJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findV2ProductionJobs();
+        $defaultParameters = array(
+            'sales_order' => null,
+            'planner_esd' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findV2ProductionJobs($parameters);
 
         return $this->render('job/list_v2_production.html.twig', array(
             'jobs'      =>  $jobs,
+            'sales_order'   =>  $parameters['sales_order'],
+            'planner_esd'   =>  $parameters['planner_esd'],            
         ));
     }
 
@@ -237,17 +253,19 @@ class JobController extends Controller
     public function listSchedulerJobs(Request $request)
     {
         $defaultParameters = array(
-            'name' => null,
-            'esd' => null,
+            'name'              => null,
+            'esd'               => null,
+            'filled_completely' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
-        $jobs           = $this->jobRepository->findSchedulerJobs($parameters);
+        $jobs = $this->jobRepository->findSchedulerJobs($parameters);
 
         return $this->render('job/list_scheduler.html.twig', array(
-            'jobs'      =>  $jobs,
-            'name'      =>  $parameters['name'],
-            'esd'       =>  $parameters['esd'],
+            'jobs'              =>  $jobs,
+            'name'              =>  $parameters['name'],
+            'esd'               =>  $parameters['esd'],
+            'filled_completely' =>  $parameters['filled_completely'],
         ));
     }
 

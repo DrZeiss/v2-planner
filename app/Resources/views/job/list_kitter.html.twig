@@ -32,7 +32,7 @@
     </div>
 
     <h2>Kitter Job list</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th style="border:solid;width:10ch">Name</th>
@@ -42,7 +42,6 @@
             <th style="border:solid;width:6ch">MO #</th>
             <th style="border:solid;width:3ch">LOC</th>
             <th style="border:solid;min-width:12ch">Planner ESD</th>
-            <th style="border:solid;width:12ch">BOM Issued By (Date)</th>
             <th style="border:solid;width:12ch">Completion Date</th>
             <th style="border:solid;width:3ch">100% Filled?</th>
             <th style="border:solid;min-width:11ch">Short #1</th>
@@ -54,30 +53,42 @@
         </tr>
         </thead>
         <tbody>
-            {% set showBuffer = 'notYet' %}            
+            {% set showBuffer = 'notYet' %}
             {% for job in jobs %}
+                {% set late = 0 %}
+                {% if job.estimatedShipDate and job.plannerEstimatedShipDate and job.plannerEstimatedShipDate < date() and job.kitting.completionDate is null %}
+                    {% set difference1 = date(job.plannerEstimatedShipDate).diff(date()) %}
+                    {% if difference1.days > 10 %}
+                        {% set late = 1 %}
+                    {% endif %}
+                {% endif %}
+                {% if job.plannerEstimatedShipDate is not null and (job.kitting.filledCompletely is null or job.kitting.filledCompletely == 0) %}
+                    {% set difference2 = date(job.plannerEstimatedShipDate).diff(date()) %}
+                    {% if difference2.days <= 14 %}
+                        {% set late = 2 %}
+                    {% endif %}
+                {% endif %}
                 {% if job.kitting.filledCompletely is not null and job.kitting.filledCompletely == 0 and showBuffer == 'notYet' %}
                 {% set showBuffer = 'done' %}
             <tr style="border-top:solid;border-color:yellow;border-top-width:1em">
                 {% else %}
-            <tr>
+            <tr {% if late == 1 %}bgcolor="indianred"{% elseif late == 2 %}bgcolor="purple"{% endif %}>
                 {% endif %}
-                <td style="font-size:xx-small">{{ job.name }}</td>
-                <td>{{ job.salesOrder }}</td>   
-                <td>{{ job.type }}</td>
-                <td>{{ job.quantity }}</td>
-                <td>{{ job.manufacturingOrder }}</td>
-                <td>{{ job.buildLocation.name }}</td>
-                <td>
+                <td style="font-size:xx-small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
+                <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
                     {% else %}
                         TBD
                     {% endif %}
                 </td>
-                <td>{{ job.bom.issuedBy }} {% if job.bom.issuedDate %}({{ job.bom.issuedDate|date('Y-m-d') }}){% endif %}</td>
-                <td><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate ? job.kitting.completionDate | date('Y-m-d') : "N/A"}}</a></td>
-                <td><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate ? job.kitting.completionDate | date('Y-m-d') : "N/A"}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
                     {% if job.kitting.filledCompletely is null %}
                         N/A
                     {% elseif job.kitting.filledCompletely == 0 %}
@@ -86,12 +97,12 @@
                         Yes
                     {% endif %}
                     </a></td>
-                <td><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
-                <td><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
-                <td><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
-                <td><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
-                <td><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
-                <td>{{job.kitting.updatedBy}}</td>                
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{job.kitting.updatedBy}}</td>                
             </tr>
             {% endfor %}
         </tbody>

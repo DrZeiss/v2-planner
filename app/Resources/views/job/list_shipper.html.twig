@@ -8,7 +8,7 @@
 
 {% block body %}
     <h2>Shipper Job list</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th style="border:solid;width:10ch" rowspan=2>Name</th>
@@ -30,20 +30,19 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-            <tr>
-                <td style="font-size:xx-small">{{ job.name }}</td>
-                <td>{{ job.salesOrder }}</td>
-                <td>{{ job.type }}</td>
-                <td style="word-break:break-all">{{ job.model }}</td>
-                <td>{{ job.quantity }}</td>
-                <td>{{ job.manufacturingOrder }}</td>
-                <td style=
-                    {% if job.estimatedShipDate and job.plannerEstimatedShipDate and date(job.plannerEstimatedShipDate) > date(job.estimatedShipDate) %}
-                        "background-color:indianred;color:white"
-                    {% elseif job.scheduling and job.scheduling.priority > 0 %}
-                        "background-color:yellow"
-                    {% endif %}
-                    >
+                {% set late = 0 %}
+                {# highlight red two days after build completion date #}
+                {% if job.scheduling.completionDate < (date()|date_modify("-2 days")) %}
+                    {% set late = 1 %}
+                {% endif %}
+            <tr {% if late %}bgcolor="indianred"{% endif %}>
+                <td style="font-size:xx-small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
+                <td style="word-break:break-all; {% if late %}color:white{% endif %}">{{ job.model }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
@@ -51,10 +50,10 @@
                     {% endif %}
                 </td>
                 {# Shipped #}
-                <td><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
-                <td><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
-                <td><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
-                <td>{{ job.shipping ? job.shipping.updatedBy : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.shipping ? job.shipping.updatedBy : "" }}</td>
             </tr>
             {% endfor %}
         </tbody>
