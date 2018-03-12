@@ -16,7 +16,8 @@ security:
                              ROLE_MAC_PRODUCTION, 
                              ROLE_V2_PRODUCTION, 
                              ROLE_SCHEDULER,
-                             ROLE_SHIPPER]
+                             ROLE_SHIPPER,
+                             ROLE_PAINTER]
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:

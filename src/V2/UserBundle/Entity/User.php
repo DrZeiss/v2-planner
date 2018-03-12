@@ -30,6 +30,7 @@ class User extends BaseUser
     const ROLE_V2_PRODUCTION    = 'V2 PRODUCTION';
     const ROLE_SCHEDULER        = 'SCHEDULER';
     const ROLE_SHIPPER          = 'SHIPPER';
+    const ROLE_PAINTER          = 'PAINTER';
 
     /**
      * @var int
