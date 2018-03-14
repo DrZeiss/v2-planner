@@ -42,6 +42,11 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\Column(name="fullname", type="string", length=255, nullable=true)
+     */
+    protected $fullname;
+
+    /**
      * @ORM\Column(name="create_time", type="datetime", nullable=false)
      */
     protected $createTime;
@@ -50,6 +55,18 @@ class User extends BaseUser
      * @ORM\Column(name="update_time", type="datetime", nullable=false)
      */
     protected $updateTime;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="V2\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="user_id")
+     */
+    private $createdBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="V2\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="user_id")
+     */
+    private $updatedBy;
 
     public function __construct()
     {
@@ -67,5 +84,126 @@ class User extends BaseUser
     {
         return $this->id;
     }
+
+    /**
+     * Set fullname
+     *
+     * @param string $fullname
+     *
+     * @return User
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    /**
+     * Get fullname
+     *
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * Set createTime
+     *
+     * @param \DateTime $createTime
+     *
+     * @return Job
+     */
+    public function setCreateTime($createTime)
+    {
+        $this->createTime = $createTime;
+
+        return $this;
+    }
+
+    /**
+     * Get createTime
+     *
+     * @return \DateTime
+     */
+    public function getCreateTime()
+    {
+        return $this->createTime;
+    }
+
+    /**
+     * Set updateTime
+     *
+     * @param \DateTime $updateTime
+     *
+     * @return User
+     */
+    public function setUpdateTime($updateTime)
+    {
+        $this->updateTime = $updateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get updateTime
+     *
+     * @return \DateTime
+     */
+    public function getUpdateTime()
+    {
+        return $this->updateTime;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \V2\UserBundle\Entity\User $createdBy
+     *
+     * @return User
+     */
+    public function setCreatedBy(\V2\UserBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \V2\UserBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy
+     *
+     * @param \V2\UserBundle\Entity\User $updatedBy
+     *
+     * @return User
+     */
+    public function setUpdatedBy(\V2\UserBundle\Entity\User $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy
+     *
+     * @return \V2\UserBundle\Entity\User
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
 }
 

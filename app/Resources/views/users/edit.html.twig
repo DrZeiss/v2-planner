@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Edit User{% endblock %}
+
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('users')  }}">Users</a>
+</li>
+<li class="active">
+    <strong>Edit User</strong>
+</li>
+{% endblock %}
+
+{% block body %}
+<div>
+    <form method="POST" class="form-horizontal" action="{{ path('edit_user', {'userId':user.id}) }}">
+        {{ form_row(form.fullname) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.plainPassword) }}
+        {% if is_granted('ROLE_ADMIN') %} 
+            {{ form_row(form.roles) }}
+        {% else %}
+            <div class="col-sm-3 control-label">
+                Roles assigned
+            </div>
+            <div class="control-label">
+            {% for role in user.roles %}
+                {% if role != 'ROLE_USER' %}
+                    {{ constant('V2\\UserBundle\\Entity\\User::' ~ role) }}
+                {% endif %}
+                <BR>
+            {% endfor %}
+            </div>
+        {% endif %}
+            
+        <a href="{{ path('users') }}" class="btn btn-warning">Cancel</a>
+        {{ form_widget(form.update) }}
+        {{ form_rest(form) }}
+        
+    </form>
+</div>
+{% endblock %}

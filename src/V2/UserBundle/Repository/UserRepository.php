@@ -10,4 +10,22 @@ namespace V2\UserBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findUsers($parameters)
+    {
+        $name = $parameters['name'];
+
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.id > 0');
+
+        if ($name) {
+            $qb->andWhere("u.fullname LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        $results = $qb->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
 }

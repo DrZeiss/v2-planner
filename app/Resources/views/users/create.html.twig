@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block headerTitle %}Create User{% endblock %}
+
+{% block breadcrumbs %}
+<li>
+    <a href="{{ path('users')  }}">Users</a>
+</li>
+<li class="active">
+    <strong>Create User</strong>
+</li>
+{% endblock %}
+
+{% block body %}
+<div>
+    <form method="POST" class="form-horizontal" action="{{ path('create_user') }}">
+        {{ form_row(form.fullname) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.plainPassword) }}
+        {{ form_row(form.roles) }}
+            
+        <a href="{{ path('users') }}" class="btn btn-warning">Cancel</a>
+        {{ form_widget(form.create) }}
+    </form>
+</div>
+{% endblock %}

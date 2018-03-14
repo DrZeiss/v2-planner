@@ -118,30 +118,43 @@
                 </li>
               {% endif %}
               {% if is_granted('ROLE_PAINTER') %}               
-                <li><a href="{{ path('paint_view1') }}">
+                <li>
+                  <a href="{{ path('paint_view1') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint View 1</span></div>
                     </div></a>
                 </li>
-                <li><a href="{{ path('paint_view2') }}">
+                <li>
+                  <a href="{{ path('paint_view2') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint View 2</span></div>
                     </div></a>
                 </li>
-                <li><a href="{{ path('paint_view3') }}">
+                <li>
+                  <a href="{{ path('paint_view3') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint View 3</span></div>
                     </div></a>
                 </li>
-                <li><a href="{{ path('paint_view4') }}">
+                <li>
+                  <a href="{{ path('paint_view4') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint View 4</span></div>
                     </div></a>
                 </li>
+              {% endif %}
+              {% if is_granted('ROLE_ADMIN') %} 
+                <li>
+                  <a href="{{ path('users') }}">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-users st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Users</span></div>
+                    </div></a> 
+                </li>               
               {% endif %}
               </ul>
             </div>
@@ -200,7 +213,11 @@
                             <span class="label label-success">
                               {% if app.user is not null %}
                                 {% for role in app.user.roles %}
+                                  {% if role == 'ROLE_USER' %}
+                                    {# Don't need to show this #}
+                                  {% else %}
                                     {{ constant('V2\\UserBundle\\Entity\\User::' ~ role) }}<BR>
+                                  {% endif %}
                                 {% endfor %}
                               {% endif %}
                             </span>
@@ -208,14 +225,14 @@
                         </div>
                       </div>
                       <ul class="st-userpopup__menu">
-                        <li class="st-spanel__open" data-tab="#notifications" data-toggle="popup" data-target="#user-popup" data-method="hide"><a>
+                        {# <li class="st-spanel__open" data-tab="#notifications" data-toggle="popup" data-target="#user-popup" data-method="hide"><a>
                             <div class="fluid-cols">
                               <div class="expand-col text-ellipsis"><span>Alerts</span></div>
                               <div class="min-col"><i class="fa fa-bell"></i>
                                 <div class="st-userpopup__count st-notifications-count"></div>
                               </div>
-                            </div></a></li>
-                        <li data-toggle="popup" data-target="#user-popup" data-method="hide"><a href="app-profile.html">
+                            </div></a></li> #}
+                        <li data-toggle="popup" data-target="#user-popup" data-method="hide"><a href="{{ path('edit_user',{userId:app.user.id})}}">
                             <div class="fluid-cols">
                               <div class="expand-col text-ellipsis"><span>Profile</span></div>
                               <div class="min-col"><i class="fa fa-user"></i></div>
