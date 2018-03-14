@@ -32,6 +32,7 @@ class EditUserType extends AbstractType
             'Scheduler'         => 'ROLE_SCHEDULER',
             'Shipper'           => 'ROLE_SHIPPER',
             'Painter'           => 'ROLE_PAINTER',
+            'Administrator'     => 'ROLE_ADMIN',
         );
 
         $builder
