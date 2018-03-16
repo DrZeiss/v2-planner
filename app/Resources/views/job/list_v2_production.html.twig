@@ -81,7 +81,7 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.updatedBy }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.location }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>
             </tr>

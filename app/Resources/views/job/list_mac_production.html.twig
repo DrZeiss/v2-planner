@@ -89,7 +89,7 @@
                 {% if job.plannerEstimatedShipDate < date() and job.scheduling.completionDate is null %}
                     {% set late = 1 %}
                 {% endif %}
-            <tr {% if late %}bgcolor="indianred"{% endif %}><
+            <tr {% if late %}bgcolor="indianred"{% endif %}>
                 <td style="font-size:xx-small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
