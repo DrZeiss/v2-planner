@@ -45,8 +45,7 @@
                 <th style="border:solid;width:12ch">Planner ESD<br>(Week #)</th>
                 <th style="border:solid;width:12ch">Serials</th>
                 <th style="border:solid;width:12ch">BOM Issued Date</th>
-                <th style="border:solid;width:10ch">BOM Issued By</th>
-                <th style="border:solid">Updated by</th>
+                <th style="border:solid">BOM Issued By</th>
             </tr>
         </thead>
         <tbody>
@@ -58,8 +57,8 @@
                         {% set late = 1 %}
                     {% endif %}
                 {% endif %}
-            <tr {% if late %}bgcolor="indianred"{% endif %}>
-                <td style="font-size:xx-small;{% if late %}color:white{% endif %}">{{ job.name }}</td>
+            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
+                <td style="font-size:small;{% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
                 <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ job.model }}</td>
@@ -78,7 +77,6 @@
                 {# BOM #}
                 <td {% if late %}style="color:white"{% endif %}><span class="issuedDate_{{job.id}}"></span></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.bom ? job.bom.issuedBy : ""}}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.bom.updatedBy }}</td>
             </tr>
             {% endfor %}
         </tbody>

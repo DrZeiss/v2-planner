@@ -91,6 +91,13 @@ class Batch
     private $notes;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="quantity", type="integer")
+     */
+    private $quantity;
+
+    /**
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
@@ -102,6 +109,13 @@ class Batch
     private $updatedBy;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->quantity = 0;
+    }
 
     /**
      * Get id
@@ -375,6 +389,44 @@ class Batch
     public function getPaint()
     {
         return $this->paint;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return Batch
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Add quantity
+     *
+     * @param integer $quantity
+     *
+     * @return Batch
+     */
+    public function addQuantity($quantity)
+    {
+        $this->quantity += $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 
     /**

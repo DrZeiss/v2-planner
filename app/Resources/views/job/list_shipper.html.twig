@@ -35,8 +35,8 @@
                 {% if job.scheduling.completionDate < (date()|date_modify("-2 days")) %}
                     {% set late = 1 %}
                 {% endif %}
-            <tr {% if late %}bgcolor="indianred"{% endif %}>
-                <td style="font-size:xx-small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
+            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
+                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
                 <td style="word-break:break-all; {% if late %}color:white{% endif %}">{{ job.model }}</td>

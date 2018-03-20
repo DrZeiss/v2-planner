@@ -72,9 +72,9 @@
                 {% set showBuffer = 'done' %}
             <tr style="border-top:solid;border-color:yellow;border-top-width:1em">
                 {% else %}
-            <tr {% if late == 1 %}bgcolor="indianred"{% elseif late == 2 %}bgcolor="purple"{% endif %}>
+            <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="purple"{% endif %}>
                 {% endif %}
-                <td style="font-size:xx-small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
+                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>

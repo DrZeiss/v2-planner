@@ -25,7 +25,13 @@
                         <input type="checkbox" name="filled_completely" value="1" class="form-check-input" {% if filled_completely %}checked{% endif %}>
                         See only 100% filled
                     </label>
-                </div>                
+                </div>
+                <div class="col-sm-3">
+                    <label class="form-check-label">
+                        <input type="checkbox" name="non_shipped" value="1" class="form-check-input" {% if non_shipped %}checked{% endif %}>
+                        See only non shipped jobs
+                    </label>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="pull-right">
@@ -122,9 +128,9 @@
                 {% if job.plannerEstimatedShipDate < (date()|date_modify("-14 days")) and (job.kitting.filledCompletely is null or job.kitting.filledCompletely == 0) %}
                     {% set late = 2 %}
                 {% endif %}
-            <tr {% if late == 1 %}bgcolor="indianred"{% elseif late == 2 %}bgcolor="purple"{% endif %}>
+            <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="purple"{% endif %}>
                 {# Job #}
-                <td style="font-size:xx-small; {% if late %}color:white{% endif %}"><a href="#" class="name" data-name="name" data-pk="{{job.id}}" data-url="{{ path('edit_job_name', {'jobId': job.id}) }}">{{ job.name }}</a></td>
+                <td style="font-size:small; {% if late %}color:white{% endif %}"><a href="#" class="name" data-name="name" data-pk="{{job.id}}" data-url="{{ path('edit_job_name', {'jobId': job.id}) }}">{{ job.name }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="salesOrder" data-name="salesOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_sales_order', {'jobId': job.id}) }}">{{ job.salesOrder }}</a></td>   
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedShipDate" data-name="estimatedShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_job_estimated_ship_date', {'jobId': job.id}) }}">{{ job.estimatedShipDate ? job.estimatedShipDate | date('Y-m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>

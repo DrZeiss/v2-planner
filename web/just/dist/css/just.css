@@ -3217,13 +3217,14 @@ body {
   background: #f2f5f7;
 }
 a {
-  color: #3EBAE8;
+  /*color: #3EBAE8;*/
+  color: #000000;
   text-decoration: underline;
 }
 a:hover,
 a:focus,
 a:active {
-  color: #3EBAE8;
+  color: #000000;
   text-decoration: none;
 }
 p {

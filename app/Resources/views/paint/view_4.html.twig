@@ -74,7 +74,7 @@
                 <td>{{ paint.color2 }}</td>
                 <td>{{ paint.batch2 ? paint.batch2.id }}</td>
                 <td>{{ paint.batch2EstimatedDeliveryDate }}</td>
-                <td>{{ paint.job.kitting.location }}</td>
+                <td><a href="#" class="location" data-name="location" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_location', {'paintId': paint.id}) }}">{{ paint.location }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -98,6 +98,18 @@
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
         
+        $('.location').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
     });
     </script>
 {% endblock %}

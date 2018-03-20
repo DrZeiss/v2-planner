@@ -52,14 +52,14 @@
                 {% if part.dateNeeded and part.dateNeeded < date() and part.modDoneDate is null %}
                     {% set late = 1 %}
                 {% endif %}
-            <tr {% if late %}bgcolor="indianred"{% endif %}>
+            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.partNumber}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', { 'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="modDoneDate" data-name="modDoneDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_done_date', { 'shortId': part.id }) }}">{{ part.modDoneDate ? part.modDoneDate | date('Y-m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.notes }}</td>
-                <td style="font-size:xx-small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.updatedBy }}<br>({{ part.updateTime|date('Y-m-d') }})</td>

@@ -256,6 +256,7 @@ class JobController extends Controller
             'name'              => null,
             'esd'               => null,
             'filled_completely' => null,
+            'non_shipped'       => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -266,6 +267,7 @@ class JobController extends Controller
             'name'              =>  $parameters['name'],
             'esd'               =>  $parameters['esd'],
             'filled_completely' =>  $parameters['filled_completely'],
+            'non_shipped'       =>  $parameters['non_shipped'],
         ));
     }
 
@@ -1193,7 +1195,7 @@ class JobController extends Controller
 
         // Also check if all shorts have been received so system will automatically set 'filled_completely' to true
         $kitting = $short->getKitting();
-        if ($kitting->receivedAllShorts()) {
+        if ($kitting && $kitting->receivedAllShorts()) {
             $kitting->setFilledCompletely(true);
             $this->em->persist($kitting);
         }

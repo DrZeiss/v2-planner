@@ -42,11 +42,13 @@
         <tr>
             <th style="border:solid" rowspan=2>Planner ESD</th>
             <th style="border:solid" rowspan=2>Job Name</th>
-            <th style="border:solid" rowspan=2>Qty</th>
+            <th style="border:solid" rowspan=2>Job Qty</th>
             <th style="border:solid" rowspan=2>Color 1</th>
-            <th style="border:solid" rowspan=2>Batch 1 #</th>
+            <th style="border:solid" rowspan=2>Batch 1 Qty</th>
+            <th style="border:solid" rowspan=2>Batch </th>
             <th style="border:solid" rowspan=2>Color 2</th>
             <th style="border:solid" rowspan=2>Batch 2 #</th>
+            <th style="border:solid" rowspan=2>Batch 2 Qty</th>
             <th style="border:solid;text-align:center" colspan=3>Short #1</th>
             <th style="border:solid;text-align:center" colspan=3>Short #2</th>
             <th style="border:solid;text-align:center" colspan=3>Short #3</th>
@@ -84,8 +86,10 @@
                 <td>{{ paint.job.quantity }}</td>
                 <td>{{ paint.color1 }}</td>
                 <td><a href="#" class="batch1" data-name="batch1" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': paint.id}) }}">{{ paint.batch1 ? paint.batch1.id }}</a></td>
+                <td><a href="#" class="batch1Quantity" data-name="batch1Quantity" data-pk="{{paint.id}}" data-url="{{ path('edit_batch_quantity', {'batchId': paint.batch1 ? paint.batch1.id : 0}) }}">{{ paint.batch1 ? paint.batch1.quantity }}</a></td>
                 <td>{{ paint.color2 }}</td>
                 <td><a href="#" class="batch2" data-name="batch2" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch2', {'paintId': paint.id}) }}">{{ paint.batch2 ? paint.batch2.id }}</a></td>
+                <td><a href="#" class="batch2Quantity" data-name="batch2Quantity" data-pk="{{paint.id}}" data-url="{{ path('edit_batch_quantity', {'batchId': paint.batch2 ? paint.batch2.id : 0}) }}">{{ paint.batch2 ? paint.batch2.quantity }}</a></td>
                 {# Short #1 #}
                 <td>{{ paint.job.kitting.kittingShort1.partNumber | default("") }}</td>
                 <td>{{ paint.job.kitting.kittingShort1.paintedPart | default("") }}</td>
@@ -133,6 +137,21 @@
                 title: 'Enter Batch # for Color 1',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                    else {
+                        $(".batch1Quantity:eq(" + i + ")").editable('option', 'value', response.quantity);
+                    }
+                }
+            });
+        });
+
+        $('.batch1Quantity').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Batch 1 Quantity',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }
             });
         });
@@ -145,9 +164,25 @@
                 title: 'Enter Batch # for Color 2',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                    else {
+                        $(".batch2Quantity:eq(" + i + ")").editable('option', 'value', response.quantity);
+                    }
                 }
             });
         });
+
+        $('.batch2Quantity').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Batch 2 Quantity',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
         
     });
     </script>

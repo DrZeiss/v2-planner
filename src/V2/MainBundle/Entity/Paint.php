@@ -68,6 +68,13 @@ class Paint
     private $batch2EstimatedDeliveryDate;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=255, nullable=true)
+     */
+    private $location;
+
+    /**
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
@@ -377,4 +384,29 @@ class Paint
     {
         return $this->batch2;
     }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     *
+     * @return Paint
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
 }

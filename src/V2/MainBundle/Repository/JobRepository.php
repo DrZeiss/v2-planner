@@ -312,7 +312,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 1")
-            ->andWhere("buildLocation.name = 'MAC'");
+            ->andWhere("buildLocation.name = 'MAC'")
+            ->andWhere("scheduling.completionDate IS NULL");
 
         if ($salesOrder) {
             $qb->andWhere("j.salesOrder LIKE :salesOrder")
@@ -384,10 +385,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $name               = $parameters['name'];
         $esd                = $parameters['esd'];
         $filledCompletely   = $parameters['filled_completely'];
+        $nonShipped         = $parameters['non_shipped'];
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
+            ->leftJoin('j.shipping', 'shipping')
             ->where('j.id > 0');
 
         if ($name) {
@@ -403,6 +406,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($filledCompletely) {
             $qb->andWhere("kitting.filledCompletely = :filledCompletely")
                 ->setParameter('filledCompletely', $filledCompletely);
+        }
+
+        if ($nonShipped) {
+            $qb->andWhere("shipping.shipDate IS NULL");
         }
 
         $results = $qb->addOrderBy("j.plannerEstimatedShipDate", "ASC")

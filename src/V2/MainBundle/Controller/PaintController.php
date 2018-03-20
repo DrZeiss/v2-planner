@@ -182,6 +182,11 @@ class PaintController extends Controller
             $batch = new Batch();
             $batch->setPaint($paint);
         }
+        // We only set the batch quantity when the first time it is assigned to a batch
+        // All other changes is up to user
+        if (!$paint->getBatch1()) {
+            $batch->addQuantity($paint->getJob()->getQuantity());
+        }
         $batch->setColor($paint->getColor1());
         $batch->setRalColor($this->getRalColor($paint->getColor1()));
         $batch->setUpdateTime(new \DateTime());
@@ -195,7 +200,7 @@ class PaintController extends Controller
         $this->em->persist($paint);
         $this->em->flush();
 
-        return $this->json(array('status' => 'success'));
+        return $this->json(array('status' => 'success', 'quantity' => $batch->getQuantity()));
     }
 
     /**
@@ -215,6 +220,12 @@ class PaintController extends Controller
             $batch = new Batch();
             $batch->setPaint($paint);
         }
+        // We only set the batch quantity when the first time it is assigned to a batch
+        // All other changes is up to user
+        if (!$paint->getBatch2()) {
+            $batch->addQuantity($paint->getJob()->getQuantity());
+        }
+
         $batch->setColor($paint->getColor2());
         $batch->setRalColor($this->getRalColor($paint->getColor2()));
         $batch->setUpdateTime(new \DateTime());
@@ -223,6 +234,27 @@ class PaintController extends Controller
         $this->em->flush();
 
         $paint->setBatch2($batch);
+        $paint->setUpdateTime(new \DateTime());
+        $paint->setUpdatedBy($this->getUser());
+        $this->em->persist($paint);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success', 'quantity' => $batch->getQuantity()));
+    }
+
+    /**
+     * @Route("/{paintId}/editLocation", name="edit_paint_location")
+     */
+    public function editPaintLocation(Request $request, $paintId)
+    {
+        $location = $request->request->get('value');
+
+        $paint = $this->paintRepository->find($paintId);
+
+        if (!$paint) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
+        }
+        $paint->setLocation($location);
         $paint->setUpdateTime(new \DateTime());
         $paint->setUpdatedBy($this->getUser());
         $this->em->persist($paint);
@@ -371,5 +403,24 @@ class PaintController extends Controller
         return $this->json(array('status' => 'success'));
     }
 
+    /**
+     * @Route("batch/{batchId}/editQuantity", name="edit_batch_quantity")
+     */
+    public function editBatchQuantity(Request $request, $batchId)
+    {
+        $quantity = $request->request->get('value');
+
+        $batch = $this->batchRepository->find($batchId);
+        if (!$batch) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Batch ID"));
+        }
+        $batch->setQuantity($quantity);
+        $batch->setUpdateTime(new \DateTime());
+        $batch->setUpdatedBy($this->getUser());
+        $this->em->persist($batch);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
 
 }
