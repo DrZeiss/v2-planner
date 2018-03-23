@@ -35,6 +35,41 @@ class Scheduling
     private $priority;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="priority_bom_builder", type="integer")
+     */
+    private $priorityBomBuilder;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="priority_kitter", type="integer")
+     */
+    private $priorityKitter;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="priority_mac_production", type="integer")
+     */
+    private $priorityMacProduction;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="priority_v2_production", type="integer")
+     */
+    private $priorityV2Production;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="priority_shipper", type="integer")
+     */
+    private $priorityShipper;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="sub_ready", type="boolean")
@@ -65,6 +100,11 @@ class Scheduling
     public function __construct()
     {
         $this->priority = 0;
+        $this->priorityBomBuilder = 0;
+        $this->priorityKitter = 0;
+        $this->priorityMacProduction = 0;
+        $this->priorityV2Production = 0;
+        $this->priorityShipper = 0;
         $this->subReady = false;
     }
 
@@ -100,6 +140,126 @@ class Scheduling
     public function getPriority()
     {
         return $this->priority;
+    }
+
+    /**
+     * Set priorityBomBuilder
+     *
+     * @param integer $priorityBomBuilder
+     *
+     * @return Scheduling
+     */
+    public function setPriorityBomBuilder($priorityBomBuilder)
+    {
+        $this->priorityBomBuilder = $priorityBomBuilder;
+
+        return $this;
+    }
+
+    /**
+     * Get priorityBomBuilder
+     *
+     * @return int
+     */
+    public function getPriorityBomBuilder()
+    {
+        return $this->priorityBomBuilder;
+    }
+
+    /**
+     * Set priorityKitter
+     *
+     * @param integer $priorityKitter
+     *
+     * @return Scheduling
+     */
+    public function setPriorityKitter($priorityKitter)
+    {
+        $this->priorityKitter = $priorityKitter;
+
+        return $this;
+    }
+
+    /**
+     * Get priorityKitter
+     *
+     * @return int
+     */
+    public function getPriorityKitter()
+    {
+        return $this->priorityKitter;
+    }
+
+    /**
+     * Set priorityMacProduction
+     *
+     * @param integer $priorityMacProduction
+     *
+     * @return Scheduling
+     */
+    public function setPriorityMacProduction($priorityMacProduction)
+    {
+        $this->priorityMacProduction = $priorityMacProduction;
+
+        return $this;
+    }
+
+    /**
+     * Get priorityMacProduction
+     *
+     * @return int
+     */
+    public function getPriorityMacProduction()
+    {
+        return $this->priorityMacProduction;
+    }
+
+    /**
+     * Set priorityV2Production
+     *
+     * @param integer $priorityV2Production
+     *
+     * @return Scheduling
+     */
+    public function setPriorityV2Production($priorityV2Production)
+    {
+        $this->priorityV2Production = $priorityV2Production;
+
+        return $this;
+    }
+
+    /**
+     * Get priorityV2Production
+     *
+     * @return int
+     */
+    public function getPriorityV2Production()
+    {
+        return $this->priorityV2Production;
+    }
+
+    /**
+     * Set priorityShipper
+     *
+     * @param integer $priorityShipper
+     *
+     * @return Scheduling
+     */
+    public function setPriorityShipper($priorityShipper)
+    {
+        $this->priorityShipper = $priorityShipper;
+
+        return $this;
+    }
+
+    /**
+     * Get priorityShipper
+     *
+     * @return int
+     */
+    public function getPriorityShipper()
+    {
+        return $this->priorityShipper;
     }
 
     /**

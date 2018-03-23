@@ -1400,4 +1400,129 @@ class JobController extends Controller
         return $this->json(array('status' => 'success'));
     }
 
+    /**
+     * @Route("/scheduling/{jobId}/editPriorityBomBuilder", name="edit_scheduling_priority_bom_builder")
+     */
+    public function editSchedulingPriorityBomBuilder(Request $request, $jobId)
+    {
+        $priorityBomBuilder = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setPriorityBomBuilder($priorityBomBuilder);
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/scheduling/{jobId}/editPriorityKitter", name="edit_scheduling_priority_kitter")
+     */
+    public function editSchedulingPriorityKitter(Request $request, $jobId)
+    {
+        $priorityKitter = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setPriorityKitter($priorityKitter);
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/scheduling/{jobId}/editPriorityMacProduction", name="edit_scheduling_priority_mac_production")
+     */
+    public function editSchedulingPriorityMacProduction(Request $request, $jobId)
+    {
+        $priorityMacProduction = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setPriorityMacProduction($priorityMacProduction);
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/scheduling/{jobId}/editPriorityV2Production", name="edit_scheduling_priority_v2_production")
+     */
+    public function editSchedulingPriorityV2Production(Request $request, $jobId)
+    {
+        $priorityV2Production = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setPriorityV2Production($priorityV2Production);
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/scheduling/{jobId}/editPriorityShipper", name="edit_scheduling_priority_shipper")
+     */
+    public function editSchedulingPriorityShipper(Request $request, $jobId)
+    {
+        $priorityShipper = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setPriorityShipper($priorityShipper);
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
 }

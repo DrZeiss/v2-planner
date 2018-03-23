@@ -58,6 +58,7 @@
             <th style="border:solid;text-align:center" colspan=7>Short #3</th>
             <th style="border:solid;text-align:center" colspan=7>Short #4</th>
             <th style="border:solid;text-align:center" colspan=2>Scheduling</th>
+            <th style="border:solid;text-align:center" colspan=6>Priorities</th>
             <th style="border:solid" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
@@ -115,7 +116,14 @@
             <th style="border:solid;width:20ch">Notes</th>
             {# Scheduling #}
             <th style="border:solid;width:4ch">Sub Ready</th>
-            <th style="border:solid;min-width:12ch">Build Completion Date</th>                
+            <th style="border:solid;min-width:12ch">Build Completion Date</th>
+            {# Priorities #}
+            <th style="border:solid;width:4ch">Job</th>
+            <th style="border:solid;width:4ch">BOM Builder</th>
+            <th style="border:solid;width:4ch">Kitter</th>
+            <th style="border:solid;width:4ch">Mac Prod</th>
+            <th style="border:solid;width:4ch">V2 Prod</th>
+            <th style="border:solid;width:4ch">Shipper</th>
         </tr>            
         </thead>
         <tbody>
@@ -228,6 +236,12 @@
                 {# Scheduling #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priority" data-name="priority" data-pk="{{job.id}}" data-value="{{ job.scheduling.priority }}" data-url="{{ path('edit_scheduling_priority', {'jobId': job.id}) }}">{{ job.scheduling.priority }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityBomBuilder" data-name="priorityBomBuilder" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityBomBuilder }}" data-url="{{ path('edit_scheduling_priority_bom_builder', {'jobId': job.id}) }}">{{ job.scheduling.priorityBomBuilder }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityKitter" data-name="priorityKitter" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityKitter }}" data-url="{{ path('edit_scheduling_priority_kitter', {'jobId': job.id}) }}">{{ job.scheduling.priorityKitter }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityMacProduction" data-name="priorityMacProduction" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityMacProduction }}" data-url="{{ path('edit_scheduling_priority_mac_production', {'jobId': job.id}) }}">{{ job.scheduling.priorityMacProduction }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityV2Production" data-name="priorityV2Production" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityV2Production }}" data-url="{{ path('edit_scheduling_priority_v2_production', {'jobId': job.id}) }}">{{ job.scheduling.priorityV2Production }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityShipper" data-name="priorityShipper" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityShipper }}" data-url="{{ path('edit_scheduling_priority_shipper', {'jobId': job.id}) }}">{{ job.scheduling.priorityShipper }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>
             </tr>
             {% endfor %}
@@ -613,6 +627,83 @@
             });
         });
 
+        $('.priority').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Enter a priority for the Job',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.priorityBomBuilder').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Enter a priority for the BOM Builder',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.priorityKitter').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Enter a priority for the kitter',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.priorityMacProduction').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Enter a priority for MAC Production',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.priorityV2Production').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Enter a priority for V2 Production',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.priorityShipper').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Enter a priority for the shipper',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
 
     });
     </script>

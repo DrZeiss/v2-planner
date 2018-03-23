@@ -100,7 +100,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere("j.plannerEstimatedShipDate IS NULL");
         }
 
-        $results = $qb->addOrderBy("j.createTime", "ASC")
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.createTime", "ASC")
             ->addOrderBy("shipping.shipDate", "ASC")
             ->addOrderBy("shipping.secondShipDate", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
@@ -141,7 +142,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+        $results = $qb->addOrderBy("scheduling.priorityBomBuilder", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -170,7 +171,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
         
         $results = $qb->addOrderBy("kitting.filledCompletely")
-            ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("scheduling.priorityKitter", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -325,7 +326,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
         }
 
-        $results = $qb->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+        $results = $qb->addOrderBy("scheduling.priorityMacProduction", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -357,7 +359,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
         }
 
-        $results = $qb->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+        $results = $qb->addOrderBy("scheduling.priorityV2Production", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -372,7 +375,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->where('scheduling.completionDate IS NOT NULL')
             ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 'Partial' AND shipping.secondShipDate IS NULL)");
 
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+        $results = $qb->addOrderBy("scheduling.priorityShipper", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
