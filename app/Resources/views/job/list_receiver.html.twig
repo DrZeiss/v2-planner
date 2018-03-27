@@ -36,12 +36,13 @@
         <thead>
         <tr>
             <th style="border:solid;min-width:11ch">Part Number</th>
-            <th style="border:solid;min-width:12ch">Date Needed</th>
-            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;min-width:7ch">Date Needed</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
             <th style="border:solid;width:15ch">Vendor</th>
             <th style="border:solid;width:6ch">Vendor PO#</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
-            <th style="border:solid;min-width:12ch">Received Date</th>
+            <th style="border:solid;min-width:7ch">Received Date</th>
+            <th style="border:solid;width:6ch">Location</th>
             <th style="border:solid;width:20ch">Notes</th>
             <th style="border:solid;width:10ch">Job Name</th>
             <th style="border:solid;width:6ch">Job SO #</th>
@@ -57,17 +58,18 @@
                 {% endif %}
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.partNumber}}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.vendor }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.vendorPoNumber }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_location', {'jobId': part.kitting and part.kitting.job ? part.kitting.job.id : 0}) }}">{{part.kitting and part.kitting.job ? part.kitting.job.kitting.location : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ parts.notes | default("") }}</td>
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.updatedBy }}<br>({{ part.updateTime|date('Y-m-d') }})</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.updatedBy.initials }}<br>({{ part.updateTime|date('m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -92,6 +94,18 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Received Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.location').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter location',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

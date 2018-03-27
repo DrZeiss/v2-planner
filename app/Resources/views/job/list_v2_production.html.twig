@@ -41,16 +41,16 @@
             <th style="border:solid;width:6ch" rowspan=2>Model</th>
             <th style="border:solid;width:4ch" rowspan=2>Qty</th>
             <th style="border:solid;width:6ch" rowspan=2>MO #</th>
-            <th style="border:solid;min-width:12ch" rowspan=2>Planner ESD (Week#)</th>
+            <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD (Week#)</th>
             <th style="border:solid;text-align:center" colspan=3>Kitting</th>
             <th style="border:solid;width:10ch" rowspan=2>Location</th>
             <th style="border:solid;width:4ch" rowspan=2>Sub Built</th>
-            <th style="border:solid;min-width:12ch" rowspan=2>Build Completion Date</th>
+            <th style="border:solid;min-width:7ch" rowspan=2>Build Completion Date</th>
             <th style="border:solid" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
             {# Kitting #}
-            <th style="border:solid;min-width:12ch">Completion Date</th>
+            <th style="border:solid;min-width:7ch">Completion Date</th>
             <th style="border:solid;width:6ch">Completed By</th>
             <th style="border:solid;width:4ch">Filled Completely?</th>
         </tr>            
@@ -71,19 +71,19 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}
                 </td>
                 {# Kitting #}
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate|date('Y-m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.updatedBy }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate|date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.updatedBy.initials }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.location }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy }}<br>({{ job.updateTime | date('Y-m-d') }})</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy.initials }}<br>({{ job.updateTime | date('m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>

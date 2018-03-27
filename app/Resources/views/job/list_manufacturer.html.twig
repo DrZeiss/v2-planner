@@ -35,10 +35,10 @@
         <thead>
         <tr>
             <th style="border:solid;width:11ch">Part Number</th>
-            <th style="border:solid;min-width:12ch">Date Needed</th>
-            <th style="border:solid;min-width:12ch">EDD</th>
+            <th style="border:solid;width:7ch">Date Needed</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
-            <th style="border:solid;min-width:12ch">RCVD Date</th>
+            <th style="border:solid;width:7ch">RCVD Date</th>
             <th style="border:solid;width:20ch">Notes</th>
             <th style="border:solid;width:10ch">Job Name</th>
             <th style="border:solid;width:6ch">Job SO #</th>
@@ -54,15 +54,15 @@
                 {% endif %}
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.partNumber}}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', { 'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', { 'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="modDoneDate" data-name="modDoneDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_done_date', { 'shortId': part.id }) }}">{{ part.modDoneDate ? part.modDoneDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="modDoneDate" data-name="modDoneDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_done_date', { 'shortId': part.id }) }}">{{ part.modDoneDate ? part.modDoneDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.notes }}</td>
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.updatedBy }}<br>({{ part.updateTime|date('Y-m-d') }})</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.updatedBy.initials }}<br>({{ part.updateTime|date('m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>

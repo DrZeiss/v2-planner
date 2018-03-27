@@ -14,7 +14,7 @@
             <th style="border:solid">Color</th>
             <th style="border:solid"># of jobs</th>
             <th style="border:solid">Sum of fixture qty</th>
-            <th style="border:solid">Planner ESD</th>
+            <th style="border:solid;min-width:7ch">Planner ESD</th>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
                 <td>{{ paint.sum_qty }}</td>
                 <td>
                     {% if paint.planner_esd %}
-                        {{ paint.planner_esd | date('Y-m-d') }}
+                        {{ paint.planner_esd | date('m-d') }}
                     {% else %}
                         TBD
                     {% endif %}

@@ -158,7 +158,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j');
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
-            ->where("(kitting.filledCompletely IS NULL OR kitting.filledCompletely = 0)");
+            ->where("kitting.filledCompletely IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")

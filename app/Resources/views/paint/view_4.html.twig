@@ -43,16 +43,16 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-            <th style="border:solid">Planner ESD</th>
+            <th style="border:solid;min-width:7ch">Planner ESD</th>
             <th style="border:solid">Job Name</th>
             <th style="border:solid">SO#</th>
             <th style="border:solid">Qty</th>
             <th style="border:solid">Color 1</th>
             <th style="border:solid">Batch 1 #</th>
-            <th style="border:solid">Batch 1 EDD</th>
+            <th style="border:solid;min-width:7ch">Batch 1 EDD</th>
             <th style="border:solid">Color 2</th>
             <th style="border:solid">Batch 2 #</th>
-            <th style="border:solid">Batch 2 EDD</th>
+            <th style="border:solid;min-width:7ch">Batch 2 EDD</th>
             <th style="border:solid">Paint Location</th>
         </tr>
         </thead>
@@ -60,7 +60,7 @@
             {% for paint in paints %}
                 <td>
                     {% if paint.job.plannerEstimatedShipDate %}
-                        {{ paint.job.plannerEstimatedShipDate | date('Y-m-d') }}
+                        {{ paint.job.plannerEstimatedShipDate | date('m-d') }}
                     {% else %}
                         TBD
                     {% endif %}

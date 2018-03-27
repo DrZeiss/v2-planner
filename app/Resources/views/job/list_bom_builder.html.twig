@@ -42,9 +42,9 @@
                 <th style="border:solid;width:4ch">Qty</th>
                 <th style="border:solid;width:6ch">MO #</th>
                 <th style="border:solid;width:3ch">LOC</th>
-                <th style="border:solid;width:12ch">Planner ESD<br>(Week #)</th>
+                <th style="border:solid;width:7ch">Planner ESD<br>(Week #)</th>
                 <th style="border:solid;width:12ch">Serials</th>
-                <th style="border:solid;width:12ch">BOM Issued Date</th>
+                <th style="border:solid;width:7ch">BOM Issued Date</th>
                 <th style="border:solid">BOM Issued By</th>
             </tr>
         </thead>
@@ -67,16 +67,16 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}
                 </td>
                 {# Shipped #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "Not Generated Yet" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "Not Generated Yet" }}</a></td>
                 {# BOM #}
                 <td {% if late %}style="color:white"{% endif %}><span class="issuedDate_{{job.id}}"></span></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.bom ? job.bom.issuedBy : ""}}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.bom and job.bom.issuedBy ? job.bom.issuedBy.initials : ""}}</td>
             </tr>
             {% endfor %}
         </tbody>

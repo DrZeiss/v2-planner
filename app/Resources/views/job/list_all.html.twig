@@ -51,14 +51,14 @@
         <tr style="background-color:white;">
             <th style="border:solid;width:10ch">Name</th>
             <th style="border:solid;width:6ch">SO #</th>
-            <th style="border:solid;width:12ch">ESD</th>
-            <th style="border:solid;width:12ch">Planner ESD</th>
+            <th style="border:solid;width:7ch">ESD</th>
+            <th style="border:solid;width:7ch">Planner ESD</th>
             <th style="border:solid;width:10ch">Type</th>
             <th style="border:solid;width:6ch">Model</th>
             <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid;width:6ch">Mac PO #</th>
             <th style="border:solid;width:4ch">LOC</th>
-            <th style="border:solid;width:12ch">Created On</th>
+            <th style="border:solid;width:7ch">Created On</th>
             <th style="border:solid;">Updated By</th>
         </tr>
         </thead>
@@ -67,7 +67,7 @@
             <tr>
                 <td style="font-size:small">{{ job.name }}</td>
                 <td>{{ job.salesOrder }}</td>
-                <td>{{ job.estimatedShipDate | date('Y-m-d') }}</td>
+                <td>{{ job.estimatedShipDate | date('m-d') }}</td>
                 <td style=
                     {% if job.estimatedShipDate and job.plannerEstimatedShipDate and date(job.plannerEstimatedShipDate) > date(job.estimatedShipDate) %}
                         "background-color:indianred;color:white"
@@ -76,7 +76,7 @@
                     {% endif %}
                     >
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate | date('Y-m-d') }}
+                        {{ job.plannerEstimatedShipDate | date('m-d') }}
                     {% else %}
                         TBD
                     {% endif %}
@@ -86,8 +86,8 @@
                 <td>{{ job.quantity }}</td>
                 <td>{{ job.macPurchaseOrder }}</td>
                 <td>{{ job.buildLocation.name }}</td>
-                <td>{{ job.createTime | date('Y-m-d') }}</td>
-                <td>{{ job.updatedBy }}</td>
+                <td>{{ job.createTime | date('m-d') }}</td>
+                <td>{{ job.updatedBy.initials }}</td>
             </tr>
             {% endfor %}
         </tbody>

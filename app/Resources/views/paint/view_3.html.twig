@@ -39,7 +39,7 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
-            <th style="border:solid">Estimated Release Date</th>
+            <th style="border:solid;min-width:7ch">Estimated Release Date</th>
             <th style="border:solid">Notes</th>
             <th style="border:solid">Batch #</th>
             <th style="border:solid">Qty</th>
@@ -47,14 +47,14 @@
             <th style="border:solid">RAL color</th>
             <th style="border:solid">Vendor</th>
             <th style="border:solid">V2 PO#</th>
-            <th style="border:solid">Kit Date</th>
-            <th style="border:solid">EDD</th>
-            <th style="border:solid">Received Date</th>
+            <th style="border:solid;min-width:7ch">Kit Date</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
+            <th style="border:solid;min-width:7ch">Received Date</th>
         </tr>
         </thead>
         <tbody>
             {% for batch in batches %}
-                <td><a href="#" class="estimatedReleaseDate" data-name="estimatedReleaseDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_release_date', {'batchId': batch.id}) }}">{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('Y-m-d') : "" }}</td>
+                <td><a href="#" class="estimatedReleaseDate" data-name="estimatedReleaseDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_release_date', {'batchId': batch.id}) }}">{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('m-d') : "" }}</td>
                 <td><a href="#" class="notes" data-name="notes" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_notes', {'batchId': batch.id}) }}">{{ batch.notes }}</a></td>
                 <td><a href="{{ path('paint_view4', { 'batch': batch.id }) }}">{{ batch.id }}</a></td>
                 <td>{{ batch.quantity }}</td>
@@ -62,9 +62,9 @@
                 <td>{{ batch.ralColor }}</td>
                 <td><a href="#" class="vendor" data-name="vendor" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_vendor', {'batchId': batch.id}) }}">{{ batch.vendor }}</a></td>
                 <td><a href="#" class="v2PoNumber" data-name="v2PoNumber" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_v2_po_number', {'batchId': batch.id}) }}">{{ batch.v2PoNumber }}</a></td>
-                <td><a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('Y-m-d') : "" }}</a></td>
-                <td><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_delivery_date', {'batchId': batch.id}) }}">{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('Y-m-d') : "" }}</a></td>
-                <td><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_received_date', {'batchId': batch.id}) }}">{{ batch.receivedDate ? batch.receivedDate | date('Y-m-d') : "" }}</a></td>
+                <td><a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('m-d') : "" }}</a></td>
+                <td><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_delivery_date', {'batchId': batch.id}) }}">{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('m-d') : "" }}</a></td>
+                <td><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_received_date', {'batchId': batch.id}) }}">{{ batch.receivedDate ? batch.receivedDate | date('m-d') : "" }}</a></td>
             </tr>
             {% endfor %}
         </tbody>

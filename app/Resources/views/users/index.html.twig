@@ -35,6 +35,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <th>Name</th>
+            <th>Initials</th>
             <th>Username</th>
             <th>Role(s)</th>
             <th>Status</th>
@@ -44,6 +45,7 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.fullname }}</td>
+                    <td>{{ user.initials }}</td>
                     <td>{{ user.username }}</td>
                     <td>
                         {% for role in user.roles %}

@@ -75,6 +75,16 @@ class User extends BaseUser
         $this->updateTime           = new \DateTime();        
     }
 
+    public function getInitials()
+    {
+        $words = explode(' ', $this->fullname);
+        $initials = '';
+        foreach ($words as $word) {
+            $initials .= $word[0];
+        }
+        return strtoupper($initials);
+    }
+
     /**
      * Get id
      *

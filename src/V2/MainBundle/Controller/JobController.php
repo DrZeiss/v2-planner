@@ -1197,6 +1197,7 @@ class JobController extends Controller
         $kitting = $short->getKitting();
         if ($kitting && $kitting->receivedAllShorts()) {
             $kitting->setFilledCompletely(true);
+            $kitting->setCompletionDate(new \DateTime());
             $this->em->persist($kitting);
         }
 
@@ -1276,7 +1277,7 @@ class JobController extends Controller
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setWoMod($modWo);
+        $short->setModWo($modWo);
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
