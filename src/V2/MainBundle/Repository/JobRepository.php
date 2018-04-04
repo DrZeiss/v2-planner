@@ -130,7 +130,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->join('j.bom', 'bom')
-            ->where("bom.issuedDate IS NULL");
+            ->where("bom.issuedDate IS NULL")
+            ->orWhere("j.manufacturingOrder IS NULL")
+            ->orWhere("bom.serialsGeneratedDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -373,7 +375,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
             ->where('scheduling.completionDate IS NOT NULL')
-            ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 'Partial' AND shipping.secondShipDate IS NULL)");
+            ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL)");
 
         $results = $qb->addOrderBy("scheduling.priorityShipper", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
