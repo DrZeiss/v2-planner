@@ -388,6 +388,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     public function findSchedulerJobs($parameters)
     {
         $name               = $parameters['name'];
+        $salesOrder         = $parameters['sales_order'];
         $esd                = $parameters['esd'];
         $filledCompletely   = $parameters['filled_completely'];
         $nonShipped         = $parameters['non_shipped'];
@@ -396,11 +397,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
+            ->leftJoin('j.paint', 'paint')
             ->where('j.id > 0');
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
                 ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
         if ($esd) {

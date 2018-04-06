@@ -254,6 +254,7 @@ class JobController extends Controller
     {
         $defaultParameters = array(
             'name'              => null,
+            'sales_order'       => null,
             'esd'               => null,
             'filled_completely' => null,
             'non_shipped'       => null,
@@ -265,6 +266,7 @@ class JobController extends Controller
         return $this->render('job/list_scheduler.html.twig', array(
             'jobs'              =>  $jobs,
             'name'              =>  $parameters['name'],
+            'sales_order'       =>  $parameters['sales_order'],
             'esd'               =>  $parameters['esd'],
             'filled_completely' =>  $parameters['filled_completely'],
             'non_shipped'       =>  $parameters['non_shipped'],
@@ -788,6 +790,30 @@ class JobController extends Controller
         return $this->json(array('status' => 'success'));
     }
 
+    /**
+     * @Route("/shipping/{jobId}/editNotes", name="edit_shipping_notes")
+     */
+    public function editShippingNotes(Request $request, $jobId)
+    {
+        $notes = $request->request->get('value');
+        
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $shipping = $this->shippingRepository->findOneBy(array('job' => $job));
+        if (!$shipping) {
+            $shipping = new Shipping();
+            $shipping->setJob($job);
+        }
+        $shipping->setNotes($notes);
+        $shipping->setUpdateTime(new \DateTime());
+        $shipping->setUpdatedBy($this->getUser());
+        $this->em->persist($shipping);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
 
     /**
      * @Route("/kitting/{jobId}/editFilledCompletely", name="edit_kitting_filled_completely")
@@ -867,6 +893,26 @@ class JobController extends Controller
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
         $short->setDateNeeded(new \DateTime($dateNeeded));
+        $short->setUpdateTime(new \DateTime());
+        $short->setUpdatedBy($this->getUser());
+        $this->em->persist($short);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/kittingShort/{shortId}/editPartsPulledDate", name="edit_kitting_short_parts_pulledDate")
+     */
+    public function editKittingShortPartsPulledDate(Request $request, $shortId)
+    {
+        $partsPulledDate = $request->request->get('value');
+
+        $short = $this->kittingShortRepository->findOneBy(array('id' => $shortId));
+        if (!$short) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
+        }
+        $short->setPartsPulledDate(new \DateTime($partsPulledDate));
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);

@@ -57,7 +57,7 @@
                 <td><a href="#" class="estimatedReleaseDate" data-name="estimatedReleaseDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_release_date', {'batchId': batch.id}) }}">{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('m-d') : "" }}</td>
                 <td><a href="#" class="notes" data-name="notes" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_notes', {'batchId': batch.id}) }}">{{ batch.notes }}</a></td>
                 <td><a href="{{ path('paint_view4', { 'batch': batch.id }) }}">{{ batch.id }}</a></td>
-                <td>{{ batch.quantity }}</td>
+                <td><a href="#" class="quantity" data-name="quantity" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_quantity', {'batchId': batch.id}) }}">{{ batch.quantity }}</a></td>
                 <td>{{ batch.color }}</td>
                 <td>{{ batch.ralColor }}</td>
                 <td><a href="#" class="vendor" data-name="vendor" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_vendor', {'batchId': batch.id}) }}">{{ batch.vendor }}</a></td>
@@ -107,6 +107,18 @@
                 container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Notes',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.quantity').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Quantity',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

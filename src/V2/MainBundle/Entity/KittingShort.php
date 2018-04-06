@@ -91,6 +91,13 @@ class KittingShort
     private $receivedDate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="parts_pulled_date", type="datetime", nullable=true)
+     */
+    private $partsPulledDate;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="notes", type="string", length=255, nullable=true)
@@ -342,6 +349,30 @@ class KittingShort
     public function getReceivedDate()
     {
         return $this->receivedDate;
+    }
+
+    /**
+     * Set partsPulledDate
+     *
+     * @param \DateTime $partsPulledDate
+     *
+     * @return KittingShort
+     */
+    public function setPartsPulledDate($partsPulledDate)
+    {
+        $this->partsPulledDate = $partsPulledDate;
+
+        return $this;
+    }
+
+    /**
+     * Get partsPulledDate
+     *
+     * @return \DateTime
+     */
+    public function getPartsPulledDate()
+    {
+        return $this->partsPulledDate;
     }
 
     /**

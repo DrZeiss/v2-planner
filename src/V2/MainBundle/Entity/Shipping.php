@@ -30,7 +30,7 @@ class Shipping
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ship_date", type="datetime")
+     * @ORM\Column(name="ship_date", type="datetime", nullable=true)
      */
     private $shipDate;
 
@@ -51,6 +51,13 @@ class Shipping
     private $secondShipDate;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="notes", type="string", length=255, nullable=true)
+     */
+    private $notes;
+
+    /**
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
@@ -60,6 +67,14 @@ class Shipping
      * @ORM\JoinColumn(name="updated_by", referencedColumnName="user_id")
      */
     private $updatedBy;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->isComplete = 0;
+    }
 
     /**
      * Get id
@@ -167,6 +182,30 @@ class Shipping
         return $this->secondShipDate;
     }
     
+    /**
+     * Set notes
+     *
+     * @param string $notes
+     *
+     * @return Shipping
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes
+     *
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
     /**
      * Set updateTime
      *

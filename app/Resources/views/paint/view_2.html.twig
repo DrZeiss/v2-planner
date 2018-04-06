@@ -42,6 +42,7 @@
         <tr>
             <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD</th>
             <th style="border:solid" rowspan=2>Job Name</th>
+            <th style="border:solid" rowspan=2>SO #</th>
             <th style="border:solid" rowspan=2>Job Qty</th>
             <th style="border:solid" rowspan=2>Color 1</th>
             <th style="border:solid" rowspan=2>Batch 1 Qty</th>
@@ -83,6 +84,7 @@
                     {% endif %}
                 </td>
                 <td>{{ paint.job.name }}</td>
+                <td>{{ paint.job.salesOrder }}</td>
                 <td>{{ paint.job.quantity }}</td>
                 <td>{{ paint.color1 }}</td>
                 <td><a href="#" class="batch1" data-name="batch1" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': paint.id}) }}">{{ paint.batch1 ? paint.batch1.id }}</a></td>
