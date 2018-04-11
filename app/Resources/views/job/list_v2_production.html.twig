@@ -6,6 +6,10 @@
     <li class="active"><span>V2 Production Jobs</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right"><a href="{{ path('print_v2_production') }}" class="btn btn-sm btn-warning">Print</a></span>
+{% endblock %}
+
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">
@@ -43,10 +47,10 @@
             <th style="border:solid;width:6ch" rowspan=2>MO #</th>
             <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD (Week#)</th>
             <th style="border:solid;text-align:center" colspan=3>Kitting</th>
-            <th style="border:solid;width:10ch" rowspan=2>Location</th>
+            <th style="border:solid;width:4ch" rowspan=2>LOC</th>
             <th style="border:solid;width:4ch" rowspan=2>Sub Built</th>
-            <th style="border:solid;min-width:7ch" rowspan=2>Build Completion Date</th>
-            <th style="border:solid" rowspan=2>Last Updated by</th>
+            <th style="border:solid;width:7ch" rowspan=2>Build Completion Date</th>
+            <th style="border:solid;width:4ch" rowspan=2>Paint LOC</th>
         </tr>
         <tr>
             {# Kitting #}
@@ -83,7 +87,8 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.location }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy.initials }}<br>({{ job.updateTime | date('m-d') }})</td>
+                {# Paint #}
+                <td {% if late %}style="color:white"{% endif %}>{{ job.paint ? job.paint.location : "" }}</td>
             </tr>
             {% endfor %}
         </tbody>

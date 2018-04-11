@@ -3,7 +3,7 @@
 {% block headerTitle %}Create Job{% endblock %}
 {% block breadcrumbs %}
 <li>
-    <a href="{{ path('jobs') }}">Jobs</a>
+    <a href="{{ path('all_jobs') }}">Jobs</a>
 </li>
 <li class="active">
     <span><strong>Create Job</strong></span>
@@ -16,8 +16,8 @@
                     {{ form_row(form.name) }}
                     {# This next section overwrites the form's original name #}
                     <div class="form-group">
-                        <label class="col-sm-3 control-label required">Name</label>
-                        <input type="text" id="v2_mainbundle_job_name" name="v2_mainbundle_job[name]" list="jobNames" placeholder="Type in job name" class="col-sm-6 search-job" data-path="{{ path('job_names') }}">
+                        <label class="col-sm-4 control-label required">Name</label>
+                        <input type="text" id="v2_mainbundle_job_name" name="v2_mainbundle_job[name]" list="jobNames" placeholder="Type in job name" class="col-sm-5 search-job" data-path="{{ path('job_names') }}">
                         <datalist id="jobNames"></datalist>
                     </div>
                     <br>
@@ -32,7 +32,7 @@
                     {{ form_row(form.buildLocation) }}
                     {{ form_row(form.plannerEstimatedShipDate) }}
 
-                    <a href="{{ path('jobs') }}" class="btn btn-warning">Cancel</a>
+                    <a href="{{ path('dashboard') }}" class="btn btn-warning">Cancel</a>
                     {{ form_widget(form.save) }}
 
                     {{ form_rest(form) }}

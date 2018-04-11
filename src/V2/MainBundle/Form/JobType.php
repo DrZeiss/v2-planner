@@ -28,13 +28,13 @@ class JobType extends AbstractType
             ->add('salesOrder', TextType::class, array(
                 'label'                 =>  'Sales Order #',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
             ))
             ->add('estimatedShipDate', DateType::class, array(
                 'label'                 =>  'Estimated Ship Date (ESD)',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'widget'                =>  'single_text',
                 'html5'                 =>  false,
@@ -45,32 +45,32 @@ class JobType extends AbstractType
             ->add('type', TextType::class, array(
                 'label'                 =>  'Type',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
             ))
             ->add('model', TextType::class, array(
                 'label'                 =>  'Model',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
             ))
             ->add('quantity', IntegerType::class, array(
                 'label'                 =>  'Quantity',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
             ))
             ->add('macPurchaseOrder', TextType::class, array(
                 'label'                 =>  'MAC Purchase Order #',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'required'              =>  false,
             ))
             ->add('buildLocation', EntityType::class, array(
                 'label'                 =>  'Build Location',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'class'                 =>  'V2\MainBundle\Entity\BuildLocation',
                 'query_builder' => function (EntityRepository $er) {
@@ -85,14 +85,14 @@ class JobType extends AbstractType
             ->add('paint1', TextType::class, array(
                 'label'                 =>  'Paint Color 1',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'mapped'                =>  false,
             ))
             ->add('paint2', TextType::class, array(
                 'label'                 =>  'Paint Color 2',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'mapped'                =>  false,
                 'required'              =>  false,
@@ -100,7 +100,7 @@ class JobType extends AbstractType
             ->add('plannerEstimatedShipDate', DateType::class, array(
                 'label'                 =>  'Planner ESD',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'widget'                =>  'single_text',
                 'html5'                 =>  false,

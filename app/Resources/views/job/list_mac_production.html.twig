@@ -52,7 +52,6 @@
             <th style="border:solid;width:10ch" rowspan=2>Location</th>
             <th style="border:solid;width:4ch" rowspan=2>Sub Build</th>
             <th style="border:solid;min-width:7ch" rowspan=2>Build Completion Date</th>
-            <th style="border:solid" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
             {# Shipped #}
@@ -132,7 +131,6 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy.initials }}<br>({{ job.updateTime | date('m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>

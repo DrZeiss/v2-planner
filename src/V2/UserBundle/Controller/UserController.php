@@ -82,7 +82,11 @@ class UserController extends Controller
                 }
                 $this->addFlash('success', 'User created!');
                 return $this->redirect($this->generateUrl('users'));
+            } else {
+                $this->addFlash('error', 'Error while creating new user! '.$form->getErrors());
+                return $this->redirect($request->getUri());                
             }
+
         }
 
         return $this->render('users/create.html.twig', array(

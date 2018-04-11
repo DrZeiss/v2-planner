@@ -36,7 +36,7 @@
         <tr>
             <th style="border:solid;width:11ch">Part Number</th>
             <th style="border:solid;width:7ch">Date Needed</th>
-            <th style="border:solid;min-width:7ch">EDD</th>
+            <th style="border:solid;width:7ch">EDD</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
             <th style="border:solid;width:7ch">RCVD Date</th>
             <th style="border:solid;width:20ch">Notes</th>
@@ -44,7 +44,6 @@
             <th style="border:solid;width:6ch">Job SO #</th>
             <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid;width:7ch">Parts Pulled</th>
-            <th style="border:solid">Updated by</th>
         </tr>
         </thead>
         <tbody>
@@ -64,7 +63,6 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="partsPulledDate" data-name="partsPulledDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_parts_pulledDate', { 'shortId': part.id }) }}">{{ part.partsPulledDate|date('m-d') }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.updatedBy.initials }}<br>({{ part.updateTime|date('m-d') }})</td>
             </tr>
             {% endfor %}
         </tbody>

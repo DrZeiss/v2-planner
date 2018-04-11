@@ -344,6 +344,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
+            ->leftJoin('j.paint', 'paint')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')

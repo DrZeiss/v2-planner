@@ -20,7 +20,6 @@
                 <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD<br>(Week #)</th>
                 <th style="border:solid;text-align:center" colspan=3>Shipped</th>
                 <th style="border:solid;width:20ch" rowspan=2>Notes</th>
-                <th style="border:solid" rowspan=2>Last Updated by</th>
             </tr>
             <tr>
                 {# Shipped #}
@@ -55,7 +54,6 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_notes', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.notes ? job.shipping.notes : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.shipping ? job.shipping.updatedBy.initials : "" }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -120,7 +118,7 @@
 
         $('.notes').each(function(i, obj) {
             $(this).editable({
-                type: 'text',
+                type: 'textarea',
                 container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter notes',

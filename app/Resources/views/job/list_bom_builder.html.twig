@@ -35,17 +35,15 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th style="border:solid;width:10ch">Name</th>
-                <th style="border:solid;width:6ch">SO #</th>
-                <th style="border:solid;width:10ch">Type</th>
-                <th style="border:solid;width:6ch">Model</th>
-                <th style="border:solid;width:4ch">Qty</th>
-                <th style="border:solid;width:6ch">MO #</th>
-                <th style="border:solid;width:3ch">LOC</th>
-                <th style="border:solid;width:7ch">Planner ESD<br>(Week #)</th>
-                <th style="border:solid;width:7ch">Serials</th>
-                <th style="border:solid;width:7ch">BOM Issued Date</th>
-                <th style="border:solid">BOM Issued By</th>
+                <th style="border:solid">Name</th>
+                <th style="border:solid">SO #</th>
+                <th style="border:solid">Type</th>
+                <th style="border:solid">Model</th>
+                <th style="border:solid">Qty</th>
+                <th style="border:solid">MO #</th>
+                <th style="border:solid">LOC</th>
+                <th style="border:solid">Planner ESD<br>(Week #)</th>
+                <th style="border:solid">Serials</th>
             </tr>
         </thead>
         <tbody>
@@ -74,9 +72,6 @@
                 </td>
                 {# Shipped #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "N/A" }}</a></td>
-                {# BOM #}
-                <td {% if late %}style="color:white"{% endif %}><span class="issuedDate_{{job.id}}"></span></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.bom and job.bom.issuedBy ? job.bom.issuedBy.initials : ""}}</td>
             </tr>
             {% endfor %}
         </tbody>

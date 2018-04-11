@@ -55,8 +55,7 @@
         <tr>
             <th style="border:solid;width:10ch" rowspan=2>Name</th>
             <th style="border:solid;width:6ch" rowspan=2>SO #</th>
-            <th style="border:solid;width:10ch" rowspan=2>Job Type</th>            
-            <th style="border:solid;text-align:center" colspan=7>Job</th>
+            <th style="border:solid;text-align:center" colspan=8>Job</th>
             <th style="border:solid;text-align:center" colspan=3>Shipped</th>
             <th style="border:solid;text-align:center" colspan=2>BOM</th>
             <th style="border:solid;text-align:center" colspan=3>Kitting</th>
@@ -73,6 +72,7 @@
             {# Job #}
             <th style="border:solid;min-width:7ch">ESD</th>
             <th style="border:solid;width:7ch;font-size:60%">Planner ESD (Week#)</th>
+            <th style="border:solid;width:10ch">Type</th>
             <th style="border:solid;width:6ch">Model</th>
             <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid;width:6ch">MO#</th>
@@ -149,7 +149,6 @@
                 {# Job #}
                 <td style="font-size:small; {% if late %}color:white{% endif %}"><a href="#" class="name" data-name="name" data-pk="{{job.id}}" data-url="{{ path('edit_job_name', {'jobId': job.id}) }}">{{ job.name }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="salesOrder" data-name="salesOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_sales_order', {'jobId': job.id}) }}">{{ job.salesOrder }}</a></td>   
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="type" data-name="type" data-pk="{{job.id}}" data-url="{{ path('edit_job_type', {'jobId': job.id}) }}">{{ job.type }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedShipDate" data-name="estimatedShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_job_estimated_ship_date', {'jobId': job.id}) }}">{{ job.estimatedShipDate ? job.estimatedShipDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>
                     <a href="#" class="plannerEstimatedShipDate" data-name="plannerEstimatedShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_job_planner_estimated_ship_date', {'jobId': job.id}) }}">
@@ -160,6 +159,7 @@
                         {% endif %}
                     </a>
                 </td>                
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="type" data-name="type" data-pk="{{job.id}}" data-url="{{ path('edit_job_type', {'jobId': job.id}) }}">{{ job.type }}</a></td>
                 <td style="word-break:break-all"><a href="#" class="model" data-name="model" data-pk="{{job.id}}" data-url="{{ path('edit_job_model', {'jobId': job.id}) }}">{{ job.model }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="quantity" data-name="quantity" data-pk="{{job.id}}" data-url="{{ path('edit_job_quantity', {'jobId': job.id}) }}">{{ job.quantity }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a></td>                    
@@ -247,7 +247,7 @@
                     <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4) ? job.kitting.kittingShort4.id : 0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.notes : null }}</a></td>
                 {% endif %}
                 {# Paint #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>                
                 {# Scheduling #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
@@ -270,7 +270,7 @@
         $('.table').fixedThead({
           height: 500,
           row: 2,
-          col: 3
+          col: 2
         });
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
@@ -344,7 +344,7 @@
 
         $('.quantity').each(function(i, obj) {
             $(this).editable({
-                type: 'number',
+                type: 'text',
                 container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Quantity',

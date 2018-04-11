@@ -232,6 +232,26 @@ class JobController extends Controller
         return $this->render('job/list_v2_production.html.twig', array(
             'jobs'      =>  $jobs,
             'sales_order'   =>  $parameters['sales_order'],
+            'planner_esd'   =>  $parameters['planner_esd'],
+        ));
+    }
+
+    /**
+     * @Route("/v2Production/print", name="print_v2_production")
+     */
+    public function printV2ProductionJobs(Request $request)
+    {
+        $defaultParameters = array(
+            'sales_order' => null,
+            'planner_esd' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findV2ProductionJobs($parameters);
+
+        return $this->render('job/print_v2_production.html.twig', array(
+            'jobs'      =>  $jobs,
+            'sales_order'   =>  $parameters['sales_order'],
             'planner_esd'   =>  $parameters['planner_esd'],            
         ));
     }
@@ -326,7 +346,7 @@ class JobController extends Controller
                 }
 
                 $this->addFlash('success', 'Job created!');
-                return $this->redirect($this->generateUrl('all_jobs'));
+                return $this->redirect($this->generateUrl('dashboard'));
             }
         }
 

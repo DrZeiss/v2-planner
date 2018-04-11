@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>V2 Production Jobs</title>
+</head>
+<body>
+    <h2>V2 Production Job list</h2>
+    <table border='1'>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>SO #</th>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Qty</th>
+            <th>MO #</th>
+            <th>Planner ESD (Week#)</th>
+            <th>LOC</th>
+            <th>Paint LOC</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td style="font-size:small">{{ job.name }}</td>
+                <td>{{ job.salesOrder }}</td>   
+                <td>{{ job.type }}</td>
+                <td>{{ job.model }}</td>
+                <td>{{ job.quantity }}</td>
+                <td>{{ job.manufacturingOrder }}</td>
+                <td>
+                    {% if job.plannerEstimatedShipDate %}
+                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+                {# Kitting #}
+                <td>{{ job.kitting.location }}</td>
+                {# Paint #}
+                <td>{{ job.paint ? job.paint.location : "" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
