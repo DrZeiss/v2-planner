@@ -23,6 +23,7 @@ class User extends BaseUser
     // Specific roles
     const ROLE_BOM_BUILDER      = 'BOM_BUILDER';
     const ROLE_KITTER           = 'KITTER';
+    const ROLE_SHORT_KITS       = 'SHORT_KITS';
     const ROLE_RECEIVER         = 'RECEIVER';
     const ROLE_MANUFACTURER     = 'MANUFACTURER';
     const ROLE_SUPPLY_CHAIN     = 'SUPPLY CHAIN';

@@ -61,6 +61,14 @@
                     </div></a>
                 </li>
               {% endif %}
+              {% if is_granted('ROLE_SHORT_KITS') %} 
+                <li><a href="{{ path('short_kits') }}">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-clipboard st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Short Kits</span></div>
+                    </div></a>
+                </li>
+              {% endif %}
               {% if is_granted('ROLE_RECEIVER') %} 
                 <li><a href="{{ path('receiver') }}">
                     <div class="fluid-cols">
@@ -118,34 +126,39 @@
                 </li>
               {% endif %}
               {% if is_granted('ROLE_PAINTER') %}               
-                <li>
-                  <a href="{{ path('paint_view1') }}">
-                    <div class="fluid-cols">
+                <li><a href="#">
+                      <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
-                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title" style="font-size:70%">Paint Batch for upcoming Jobs</span></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint</span></div>
+                      <div class="min-col"><i class="fa fa-angle-right st-sidebar__arrow"></i></div>
                     </div></a>
-                </li>
-                <li>
-                  <a href="{{ path('paint_view2') }}">
-                    <div class="fluid-cols">
-                      <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
-                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint Batch Creation</span></div>
-                    </div></a>
-                </li>
-                <li>
-                  <a href="{{ path('paint_view3') }}">
-                    <div class="fluid-cols">
-                      <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
-                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title" style="font-size:70%">Paint Batch Point of No Return</span></div>
-                    </div></a>
-                </li>
-                <li>
-                  <a href="{{ path('paint_view4') }}">
-                    <div class="fluid-cols">
-                      <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
-                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Paint Batched</span></div>
-                    </div></a>
-                </li>
+                  <ul class="st-sidebar__nested">
+                  <li>
+                    <a href="{{ path('paint_view1') }}">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-sidebar__title">To be batched</span></div>
+                      </div></a>
+                  </li>
+                  <li>
+                    <a href="{{ path('paint_view2') }}">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Create Batch</span></div>
+                      </div></a>
+                  </li>
+                  <li>
+                    <a href="{{ path('paint_view3') }}">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Active Batches</span></div>
+                      </div></a>
+                  </li>
+                  <li>
+                    <a href="{{ path('paint_view4') }}">
+                      <div class="fluid-cols">
+                        <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Jobs in Batch</span></div>
+                      </div></a>
+                  </li>
+                </ul>
+              </li>
               {% endif %}
               {% if is_granted('ROLE_ADMIN') %} 
                 <li>

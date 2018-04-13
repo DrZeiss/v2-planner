@@ -24,7 +24,7 @@ class KittingShortType extends AbstractType
             ->add('partNumber', TextType::class, array(
                 'label'                 =>  'Part Number',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
             ))
             // ->add('paintedPart', CheckboxType::class, array(
@@ -41,7 +41,7 @@ class KittingShortType extends AbstractType
             ->add('dateNeeded', DateType::class, array(
                 'label'                 =>  'Date Needed',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'widget'                =>  'single_text',
                 'html5'                 =>  false,
@@ -53,28 +53,28 @@ class KittingShortType extends AbstractType
             ->add('vendor', TextType::class, array(
                 'label'                 =>  'Vendor',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'required'              =>  false,
             ))
             ->add('vendorPoNumber', TextType::class, array(
                 'label'                 =>  'Vendor PO#',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'required'              =>  false,
             ))
             ->add('modWo', TextType::class, array(
                 'label'                 =>  'Mod WO#',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'required'              =>  false,
             ))
             ->add('estimatedDeliveryDate', DateType::class, array(
                 'label'                 =>  'Estimated Delivery Date (ESD)',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'widget'                =>  'single_text',
                 'html5'                 =>  false,
@@ -99,10 +99,16 @@ class KittingShortType extends AbstractType
             //     'widget'                => 'single_text',
             //     'required'              =>  false,
             // ))
+            ->add('quantity', IntegerType::class, array(
+                'label'                 =>  'Quantity',
+                'label_attr'            =>  array(
+                    'class'             =>  'col-sm-4 control-label',
+                ),
+            ))            
             ->add('notes', TextareaType::class, array(
                 'label'                 =>  'Notes',
                 'label_attr'            =>  array(
-                    'class'             =>  'col-sm-3 control-label',
+                    'class'             =>  'col-sm-4 control-label',
                 ),
                 'required'              =>  false,
             ))

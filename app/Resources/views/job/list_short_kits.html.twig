@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block headerTitle %}Kitter Jobs{% endblock %}
+{% block headerTitle %}Short Kits{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="active"><span>Kitter Jobs</span></li>
+    <li class="active"><span>Short Kits</span></li>
 {% endblock %}
 
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">
-            <form action="{{ path('kitter') }}" method="GET">
+            <form action="{{ path('short_kits') }}" method="GET">
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="form-label">Name</label>
@@ -31,32 +31,27 @@
         </div>
     </div>
 
-    <h2>Kitter Job list</h2>
+    <h2>Short Kits list</h2>
     <table class="table table-bordered">
         <thead>
-            <tr>
-                <th style="border:solid;text-align:center" colspan=7>Job</th>
-                <th style="border:solid;text-align:center" colspan=7>Kitting</th>
-            </tr>
-            <tr>
-                <th style="border:solid;width:10ch">Name</th>
-                <th style="border:solid;width:6ch">SO #</th>
-                <th style="border:solid;width:10ch">Type</th>
-                <th style="border:solid;width:4ch">Qty</th>
-                <th style="border:solid;width:6ch">MO #</th>
-                <th style="border:solid;width:3ch;font-size:x-small">Build LOC</th>
-                <th style="border:solid;width:7ch">Planner ESD</th>
-                <th style="border:solid;width:11ch">Short #1</th>
-                <th style="border:solid;width:11ch">Short #2</th>
-                <th style="border:solid;width:11ch">Short #3</th>
-                <th style="border:solid;width:11ch">Short #4</th>
-                <th style="border:solid;width:3ch">LOC</th>
-                <th style="border:solid;width:3ch">100% Filled?</th>
-                <th style="border:solid;width:7ch">Completion Date</th>
-            </tr>
+        <tr>
+            <th style="border:solid;width:10ch">Name</th>
+            <th style="border:solid;width:6ch">SO #</th>
+            <th style="border:solid;width:10ch">Type</th>
+            <th style="border:solid;width:4ch">Qty</th>
+            <th style="border:solid;width:6ch">MO #</th>
+            <th style="border:solid;width:3ch;font-size:x-small">Build LOC</th>
+            <th style="border:solid;width:7ch">Planner ESD</th>
+            <th style="border:solid;width:11ch">Short #1</th>
+            <th style="border:solid;width:11ch">Short #2</th>
+            <th style="border:solid;width:11ch">Short #3</th>
+            <th style="border:solid;width:11ch">Short #4</th>
+            <th style="border:solid;width:3ch">LOC</th>
+            <th style="border:solid;width:3ch">100% Filled?</th>
+            <th style="border:solid;width:7ch">Completion Date</th>
+        </tr>
         </thead>
         <tbody>
-            {% set showBuffer = 'notYet' %}
             {% for job in jobs %}
                 {% set late = 0 %}
                 {% if job.estimatedShipDate and job.plannerEstimatedShipDate and job.plannerEstimatedShipDate < date() and job.kitting.completionDate is null %}
@@ -71,12 +66,7 @@
                         {% set late = 2 %}
                     {% endif %}
                 {% endif %}
-                {% if job.kitting.filledCompletely is not null and job.kitting.filledCompletely == 0 and showBuffer == 'notYet' %}
-                {% set showBuffer = 'done' %}
-            <tr style="border-top:solid;border-color:yellow;border-top-width:1em">
-                {% else %}
             <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="plum"{% endif %}>
-                {% endif %}
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
@@ -90,10 +80,10 @@
                         TBD
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
                     {% if job.kitting.filledCompletely is null %}
@@ -116,7 +106,7 @@
     $(document).ready(function() {
         $('.table').fixedThead({
           height: 400,
-          row: 2,
+          row: 1,
           col: 2
         });
 

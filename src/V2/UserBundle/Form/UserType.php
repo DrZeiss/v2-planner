@@ -24,6 +24,7 @@ class UserType extends AbstractType
         $roleChoices = array(
             'BOM Builder'       => 'ROLE_BOM_BUILDER',
             'Kitter'            => 'ROLE_KITTER',
+            'Short Kits'        => 'ROLE_SHORT_KITS',
             'Receiver'          => 'ROLE_RECEIVER',
             'Manufacturer'      => 'ROLE_MANUFACTURER',
             'Supply Chain'      => 'ROLE_SUPPLY_CHAIN',

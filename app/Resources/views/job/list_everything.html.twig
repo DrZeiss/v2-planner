@@ -173,7 +173,7 @@
                     {% elseif job.shipping and job.shipping.isComplete == 1 %}
                         Partial
                     {% else %}
-                        N/A
+                        Empty
                     {% endif %}
                 </a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a></td>
@@ -185,7 +185,7 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting ? job.kitting.updatedBy.initials : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-value="{{ job.kitting ? job.kitting.filledCompletely : 0 }}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
                     {% if job.kitting and job.kitting.filledCompletely is null %}
-                        N/A
+                        Empty
                     {% elseif job.kitting and (job.kitting.filledCompletely == 1) %}
                         Yes
                     {% elseif job.kitting and (job.kitting.filledCompletely == 0) %}
@@ -381,7 +381,7 @@
         $('.buildLocation').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,
@@ -426,7 +426,7 @@
         $('.isComplete').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,
@@ -485,7 +485,7 @@
             $(this).editable({
                 type: 'select',
                 container: 'body',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 source: [
                   {value: 1, text: 'Yes'},
                   {value: 0, text: 'No'}
@@ -535,7 +535,7 @@
         $('.paintedPart').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,
@@ -630,7 +630,7 @@
         $('.subReady').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,

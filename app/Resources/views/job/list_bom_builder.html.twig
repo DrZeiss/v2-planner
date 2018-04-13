@@ -35,14 +35,18 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th style="border:solid;text-align:center" colspan=8>Job</th>
+                <th style="border:solid;text-align:center" colspan=1>BOM</th>
+            </tr>
+            <tr>
                 <th style="border:solid">Name</th>
                 <th style="border:solid">SO #</th>
                 <th style="border:solid">Type</th>
                 <th style="border:solid">Model</th>
                 <th style="border:solid">Qty</th>
-                <th style="border:solid">MO #</th>
                 <th style="border:solid">LOC</th>
                 <th style="border:solid">Planner ESD<br>(Week #)</th>
+                <th style="border:solid">MO #</th>
                 <th style="border:solid">Serials</th>
             </tr>
         </thead>
@@ -61,7 +65,6 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
                 <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ job.model }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
@@ -70,8 +73,8 @@
                         TBD
                     {% endif %}
                 </td>
-                {# Shipped #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "N/A" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "Empty" }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -92,7 +95,7 @@
     $(document).ready(function() {
         $('.table').fixedThead({
           height: 400,
-          row: 1,
+          row: 2,
           col: 2
         });
 
@@ -147,7 +150,7 @@
         $('.isComplete').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,

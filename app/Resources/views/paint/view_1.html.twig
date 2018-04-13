@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block headerTitle %}Paint View 1{% endblock %}
+{% block headerTitle %}Paint: To Be Batched{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="active"><span>Paint View 1</span></li>
+    <li class="active"><span>Paint: To Be Batched</span></li>
 {% endblock %}
 
 {% block body %}
-    <h2>Paint View 1 list</h2>
+    <h2>Paint: To Be Batched list</h2>
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
             <th style="border:solid">Color</th>
             <th style="border:solid"># of jobs</th>
             <th style="border:solid">Sum of fixture qty</th>
-            <th style="border:solid;min-width:7ch">Planner ESD</th>
+            <th style="border:solid;min-width:7ch">Earliest Planner ESD</th>
         </tr>
         </thead>
         <tbody>
@@ -51,7 +51,7 @@
             $(this).editable({
                 type: 'select',
                 container: 'body',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 source: [
                   {value: 1, text: 'Yes'},
                   {value: 0, text: 'No'}

@@ -105,6 +105,16 @@ class KittingShort
     private $notes;
 
     /**
+     * This quantity here has no relation to any jobs
+     *
+     * @var int
+     *
+     * @ORM\Column(name="quantity", type="integer")
+     */
+    private $quantity;
+
+
+    /**
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
@@ -397,6 +407,30 @@ class KittingShort
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return KittingShort
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 
     /**

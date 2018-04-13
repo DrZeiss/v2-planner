@@ -49,9 +49,11 @@
             <th style="border:solid;text-align:center" colspan=4>Short #2</th>
             <th style="border:solid;text-align:center" colspan=4>Short #3</th>
             <th style="border:solid;text-align:center" colspan=4>Short #4</th>
-            <th style="border:solid;width:10ch" rowspan=2>Location</th>
+            <th style="border:solid;width:4h" rowspan=2>LOC</th>
+            <th style="border:solid;width:4ch" rowspan=2>Paint LOC</th>
             <th style="border:solid;width:4ch" rowspan=2>Sub Build</th>
-            <th style="border:solid;min-width:7ch" rowspan=2>Build Completion Date</th>
+            <th style="border:solid;width:7ch" rowspan=2>Build Completion Date</th>
+            <th style="border:solid;width:3ch" rowspan=2>Built By</th>
         </tr>
         <tr>
             {# Shipped #}
@@ -105,7 +107,7 @@
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "Not Generated Yet" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}N/A{% endif %}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}Empty{% endif %}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</td>
                 {# Short #1 #}
@@ -129,8 +131,12 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.kittingShort4 and job.kitting.kittingShort4 and job.kitting.kittingShort4.estimatedDeliveryDate ? job.kitting.kittingShort4.estimatedDeliveryDate | date('m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="receivedDate4" data-name="receivedDate4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ (job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate) ? job.kitting.kittingShort4.receivedDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{job.kitting.location}}</a></td>
+                {# Paint #}
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
+                {# Scheduling #}                
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{job.scheduling.subReady}}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="builtBy" data-name="builtBy" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_built_by', {'jobId': job.id}) }}">{{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -170,7 +176,7 @@
         $('.isComplete').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,
@@ -260,10 +266,22 @@
             });
         });
 
+        $('.paintLocation').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Paint Location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
         $('.subReady').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,

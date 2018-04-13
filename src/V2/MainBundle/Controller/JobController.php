@@ -137,6 +137,26 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/short_kits", name="short_kits")
+     */
+    public function listShortKitsJobs(Request $request)
+    {
+        $defaultParameters = array(
+            'name' => null,
+            'sales_order' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findShortKitsJobs($parameters);
+
+        return $this->render('job/list_short_kits.html.twig', array(
+            'jobs'          =>  $jobs,
+            'name'          =>  $parameters['name'],
+            'sales_order'   =>  $parameters['sales_order'],
+        ));
+    }
+
+    /**
      * @Route("/receiver", name="receiver")
      */
     public function listReceiverParts(Request $request)
@@ -277,7 +297,7 @@ class JobController extends Controller
             'sales_order'       => null,
             'esd'               => null,
             'filled_completely' => null,
-            'non_shipped'       => null,
+            'non_shipped'       => 1,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -849,7 +869,7 @@ class JobController extends Controller
             $kitting->setJob($job);
         }
 
-        $kitting->setFilledCompletely(($filledCompletely == 'N/A') ? null : $filledCompletely );
+        $kitting->setFilledCompletely(($filledCompletely == 'Empty') ? null : $filledCompletely );
         $kitting->setUpdateTime(new \DateTime());
         $kitting->setUpdatedBy($this->getUser());
 
@@ -1584,6 +1604,31 @@ class JobController extends Controller
             $scheduling->setJob($job);
         }
         $scheduling->setPriorityShipper($priorityShipper);
+        $scheduling->setUpdateTime(new \DateTime());
+        $scheduling->setUpdatedBy($this->getUser());
+        $this->em->persist($scheduling);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/scheduling/{jobId}/editBuiltBy", name="edit_scheduling_built_by")
+     */
+    public function editSchedulingBuiltBy(Request $request, $jobId)
+    {
+        $builtBy = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+        $scheduling = $this->schedulingRepository->findOneBy(array('job' => $job));
+        if (!$scheduling) {
+            $scheduling = new Shipping();
+            $scheduling->setJob($job);
+        }
+        $scheduling->setBuiltBy($builtBy);
         $scheduling->setUpdateTime(new \DateTime());
         $scheduling->setUpdatedBy($this->getUser());
         $this->em->persist($scheduling);

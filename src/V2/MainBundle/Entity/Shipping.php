@@ -35,7 +35,7 @@ class Shipping
     private $shipDate;
 
     /**
-     * 0: N/A
+     * 0: Empty
      * 1: Partial
      * 2: Complete
      *     

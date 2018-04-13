@@ -28,6 +28,10 @@ class Scheduling
     private $job;
 
     /**
+     * 0 = normal
+     * 1 = hot
+     * 2 = urgent
+     *
      * @var int
      *
      * @ORM\Column(name="priority", type="integer")
@@ -82,6 +86,13 @@ class Scheduling
      * @ORM\Column(name="completion_date", type="datetime", nullable=true)
      */
     private $completionDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="built_by", type="string", length=255, nullable=true)
+     */
+    private $builtBy;
 
     /**
      * @ORM\Column(name="update_time", type="datetime")
@@ -308,6 +319,30 @@ class Scheduling
     public function getCompletionDate()
     {
         return $this->completionDate;
+    }
+
+    /**
+     * Set builtBy
+     *
+     * @param string $builtBy
+     *
+     * @return Job
+     */
+    public function setBuiltBy($builtBy)
+    {
+        $this->builtBy = $builtBy;
+
+        return $this;
+    }
+
+    /**
+     * Get builtBy
+     *
+     * @return string
+     */
+    public function getBuiltBy()
+    {
+        return $this->builtBy;
     }
 
     /**

@@ -39,7 +39,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th style="border:solid;width:11ch">Part Number</th>
+            <th style="border:solid;min-width:9.5ch">Part #</th>
             <th style="border:solid;width:7ch;font-size:x-small">Date Needed</th>
             <th style="border:solid;width:7ch">EDD</th>
             <th style="border:solid;width:15ch">Vendor</th>
@@ -66,7 +66,7 @@
                     {% set late = 2 %}
                 {% endif %}                
             <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="plum"{% endif %}>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.partNumber}}</a></td>
+                <td style="font-size:small;word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="vendor" data-name="vendor" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor', {'shortId': part.id }) }}">{{ part.vendor }}</a></td>
@@ -74,9 +74,9 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="modWo" data-name="modWo" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_wo', {'shortId': part.id}) }}">{{ part.modWo }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ part.notes }}</a></td>
-                <td style="font-size:small; {% if late %}color:white{% endif %}"><a href="#" class="name" data-name="name" data-pk="{{part.id}}" data-url="{{ path('edit_job_name', {'jobId': part.kitting and part.kitting.job ? part.kitting.job.id : 0}) }}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="salesOrder" data-name="salesOrder" data-pk="{{part.id}}" data-url="{{ path('edit_job_sales_order', {'jobId': part.kitting and part.kitting.job ? part.kitting.job.id : 0}) }}">{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</a></td>   
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="quantity" data-name="quantity" data-pk="{{part.id}}" data-url="{{ path('edit_job_quantity', {'jobId': part.kitting and part.kitting.job ? part.kitting.job.id : 0}) }}">{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</a></td>
+                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</a></td>   
+                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity : part.quantity }}</a></td>
             </tr>
             {% endfor %}
         </tbody>

@@ -10,6 +10,7 @@ security:
         ROLE_ADMIN:         [ROLE_USER,
                              ROLE_BOM_BUILDER, 
                              ROLE_KITTER, 
+                             ROLE_SHORT_KITS, 
                              ROLE_RECEIVER, 
                              ROLE_MANUFACTURER, 
                              ROLE_SUPPLY_CHAIN, 

@@ -48,15 +48,16 @@
             <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD (Week#)</th>
             <th style="border:solid;text-align:center" colspan=3>Kitting</th>
             <th style="border:solid;width:4ch" rowspan=2>LOC</th>
+            <th style="border:solid;width:4ch" rowspan=2>Paint LOC</th>
             <th style="border:solid;width:4ch" rowspan=2>Sub Built</th>
             <th style="border:solid;width:7ch" rowspan=2>Build Completion Date</th>
-            <th style="border:solid;width:4ch" rowspan=2>Paint LOC</th>
+            <th style="border:solid;width:3ch" rowspan=2>Built By</th>
         </tr>
         <tr>
             {# Kitting #}
-            <th style="border:solid;min-width:7ch">Completion Date</th>
-            <th style="border:solid;width:6ch">Completed By</th>
-            <th style="border:solid;width:4ch">Filled Completely?</th>
+            <th style="border:solid;font-size:small;min-width:7ch">Completion Date</th>
+            <th style="border:solid;font-size:small;width:6ch">Completed By</th>
+            <th style="border:solid;font-size:small;width:4ch">Filled Completely?</th>
         </tr>            
         </thead>
         <tbody>
@@ -84,11 +85,13 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate|date('m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.updatedBy.initials }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.location }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</td>
+                {# Paint #}
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
+                {# Scheduling #}                
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
-                {# Paint #}
-                <td {% if late %}style="color:white"{% endif %}>{{ job.paint ? job.paint.location : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="builtBy" data-name="builtBy" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_built_by', {'jobId': job.id}) }}">{{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -142,7 +145,7 @@
         $('.isComplete').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,
@@ -184,10 +187,34 @@
             });
         });
 
+        $('.location').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.paintLocation').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Paint Location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
         $('.subReady').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
-                emptytext: 'N/A',
+                emptytext: 'Empty',
                 container: 'body',
                 placement: 'left',
                 value: obj.dataset.value,
@@ -210,6 +237,18 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Completion Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.builtBy').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Built By Initials',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }
