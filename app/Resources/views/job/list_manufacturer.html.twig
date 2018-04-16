@@ -38,12 +38,11 @@
             <th style="border:solid;width:7ch">Date Needed</th>
             <th style="border:solid;width:7ch">EDD</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
-            <th style="border:solid;width:7ch">RCVD Date</th>
+            <th style="border:solid;width:7ch">Mod Done Date</th>
             <th style="border:solid;min-width:20ch">Notes</th>
             <th style="border:solid;width:10ch">Job Name</th>
             <th style="border:solid;width:6ch">Job SO #</th>
             <th style="border:solid;width:4ch">Qty</th>
-            <th style="border:solid;width:7ch">Parts Pulled</th>
         </tr>
         </thead>
         <tbody>
@@ -62,7 +61,6 @@
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="partsPulledDate" data-name="partsPulledDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_parts_pulledDate', { 'shortId': part.id }) }}">{{ part.partsPulledDate|date('m-d') }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -113,18 +111,18 @@
             });
         });
 
-        $('.partsPulledDate').each(function(i, obj) {
-            $(this).editable({
-                type: 'date',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Select Parts Pulled Date',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
+        // $('.partsPulledDate').each(function(i, obj) {
+        //     $(this).editable({
+        //         type: 'date',
+        //         container: 'body',
+        //         placement: 'left',
+        //         url: obj.dataset.url,
+        //         title: 'Select Parts Pulled Date',
+        //         success: function(response, newValue) {
+        //             if (response.status == 'error') return response.msg; //msg will be shown in editable form
+        //         }
+        //     });
+        // });
         
     });
     </script>

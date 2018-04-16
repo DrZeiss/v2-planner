@@ -59,8 +59,8 @@
             <th style="border:solid;width:10ch" rowspan=2>Job Type</th>            
             <th style="border:solid;text-align:center" colspan=7>Job</th>
             <th style="border:solid;text-align:center" colspan=3>Shipped</th>
-            <th style="border:solid;text-align:center" colspan=2>BOM</th>
-            <th style="border:solid;text-align:center" colspan=3>Kitting</th>
+            <th style="border:solid;text-align:center" colspan=1>BOM</th>
+            <th style="border:solid;text-align:center" colspan=2>Kitting</th>
             <th style="border:solid;text-align:center" colspan=5>Short #1</th>
             <th style="border:solid;text-align:center" colspan=5>Short #2</th>
             <th style="border:solid;text-align:center" colspan=5>Short #3</th>
@@ -83,10 +83,8 @@
             <th style="border:solid;width:7ch">2nd Ship Date</th>
             {# BOM #}
             <th style="border:solid;width:7ch;font-size:60%">Issued Date</th>
-            <th style="border:solid;width:3ch;font-size:60%">Issued By</th>
             {# Kitting #}
             <th style="border:solid;width:7ch;font-size:60%">Completion Date</th>
-            <th style="border:solid;width:3ch;font-size:60%">Completed By</th>
             <th style="border:solid;width:4ch;font-size:60%">Filled Completely?</th>
             {# Short #1 #}
             <th style="border:solid;min-width:11ch">Part Number</th>
@@ -124,7 +122,7 @@
             {% for job in jobs %}
                 {% set late = 0 %}
                 {# highlight red if planner ESD is later than ESD and shipped date is empty #}
-                {% if job.plannerEstimatedShipDate < job.estimatedShipDate and (job.shipping is null or (job.shipping and job.shipping.shipDate is null)) %}
+                {% if job.plannerEstimatedShipDate > job.estimatedShipDate and (job.shipping is null or (job.shipping and job.shipping.shipDate is null)) %}
                     {% set late = 1 %}
                 {% endif %}
                 {% if job.plannerEstimatedShipDate < (date()|date_modify("-14 days")) and (job.kitting.filledCompletely is null or job.kitting.filledCompletely == 0) %}
@@ -164,10 +162,8 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a></td>
                 {# BOM #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.bom and job.bom.issuedBy ? job.bom.issuedBy.initials : ""}}</td>
                 {# Kitting #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="kittingCompletionDate" data-name="kittingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting ? job.kitting.updatedBy.initials : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-value="{{ job.kitting ? job.kitting.filledCompletely : 0 }}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
                     {% if job.kitting and job.kitting.filledCompletely is null %}
                         Empty
