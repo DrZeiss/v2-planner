@@ -60,7 +60,7 @@
             <th style="border:solid;text-align:center" colspan=7>Job</th>
             <th style="border:solid;text-align:center" colspan=3>Shipped</th>
             <th style="border:solid;text-align:center" colspan=1>BOM</th>
-            <th style="border:solid;text-align:center" colspan=2>Kitting</th>
+            <th style="border:solid;text-align:center" colspan=3>Kitting</th>
             <th style="border:solid;text-align:center" colspan=5>Short #1</th>
             <th style="border:solid;text-align:center" colspan=5>Short #2</th>
             <th style="border:solid;text-align:center" colspan=5>Short #3</th>
@@ -84,6 +84,7 @@
             {# BOM #}
             <th style="border:solid;width:7ch;font-size:60%">Issued Date</th>
             {# Kitting #}
+            <th style="border:solid;width:4ch">LOC</th>
             <th style="border:solid;width:7ch;font-size:60%">Completion Date</th>
             <th style="border:solid;width:4ch;font-size:60%">Filled Completely?</th>
             {# Short #1 #}
@@ -163,6 +164,7 @@
                 {# BOM #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('m-d') : "" }}</a></td>
                 {# Kitting #}
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="kittingLocation" data-name="kittingLocation" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="kittingCompletionDate" data-name="kittingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-value="{{ job.kitting ? job.kitting.filledCompletely : 0 }}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
                     {% if job.kitting and job.kitting.filledCompletely is null %}
@@ -439,6 +441,18 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Issued Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.kittingLocation').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Kit Location',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

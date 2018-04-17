@@ -371,12 +371,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
+            ->join('j.buildLocation', 'buildLocation')
             ->leftJoin('j.paint', 'paint')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("j.macPurchaseOrder IS NULL")
+            ->andWhere("buildLocation.name = 'V2'")
             ->andWhere("scheduling.completionDate IS NULL");
             
         if ($salesOrder) {

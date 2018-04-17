@@ -870,6 +870,32 @@ class JobController extends Controller
         }
 
         $kitting->setFilledCompletely(($filledCompletely == 'Empty') ? null : $filledCompletely );
+        if ($filledCompletely) {
+            $kitting->setKitDate(new \DateTime());
+        }
+        $kitting->setUpdateTime(new \DateTime());
+        $kitting->setUpdatedBy($this->getUser());
+
+        $this->em->persist($kitting);
+        $this->em->flush();
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/kitting/{jobId}/editKitDate", name="edit_kitting_kit_date")
+     */
+    public function editKittingKitDate(Request $request, $jobId)
+    {
+        $kitDate = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        $kitting = $this->kittingRepository->findOneBy(array('job' => $job));
+        if (!$kitting) {
+            $kitting = new Kitting();
+            $kitting->setJob($job);
+        }
+
+        $kitting->setKitDate(new \DateTime($kitDate));
         $kitting->setUpdateTime(new \DateTime());
         $kitting->setUpdatedBy($this->getUser());
 

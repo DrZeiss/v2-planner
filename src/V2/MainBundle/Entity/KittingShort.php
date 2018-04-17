@@ -131,6 +131,7 @@ class KittingShort
      */
     public function __construct()
     {
+        $this->quantity = 0;
         $this->paintedPart = false;
         $this->updateTime = new \DateTime();
     }

@@ -30,6 +30,13 @@ class Kitting
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="kit_date", type="datetime", nullable=true)
+     */
+    private $kitDate;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="completion_date", type="datetime", nullable=true)
      */
     private $completionDate;
@@ -152,6 +159,30 @@ class Kitting
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set kitDate
+     *
+     * @param \DateTime $kitDate
+     *
+     * @return Kitting
+     */
+    public function setKitDate($kitDate)
+    {
+        $this->kitDate = $kitDate;
+
+        return $this;
+    }
+
+    /**
+     * Get kitDate
+     *
+     * @return \DateTime
+     */
+    public function getKitDate()
+    {
+        return $this->kitDate;
     }
 
     /**

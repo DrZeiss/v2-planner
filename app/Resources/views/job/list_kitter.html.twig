@@ -32,26 +32,28 @@
     </div>
 
     <h2>Kitter Job list</h2>
-    <table class="table table-bordered">
-        <thead>
+        <table class="table table-bordered">
             <tr>
-                <th style="border:solid;text-align:center" colspan=7>Job</th>
-                <th style="border:solid;text-align:center" colspan=7>Kitting</th>
+                <th style="border:solid;width:10ch" rowspan=2>Name</th>
+                <th style="border:solid;width:6ch" rowspan=2>SO #</th>
+                <th style="border:solid;text-align:center" colspan=5>Job</th>
+                <th style="border:solid;text-align:center" colspan=8>Kitting</th>
             </tr>
             <tr>
-                <th style="border:solid;width:10ch">Name</th>
-                <th style="border:solid;width:6ch">SO #</th>
+                {# Job #}
                 <th style="border:solid;width:10ch">Type</th>
                 <th style="border:solid;width:4ch">Qty</th>
                 <th style="border:solid;width:6ch">MO #</th>
                 <th style="border:solid;width:3ch;font-size:x-small">Build LOC</th>
                 <th style="border:solid;width:7ch">Planner ESD</th>
+                {# Kitting #}
                 <th style="border:solid;width:11ch">Short #1</th>
                 <th style="border:solid;width:11ch">Short #2</th>
                 <th style="border:solid;width:11ch">Short #3</th>
                 <th style="border:solid;width:11ch">Short #4</th>
                 <th style="border:solid;width:3ch">LOC</th>
                 <th style="border:solid;width:3ch">100% Filled?</th>
+                <th style="border:solid;width:7ch">Date Kitted</th>
                 <th style="border:solid;width:7ch">Completion Date</th>
             </tr>
         </thead>
@@ -65,11 +67,8 @@
                         {% set late = 1 %}
                     {% endif %}
                 {% endif %}
-                {% if job.plannerEstimatedShipDate is not null and (job.kitting.filledCompletely is null or job.kitting.filledCompletely == 0) %}
-                    {% set difference2 = date(job.plannerEstimatedShipDate).diff(date()) %}
-                    {% if difference2.days <= 14 %}
-                        {% set late = 2 %}
-                    {% endif %}
+                {% if (job.plannerEstimatedShipDate and job.plannerEstimatedShipDate > (date()|date_modify("-14 days"))) and (job.kitting.filledCompletely is null or job.kitting.filledCompletely == 0) %}
+                    {% set late = 2 %}
                 {% endif %}
                 {% if job.kitting.filledCompletely is not null and job.kitting.filledCompletely == 0 and showBuffer == 'notYet' %}
                 {% set showBuffer = 'done' %}
@@ -96,15 +95,14 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
-                    {% if job.kitting.filledCompletely is null %}
-                        Empty
-                    {% elseif job.kitting.filledCompletely == 0 %}
+                    {% if job.kitting.filledCompletely == 0 %}
                         No
                     {% elseif job.kitting.filledCompletely == 1 %}
                         Yes
                     {% endif %}
                     </a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : "Empty"}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" id="kitDate_{{job.kitting.id}}" class="kitDate" data-name="kitDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_kit_date', {'jobId': job.id}) }}">{{job.kitting.kitDate ? job.kitting.kitDate | date('m-d') : ""}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -113,6 +111,15 @@
 
 {% block javascripts %}
     <script>
+    function pad(str)
+    {
+        if (str.length == 1) {
+            return "0" + str;
+        } else {
+            return str;
+        }
+    }
+
     $(document).ready(function() {
         $('.table').fixedThead({
           height: 400,
@@ -137,7 +144,22 @@
                 success: function(response, newValue) {
                     if (response.status == 'error') {
                         return response.msg; //msg will be shown in editable form
+                    } else {
+                        $(".kitDate:eq(" + i + ")").editable('option', 'value', new Date());
                     }
+                }
+            });
+        });
+
+        $('.kitDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Date Kitted',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }
             });
         });
