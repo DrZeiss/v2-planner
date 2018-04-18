@@ -8,21 +8,26 @@
 
 {% block body %}
     <h2>Paint: To Be Batched list</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th style="border:solid">Color</th>
             <th style="border:solid"># of jobs</th>
             <th style="border:solid">Sum of fixture qty</th>
-            <th style="border:solid;min-width:7ch">Earliest Planner ESD</th>
+            <th style="border:solid">Earliest Planner ESD</th>
         </tr>
         </thead>
         <tbody>
             {% for paint in paints %}
-                <td><a href="{{ path('paint_view2', { 'color': paint.color }) }}">{{ paint.color }}</a></td>
-                <td>{{ paint.num_jobs }}</td>   
-                <td>{{ paint.sum_qty }}</td>
-                <td>
+                {% set late = 0 %}
+                {% if paint.planner_esd | date('m-d') < (date()|date_modify("+21 days")|date('m-d')) %}
+                    {% set late = 1 %}
+                {% endif %}
+            <tr {% if late == 1 %}bgcolor="lightcoral"{% endif %}>
+                <td {% if late %}style="color:white"{% endif %}><a href="{{ path('paint_view2', { 'color': paint.color }) }}">{{ paint.color }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.num_jobs }}</td>   
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.sum_qty }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
                     {% if paint.planner_esd %}
                         {{ paint.planner_esd | date('m-d') }}
                     {% else %}
@@ -46,98 +51,6 @@
 
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
-
-        $('.filledCompletely').each(function(i, obj) {
-            $(this).editable({
-                type: 'select',
-                container: 'body',
-                emptytext: 'Empty',
-                source: [
-                  {value: 1, text: 'Yes'},
-                  {value: 0, text: 'No'}
-                ],
-                url: obj.dataset.url,
-                title: 'Select Completion Status',
-                success: function(response, newValue) {
-                    if (response.status == 'error') {
-                        return response.msg; //msg will be shown in editable form
-                    }
-                }
-            });
-        });
-
-        $('.completionDate').each(function(i, obj) {
-            $(this).editable({
-                type: 'date',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Select Completion Date',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-        
-        $('.short1').each(function(i, obj) {
-            $(this).editable({
-                type: 'text',
-                container: 'body',
-                url: obj.dataset.url,
-                title: 'Enter Part Number for Short #1',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.short2').each(function(i, obj) {
-            $(this).editable({
-                type: 'text',
-                container: 'body',
-                url: obj.dataset.url,
-                title: 'Enter Part Number for Short #2',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.short3').each(function(i, obj) {
-            $(this).editable({
-                type: 'text',
-                container: 'body',
-                url: obj.dataset.url,
-                title: 'Enter Part Number for Short #3',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.short4').each(function(i, obj) {
-            $(this).editable({
-                type: 'text',
-                container: 'body',
-                url: obj.dataset.url,
-                title: 'Enter Part Number for Short #4',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.location').each(function(i, obj) {
-            $(this).editable({
-                type: 'text',
-                container: 'body',
-                url: obj.dataset.url,
-                title: 'Enter location',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
         
     });
     </script>

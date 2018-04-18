@@ -25,7 +25,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="show_all_batches" value="1" class="form-check-input" {% if show_all_batches %}checked{% endif %}>
+                            Show all batches
+                        </label>
+                    </div>
+                    <div class="col-sm-8">
                         <div class="pull-right">
                             <input type="submit" class="btn btn-info" value="Search">
                         </div>
@@ -36,20 +42,21 @@
     </div>
 
     <h2>Paint: Active Batches list</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
         <thead>
         <tr>
-            <th style="border:solid;min-width:7ch">Estimated Release Date</th>
-            <th style="border:solid">Notes</th>
-            <th style="border:solid">Batch #</th>
-            <th style="border:solid">Qty</th>
+            <th style="border:solid;width:7ch;font-size:x-small">Estimated Release Date</th>
+            <th style="border:solid;min-width:20ch">Notes</th>
+            <th style="border:solid;width:4ch">Batch #</th>
+            <th style="border:solid;width:3ch;font-size:x-small">Total Pieces</th>
             <th style="border:solid">Color</th>
             <th style="border:solid">RAL color</th>
             <th style="border:solid">Vendor</th>
             <th style="border:solid">V2 PO#</th>
-            <th style="border:solid;min-width:7ch">Kit Date</th>
-            <th style="border:solid;min-width:7ch">EDD</th>
-            <th style="border:solid;min-width:7ch">Received Date</th>
+            <th style="border:solid;width:7ch;font-size:x-small">Needed By Date</th>
+            <th style="border:solid;width:7ch">Kit Date</th>
+            <th style="border:solid;width:7ch">EDD</th>
+            <th style="border:solid;width:7ch">RCVD Date</th>
         </tr>
         </thead>
         <tbody>
@@ -62,6 +69,7 @@
                 <td>{{ batch.ralColor }}</td>
                 <td><a href="#" class="vendor" data-name="vendor" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_vendor', {'batchId': batch.id}) }}">{{ batch.vendor }}</a></td>
                 <td><a href="#" class="v2PoNumber" data-name="v2PoNumber" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_v2_po_number', {'batchId': batch.id}) }}">{{ batch.v2PoNumber }}</a></td>
+                <td>{{ batch.NeededByDate ? batch.kitDate | date('m-d') : "" }}</td>
                 <td><a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('m-d') : "" }}</a></td>
                 <td><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_delivery_date', {'batchId': batch.id}) }}">{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('m-d') : "" }}</a></td>
                 <td><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_received_date', {'batchId': batch.id}) }}">{{ batch.receivedDate ? batch.receivedDate | date('m-d') : "" }}</a></td>

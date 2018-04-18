@@ -61,6 +61,16 @@ class PaintController extends Controller
      */
     public function view2(Request $request)
     {
+        if ($request->isMethod('POST')) {
+            $selectedPaintIds = $request->request->get('selected_paint');
+            $paints = $this->paintRepository->findById($selectedPaintIds);
+            $nextBatchNum = $this->batchRepository->getNextAvailableBatchNumber();
+            return $this->render('paint/add_to_batch.html.twig', array(
+                'paints'        =>  $paints,
+                'nextBatchNum'  =>  $nextBatchNum,
+            ));
+        }        
+
         $defaultParameters = array(
             'name'          => null,
             'color'         => null,            
@@ -69,15 +79,62 @@ class PaintController extends Controller
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $paints = $this->paintRepository->findUnscheduledPaintJobs($parameters);
-        $nextBatchNum = $this->batchRepository->getNextAvailableBatchNumber();
 
         return $this->render('paint/view_2.html.twig', array(
             'paints'        =>  $paints,
-            'nextBatchNum'  =>  $nextBatchNum,
             'name'          =>  $parameters['name'],
             'color'         =>  $parameters['color'],
             'planner_esd'   =>  $parameters['planner_esd'],
         ));
+    }
+
+    /**
+     * @Route("/addToBatch", name="paint_add_to_batch")
+     */
+    public function addToBatch(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $batchId = $request->request->get('next_batch_num');
+            $batch = $this->batchRepository->find($batchId);
+            if (!$batch) {
+                $batch = new Batch();
+            }
+            $paints = $this->paintRepository->findById($request->request->get('selected_paint'));
+            // Get the color (only use the color that doesn't have a Batch ID yet)
+            $color = $paints[0]->getBatch1() ? $paints[0]->getColor2() : $paints[0]->getColor1();
+            $batch->setColor($color);
+            $batch->setRalColor($this->getRalColor($color));
+            $batch->setNeededByDate(new \DateTime($request->request->get('needed_by_date')));
+            $batch->setQuantity($request->request->get('quantity'));
+            $batch->setVendor($request->request->get('vendor'));
+            $batch->setUpdateTime(new \DateTime());
+            $batch->setUpdatedBy($this->getUser());
+            $this->em->persist($batch);
+            $this->em->flush();
+
+            // Add paint job(s) to batch (and vice versa)
+            foreach ($paints as $paint) {
+                $batch->addPaint($paint);
+                $this->em->persist($batch);
+                // Figure out whether the color belongs to the Paint's batch #
+                if ($paint->getBatch1()) {
+                    $paint->setBatch2($batch);
+                } else {
+                    $paint->setBatch1($batch);
+                }
+                $paint->setUpdateTime(new \DateTime());
+                $paint->setUpdatedBy($this->getUser());
+                $this->em->persist($paint);
+            }
+            $this->em->flush();
+
+            $this->addFlash('success', 'Added Paint(s) to Batch!');
+            return $this->redirect($this->generateUrl('paint_view2'));
+        }
+
+        // Error! (Should not get here)
+        $this->addFlash('error', 'What are you trying to do?');
+        return $this->redirect($this->generateUrl('dashboard'));        
     }
 
     /**
@@ -89,6 +146,7 @@ class PaintController extends Controller
             'color'                     => null,
             'vendor'                    => null,
             'estimated_release_date'    => null,
+            'show_all_batches'          => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -99,6 +157,7 @@ class PaintController extends Controller
             'color'                     =>  $parameters['color'],
             'vendor'                    =>  $parameters['vendor'],
             'estimated_release_date'    =>  $parameters['estimated_release_date'],
+            'show_all_batches'          =>  $parameters['show_all_batches'],
         ));
     }
 

@@ -23,14 +23,14 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
         $color                  = $parameters['color'];
         $vendor                 = $parameters['vendor'];
         $estimatedReleaseDate   = $parameters['estimated_release_date'];
+        $showAllBatches         = $parameters['show_all_batches'];
 
         $qb = $this->createQueryBuilder('b')
-            ->join('b.paint', 'paint')
-            ->where('b.id > 0')
-            ->andWhere('b.receivedDate IS NULL');
+            ->join('b.paints', 'paint')
+            ->where('b.id > 0');
 
         if ($color) {
-            $qb->andWhere("(b.color = :color")
+            $qb->andWhere("b.color = :color")
                 ->setParameter('color', $color);
         }
 
@@ -42,6 +42,10 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
         if ($estimatedReleaseDate) {
             $qb->andWhere("b.estimatedReleaseDate = :estimatedReleaseDate")
                 ->setParameter('estimatedReleaseDate', new \DateTime($estimatedReleaseDate));
+        }
+
+        if (!$showAllBatches) {
+            $qb->andWhere('b.receivedDate IS NULL');
         }
         
         $results = $qb->addOrderBy("b.estimatedDeliveryDate", "ASC")

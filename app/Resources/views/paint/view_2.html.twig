@@ -36,20 +36,19 @@
     </div>
 
     <h2>Paint: Create Batch list</h2>
-    <h4>Next available batch # is <span class="text-warning"><b>{{ nextBatchNum }}</b></span></h4>
-    <table class="table table-bordered table-striped table-hover">
+    <form action="{{ path('paint_view2') }}" method="POST">
+    <table class="table table-bordered">
         <thead>
         <tr>
+            <th style="border:solid;font-size:x-small" rowspan=2>Add to Batch</th>
             <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD</th>
             <th style="border:solid" rowspan=2>Job Name</th>
             <th style="border:solid" rowspan=2>SO #</th>
             <th style="border:solid" rowspan=2>Job Qty</th>
             <th style="border:solid" rowspan=2>Color 1</th>
-            <th style="border:solid" rowspan=2>Batch 1 Qty</th>
-            <th style="border:solid" rowspan=2>Batch </th>
+            <th style="border:solid" rowspan=2>Batch #1</th>
             <th style="border:solid" rowspan=2>Color 2</th>
-            <th style="border:solid" rowspan=2>Batch 2 #</th>
-            <th style="border:solid" rowspan=2>Batch 2 Qty</th>
+            <th style="border:solid" rowspan=2>Batch #1</th>
             <th style="border:solid;text-align:center" colspan=3>Short #1</th>
             <th style="border:solid;text-align:center" colspan=3>Short #2</th>
             <th style="border:solid;text-align:center" colspan=3>Short #3</th>
@@ -76,42 +75,52 @@
         </thead>
         <tbody>
             {% for paint in paints %}
+                {% set late = 0 %}
+                {% if paint.job.plannerEstimatedShipDate | date('m-d') < (date()|date_modify("+21 days")|date('m-d')) %}
+                    {% set late = 1 %}
+                {% endif %}
+            <tr {% if late == 1 %}bgcolor="lightcoral"{% endif %}>
                 <td>
+                    <div class="checkbox">
+                        <input type="checkbox" value="{{paint.id}}" name="selected_paint[{{paint.id}}]"><label></label>
+                    </div>
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
                     {% if paint.job.plannerEstimatedShipDate %}
                         {{ paint.job.plannerEstimatedShipDate | date('m-d') }}
                     {% else %}
                         TBD
                     {% endif %}
                 </td>
-                <td>{{ paint.job.name }}</td>
-                <td>{{ paint.job.salesOrder }}</td>
-                <td>{{ paint.job.quantity }}</td>
-                <td>{{ paint.color1 }}</td>
-                <td><a href="#" class="batch1" data-name="batch1" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': paint.id}) }}">{{ paint.batch1 ? paint.batch1.id }}</a></td>
-                <td><a href="#" class="batch1Quantity" data-name="batch1Quantity" data-pk="{{paint.id}}" data-url="{{ path('edit_batch_quantity', {'batchId': paint.batch1 ? paint.batch1.id : 0}) }}">{{ paint.batch1 ? paint.batch1.quantity }}</a></td>
-                <td>{{ paint.color2 }}</td>
-                <td><a href="#" class="batch2" data-name="batch2" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_batch2', {'paintId': paint.id}) }}">{{ paint.batch2 ? paint.batch2.id }}</a></td>
-                <td><a href="#" class="batch2Quantity" data-name="batch2Quantity" data-pk="{{paint.id}}" data-url="{{ path('edit_batch_quantity', {'batchId': paint.batch2 ? paint.batch2.id : 0}) }}">{{ paint.batch2 ? paint.batch2.quantity }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.salesOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.quantity }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.color1 }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.batch1 ? paint.batch1.id }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.color2 }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.batch2 ? paint.batch2.id }}</a></td>
                 {# Short #1 #}
-                <td>{{ paint.job.kitting.kittingShort1.partNumber | default("") }}</td>
-                <td>{{ paint.job.kitting.kittingShort1.paintedPart | default("") }}</td>
-                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.estimatedDeliveryDate ? paint.job.kitting.kittingShort1.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort1.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort1.paintedPart | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.estimatedDeliveryDate ? paint.job.kitting.kittingShort1.estimatedDeliveryDate | date('m-d') : "" }}</td>
                 {# Short #2 #}
-                <td>{{ paint.job.kitting.kittingShort2.partNumber | default("") }}</td>
-                <td>{{ paint.job.kitting.kittingShort2.paintedPart | default("") }}</td>
-                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.estimatedDeliveryDate ? paint.job.kitting.kittingShort2.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort2.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort2.paintedPart | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.estimatedDeliveryDate ? paint.job.kitting.kittingShort2.estimatedDeliveryDate | date('m-d') : "" }}</td>
                 {# Short #3 #}
-                <td>{{ paint.job.kitting.kittingShort3.partNumber | default("") }}</td>
-                <td>{{ paint.job.kitting.kittingShort3.paintedPart | default("") }}</td>
-                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.estimatedDeliveryDate ? paint.job.kitting.kittingShort3.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort3.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort3.paintedPart | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.estimatedDeliveryDate ? paint.job.kitting.kittingShort3.estimatedDeliveryDate | date('m-d') : "" }}</td>
                 {# Short #4 #}
-                <td>{{ paint.job.kitting.kittingShort4.partNumber | default("") }}</td>
-                <td>{{ paint.job.kitting.kittingShort4.paintedPart | default("") }}</td>
-                <td>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.estimatedDeliveryDate ? paint.job.kitting.kittingShort4.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort4.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort4.paintedPart | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.estimatedDeliveryDate ? paint.job.kitting.kittingShort4.estimatedDeliveryDate | date('m-d') : "" }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <input type="submit" class="btn btn-success" value="Add to Batch">
+    </form>
 {% endblock %}
 
 {% block javascripts %}
@@ -120,7 +129,7 @@
         $('.table').fixedThead({
           height: 400,
           row: 2,
-          col: 2
+          col: 3
         });
 
         $('#planner_esd').datepicker({

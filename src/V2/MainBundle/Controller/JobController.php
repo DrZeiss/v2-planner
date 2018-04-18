@@ -243,16 +243,22 @@ class JobController extends Controller
     {
         $defaultParameters = array(
             'sales_order' => null,
-            'planner_esd' => null,
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $jobs           = $this->jobRepository->findV2ProductionJobs($parameters);
 
         return $this->render('job/list_v2_production.html.twig', array(
-            'jobs'      =>  $jobs,
-            'sales_order'   =>  $parameters['sales_order'],
-            'planner_esd'   =>  $parameters['planner_esd'],
+            'jobs'                  =>  $jobs,
+            'sales_order'           =>  $parameters['sales_order'],
+            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
+            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
+            'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
+            'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));
     }
 

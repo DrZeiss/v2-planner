@@ -60,13 +60,13 @@ class JobType extends AbstractType
                     'class'             =>  'col-sm-4 control-label',
                 ),
             ))
-            ->add('macPurchaseOrder', TextType::class, array(
-                'label'                 =>  'MAC Purchase Order #',
-                'label_attr'            =>  array(
-                    'class'             =>  'col-sm-4 control-label',
-                ),
-                'required'              =>  false,
-            ))
+            // ->add('macPurchaseOrder', TextType::class, array(
+            //     'label'                 =>  'MAC Purchase Order #',
+            //     'label_attr'            =>  array(
+            //         'class'             =>  'col-sm-4 control-label',
+            //     ),
+            //     'required'              =>  false,
+            // ))
             ->add('buildLocation', EntityType::class, array(
                 'label'                 =>  'Build Location',
                 'label_attr'            =>  array(

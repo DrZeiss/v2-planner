@@ -40,7 +40,7 @@
     </div>
 
     <h2>Paint: Jobs In Batch list</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
         <thead>
         <tr>
             <th style="border:solid;min-width:7ch">Planner ESD</th>
@@ -49,10 +49,8 @@
             <th style="border:solid">Qty</th>
             <th style="border:solid">Color 1</th>
             <th style="border:solid">Batch 1 #</th>
-            <th style="border:solid;min-width:7ch">Batch 1 EDD</th>
             <th style="border:solid">Color 2</th>
             <th style="border:solid">Batch 2 #</th>
-            <th style="border:solid;min-width:7ch">Batch 2 EDD</th>
             <th style="border:solid">Paint Location</th>
         </tr>
         </thead>
@@ -70,10 +68,8 @@
                 <td>{{ paint.job.quantity }}</td>
                 <td>{{ paint.color1 }}</td>
                 <td>{{ paint.batch1 ? paint.batch1.id }}</td>
-                <td>{{ paint.batch1EstimatedDeliveryDate }}</td>
                 <td>{{ paint.color2 }}</td>
                 <td>{{ paint.batch2 ? paint.batch2.id }}</td>
-                <td>{{ paint.batch2EstimatedDeliveryDate }}</td>
                 <td><a href="#" class="location" data-name="location" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_location', {'paintId': paint.id}) }}">{{ paint.location }}</a></td>
             </tr>
             {% endfor %}

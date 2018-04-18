@@ -97,7 +97,7 @@
                 <td style="word-break:break-all; {% if late %}color:white{% endif %}">{{ job.model }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.macPurchaseOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="macPurchaseOrder" data-name="macPurchaseOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_mac_purchase_order', {'jobId': job.id}) }}">{{ job.macPurchaseOrder }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
@@ -107,7 +107,7 @@
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "Not Generated Yet" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% else %}Empty{% endif %}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : ''}}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">{% if job.shipping and job.shipping.isComplete == 2 %}Complete{% elseif job.shipping and job.shipping.isComplete == 1 %}Partial{% endif %}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</td>
                 {# Short #1 #}
@@ -159,6 +159,18 @@
 
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
+
+        $('.macPurchaseOrder').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter MAC Purchase Order #',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
 
         $('.shipDate').each(function(i, obj) {
             $(this).editable({

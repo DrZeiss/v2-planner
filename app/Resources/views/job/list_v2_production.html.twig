@@ -15,13 +15,27 @@
         <div class="ibox-content">
             <form action="{{ path('v2_production') }}" method="GET">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <label class="form-label">Sales Order #</label>
-                        <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
-                    </div>
-                    <div class="col-sm-3">
-                        <label class="form-label">Planner ESD</label>
-                        <input type="text" name="planner_esd" value="{{ planner_esd }}" placeholder="Select Planner ESD" class="form-control">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2">
+                            <label class="form-label">Sales Order #</label>
+                            <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="form-label">Planner ESD Date Range</label>
+                            <div class="input-daterange input-group">
+                                <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
+                                <span class="input-group-addon">to</span>
+                                <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="form-label">Planner ESD Week Range</label>
+                            <div class="input-daterange input-group">
+                                <input type="text" name="planner_esd_week_from" value="{{ planner_esd_week_from }}" class="form-control">
+                                <span class="input-group-addon">to</span>
+                                <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -39,26 +53,19 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th style="border:solid;width:10ch" rowspan=2>Name</th>
-            <th style="border:solid;width:6ch" rowspan=2>SO #</th>
-            <th style="border:solid;width:10ch" rowspan=2>Type</th>
-            <th style="border:solid;width:6ch" rowspan=2>Model</th>
-            <th style="border:solid;width:4ch" rowspan=2>Qty</th>
-            <th style="border:solid;width:6ch" rowspan=2>MO #</th>
-            <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD (Week#)</th>
-            <th style="border:solid;text-align:center" colspan=3>Kitting</th>
-            <th style="border:solid;width:4ch" rowspan=2>LOC</th>
-            <th style="border:solid;width:4ch" rowspan=2>Paint LOC</th>
-            <th style="border:solid;width:4ch" rowspan=2>Sub Built</th>
-            <th style="border:solid;width:7ch" rowspan=2>Build Completion Date</th>
-            <th style="border:solid;width:3ch" rowspan=2>Built By</th>
-        </tr>
-        <tr>
-            {# Kitting #}
-            <th style="border:solid;font-size:small;min-width:7ch">Completion Date</th>
-            <th style="border:solid;font-size:small;width:6ch">Completed By</th>
-            <th style="border:solid;font-size:small;width:4ch">Filled Completely?</th>
-        </tr>            
+            <th style="border:solid;width:10ch">Name</th>
+            <th style="border:solid;width:6ch">SO #</th>
+            <th style="border:solid;width:10ch">Type</th>
+            <th style="border:solid;width:6ch">Model</th>
+            <th style="border:solid;width:4ch">Qty</th>
+            <th style="border:solid;width:6ch">MO #</th>
+            <th style="border:solid;min-width:7ch">Planner ESD (Week#)</th>
+            <th style="border:solid;font-size:x-small;width:4ch">Kitting Filled Completely?</th>
+            <th style="border:solid;width:4ch">Kitting LOC</th>
+            <th style="border:solid;width:4ch">Paint LOC</th>
+            <th style="border:solid;width:4ch">Sub Built</th>
+            <th style="border:solid;width:7ch">Build Completion Date</th>
+            <th style="border:solid;width:3ch">Built By</th>
         </thead>
         <tbody>
             {% for job in jobs %}
@@ -82,8 +89,6 @@
                     {% endif %}
                 </td>
                 {# Kitting #}
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate|date('m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.updatedBy.initials }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</td>
                 {# Paint #}
@@ -104,14 +109,18 @@
     $(document).ready(function() {
         $('.table').fixedThead({
           height: 400,
-          row: 2,
+          row: 1,
           col: 2
         });
 
-        $("input[name='planner_esd'").datepicker({
+        $("input[name='planner_esd_date_from'").datepicker({
             format: 'yyyy-mm-dd',
             autoclose: true,
-        });        
+        });
+        $("input[name='planner_esd_date_to'").datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+        });
 
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';

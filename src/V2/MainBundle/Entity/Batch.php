@@ -3,6 +3,8 @@
 namespace V2\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Batch
@@ -22,10 +24,13 @@ class Batch
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="V2\MainBundle\Entity\Paint")
-     * @ORM\JoinColumn(name="paint_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="V2\MainBundle\Entity\Paint", inversedBy="batch")
+     * @ORM\JoinTable(name="batch_paint",
+     *      joinColumns={@ORM\JoinColumn(name="batch_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="paint_id", referencedColumnName="id")}
+     *      )     
      */
-    private $paint;
+    private $paints;
 
     /**
      * @var string
@@ -84,6 +89,13 @@ class Batch
     private $receivedDate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="needed_by_date", type="datetime", nullable=true)
+     */
+    private $neededByDate;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="notes", type="string", length=255, nullable=true)
@@ -115,6 +127,7 @@ class Batch
     public function __construct()
     {
         $this->quantity = 0;
+        $this->paints = new ArrayCollection();
     }
 
     /**
@@ -320,6 +333,30 @@ class Batch
     }
 
     /**
+     * Set neededByDate
+     *
+     * @param \DateTime $neededByDate
+     *
+     * @return Batch
+     */
+    public function setNeededByDate($neededByDate)
+    {
+        $this->neededByDate = $neededByDate;
+
+        return $this;
+    }
+
+    /**
+     * Get neededByDate
+     *
+     * @return \DateTime
+     */
+    public function getNeededByDate()
+    {
+        return $this->neededByDate;
+    }
+
+    /**
      * Set notes
      *
      * @param string $notes
@@ -368,27 +405,32 @@ class Batch
     }
 
     /**
-     * Set paint
+     * Add paint
      *
      * @param \V2\MainBundle\Entity\Paint $paint
      *
      * @return Batch
      */
-    public function setPaint(\V2\MainBundle\Entity\Paint $paint = null)
+    public function addPaint(\V2\MainBundle\Entity\Paint $paint = null)
     {
-        $this->paint = $paint;
+        if ($this->paints->contains($paint)) {
+            return;
+        }
+
+        $this->paints[] = $paint;
+        // Controller must set the batch (since it could be batch #1 or #2)
 
         return $this;
     }
 
     /**
-     * Get paint
+     * Remove paint
      *
      * @return \V2\MainBundle\Entity\Paint
      */
-    public function getPaint()
+    public function removePaint(\V2\MainBundle\Entity\Paint $paint)
     {
-        return $this->paint;
+        return $this->paints->removeElement($paint);
     }
 
     /**
