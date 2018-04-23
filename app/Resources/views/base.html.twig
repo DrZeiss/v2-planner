@@ -36,7 +36,14 @@
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-star st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Dashboard</span></div>
-                    </div></a></li>
+                    </div></a>
+                </li>
+                <li><a href="{{ path('everything') }}">
+                    <div class="fluid-cols">
+                      <div class="min-col"><i class="fa fa-globe st-sidebar__ico"></i></div>
+                      <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Everything</span></div>
+                    </div></a>
+                </li>                
               {% endif %}
 
                 <li><a href="{{ path('create_job') }}">
@@ -341,6 +348,7 @@
     <script src="{{ asset('just/dist/js/modules/layout/sidebar.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="{{ asset('js/fixedThead.js') }}"></script>
+    <script src="{{ asset('js/Chart.js') }}"></script>
     {% block javascripts %}
     {% endblock %}
   </body>

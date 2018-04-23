@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block headerTitle %}Scheduler Jobs{% endblock %}
+{% block headerTitle %}Everthing{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="active"><span>Scheduler Jobs</span></li>
+    <li class="active"><span>Everything</span></li>
 {% endblock %}
 
 {% block body %}
@@ -27,12 +27,6 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="form-check-label">
-                            <input type="checkbox" name="filled_completely" value="1" class="form-check-input" {% if filled_completely %}checked{% endif %}>
-                            See only 100% filled
-                        </label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label class="form-check-label">
                             <input type="checkbox" name="non_shipped" value="1" class="form-check-input" {% if non_shipped %}checked{% endif %}>
                             See only non shipped jobs
                         </label>
@@ -40,7 +34,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="pull-right">
-                                <input type="submit" class="btn btn-info" value="Search">
+                                <input type="submit" class="btn btn-info" style="margin-bottom:5px" value="Search">
                             </div>
                         </div>
                     </div>
@@ -49,23 +43,21 @@
         </div>
     </div>
 
-    <h2>Scheduler Job list</h2>
     <table class="table table-bordered">
         <thead>
         <tr>
             <th style="border:solid;width:10ch" rowspan=2>Name</th>
             <th style="border:solid;width:6ch" rowspan=2>SO #</th>
             <th style="border:solid;text-align:center" colspan=8>Job</th>
-            <th style="border:solid;text-align:center" colspan=3>Shipped</th>
-            <th style="border:solid;text-align:center" colspan=2>BOM</th>
-            <th style="border:solid;text-align:center" colspan=3>Kitting</th>
+            <th style="border:solid;text-align:center" colspan=4>Shipped</th>
+            <th style="border:solid;text-align:center" colspan=3>BOM</th>
+            <th style="border:solid;text-align:center" colspan=5>Kitting</th>
             <th style="border:solid;text-align:center" colspan=7>Short #1</th>
             <th style="border:solid;text-align:center" colspan=7>Short #2</th>
             <th style="border:solid;text-align:center" colspan=7>Short #3</th>
             <th style="border:solid;text-align:center" colspan=7>Short #4</th>
             <th style="border:solid;text-align:center" colspan=1>Paint</th>
-            <th style="border:solid;text-align:center" colspan=2>Scheduling</th>
-            <th style="border:solid;text-align:center" colspan=6>Priorities</th>
+            <th style="border:solid;text-align:center" colspan=3>Scheduling</th>
             <th style="border:solid;" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
@@ -82,13 +74,17 @@
             <th style="border:solid;width:7ch">1st Ship Date </th>
             <th style="border:solid;width:4ch">Complete or Partial</th>
             <th style="border:solid;width:7ch">2nd Ship Date</th>
+            <th style="border:solid;width:7ch">Notes</th>
             {# BOM #}
             <th style="border:solid;width:7ch;font-size:60%">Issued Date</th>
             <th style="border:solid;width:3ch;font-size:60%">Issued By</th>
+            <th style="border:solid;width:7ch;font-size:80%">Serials Gen Date</th>
             {# Kitting #}
             <th style="border:solid;width:7ch;font-size:60%">Completion Date</th>
             <th style="border:solid;width:3ch;font-size:60%">Completed By</th>
-            <th style="border:solid;width:4ch;font-size:60%">Filled Completely?</th>
+            <th style="border:solid;width:3ch">LOC</th>
+            <th style="border:solid;width:4ch;font-size:80%">100 Filled?</th>
+            <th style="border:solid;width:7ch;font-size:80%">Date Kitted</th>
             {# Short #1 #}
             <th style="border:solid;min-width:11ch">Part Number</th>
             <th style="border:solid;width:4ch;font-size:60%">Painted Part</th>
@@ -126,13 +122,7 @@
             {# Scheduling #}
             <th style="border:solid;width:4ch">Sub Ready</th>
             <th style="border:solid;min-width:7ch;font-size:60%">Build Completion Date</th>
-            {# Priorities #}
-            <th style="border:solid;width:4ch">Job</th>
-            <th style="border:solid;width:4ch">BOM Builder</th>
-            <th style="border:solid;width:4ch">Kitter</th>
-            <th style="border:solid;width:4ch">Mac Prod</th>
-            <th style="border:solid;width:4ch">V2 Prod</th>
-            <th style="border:solid;width:4ch">Shipper</th>
+            <th style="border:solid;width:4ch">Priority</th>
         </tr>            
         </thead>
         <tbody>
@@ -173,16 +163,17 @@
                     {% elseif job.shipping and job.shipping.isComplete == 1 %}
                         Partial
                     {% else %}
-                        Empty
+                        {# Empty #}
                     {% endif %}
                 </a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_notes', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.notes ? job.shipping.notes : "" }}</a></td>                
                 {# BOM #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.bom and job.bom.issuedBy ? job.bom.issuedBy.initials : ""}}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "" }}</a></td>
                 {# Kitting #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="kittingCompletionDate" data-name="kittingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting ? job.kitting.updatedBy.initials : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a></td>              
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-value="{{ job.kitting ? job.kitting.filledCompletely : 0 }}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
                     {% if job.kitting and job.kitting.filledCompletely is null %}
                         Empty
@@ -194,6 +185,9 @@
                         Unknown
                     {% endif %}
                 </td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" id="kitDate_{{job.kitting.id}}" class="kitDate" data-name="kitDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_kit_date', {'jobId': job.id}) }}">{{job.kitting.kitDate ? job.kitting.kitDate | date('m-d') : ""}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="kittingCompletionDate" data-name="kittingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{ job.kitting and job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting ? job.kitting.updatedBy.initials : "" }}</td>
                 {# Short #1 #}
                 {% if job.kitting.kittingShort1 is null %}
                     <td {% if late %}style="color:white"{% endif %}><a href="#" class="shortPartNumber" data-name="shortPartNumber" data-pk="{{job.kitting ? job.kitting.id}}" data-value="" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': 0}) }}"></a></td>
@@ -252,11 +246,6 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="priority" data-name="priority" data-pk="{{job.id}}" data-value="{{ job.scheduling.priority }}" data-url="{{ path('edit_scheduling_priority', {'jobId': job.id}) }}">{{ job.scheduling.priority }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityBomBuilder" data-name="priorityBomBuilder" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityBomBuilder }}" data-url="{{ path('edit_scheduling_priority_bom_builder', {'jobId': job.id}) }}">{{ job.scheduling.priorityBomBuilder }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityKitter" data-name="priorityKitter" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityKitter }}" data-url="{{ path('edit_scheduling_priority_kitter', {'jobId': job.id}) }}">{{ job.scheduling.priorityKitter }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityMacProduction" data-name="priorityMacProduction" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityMacProduction }}" data-url="{{ path('edit_scheduling_priority_mac_production', {'jobId': job.id}) }}">{{ job.scheduling.priorityMacProduction }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityV2Production" data-name="priorityV2Production" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityV2Production }}" data-url="{{ path('edit_scheduling_priority_v2_production', {'jobId': job.id}) }}">{{ job.scheduling.priorityV2Production }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="priorityShipper" data-name="priorityShipper" data-pk="{{job.id}}" data-value="{{ job.scheduling.priorityShipper }}" data-url="{{ path('edit_scheduling_priority_shipper', {'jobId': job.id}) }}">{{ job.scheduling.priorityShipper }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy.initials }}<br>({{ job.updateTime | date('m-d') }})</td>
             </tr>
             {% endfor %}
@@ -279,6 +268,7 @@
             format: 'yyyy-mm-dd'
         });
 
+        // Job //
         $('.name').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
@@ -410,6 +400,7 @@
             });
         });
 
+        // Shipped //
         $('.shipDate').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
@@ -455,6 +446,7 @@
             });
         });
 
+        // BOM //
         $('.issuedDate').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
@@ -462,6 +454,45 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Issued Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.serialsGeneratedDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Serials Generated Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        // kitting
+        $('.location').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.kitDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Date Kitted',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }
@@ -501,6 +532,7 @@
             });
         });
 
+        // Shorts //
         $('.shortPartNumber').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
@@ -615,6 +647,7 @@
             });
         });
 
+        // Paint //
         $('.paintLocation').each(function(i, obj) {
             $(this).editable({
                 type: 'text',
@@ -627,6 +660,7 @@
             });
         });
 
+        // Scheduling //
         $('.subReady').each(function(i, obj) {
             $(this).editable({
                 type: 'select',
@@ -666,71 +700,6 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Enter a priority for the Job',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.priorityBomBuilder').each(function(i, obj) {
-            $(this).editable({
-                type: 'number',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Enter a priority for the BOM Builder',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.priorityKitter').each(function(i, obj) {
-            $(this).editable({
-                type: 'number',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Enter a priority for the kitter',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.priorityMacProduction').each(function(i, obj) {
-            $(this).editable({
-                type: 'number',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Enter a priority for MAC Production',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.priorityV2Production').each(function(i, obj) {
-            $(this).editable({
-                type: 'number',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Enter a priority for V2 Production',
-                success: function(response, newValue) {
-                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
-            });
-        });
-
-        $('.priorityShipper').each(function(i, obj) {
-            $(this).editable({
-                type: 'number',
-                container: 'body',
-                placement: 'left',
-                url: obj.dataset.url,
-                title: 'Enter a priority for the shipper',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

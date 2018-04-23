@@ -7,58 +7,152 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Total jobs: {{ total }}</h1>
-    <hr>
-    <h3>
-        Jobs scheduled from <b>{{ startDate }}</b> to <b>{{ endDate }}</b>
-    </h3>
-        <table class="table table-filled">
-            <thead>
-                <tr>
-                    <td>Location</td>
-                    <td>Total jobs</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>V2</td>
-                    <td>{{ scheduledV2Jobs }}</td>
-                </tr>
-                <tr>
-                    <td>MAC</td>
-                    <td>{{ scheduledMacJobs }}</td>
-                </tr>
-            </tbody>
-        </table>
-    <hr>
-    <h3>Jobs shipped</h3>
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center">Today</div>
-                    <div class="panel-body">
-                        <div class="text-center">{{ jobsShippedToday }}</div>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <canvas id="jobsByWeek" width="400" height="250"></canvas>
+                <h5 align="center">Total open jobs: {{ totalOpenJobs }}</h5>
             </div>
-            <div class="col-md-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center">This week</div>
-                    <div class="panel-body">
-                        <div class="text-center">{{ jobsShippedThisWeek }}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center">This month</div>
-                    <div class="panel-body">
-                        <div class="text-center">{{ jobsShippedThisMonth }}</div>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <canvas id="productionByWeek" width="400" height="250"></canvas>
+                <h5 align="center">Total fixtures to build : {{ totalFixturesToBuild }}</h5>
             </div>
         </div>
-    </div
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <canvas id="jobsByStage" width="400" height="250"></canvas>
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <td>Jobs released last week</td>
+                        <td>{{ jobsReleasedLastWeek }}</td>
+                    </tr>
+                    <tr>
+                        <td>Jobs shipped last week</td>
+                        <td>{{ jobsShippedLastWeek }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan = '2'>Late jobs: {{ lateJobs|length }}
+                            <BR>
+                            <table class="table">
+                                {% for lateJob in lateJobs %}
+                                <tr>
+                                    <td>{{ lateJob.name }}</td>
+                                    <td>{{ lateJob.estimatedShipDate|date("m-d-y") }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
+{% block javascripts %}
+<script>
+    // Scheduling (# of jobs)
+    var tmp = '{{ weeks }}';
+    var weeks = tmp.replace(/&quot;/g, '\"');
+    tmp = '{{ jobsByWeek }}';
+    var jobsByWeek = tmp.replace(/&quot;/g, '\"');
+    tmp = '{{ rushJobsByWeek }}';
+    var rushJobsByWeek = tmp.replace(/&quot;/g, '\"');
+
+    var ctx = document.getElementById("jobsByWeek").getContext('2d');
+    var jobsByWeek = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: JSON.parse(weeks),
+            datasets: [
+                {
+                    label: 'Jobs',
+                    data: JSON.parse(jobsByWeek),
+                    backgroundColor: "blue",
+                },
+                {
+                    label: 'Rush Jobs',
+                    data: JSON.parse(rushJobsByWeek),
+                    backgroundColor: "orange",
+                },
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Scheduling (# of jobs)'
+            }
+        }
+    });
+
+    // Production Load By Location
+    tmp = '{{ productionV2ByWeek }}';
+    var v2FixturesByWeek = tmp.replace(/&quot;/g, '\"');
+    tmp = '{{ productionMacByWeek }}';
+    var macFixturesByWeek = tmp.replace(/&quot;/g, '\"');
+    var ctx2 = document.getElementById("productionByWeek").getContext('2d');
+    var jobsByWeek = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: JSON.parse(weeks),
+            datasets: [
+                {
+                    label: 'V2 Fixtures',
+                    data: JSON.parse(v2FixturesByWeek),
+                    borderColor: "blue",
+                    fill: false,
+
+                },
+                {
+                    label: 'MAC Fixtures',
+                    data: JSON.parse(macFixturesByWeek),
+                    borderColor: "orange",
+                    fill: false,
+                },
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Production load by location'
+            }
+        }
+    });
+
+    // Scheduling by Job Life Stage
+    tmp = '{{ stageTexts }}';
+    var stageTexts = tmp.replace(/&quot;/g, '\"');
+    tmp = '{{ jobsByStageTexts }}';
+    var jobsByStageTexts = tmp.replace(/&quot;/g, '\"');
+    var ctx3 = document.getElementById("jobsByStage").getContext('2d');
+    var jobsByWeek = new Chart(ctx3, {
+        type: 'horizontalBar',
+        data: {
+            labels: JSON.parse(stageTexts),
+            datasets: [
+                {
+                    label: 'Jobs',
+                    data: JSON.parse(jobsByStageTexts),
+                    backgroundColor: "blue",
+                },
+                // {
+                //     label: 'Jobs w/conditional formatting',
+                //     data: JSON.parse(macFixturesByWeek),
+                //     backgroundColor: "orange",
+                // },
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Scheduling by Job Life Stage'
+            }
+        }
+    });
+</script>
 {% endblock %}

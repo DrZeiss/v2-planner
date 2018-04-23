@@ -73,6 +73,39 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/everything", name="everything")
+     */
+    public function listEverything(Request $request)
+    {
+        $isAdmin = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        // Check for permissions
+        if (!($isAdmin)) {
+            $this->addFlash('error', 'You have no permission!');
+            return $this->redirect($this->generateUrl('dashboard'));
+        }
+
+        $defaultParameters = array(
+            'name'              => null,
+            'sales_order'       => null,
+            'esd'               => null,
+            // 'filled_completely' => null,
+            'non_shipped'       => 1,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs = $this->jobRepository->findEverything($parameters);
+
+        return $this->render('job/list_everything.html.twig', array(
+            'jobs'              =>  $jobs,
+            'name'              =>  $parameters['name'],
+            'sales_order'       =>  $parameters['sales_order'],
+            'esd'               =>  $parameters['esd'],
+            // 'filled_completely' =>  $parameters['filled_completely'],
+            'non_shipped'       =>  $parameters['non_shipped'],
+        ));
+    }
+
+    /**
      * @Route("/all", name="all_jobs")
      */
     public function listAllJobs(Request $request)

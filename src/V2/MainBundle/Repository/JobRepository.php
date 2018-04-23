@@ -27,6 +27,109 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function getJobsByWeek()
+    {
+        $sql = "SELECT WEEK(planner_estimated_ship_date) AS week_num, 
+                SUM(IF(s.priority = 0, 1, 0)) AS num_jobs,
+                SUM(IF(s.priority > 0, 1, 0)) AS num_rush_jobs
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                WHERE planner_estimated_ship_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+                GROUP BY WEEK(planner_estimated_ship_date);";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        return $results;
+
+    }
+
+    public function getProductionByWeek()
+    {
+        $sql = "SELECT WEEK(planner_estimated_ship_date) AS week_num, 
+                SUM(IF(j.build_location = 1, quantity, 0)) AS num_v2_fixtures,
+                SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_fixtures
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                WHERE planner_estimated_ship_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+                GROUP BY WEEK(planner_estimated_ship_date);";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        return $results;
+
+    }
+    public function getJobsByStage()
+    {
+        $results = array();
+        $results['Bom Builder'] = $this->findBomBuilderJobs(array('name'=>null,'sales_order'=>null));
+        $results['Kitter'] = $this->findKitterJobs(array('name'=>null,'sales_order'=>null));
+        $results['To Paint'] = $this->getJobsToPaint();
+        $results['In Batches'] = $this->getJobsInBatches();
+        $results['Manufacturing'] = $this->findManufacturerJobs(array('date_needed_from'=>null,'date_needed_to'=>null));
+        $results['Supply Chain'] = $this->findSupplyChainJobs(array('part_number'=>null,'vendor'=>null));
+        $results['V2 Production'] = $this->findV2ProductionJobs(array());
+        $results['MAC Production'] = $this->findMacProductionJobs(array());
+        return $results;
+    }
+
+    public function getJobsToPaint()
+    {
+        $qb = $this->createQueryBuilder('j');
+        $results = $qb->join('j.paint', 'paint')
+            ->join('j.kitting', 'kitting')
+            ->where("paint.color1 IS NOT NULL AND paint.batch1 IS NULL")
+            ->orWhere("paint.color2 IS NOT NULL AND paint.batch2 IS NULL")
+            ->andWhere("kitting.completionDate IS NULL")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
+    public function getJobsInBatches()
+    {
+        $qb = $this->createQueryBuilder('j');
+        $results = $qb->join('j.paint', 'paint')
+            ->join('j.kitting', 'kitting')
+            ->where("paint.color1 IS NOT NULL AND paint.batch1 IS NOT NULL")
+            ->orWhere("paint.color2 IS NOT NULL AND paint.batch2 IS NOT NULL")
+            ->andWhere("kitting.completionDate IS NULL")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
+    public function getLateJobs()
+    {
+        $qb = $this->createQueryBuilder('j');
+        $results = $qb->where("j.estimatedShipDate < CURRENT_DATE()")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
+    public function getNumJobReleasedByDays($numDays)
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->select('COUNT(j.id) as total')
+            ->where('j.createTime > :createTime')
+            ->setParameter('createTime', date('Y-m-d', strtotime("-$numDays days")));
+        
+        $results = $qb->getQuery()
+            ->getResult();
+        if (count($results) <= 0) {
+            return 0;
+        }
+        return $results[0]['total'];
+    }
+
     public function getScheduledJobs(BuildLocation $buildLocation, $startDate, $endDate)
     {
         $qb = $this->createQueryBuilder('j')
@@ -53,7 +156,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     }
 
     // Gets the number of jobs shipped by a specific number of days
-    public function getJobShippedByDays($numDays)
+    public function getNumJobShippedByDays($numDays)
     {
         $qb = $this->createQueryBuilder('j')
             ->select('COUNT(j.id) as total')
@@ -66,7 +169,56 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if (count($results) <= 0) {
             return 0;
         }
-        return $results[0];
+        return $results[0]['total'];
+    }
+
+    // Basically returns all the fields of a job
+    public function findEverything($parameters)
+    {
+        $name               = $parameters['name'];
+        $salesOrder         = $parameters['sales_order'];
+        $esd                = $parameters['esd'];
+        // $filledCompletely   = $parameters['filled_completely'];
+        $nonShipped         = $parameters['non_shipped'];
+
+        $qb = $this->createQueryBuilder('j')
+            ->leftJoin('j.bom', 'bom')
+            ->leftJoin('j.shipping', 'shipping')
+            ->leftjoin('j.kitting', 'kitting')
+            ->leftjoin('j.scheduling', 'scheduling')
+            ->leftJoin('j.paint', 'paint')
+            ->where('j.id > 0');
+
+        if ($name) {
+            $qb->andWhere("j.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
+        if ($esd) {
+            $qb->andWhere("j.estimatedShipDate = :estimatedShipDate")
+                ->setParameter('estimatedShipDate', new \DateTime($esd));
+        }
+
+        // if ($filledCompletely) {
+        //     $qb->andWhere("kitting.filledCompletely = :filledCompletely")
+        //         ->setParameter('filledCompletely', $filledCompletely);
+        // }
+
+        if ($nonShipped) {
+            $qb->andWhere("shipping.shipDate IS NULL");
+        }
+
+        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->getQuery()
+            ->getResult();
+
+        return $results;
     }
 
     public function findAllJobs($parameters)
@@ -160,7 +312,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j');
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
-            ->where("kitting.filledCompletely IS NULL");
+            ->where("kitting.filledCompletely IS NULL")
+            ->andWhere("kitting.kitDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -338,8 +491,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function findMacProductionJobs($parameters)
     {
-        $salesOrder                 = $parameters['sales_order'];
-        $plannerEstimatedShipDate   = $parameters['planner_esd'];
+        $salesOrder                 = array_key_exists('sales_order', $parameters) ? $parameters['sales_order'] : null;
+        $plannerEstimatedShipDate   = array_key_exists('planner_esd', $parameters) ? $parameters['planner_esd'] : null;
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
@@ -376,11 +529,11 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $emConfig = $this->getEntityManager()->getConfiguration();
         $emConfig->addCustomDatetimeFunction('WEEK', 'DoctrineExtensions\Query\Mysql\Week');
 
-        $salesOrder                     = $parameters['sales_order'];
-        $plannerEstimatedShipDateFrom   = $parameters['planner_esd_date_from'];
-        $plannerEstimatedShipDateTo     = $parameters['planner_esd_date_to'];
-        $plannerEstimatedShipWeekFrom   = $parameters['planner_esd_week_from'];
-        $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
+        $salesOrder                     = array_key_exists('sales_order', $parameters) ? $parameters['sales_order'] : null;
+        $plannerEstimatedShipDateFrom   = array_key_exists('planner_esd_date_from', $parameters) ? $parameters['planner_esd_date_from'] : null;
+        $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;
+        $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
+        $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : '';
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')

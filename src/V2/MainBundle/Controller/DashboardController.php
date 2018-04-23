@@ -20,36 +20,75 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
-        $startDate = date('Y-m-d');
-        $endDate = date('Y-m-d', strtotime('+1 week'));
-        $v2Location = $this->em->getRepository('V2MainBundle:BuildLocation')->find(1); // V2
-        $scheduledV2Jobs = $this->em->getRepository('V2MainBundle:Job')->getScheduledJobs($v2Location, $startDate, $endDate);
+        // Get the jobs scheduled (by week)
+        $jobsByWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsByWeek();
+        $currentWeek = date('W');
+        $weekTexts = array();
+        $jobsByWeekTexts = array();
+        $rushJobsByWeekTexts = array();
+        foreach ($jobsByWeek as $index => $week) {
+            if ($week['week_num'] == $currentWeek - 1) {
+                $weekTexts[$index] = 'Last week';
+            } else if ($week['week_num'] == $currentWeek) {
+                $weekTexts[$index] = 'This week';
+            } else if ($week['week_num'] == $currentWeek + 1) {
+                $weekTexts[$index] = 'Next week';
+            } else {
+                $weekTexts[$index] = 'Week ' . $week['week_num'];
+            }
+            $jobsByWeekTexts[$index] = $week['num_jobs'];
+            $rushJobsByWeekTexts[$index] = $week['num_rush_jobs'];
+        }
 
-        $macLocation = $this->em->getRepository('V2MainBundle:BuildLocation')->find(2); // MAC
-        $scheduledMacJobs = $this->em->getRepository('V2MainBundle:Job')->getScheduledJobs($macLocation, $startDate, $endDate);
-
+        // Get number of open jobs
         $jobStats = $this->em->getRepository('V2MainBundle:Job')->getJobStats()[0];
+        $totalOpenJobs = $jobStats['total'];
 
-        $jobsShippedToday = $this->em->getRepository('V2MainBundle:Job')->getJobShippedByDays(1);
-        $jobsShippedThisWeek = $this->em->getRepository('V2MainBundle:Job')->getJobShippedByDays(7);
-        $jobsShippedThisMonth = $this->em->getRepository('V2MainBundle:Job')->getJobShippedByDays(30);
+        // Get Production load by location
+        $productionByWeek = $this->em->getRepository('V2MainBundle:Job')->getProductionByWeek();
+        $totalFixturesToBuild = 0;
+        $productionV2ByWeek = array();
+        $productionMacByWeek = array();
+        foreach ($productionByWeek as $index => $week) {
+            $productionV2ByWeek[$index] = $week['num_v2_fixtures'];
+            $productionMacByWeek[$index] = $week['num_mac_fixtures'];
+            // Get total too
+            $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
+        }
+
+        // Get Scheduling by Job Life Stage
+        $jobsByStage = $this->em->getRepository('V2MainBundle:Job')->getJobsByStage();
+        $count = 0;
+        $stageTexts = array();
+        $jobsByStageTexts = array();
+        foreach ($jobsByStage as $stageName => $jobs) {
+            $stageTexts[$count] = $stageName;
+            $jobsByStageTexts[$count] = count($jobs);
+            $count++;
+        }
+
+        // Get number of jobs released last week
+        $jobsReleasedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobReleasedByDays(7);
+        // Get number of shipped jobs last week
+        $jobsShippedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobShippedByDays(7);
+
+        // Get late jobs (job name and ESD)
+        $lateJobs = $this->em->getRepository('V2MainBundle:Job')->getLateJobs();
 
         return $this->render('dashboard/index.html.twig', array(
-            'startDate'             =>  $startDate,
-            'endDate'               =>  $endDate,
-            'total'                 =>  $jobStats['total'],
-            'scheduledV2Jobs'       =>  $scheduledV2Jobs['total'],
-            'scheduledMacJobs'      =>  $scheduledMacJobs['total'],
-            'jobsShippedToday'      =>  $jobsShippedToday['total'],
-            'jobsShippedThisWeek'   =>  $jobsShippedThisWeek['total'],
-            'jobsShippedThisMonth'  =>  $jobsShippedThisMonth['total'],
-            // 'kitter'          =>  $jobStats['kitter'],
-            // 'receiver'        =>  $jobStats['receiver'],
-            // 'manufacturer'    =>  $jobStats['manufacturer'],
-            // 'supplyChain'     =>  $jobStats['supply_chain'],
-            // 'macProduction'   =>  $jobStats['mac_production'],
-            // 'v2Production'    =>  $jobStats['v2_production'],
-            // 'scheduler'       =>  $jobStats['scheduler'],
+            'currentWeek' => $currentWeek,
+            'weeks' => json_encode($weekTexts),
+            'jobsByWeek' => json_encode($jobsByWeekTexts),
+            'rushJobsByWeek' => json_encode($rushJobsByWeekTexts),
+            'totalOpenJobs' => $totalOpenJobs,
+            'productionV2ByWeek' => json_encode($productionV2ByWeek),
+            'productionMacByWeek' => json_encode($productionMacByWeek),
+            'totalFixturesToBuild' => $totalFixturesToBuild,
+            'stageTexts' => json_encode($stageTexts),
+            'jobsByStageTexts' => json_encode($jobsByStageTexts),
+            'jobsReleasedLastWeek' => $jobsReleasedLastWeek,
+            'jobsShippedLastWeek' => $jobsShippedLastWeek,
+            'lateJobs' => $lateJobs,
         ));
     }
 }
