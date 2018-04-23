@@ -107,7 +107,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     public function getLateJobs()
     {
         $qb = $this->createQueryBuilder('j');
-        $results = $qb->where("j.estimatedShipDate < CURRENT_DATE()")
+        $results = $qb->join('j.shipping', 'shipping')
+            ->where("j.estimatedShipDate < CURRENT_DATE()")
+            ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL)")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
