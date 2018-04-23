@@ -91,6 +91,13 @@ class Job
     private $plannerEstimatedShipDate;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="cancelled_date", type="datetime", nullable=true)
+     */
+    private $cancelledDate;
+
+    /**
      * @ORM\OneToOne(targetEntity="V2\MainBundle\Entity\Bom", mappedBy="job")
      */
     private $bom;
@@ -136,6 +143,13 @@ class Job
      * @ORM\JoinColumn(name="updated_by", referencedColumnName="user_id")
      */
     private $updatedBy;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
 
     /**
      * Get id
@@ -385,6 +399,30 @@ class Job
     public function getPlannerEstimatedShipDate()
     {
         return $this->plannerEstimatedShipDate;
+    }
+
+    /**
+     * Set cancelledDate
+     *
+     * @param \DateTime $cancelledDate
+     *
+     * @return Job
+     */
+    public function setCancelledDate($cancelledDate)
+    {
+        $this->cancelledDate = $cancelledDate;
+
+        return $this;
+    }
+
+    /**
+     * Get cancelledDate
+     *
+     * @return \DateTime
+     */
+    public function getCancelledDate()
+    {
+        return $this->cancelledDate;
     }
 
     /**

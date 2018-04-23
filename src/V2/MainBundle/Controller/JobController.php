@@ -745,6 +745,34 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/job/{jobId}/delete", name="delete_job")
+     */
+    public function deleteJob(Request $request, $jobId)
+    {
+        $isAdmin = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        // Check for permissions
+        if (!($isAdmin)) {
+            $this->addFlash('error', 'You have no permission!');
+            return $this->redirect($this->generateUrl('dashboard'));
+        }
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            $this->addFlash('error', 'Invalid job');
+            return $this->redirect($this->generateUrl('everything'));
+        }
+
+        $job->setCancelledDate(new \DateTime());
+        $job->setUpdateTime(new \DateTime());
+        $job->setUpdatedBy($this->getUser());
+        $this->em->persist($job);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Job deleted');
+        return $this->redirect($this->generateUrl('everything'));
+    }
+
+    /**
      * @Route("/bom/{jobId}/editSerialsGeneratedDate", name="edit_bom_serials_generated_date")
      */
     public function editBomSerialsGeneratedDate(Request $request, $jobId)

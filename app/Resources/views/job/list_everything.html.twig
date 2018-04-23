@@ -58,6 +58,7 @@
             <th style="border:solid;text-align:center" colspan=7>Short #4</th>
             <th style="border:solid;text-align:center" colspan=1>Paint</th>
             <th style="border:solid;text-align:center" colspan=3>Scheduling</th>
+            <th style="border:solid;" rowspan=2>&nbsp;</th>
             <th style="border:solid;" rowspan=2>Last Updated by</th>
         </tr>
         <tr>
@@ -80,11 +81,11 @@
             <th style="border:solid;width:3ch;font-size:60%">Issued By</th>
             <th style="border:solid;width:7ch;font-size:80%">Serials Gen Date</th>
             {# Kitting #}
-            <th style="border:solid;width:7ch;font-size:60%">Completion Date</th>
-            <th style="border:solid;width:3ch;font-size:60%">Completed By</th>
             <th style="border:solid;width:3ch">LOC</th>
             <th style="border:solid;width:4ch;font-size:80%">100 Filled?</th>
             <th style="border:solid;width:7ch;font-size:80%">Date Kitted</th>
+            <th style="border:solid;width:7ch;font-size:60%">Completion Date</th>
+            <th style="border:solid;width:3ch;font-size:60%">Completed By</th>
             {# Short #1 #}
             <th style="border:solid;min-width:11ch">Part Number</th>
             <th style="border:solid;width:4ch;font-size:60%">Painted Part</th>
@@ -246,6 +247,13 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="priority" data-name="priority" data-pk="{{job.id}}" data-value="{{ job.scheduling.priority }}" data-url="{{ path('edit_scheduling_priority', {'jobId': job.id}) }}">{{ job.scheduling.priority }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if job.cancelledDate %}
+                        Deleted on {{ job.cancelledDate | date('m-d') }}
+                    {% else %}
+                        <a href="{{ path('delete_job', {'jobId': job.id}) }}" class="btn btn-warning btn-xs">Delete Job</a>
+                    {% endif %}
+                </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.updatedBy.initials }}<br>({{ job.updateTime | date('m-d') }})</td>
             </tr>
             {% endfor %}

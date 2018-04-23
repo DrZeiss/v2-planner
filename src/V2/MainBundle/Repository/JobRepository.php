@@ -16,10 +16,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('j')
             ->select('COUNT(j.id) as total')
-            ->leftJoin('j.kitting', 'kitting')
-            ->leftJoin('j.bom', 'bom')
             ->leftJoin('j.shipping', 'shipping')
-            ->leftJoin('j.scheduling', 'scheduling');
+            ->where("((shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL))")
+            ->andWhere("j.cancelledDate IS NULL");
         
         $results = $qb->getQuery()
             ->getResult();
@@ -34,7 +33,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 SUM(IF(s.priority > 0, 1, 0)) AS num_rush_jobs
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
-                WHERE planner_estimated_ship_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+                LEFT JOIN shipping ON shipping.job_id = j.id
+                WHERE ((shipping.ship_date IS NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NULL))
+                AND cancelled_date IS NULL
                 GROUP BY WEEK(planner_estimated_ship_date);";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
@@ -53,6 +54,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 WHERE planner_estimated_ship_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+                AND cancelled_date IS NULL
                 GROUP BY WEEK(planner_estimated_ship_date);";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
@@ -84,6 +86,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->where("paint.color1 IS NOT NULL AND paint.batch1 IS NULL")
             ->orWhere("paint.color2 IS NOT NULL AND paint.batch2 IS NULL")
             ->andWhere("kitting.completionDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL")
             ->getQuery()
             ->getResult();
 
@@ -98,6 +101,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->where("paint.color1 IS NOT NULL AND paint.batch1 IS NOT NULL")
             ->orWhere("paint.color2 IS NOT NULL AND paint.batch2 IS NOT NULL")
             ->andWhere("kitting.completionDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL")
             ->getQuery()
             ->getResult();
 
@@ -109,7 +113,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j');
         $results = $qb->join('j.shipping', 'shipping')
             ->where("j.estimatedShipDate < CURRENT_DATE()")
-            ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL)")
+            ->andWhere("((shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL))")
+            ->andWhere("j.cancelledDate IS NULL")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -122,6 +127,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j')
             ->select('COUNT(j.id) as total')
             ->where('j.createTime > :createTime')
+            ->andWhere("j.cancelledDate IS NULL")
             ->setParameter('createTime', date('Y-m-d', strtotime("-$numDays days")));
         
         $results = $qb->getQuery()
@@ -145,7 +151,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('j.estimatedShipDate >= :startDate')
             ->setParameter('startDate', $startDate)
             ->andWhere('j.estimatedShipDate <= :endDate')
-            ->setParameter('endDate', $endDate);
+            ->setParameter('endDate', $endDate)
+            ->andWhere("j.cancelledDate IS NULL");
 
         $results = $qb->getQuery()
             ->getResult();
@@ -233,7 +240,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb         = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
-            ->where('j.id > 0');
+            ->where('j.id > 0')
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -286,7 +294,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.bom', 'bom')
             ->where("bom.issuedDate IS NULL")
             ->orWhere("j.manufacturingOrder IS NULL")
-            ->orWhere("bom.serialsGeneratedDate IS NULL");
+            ->orWhere("bom.serialsGeneratedDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -315,7 +324,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->where("kitting.filledCompletely IS NULL")
-            ->andWhere("kitting.kitDate IS NULL");
+            ->andWhere("kitting.kitDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -347,7 +357,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')            
-            ->where("kitting.filledCompletely = 0");
+            ->where("kitting.filledCompletely = 0")
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -387,7 +398,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.receivedDate IS NULL) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.receivedDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.receivedDate IS NULL) OR 
-                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.receivedDate IS NULL)");
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.receivedDate IS NULL)")
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($partNumber) {
             $qb->andWhere("kittingShort1.partNumber LIKE :partNumber OR 
@@ -429,7 +441,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.modDoneDate IS NULL) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.modDoneDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.modDoneDate IS NULL) OR 
-                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.modDoneDate IS NULL)");
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.modDoneDate IS NULL)")
+            ->andWhere("j.cancelledDate IS NULL");
         
         if ($dateNeededFrom) {
             $qb->andWhere('kittingShort1.dateNeeded >= :dateNeededFrom')
@@ -461,7 +474,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0");
+            ->where("kitting.filledCompletely = 0")
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($partNumber) {
             $qb->andWhere("kittingShort1.partNumber LIKE :partNumber OR 
@@ -506,7 +520,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 1")
             ->andWhere("buildLocation.name = 'MAC'")
-            ->andWhere("scheduling.completionDate IS NULL");
+            ->andWhere("scheduling.completionDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($salesOrder) {
             $qb->andWhere("j.salesOrder LIKE :salesOrder")
@@ -548,7 +563,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("j.macPurchaseOrder IS NULL")
             ->andWhere("buildLocation.name = 'V2'")
-            ->andWhere("scheduling.completionDate IS NULL");
+            ->andWhere("scheduling.completionDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL");
             
         if ($salesOrder) {
             $qb->andWhere("j.salesOrder LIKE :salesOrder")
@@ -586,7 +602,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
             ->where('scheduling.completionDate IS NOT NULL')
-            ->andWhere("(shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL)");
+            ->andWhere("((shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL))")
+            ->andWhere("j.cancelledDate IS NULL");
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
@@ -609,7 +626,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
             ->leftJoin('j.paint', 'paint')
-            ->where('j.id > 0');
+            ->where('j.id > 0')
+            ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
