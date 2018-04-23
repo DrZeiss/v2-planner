@@ -20,7 +20,8 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
             ->where('ks.receivedDate IS NULL')
-            ->andWhere("(ks.vendor IS NULL or UPPER(ks.vendor) != 'V2')");
+            ->andWhere("(ks.vendor IS NULL or UPPER(ks.vendor) != 'V2')")
+            ->andWhere("job.cancelledDate IS NULL");
 
         if ($partNumber) {
             $qb->andWhere("ks.partNumber LIKE :partNumber")
@@ -55,7 +56,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
             ->where("ks.receivedDate IS NULL")
-            ->andWhere("(ks.vendor IS NULL OR UPPER(ks.vendor) != 'V2')");
+            ->andWhere("job.cancelledDate IS NULL");
 
         if ($partNumber) {
             $qb->andWhere("ks.partNumber LIKE :partNumber")
@@ -90,7 +91,8 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('job.scheduling', 'scheduling')
             ->where("ks.modDoneDate IS NULL")
             ->andWhere("UPPER(ks.vendor) = 'V2'")
-            ->andWhere("(kitting.filledCompletely IS NOT NULL AND kitting.filledCompletely = 0) OR kitting.filledCompletely IS NULL");
+            ->andWhere("((kitting.filledCompletely IS NOT NULL AND kitting.filledCompletely = 0) OR kitting.filledCompletely IS NULL)")
+            ->andWhere("job.cancelledDate IS NULL");
 
         if ($dateNeededFrom) {
             $qb->andWhere('ks.dateNeeded >= :dateNeededFrom')
