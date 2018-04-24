@@ -31,13 +31,13 @@
           <div class="st-sidebar__scroll scrollbar">
             <div class="st-sidebar__nav">
               <ul>
-              {% if is_granted('ROLE_ADMIN') %} 
                 <li><a href="{{ path('dashboard') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-star st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Dashboard</span></div>
                     </div></a>
                 </li>
+              {% if is_granted('ROLE_ADMIN') %} 
                 <li><a href="{{ path('everything') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-globe st-sidebar__ico"></i></div>
@@ -45,85 +45,66 @@
                     </div></a>
                 </li>                
               {% endif %}
-
                 <li><a href="{{ path('create_job') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-list st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Create Job</span></div>
                     </div></a>
                 </li>
-              {% if is_granted('ROLE_BOM_BUILDER') %} 
                 <li><a href="{{ path('bom_builder') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-user st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">BOM Builder</span></div>
                     </div></a>
                 </li>
-              {% endif %}                
-              {% if is_granted('ROLE_KITTER') %} 
                 <li><a href="{{ path('kitter') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-clipboard st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Kitter</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_SHORT_KITS') %} 
                 <li><a href="{{ path('short_kits') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-clipboard st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Short Kits</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_RECEIVER') %} 
                 <li><a href="{{ path('receiver') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-sign-in st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Receiver</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_MANUFACTURER') %} 
                 <li><a href="{{ path('manufacturer') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-wrench st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Manufacturer</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_SUPPLY_CHAIN') %} 
                 <li><a href="{{ path('supply_chain') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-link st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Supply Chain</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_MAC_PRODUCTION') %} 
                 <li><a href="{{ path('mac_production') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-building st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">MAC Production</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_V2_PRODUCTION') %} 
                 <li><a href="{{ path('v2_production') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-user st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">V2 Production</span></div>
                     </div></a>
                 </li>
-              {% endif %}
-              {% if is_granted('ROLE_SHIPPER') %} 
                 <li><a href="{{ path('shipper') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-truck st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Shipper</span></div>
                     </div></a>
                 </li>
-              {% endif %}
               {% if is_granted('ROLE_SCHEDULER') %} 
                 <li><a href="{{ path('scheduler') }}">
                     <div class="fluid-cols">
@@ -132,7 +113,6 @@
                     </div></a>
                 </li>
               {% endif %}
-              {% if is_granted('ROLE_PAINTER') %}               
                 <li><a href="#">
                       <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-paint-brush st-sidebar__ico"></i></div>
@@ -166,7 +146,6 @@
                   </li>
                 </ul>
               </li>
-              {% endif %}
               {% if is_granted('ROLE_ADMIN') %} 
                 <li>
                   <a href="{{ path('users') }}">

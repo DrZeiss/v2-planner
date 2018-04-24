@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block headerTitle %}Everthing{% endblock %}
+{% block headerTitle %}Everything{% endblock %}
 
 {% block breadcrumbs %}
     <li class="active"><span>Everything</span></li>
@@ -56,7 +56,7 @@
             <th style="border:solid;text-align:center" colspan=7>Short #2</th>
             <th style="border:solid;text-align:center" colspan=7>Short #3</th>
             <th style="border:solid;text-align:center" colspan=7>Short #4</th>
-            <th style="border:solid;text-align:center" colspan=1>Paint</th>
+            <th style="border:solid;text-align:center" colspan=5>Paint</th>
             <th style="border:solid;text-align:center" colspan=3>Scheduling</th>
             <th style="border:solid;" rowspan=2>&nbsp;</th>
             <th style="border:solid;" rowspan=2>Last Updated by</th>
@@ -120,6 +120,10 @@
             <th style="border:solid;width:20ch">Notes</th>
             {# Paint #}
             <th style="border:solid;width:4ch">LOC</th>
+            <th style="border:solid;width:4ch">Color 1</th>
+            <th style="border:solid;width:4ch">Batch 1</th>
+            <th style="border:solid;width:4ch">Color 2</th>
+            <th style="border:solid;width:4ch">Batch 2</th>
             {# Scheduling #}
             <th style="border:solid;width:4ch">Sub Ready</th>
             <th style="border:solid;min-width:7ch;font-size:60%">Build Completion Date</th>
@@ -242,7 +246,11 @@
                     <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short_notes', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4) ? job.kitting.kittingShort4.id : 0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.notes : null }}</a></td>
                 {% endif %}
                 {# Paint #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>                
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="color1" data-name="color1" data-pk="{{job.id}}" data-url="{{ path('edit_paint_color1', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint ? job.paint.color1 }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="batch1" data-name="batch1" data-pk="{{job.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint and job.paint.batch1 ? job.paint.batch1.id }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="color2" data-name="color2" data-pk="{{job.id}}" data-url="{{ path('edit_paint_color2', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint ? job.paint.color2 }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="batch2" data-name="batch2" data-pk="{{job.id}}" data-url="{{ path('edit_paint_batch2', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint and job.paint.batch2 ? job.paint.batch2.id }}</td>
                 {# Scheduling #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
@@ -662,6 +670,54 @@
                 container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Paint Location',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.color1').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Paint Color 1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.batch1').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Batch # for Color 1',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.color2').each(function(i, obj) {
+            $(this).editable({
+                type: 'text',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Paint Color 2',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.batch2').each(function(i, obj) {
+            $(this).editable({
+                type: 'number',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Batch # for Color 2',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

@@ -64,7 +64,7 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_location', {'jobId': part.kitting and part.kitting.job ? part.kitting.job.id : 0}) }}">{{part.kitting and part.kitting.job ? part.kitting.job.kitting.location : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ parts.notes | default("") }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ part.notes }}</a></td>
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>

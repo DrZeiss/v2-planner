@@ -77,6 +77,14 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
+        // Remove any shorts that are from V2 that don't have a job associated to it
+        // The reasoning is that in-house mods will be built and put back into inventory, therefore no need to be received
+        foreach($results as $index => $result) {
+            if (strtoupper($result->getVendor()) == 'V2' && $result->getKitting() == null) {
+                unset($results[$index]);
+            }
+        }
+
         return $results;
     }
 

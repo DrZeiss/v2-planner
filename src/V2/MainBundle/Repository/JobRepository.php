@@ -550,7 +550,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateFrom   = array_key_exists('planner_esd_date_from', $parameters) ? $parameters['planner_esd_date_from'] : null;
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
-        $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : '';
+        $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
@@ -580,11 +580,11 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipDateTo', new \DateTime($plannerEstimatedShipDateTo));
         }
         if ($plannerEstimatedShipWeekFrom) {
-            $qb->andWhere("WEEK(j.plannerEstimatedShipDate) >= :plannerEstimatedShipWeekFrom")
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) >= :plannerEstimatedShipWeekFrom")
                 ->setParameter('plannerEstimatedShipWeekFrom', $plannerEstimatedShipWeekFrom);
         }
         if ($plannerEstimatedShipWeekTo) {
-            $qb->andWhere("WEEK(j.plannerEstimatedShipDate) <= :plannerEstimatedShipWeekTo")
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) <= :plannerEstimatedShipWeekTo")
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 

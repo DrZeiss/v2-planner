@@ -6,6 +6,10 @@
     <li class="active"><span>MAC Production Jobs</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right"><a href="{{ path('print_mac_production') }}" class="btn btn-sm btn-warning">Print</a></span>
+{% endblock %}
+
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">

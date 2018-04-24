@@ -270,6 +270,26 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/macProduction/print", name="print_mac_production")
+     */
+    public function printMacProductionJobs(Request $request)
+    {
+        $defaultParameters = array(
+            'sales_order' => null,
+            'planner_esd' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findMacProductionJobs($parameters);
+
+        return $this->render('job/print_mac_production.html.twig', array(
+            'jobs'      =>  $jobs,
+            'sales_order'   =>  $parameters['sales_order'],
+            'planner_esd'   =>  $parameters['planner_esd'],            
+        ));
+    }
+
+    /**
      * @Route("/v2Production", name="v2_production")
      */
     public function listV2ProductionJobs(Request $request)

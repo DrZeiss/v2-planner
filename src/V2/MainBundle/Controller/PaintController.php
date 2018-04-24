@@ -225,6 +225,48 @@ class PaintController extends Controller
     }
 
     /**
+     * @Route("/{paintId}/editColor1", name="edit_paint_color1")
+     */
+    public function editPaintColor1(Request $request, $paintId)
+    {
+        $color = $request->request->get('value');
+
+        $paint = $this->paintRepository->find($paintId);
+        if (!$paint) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
+        }
+
+        $paint->setColor1($color);
+        $paint->setUpdateTime(new \DateTime());
+        $paint->setUpdatedBy($this->getUser());
+        $this->em->persist($paint);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
+     * @Route("/{paintId}/editColor2", name="edit_paint_color2")
+     */
+    public function editPaintColor2(Request $request, $paintId)
+    {
+        $color = $request->request->get('value');
+
+        $paint = $this->paintRepository->find($paintId);
+        if (!$paint) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
+        }
+
+        $paint->setColor2($color);
+        $paint->setUpdateTime(new \DateTime());
+        $paint->setUpdatedBy($this->getUser());
+        $this->em->persist($paint);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
      * @Route("/{paintId}/editBatch1", name="edit_paint_batch1")
      */
     public function editPaintBatch1(Request $request, $paintId)
@@ -235,17 +277,16 @@ class PaintController extends Controller
         if (!$paint) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         }
+        // Error checking in case user tries to set a batch ID without color
+        if (!$paint->getColor1()) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Paint Color"));   
+        }
 
         $batch = $this->batchRepository->find($batchId);
         if (!$batch) {
             $batch = new Batch();
-            $batch->setPaint($paint);
         }
-        // We only set the batch quantity when the first time it is assigned to a batch
-        // All other changes is up to user
-        if (!$paint->getBatch1()) {
-            $batch->addQuantity($paint->getJob()->getQuantity());
-        }
+        $batch->addPaint($paint);
         $batch->setColor($paint->getColor1());
         $batch->setRalColor($this->getRalColor($paint->getColor1()));
         $batch->setUpdateTime(new \DateTime());
@@ -274,17 +315,16 @@ class PaintController extends Controller
         if (!$paint) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         }
+        // Error checking in case user tries to set a batch ID without color
+        if (!$paint->getColor2()) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Paint Color"));   
+        }
         $batch = $this->batchRepository->find($batchId);
         if (!$batch) {
             $batch = new Batch();
-            $batch->setPaint($paint);
-        }
-        // We only set the batch quantity when the first time it is assigned to a batch
-        // All other changes is up to user
-        if (!$paint->getBatch2()) {
-            $batch->addQuantity($paint->getJob()->getQuantity());
         }
 
+        $batch->addPaint($paint);
         $batch->setColor($paint->getColor2());
         $batch->setRalColor($this->getRalColor($paint->getColor2()));
         $batch->setUpdateTime(new \DateTime());
