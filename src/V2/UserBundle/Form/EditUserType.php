@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -94,7 +95,16 @@ class EditUserType extends AbstractType
                     'label_attr'            =>  array(
                         'class'             =>  'col-sm-3 control-label',
                     ),
-                    'multiple'              =>  true,                
+                    'multiple'              =>  true,
+                ));
+            }
+            if ($options['isAdmin']) {
+                $builder->add('enabled', CheckboxType::class, array(
+                    'label'                 =>  'Active',
+                    'label_attr'            =>  array(
+                        'class'             =>  'col-sm-3 control-label',
+                    ),
+                    'required'              =>  false,
                 ));
             }
         }

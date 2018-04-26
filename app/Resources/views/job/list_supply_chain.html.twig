@@ -66,17 +66,47 @@
                     {% set late = 2 %}
                 {% endif %}                
             <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="plum"{% endif %}>
-                <td style="font-size:small;word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</a></td>
+                <td style="font-size:small;word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="vendor" data-name="vendor" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor', {'shortId': part.id }) }}">{{ part.vendor }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="vendorPoNumber" data-name="vendorPoNumber" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'shortId': part.id}) }}">{{ part.vendorPoNumber }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="modWo" data-name="modWo" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_wo', {'shortId': part.id}) }}">{{ part.modWo }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SUPPLY_CHAIN') %}
+                        <a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</a>
+                    {% else %}
+                        {{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SUPPLY_CHAIN') %}
+                        <a href="#" class="vendor" data-name="vendor" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor', {'shortId': part.id }) }}">{{ part.vendor }}</a>
+                    {% else %}
+                        {{ part.vendor }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SUPPLY_CHAIN') %}
+                        <a href="#" class="vendorPoNumber" data-name="vendorPoNumber" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_vendor_po_number', {'shortId': part.id}) }}">{{ part.vendorPoNumber }}</a>
+                    {% else %}
+                        {{ part.vendorPoNumber }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SUPPLY_CHAIN') %}
+                        <a href="#" class="modWo" data-name="modWo" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_wo', {'shortId': part.id}) }}">{{ part.modWo }}</a>
+                    {% else %}
+                        {{ part.modWo }}
+                    {% endif %}
+                </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ part.notes }}</a></td>
-                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</a></td>   
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity : part.quantity }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SUPPLY_CHAIN') %}
+                        <a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ part.notes }}</a>
+                    {% else %}
+                        {{ part.notes }}
+                    {% endif %}
+                </td>
+                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
+                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity : part.quantity }}</td>
             </tr>
             {% endfor %}
         </tbody>

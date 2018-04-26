@@ -957,9 +957,9 @@ class JobController extends Controller
         }
 
         $kitting->setFilledCompletely(($filledCompletely == 'Empty') ? null : $filledCompletely );
-        if ($filledCompletely) {
-            $kitting->setKitDate(new \DateTime());
-        }
+        // As long as there's a kitted date; they no longer care if it's completely done (Completion date)
+        $kitting->setKitDate(new \DateTime());
+        $kitting->setCompletionDate(new \DateTime()); // completion date and kit date are the same now
         $kitting->setUpdateTime(new \DateTime());
         $kitting->setUpdatedBy($this->getUser());
 
@@ -983,6 +983,7 @@ class JobController extends Controller
         }
 
         $kitting->setKitDate(new \DateTime($kitDate));
+        $kitting->setCompletionDate(new \DateTime($kitDate)); // completion date and kit date are the same now
         $kitting->setUpdateTime(new \DateTime());
         $kitting->setUpdatedBy($this->getUser());
 

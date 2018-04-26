@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('print_v2_production') }}" class="btn btn-sm btn-warning">Print</a></span>
+    <span style="float:right"><a href="{{ path('print_v2_production', {'sales_order': sales_order, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to}) }}" class="btn btn-sm btn-warning">Print</a></span>
 {% endblock %}
 
 {% block body %}
@@ -59,8 +59,8 @@
             <th style="border:solid;width:6ch">Model</th>
             <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid;width:6ch">MO #</th>
-            <th style="border:solid;min-width:7ch">Planner ESD (Week#)</th>
-            <th style="border:solid;font-size:x-small;width:4ch">Kitting Filled Completely?</th>
+            <th style="border:solid;font-size:x-small;width:7ch">Planner ESD (Week#)</th>
+            <th style="border:solid;font-size:x-small;width:3ch">Kitting Filled Completely?</th>
             <th style="border:solid;width:4ch">Kitting LOC</th>
             <th style="border:solid;width:4ch">Paint LOC</th>
             <th style="border:solid;width:4ch">Sub Built</th>
@@ -90,13 +90,43 @@
                 </td>
                 {# Kitting #}
                 <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_V2_PRODUCTION') %}
+                        <a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a>
+                    {% else %}
+                        {{ job.kitting.location }}
+                    {% endif %}
+                </td>
                 {# Paint #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_V2_PRODUCTION') %}
+                        <a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a>
+                    {% else %}
+                        {{ job.paint ? job.paint.location : "" }}
+                    {% endif %}
+                </td>
                 {# Scheduling #}                
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="builtBy" data-name="builtBy" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_built_by', {'jobId': job.id}) }}">{{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_V2_PRODUCTION') %}
+                        <a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a>
+                    {% else %}
+                        {{ job.scheduling.subReady ? "Yes" : "No"}}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_V2_PRODUCTION') %}
+                        <a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a>
+                    {% else %}
+                        {{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_V2_PRODUCTION') %}
+                        <a href="#" class="builtBy" data-name="builtBy" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_built_by', {'jobId': job.id}) }}">{{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}</a>
+                    {% else %}
+                        {{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

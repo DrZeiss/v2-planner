@@ -38,7 +38,7 @@
                 <th style="border:solid;width:10ch" rowspan=2>Name</th>
                 <th style="border:solid;width:6ch" rowspan=2>SO #</th>
                 <th style="border:solid;text-align:center" colspan=5>Job</th>
-                <th style="border:solid;text-align:center" colspan=7>Kitting</th>
+                <th style="border:solid;text-align:center" colspan=10>Kitting</th>
             </tr>
             <tr>
                 {# Job #}
@@ -49,12 +49,15 @@
                 <th style="border:solid;width:7ch">Planner ESD</th>
                 {# Kitting #}
                 <th style="border:solid;width:11ch">Short #1</th>
+                <th style="border:solid;width:7ch">RCVD Date</th>
                 <th style="border:solid;width:11ch">Short #2</th>
+                <th style="border:solid;width:7ch">RCVD Date</th>
                 <th style="border:solid;width:11ch">Short #3</th>
+                <th style="border:solid;width:7ch">RCVD Date</th>
                 <th style="border:solid;width:11ch">Short #4</th>
+                <th style="border:solid;width:7ch">RCVD Date</th>
                 <th style="border:solid;width:3ch">LOC</th>
-                <th style="border:solid;width:3ch">100% Filled?</th>
-                <th style="border:solid;width:7ch">Completion Date</th>
+                <th style="border:solid;width:3ch:">100% Filled?</th>
             </tr>
         </thead>
         <tbody>
@@ -86,21 +89,66 @@
                         TBD
                     {% endif %}
                 </td>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1)?job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a></td>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2)?job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a></td>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3)?job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a></td>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}"><a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4)?job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
-                    {% if job.kitting.filledCompletely is null %}
-                        Empty
-                    {% elseif job.kitting.filledCompletely == 0 %}
-                        No
-                    {% elseif job.kitting.filledCompletely == 1 %}
-                        Yes
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}">
+                    {% if is_granted('ROLE_SHORT_KITS') %}
+                        <a href="#" class="short1" data-name="short1" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short1', {'jobId': job.id, 'shortId': (job.kitting.kittingShort1) ? job.kitting.kittingShort1.id:0}) }}">{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</a>
+                    {% else %}
+                        {{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}
                     {% endif %}
-                    </a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_completion_date', {'jobId': job.id}) }}">{{job.kitting.completionDate ? job.kitting.completionDate | date('m-d') : ""}}</a></td>
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.receivedDate|date('m-d') : "" }}</td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}">
+                    {% if is_granted('ROLE_SHORT_KITS') %}
+                        <a href="#" class="short2" data-name="short2" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short2', {'jobId': job.id, 'shortId': (job.kitting.kittingShort2) ? job.kitting.kittingShort2.id:0}) }}">{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</a>
+                    {% else %}
+                        {{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.receivedDate|date('m-d') : "" }}</td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}">
+                    {% if is_granted('ROLE_SHORT_KITS') %}
+                        <a href="#" class="short3" data-name="short3" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short3', {'jobId': job.id, 'shortId': (job.kitting.kittingShort3) ? job.kitting.kittingShort3.id:0}) }}">{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</a>
+                    {% else %}
+                        {{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.receivedDate|date('m-d') : "" }}</td>
+                <td style="word-break:break-all;{% if late %}color:white{% endif %}">
+                    {% if is_granted('ROLE_SHORT_KITS') %}
+                        <a href="#" class="short4" data-name="short4" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_short4', {'jobId': job.id, 'shortId': (job.kitting.kittingShort4) ? job.kitting.kittingShort4.id:0}) }}">{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</a>
+                    {% else %}
+                        {{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.receivedDate|date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SHORT_KITS') %}
+                        <a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a>
+                    {% else %}
+                        {{ job.kitting.location }}
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SHORT_KITS') %}
+                        <a href="#" class="filledCompletely" data-name="filledCompletely" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_filled_completely', {'jobId': job.id}) }}">
+                        {% if job.kitting.filledCompletely is null %}
+                            {# Empty #}
+                        {% elseif job.kitting.filledCompletely == 0 %}
+                            No
+                        {% elseif job.kitting.filledCompletely == 1 %}
+                            Yes
+                        {% endif %}
+                        </a>
+                    {% else %}
+                        {% if job.kitting.filledCompletely is null %}
+                            Empty
+                        {% elseif job.kitting.filledCompletely == 0 %}
+                            No
+                        {% elseif job.kitting.filledCompletely == 1 %}
+                            Yes
+                        {% endif %}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -133,6 +181,8 @@
                 success: function(response, newValue) {
                     if (response.status == 'error') {
                         return response.msg; //msg will be shown in editable form
+                    } else {
+                        $(".kitDate:eq(" + i + ")").editable('option', 'value', new Date());
                     }
                 }
             });

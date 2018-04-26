@@ -324,7 +324,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->where("kitting.filledCompletely IS NULL")
-            ->andWhere("kitting.kitDate IS NULL")
+            ->orWhere("kitting.kitDate IS NULL")
+            ->orWhere("kitting.location IS NULL")
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {

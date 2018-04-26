@@ -70,7 +70,13 @@
                 <td>{{ paint.batch1 ? paint.batch1.id }}</td>
                 <td>{{ paint.color2 }}</td>
                 <td>{{ paint.batch2 ? paint.batch2.id }}</td>
-                <td><a href="#" class="location" data-name="location" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_location', {'paintId': paint.id}) }}">{{ paint.location }}</a></td>
+                <td>
+                    {% if is_granted('ROLE_PAINTER') %}
+                        <a href="#" class="location" data-name="location" data-pk="{{paint.id}}" data-url="{{ path('edit_paint_location', {'paintId': paint.id}) }}">{{ paint.location }}</a>
+                    {% else %}
+                        {{ paint.location }}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
