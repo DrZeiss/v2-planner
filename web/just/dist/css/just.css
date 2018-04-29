@@ -3459,11 +3459,11 @@ ul.st-sidebar__nested li.active > a {
 ul.st-sidebar__nested li a {
   padding: 8px 20px;
 }
-ul.st-sidebar__nested .st-sidebar__nested li {
+ul.st-sidebar__nested .a-sidebar__nested li {
   padding-left: 15px;
 }
-ul.st-sidebar__nested .st-sidebar__nested li:hover,
-ul.st-sidebar__nested .st-sidebar__nested li.active {
+ul.st-sidebar__nested .a-sidebar__nested li:hover,
+ul.st-sidebar__nested .a-sidebar__nested li.active {
   background: inherit;
 }
 .st-sidebar__popup {
@@ -3493,18 +3493,18 @@ ul.st-sidebar__nested .st-sidebar__nested li.active {
 .st-sidebar__popup ul li a .fluid-cols .min-col {
   width: 1%;
 }
-.st-sidebar__popup ul.st-sidebar__nested {
+.st-sidebar__popup ul.a-sidebar__nested {
   width: 100%;
   min-width: 190px;
   padding-left: 0;
 }
-.st-sidebar__popup ul.st-sidebar__nested li {
+.st-sidebar__popup ul.a-sidebar__nested li {
   padding-left: 0;
 }
-.st-sidebar__popup ul.st-sidebar__nested .st-sidebar__nested li {
+.st-sidebar__popup ul.a-sidebar__nested .st-sidebar__nested li {
   padding-left: 15px;
 }
-.st-sidebar__popup ul.st-sidebar__nested .st-sidebar__nested li:hover {
+.st-sidebar__popup ul.a-sidebar__nested .st-sidebar__nested li:hover {
   background: inherit;
 }
 body.sidebar-collapsible:not(.sidebar-open) .st-sidebar {

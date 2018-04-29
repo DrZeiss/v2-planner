@@ -357,18 +357,22 @@ class JobController extends Controller
             'esd'               => null,
             'filled_completely' => null,
             'non_shipped'       => 1,
+            'selected_location' => 0, // means ALL locations
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $jobs = $this->jobRepository->findSchedulerJobs($parameters);
+        $locations = $this->em->getRepository('V2MainBundle:BuildLocation')->findAll();
 
         return $this->render('job/list_scheduler.html.twig', array(
             'jobs'              =>  $jobs,
+            'locations'         =>  $locations,
             'name'              =>  $parameters['name'],
             'sales_order'       =>  $parameters['sales_order'],
             'esd'               =>  $parameters['esd'],
             'filled_completely' =>  $parameters['filled_completely'],
             'non_shipped'       =>  $parameters['non_shipped'],
+            'selected_location' =>  $parameters['selected_location'],
         ));
     }
 
@@ -389,7 +393,7 @@ class JobController extends Controller
                     $job->setUpdatedBy($this->getUser());
                     $job->setUpdateTime(new \DateTime());
                     $this->em->persist($job);
-                    $this->em->flush();
+                    // $this->em->flush();
 
                     $paint = new Paint();
                     $paint->setJob($job);
@@ -418,14 +422,30 @@ class JobController extends Controller
                     $scheduling->setUpdateTime(new \DateTime());
                     $this->em->persist($scheduling);
 
-                    $this->em->flush();
+                    // $this->em->flush();
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'Error while updating! '.$e->getMessage());
                     return $this->redirect($request->getUri());
                 }
 
                 $this->addFlash('success', 'Job created!');
-                return $this->redirect($this->generateUrl('dashboard'));
+                if ($form->get('createAnotherCopy')->isClicked()) {
+                    // Copy the NAME, SO#, ESD, LOC fields since it's a similar job
+                    $job = new Job();
+                    $job->setName($form->get("name")->getData());
+                    $job->setSalesOrder($form->get("salesOrder")->getData());
+                    $job->setEstimatedShipDate($form->get("estimatedShipDate")->getData());
+                    $job->setBuildLocation($form->get("buildLocation")->getData());
+                    $job->setPlannerEstimatedShipDate($form->get("plannerEstimatedShipDate")->getData());
+                    $form = $this->createForm(JobType::class, $job);
+
+                    return $this->render('job/create.html.twig', array(
+                        'job'       =>  $job,
+                        'form'      =>  $form->createView(),
+                    ));
+                } else {
+                    return $this->redirect($this->generateUrl('dashboard'));
+                }
             }
         }
 

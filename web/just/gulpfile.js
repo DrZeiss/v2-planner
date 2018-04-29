@@ -98,7 +98,8 @@ gulp.task('libs:build', function() {
 			path.src.libs + 'highlight.js/highlight.pack.js',
 			path.src.libs + 'vkbeautify/vkbeautify.js',
 			path.src.libs + 'bootstrap-tabdrop/js/ab.tabdrop.js',
-			path.src.libs + 'panel-tools/panel-tools.js'
+			path.src.libs + 'panel-tools/panel-tools.js',
+			path.src.libs + 'clipboard/clipboard.js'
 		])
 		.pipe(concat('libs.common.js'))
 		.pipe(gulp.dest(path.dist.js))

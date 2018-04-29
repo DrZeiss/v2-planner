@@ -17,7 +17,7 @@
                     {# This next section overwrites the form's original name #}
                     <div class="form-group">
                         <label class="col-sm-4 control-label required">Name</label>
-                        <input type="text" id="v2_mainbundle_job_name" name="v2_mainbundle_job[name]" list="jobNames" placeholder="Type in job name" class="col-sm-5 search-job" data-path="{{ path('job_names') }}">
+                        <input type="text" id="v2_mainbundle_job_name" name="v2_mainbundle_job[name]" list="jobNames" placeholder="Type in job name" class="col-sm-5 search-job" data-path="{{ path('job_names') }}" value="{{job.name}}">
                         <datalist id="jobNames"></datalist>
                     </div>
                     <br>
@@ -33,6 +33,7 @@
 
                     <a href="{{ path('dashboard') }}" class="btn btn-warning">Cancel</a>
                     {{ form_widget(form.save) }}
+                    {{ form_widget(form.createAnotherCopy) }}
 
                     {{ form_rest(form) }}
                 </form>
@@ -55,13 +56,13 @@
                 type: 'POST',
                 data: { searchValue: searchValue },
                 error: function(result) { 
-                    console.log(result);
+                    // console.log(result);
                     alert("Please contact Engineering Dept!"); 
                 },
                 success: function(result) {
                     var newHtml = '';
                     for(i = 0; i < result.length; i++) {
-                        console.log(result[i]);
+                        // console.log(result[i]);
                         newHtml += "<option value='"+result[i]+"'>";
                     }
                     $('#jobNames').html(newHtml);

@@ -40,7 +40,8 @@ App.layout.Sidebar = function() {
         OFFCANVAS: false
       },
       open: true
-    }
+    },
+    onlyOneOpen: false
   };
 
   function getModeFromWrapperClass() {
@@ -134,6 +135,20 @@ App.layout.Sidebar = function() {
       if ($item.length && $nested.length) {
         $item.toggleClass('open');
         $nested.slideToggle(150, setPopupPosition);
+
+        if (s.onlyOneOpen && $item.hasClass('open') && !$item.closest('.st-sidebar__nested').length) {
+          s.$items.each(function(index, el) {
+            var $i = $(el),
+                $n = $i.find(c.NESTED).first();
+            if ($i.hasClass('open') && $i[0] != $item[0]) {
+              $i.removeClass('open');
+
+              if ($n.length) {
+                $n.slideUp(150);
+              }
+            }
+          })
+        }
 
         return false;
       }

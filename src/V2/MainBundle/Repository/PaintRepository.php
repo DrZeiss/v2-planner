@@ -82,7 +82,7 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('p.batch1', 'batch1')
             ->leftJoin('p.batch2', 'batch2')
             ->where('p.id > 0')
-            ->andWhere('p.location IS NULL');
+            ->andWhere("(p.location IS NULL OR p.location LIKE 'B%')");
 
         if ($name) {
             $qb->andWhere("job.name LIKE :name")

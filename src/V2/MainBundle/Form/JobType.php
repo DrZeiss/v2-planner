@@ -114,6 +114,12 @@ class JobType extends AbstractType
                 'attr'                  =>  array(
                     'class'                 =>  'btn btn-primary',
                 ),
+            ))
+            ->add('createAnotherCopy', SubmitType::class, array(
+                'label'                 =>  'Create Another Copy',
+                'attr'                  =>  array(
+                    'class'                 =>  'btn btn-info',
+                ),
             ));
     }
     

@@ -27,6 +27,7 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="form-check-label">
+                            <input type="hidden" name="non_shipped" value="0" />
                             <input type="checkbox" name="non_shipped" value="1" class="form-check-input" {% if non_shipped %}checked{% endif %}>
                             See only non shipped jobs
                         </label>
@@ -247,10 +248,10 @@
                 {% endif %}
                 {# Paint #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="color1" data-name="color1" data-pk="{{job.id}}" data-url="{{ path('edit_paint_color1', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint ? job.paint.color1 }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="batch1" data-name="batch1" data-pk="{{job.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint and job.paint.batch1 ? job.paint.batch1.id }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="color2" data-name="color2" data-pk="{{job.id}}" data-url="{{ path('edit_paint_color2', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint ? job.paint.color2 }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="batch2" data-name="batch2" data-pk="{{job.id}}" data-url="{{ path('edit_paint_batch2', {'paintId': job.paint ? job.paint.id}) }}">{{ job.paint and job.paint.batch2 ? job.paint.batch2.id }}</td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="color1" data-name="color1" data-pk="{{job.id}}" data-url="{{ path('edit_paint_color1', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint and job.paint.color1 ? job.paint.color1 }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="batch1" data-name="batch1" data-pk="{{job.id}}" data-url="{{ path('edit_paint_batch1', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint and job.paint.batch1 ? job.paint.batch1.id }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="color2" data-name="color2" data-pk="{{job.id}}" data-url="{{ path('edit_paint_color2', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint and job.paint.color2 ? job.paint.color2 }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="batch2" data-name="batch2" data-pk="{{job.id}}" data-url="{{ path('edit_paint_batch2', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint and job.paint.batch2 ? job.paint.batch2.id }}</td>
                 {# Scheduling #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a></td>
@@ -281,7 +282,7 @@
         $.fn.editable.defaults.mode = 'popup';
 
         $('#esd').datepicker({
-            format: 'yyyy-mm-dd'
+            format: 'yyyy-mm-dd',
         });
 
         // Job //
