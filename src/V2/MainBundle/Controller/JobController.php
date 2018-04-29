@@ -388,12 +388,14 @@ class JobController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 try {
+                    $job->setEstimatedShipDate(new \DateTime($form->get("estimatedShipDate")->getData()));
+                    $job->setPlannerEstimatedShipDate(new \DateTime($form->get("plannerEstimatedShipDate")->getData()));
                     $job->setCreatedBy($this->getUser());
                     $job->setCreateTime(new \DateTime());
                     $job->setUpdatedBy($this->getUser());
                     $job->setUpdateTime(new \DateTime());
                     $this->em->persist($job);
-                    // $this->em->flush();
+                    $this->em->flush();
 
                     $paint = new Paint();
                     $paint->setJob($job);
@@ -422,7 +424,7 @@ class JobController extends Controller
                     $scheduling->setUpdateTime(new \DateTime());
                     $this->em->persist($scheduling);
 
-                    // $this->em->flush();
+                    $this->em->flush();
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'Error while updating! '.$e->getMessage());
                     return $this->redirect($request->getUri());

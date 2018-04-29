@@ -31,13 +31,13 @@ class JobType extends AbstractType
                     'class'             =>  'col-sm-4 control-label',
                 ),
             ))
-            ->add('estimatedShipDate', DateType::class, array(
+            ->add('estimatedShipDate', TextType::class, array(
                 'label'                 =>  'Estimated Ship Date (ESD)',
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-4 control-label',
                 ),
-                'widget'                =>  'single_text',
-                'html5'                 =>  false,
+                // 'widget'                =>  'single_text',
+                // 'html5'                 =>  false,
                 'attr'                  =>  array(
                     'class'             =>  'js-datepicker'
                 ),
@@ -97,13 +97,13 @@ class JobType extends AbstractType
                 'mapped'                =>  false,
                 'required'              =>  false,
             ))
-            ->add('plannerEstimatedShipDate', DateType::class, array(
+            ->add('plannerEstimatedShipDate', TextType::class, array(
                 'label'                 =>  'Planner ESD',
                 'label_attr'            =>  array(
                     'class'             =>  'col-sm-4 control-label',
                 ),
-                'widget'                =>  'single_text',
-                'html5'                 =>  false,
+                // 'widget'                =>  'single_text',
+                // 'html5'                 =>  false,
                 'attr'                  =>  array(
                     'class'             =>  'js-datepicker'
                 ),
