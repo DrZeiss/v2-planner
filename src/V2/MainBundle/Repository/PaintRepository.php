@@ -18,12 +18,14 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             FROM paint p
             JOIN job ON job.id = p.job_id
             WHERE color_1 IS NOT NULL
+            AND batch_1_id IS NULL
             GROUP BY color_1
                 UNION
             SELECT color_2 AS color, count(job_id), sum(quantity), min(planner_estimated_ship_date) AS planner_esd 
             FROM paint p
             JOIN job ON job.id = p.job_id
             WHERE color_2 IS NOT NULL
+            AND batch_2_id IS NULL
             GROUP BY color_2
             ) tmp
         GROUP BY tmp.color";
