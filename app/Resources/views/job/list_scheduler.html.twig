@@ -15,15 +15,25 @@
                         <label class="form-label">Job Name</label>
                         <input type="text" name="name" value="{{ name }}" placeholder="Type in job name" class="form-control">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <label class="form-label">Sales Order #</label>
                         <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
                     </div>                    
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <label class="form-label">Estimated Ship Date</label>
                         <input type="text" id="esd" name="esd" value="{{ esd }}" placeholder="YYYY-MM-DD" class="form-control">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
+                        <label class="form-label">Priority</label>
+                        <select name="selected_priority" class="select2-box form-control">
+                            <option value="-1" {% if selected_priority == -1 %}selected{% endif %}>ALL</option>
+                            <option value="3" {% if selected_priority == 3 %}selected{% endif %}>Custom</option>
+                            <option value="2" {% if selected_priority == 2 %}selected{% endif %}>Urgent</option>
+                            <option value="1" {% if selected_priority == 1 %}selected{% endif %}>Hot</option>
+                            <option value="0" {% if selected_priority == 0 %}selected{% endif %}>Normal</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
                         <label class="form-label">Location</label>
                         <select name="selected_location" class="select2-box form-control">
                             <option value="0" {% if selected_location == 0 %}selected{% endif %}>ALL</option>
@@ -667,6 +677,7 @@
                 placement: 'left',
                 value: obj.dataset.value,
                 source: [
+                  {value: 3, text: 'Custom'},
                   {value: 2, text: 'Urgent'},
                   {value: 1, text: 'Hot'},
                   {value: 0, text: 'Normal'},

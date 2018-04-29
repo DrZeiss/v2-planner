@@ -171,6 +171,7 @@ class PaintController extends Controller
             'name'           => null,
             'batch'          => null,
             'color'          => null,
+            'v2_po_number'   => null,
             'planner_esd'    => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
@@ -182,6 +183,7 @@ class PaintController extends Controller
             'name'          =>  $parameters['name'],
             'batch'         =>  $parameters['batch'],
             'color'         =>  $parameters['color'],
+            'v2_po_number'  =>  $parameters['v2_po_number'],
             'planner_esd'   =>  $parameters['planner_esd'],
         ));
     }

@@ -77,14 +77,16 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
         $name                       = $parameters['name'];
         $color                      = $parameters['color'];
         $batch                      = $parameters['batch'];
+        $v2PoNumber                 = $parameters['v2_po_number'];
         $plannerEstimatedShipDate   = $parameters['planner_esd'];
 
         $qb = $this->createQueryBuilder('p')
+            ->addSelect('CASE WHEN (batch1.id IS NOT NULL OR batch2.id IS NOT NULL) THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->join('p.job', 'job')
             ->leftJoin('p.batch1', 'batch1')
             ->leftJoin('p.batch2', 'batch2')
             ->where('p.id > 0')
-            ->andWhere("(p.location IS NULL OR p.location LIKE 'B%')");
+            ->andWhere("(p.location IS NULL OR p.location LIKE 'B_%')");
 
         if ($name) {
             $qb->andWhere("job.name LIKE :name")
@@ -101,12 +103,22 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('batch', $batch);
         }
 
+        if ($v2PoNumber) {
+            $qb->andWhere("batch1.v2PoNumber = :v2PoNumber or batch2.v2PoNumber = :v2PoNumber")
+                ->setParameter('v2PoNumber', $v2PoNumber);
+        }
+
         if ($plannerEstimatedShipDate) {
             $qb->andWhere("job.plannerEstimatedShipDate = :plannerEstimatedShipDate")
                 ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
         }
         
-        $results = $qb->addOrderBy("job.plannerEstimatedShipDate", "ASC")
+        $results = $qb->addOrderBy("ordering1", "ASC")
+            ->addOrderBy("batch1.id", "ASC")
+            ->addOrderBy("batch2.id", "ASC")
+            ->addOrderBy("p.color1", "ASC")
+            ->addOrderBy("p.color2", "ASC")
+            ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 

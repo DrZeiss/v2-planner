@@ -31,6 +31,7 @@ class Scheduling
      * 0 = normal
      * 1 = hot
      * 2 = urgent
+     * 3 = custom
      *
      * @var int
      *

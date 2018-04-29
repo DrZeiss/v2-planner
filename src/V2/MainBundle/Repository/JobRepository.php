@@ -622,6 +622,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $filledCompletely   = $parameters['filled_completely'];
         $nonShipped         = $parameters['non_shipped'];
         $buildLocation      = $parameters['selected_location'];
+        $priority           = $parameters['selected_priority'];
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.kitting', 'kitting')
@@ -658,6 +659,11 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($buildLocation != 0) {
             $qb->andWhere("j.buildLocation = :buildLocation")
                 ->setParameter('buildLocation', $buildLocation);
+        }
+
+        if ($priority >= 0) {
+            $qb->andWhere("scheduling.priority = :priority")
+                ->setParameter('priority', $priority);
         }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")

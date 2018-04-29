@@ -358,6 +358,7 @@ class JobController extends Controller
             'filled_completely' => null,
             'non_shipped'       => 1,
             'selected_location' => 0, // means ALL locations
+            'selected_priority' => -1, // means ALL priority
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -373,6 +374,7 @@ class JobController extends Controller
             'filled_completely' =>  $parameters['filled_completely'],
             'non_shipped'       =>  $parameters['non_shipped'],
             'selected_location' =>  $parameters['selected_location'],
+            'selected_priority' =>  $parameters['selected_priority'],
         ));
     }
 
