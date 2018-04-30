@@ -69,19 +69,21 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-                {% set late = 0 %}
-                {# highlight red if planner ESD has past and build completion date is empty #}
-                {% if job.plannerEstimatedShipDate < date() and job.scheduling.completionDate is null %}
-                    {% set late = 1 %}
-                {% endif %}
-            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
-                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
-                <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
-                <td style="word-break:break-all; {% if late %}color:white{% endif %}">{{ job.model }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
+            <tr 
+            {% if job.customSortOrder == 1 %}
+                bgcolor="lightcoral"
+            {% elseif job.customSortOrder == 2 %}
+                bgcolor="orange"
+            {% elseif job.customSortOrder == 3 %}
+                bgcolor="gold"
+            {% endif %}>
+                <td style="font-size:small; {% if job.customSortOrder %}color:white{% endif %}">{{job.customSortOrder}} {{ job.name }}</td>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.type }}</td>
+                <td style="word-break:break-all; {% if job.customSortOrder %}color:white{% endif %}">{{ job.model }}</td>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.quantity }}</td>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
@@ -89,8 +91,8 @@
                     {% endif %}
                 </td>
                 {# Kitting #}
-                <td {% if late %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
                         <a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a>
                     {% else %}
@@ -98,7 +100,7 @@
                     {% endif %}
                 </td>
                 {# Paint #}
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
                         <a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a>
                     {% else %}
@@ -106,21 +108,21 @@
                     {% endif %}
                 </td>
                 {# Scheduling #}                
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
                         <a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady ? 1 : 0 }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a>
                     {% else %}
                         {{ job.scheduling.subReady ? "Yes" : "No"}}
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
                         <a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a>
                     {% else %}
                         {{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
                         <a href="#" class="builtBy" data-name="builtBy" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_built_by', {'jobId': job.id}) }}">{{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}</a>
                     {% else %}

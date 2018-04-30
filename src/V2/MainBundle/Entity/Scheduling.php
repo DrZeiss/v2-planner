@@ -29,9 +29,9 @@ class Scheduling
 
     /**
      * 0 = normal
-     * 1 = hot
-     * 2 = urgent
-     * 3 = custom
+     * 1 = custom
+     * 2 = hot
+     * 3 = rush
      *
      * @var int
      *

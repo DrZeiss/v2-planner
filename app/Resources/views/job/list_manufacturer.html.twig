@@ -38,7 +38,7 @@
             <th style="border:solid;width:7ch">Date Needed</th>
             <th style="border:solid;width:7ch">EDD</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
-            <th style="border:solid;width:7ch">Mod Done Date</th>
+            <th style="border:solid;width:7ch">RCVD Date</th>
             <th style="border:solid;min-width:20ch">Notes</th>
             <th style="border:solid;width:10ch">Job Name</th>
             <th style="border:solid;width:6ch">Job SO #</th>
@@ -64,9 +64,9 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_MANUFACTURER') %}
-                        <a href="#" class="modDoneDate" data-name="modDoneDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_mod_done_date', { 'shortId': part.id }) }}">{{ part.modDoneDate ? part.modDoneDate | date('m-d') : "" }}</a>
+                        <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_received_date', { 'shortId': part.id }) }}">{{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}</a>
                     {% else %}
-                        {{ part.modDoneDate ? part.modDoneDate | date('m-d') : "" }}
+                        {{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}
                     {% endif %}
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.notes }}</td>
@@ -110,13 +110,13 @@
             });
         });
 
-        $('.modDoneDate').each(function(i, obj) {
+        $('.receivedDate').each(function(i, obj) {
             $(this).editable({
                 type: 'date',
                 container: 'body',
                 placement: 'left',
                 url: obj.dataset.url,
-                title: 'Select Mod Done Date',
+                title: 'Select Received Date',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

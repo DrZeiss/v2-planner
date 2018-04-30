@@ -324,8 +324,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->where("kitting.filledCompletely IS NULL")
-            ->orWhere("kitting.kitDate IS NULL")
-            ->orWhere("kitting.location IS NULL")
+            ->orWhere("(kitting.filledCompletely IS NOT NULL AND kitting.location IS NULL)")
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
@@ -512,6 +511,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDate   = array_key_exists('planner_esd', $parameters) ? $parameters['planner_esd'] : null;
 
         $qb = $this->createQueryBuilder('j')
+            ->addSelect('CASE 
+                WHEN j.plannerEstimatedShipDate <= CURRENT_DATE() THEN 1
+                WHEN scheduling.priority = 3 THEN 2
+                WHEN scheduling.priority = 2 THEN 3
+                ELSE 99
+                END AS HIDDEN customSortOrder')        
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
@@ -534,10 +539,23 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
         }
 
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+        $results = $qb->addOrderBy("customSortOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
+
+        // Add the custom sort order so that we can use it for conditional formatting
+        foreach ($results as $index => $result) {
+            if ($result->getPlannerEstimatedShipDate()->format('Y-m-d') <= date('Y-m-d')) {
+                $results[$index]->customSortOrder = 1;
+            } elseif ($result->getScheduling()->getPriority() == 3) {
+                $results[$index]->customSortOrder = 2;
+            } elseif ($result->getScheduling()->getPriority() == 2) {
+                $results[$index]->customSortOrder = 3;
+            } else {
+                $results[$index]->customSortOrder = null;
+            }
+        }
 
         return $results;
     }
@@ -553,7 +571,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
 
+        // 1 (RED) : planner ESD <= today
+        // 2 (ORANGE) : priority Rush (3)
+        // 3 (YELLOW) : priority Hot (2)
+        // 99 : normal
         $qb = $this->createQueryBuilder('j')
+            ->addSelect('CASE 
+                WHEN j.plannerEstimatedShipDate <= CURRENT_DATE() THEN 1
+                WHEN scheduling.priority = 3 THEN 2
+                WHEN scheduling.priority = 2 THEN 3
+                ELSE 99
+                END AS HIDDEN customSortOrder')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
@@ -589,10 +617,23 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+        $results = $qb->addOrderBy("customSortOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
+
+        // Add the custom sort order so that we can use it for conditional formatting
+        foreach ($results as $index => $result) {
+            if ($result->getPlannerEstimatedShipDate()->format('Y-m-d') <= date('Y-m-d')) {
+                $results[$index]->customSortOrder = 1;
+            } elseif ($result->getScheduling()->getPriority() == 3) {
+                $results[$index]->customSortOrder = 2;
+            } elseif ($result->getScheduling()->getPriority() == 2) {
+                $results[$index]->customSortOrder = 3;
+            } else {
+                $results[$index]->customSortOrder = null;
+            }
+        }
 
         return $results;
     }

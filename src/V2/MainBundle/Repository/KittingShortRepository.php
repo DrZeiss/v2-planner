@@ -97,7 +97,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
-            ->where("ks.modDoneDate IS NULL")
+            ->where("ks.receivedDate IS NULL")
             ->andWhere("UPPER(ks.vendor) = 'V2'")
             ->andWhere("((kitting.filledCompletely IS NOT NULL AND kitting.filledCompletely = 0) OR kitting.filledCompletely IS NULL)")
             ->andWhere("job.cancelledDate IS NULL");

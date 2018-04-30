@@ -27,9 +27,9 @@
                         <label class="form-label">Priority</label>
                         <select name="selected_priority" class="select2-box form-control">
                             <option value="-1" {% if selected_priority == -1 %}selected{% endif %}>ALL</option>
-                            <option value="3" {% if selected_priority == 3 %}selected{% endif %}>Custom</option>
-                            <option value="2" {% if selected_priority == 2 %}selected{% endif %}>Urgent</option>
-                            <option value="1" {% if selected_priority == 1 %}selected{% endif %}>Hot</option>
+                            <option value="3" {% if selected_priority == 2 %}selected{% endif %}>Rush</option>
+                            <option value="2" {% if selected_priority == 1 %}selected{% endif %}>Hot</option>
+                            <option value="1" {% if selected_priority == 3 %}selected{% endif %}>Custom</option>
                             <option value="0" {% if selected_priority == 0 %}selected{% endif %}>Normal</option>
                         </select>
                     </div>
@@ -249,9 +249,11 @@
                     {% if job.scheduling.priority == 0 %}
                         Normal
                     {% elseif job.scheduling.priority == 1 %}
-                        Hot
+                        Custom
                     {% elseif job.scheduling.priority == 2 %}
                         Urgent
+                    {% elseif job.scheduling.priority == 3 %}
+                        Rush
                     {% else %}
                         Unknown
                     {% endif %}
@@ -677,9 +679,9 @@
                 placement: 'left',
                 value: obj.dataset.value,
                 source: [
-                  {value: 3, text: 'Custom'},
-                  {value: 2, text: 'Urgent'},
-                  {value: 1, text: 'Hot'},
+                  {value: 3, text: 'Rush'},
+                  {value: 2, text: 'Hot'},
+                  {value: 1, text: 'Custom'},
                   {value: 0, text: 'Normal'},
                 ],
                 url: obj.dataset.url,
