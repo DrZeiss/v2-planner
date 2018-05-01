@@ -4,6 +4,7 @@ namespace V2\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\EntityManager;
@@ -188,6 +189,52 @@ class PaintController extends Controller
         ));
     }
 
+    /**
+     * @Route("/export/paint", name="export_paint")
+     */
+    public function exportPaint(Request $request)
+    {
+        $defaultParameters = array(
+            'name'           => null,
+            'batch'          => null,
+            'color'          => null,
+            'v2_po_number'   => null,
+            'planner_esd'    => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+        $paints = $this->paintRepository->findJobsInBatch($parameters);
+        // Convert to array before it can be encoded into CSV format
+        $dataArray = array();
+        foreach ($paints as $paint) {
+            $paintArray = array();
+            $paintArray['planner_esd'] = $paint->getJob()->getPlannerEstimatedShipDate() ? $paint->getJob()->getPlannerEstimatedShipDate()->format('Y-m-d') : null;
+            $paintArray['job_name'] = $paint->getJob()->getName();
+            $paintArray['type'] = $paint->getJob()->getType();
+            $paintArray['sales_order'] = $paint->getJob()->getSalesOrder();
+            $paintArray['quantity'] = $paint->getJob()->getQuantity();
+            $paintArray['color1'] = $paint->getColor1();
+            $paintArray['batch1'] = $paint->getBatch1() ? $paint->getBatch1()->getId() : null;
+            $paintArray['batch1_po'] = $paint->getBatch1() ? $paint->getBatch1()->getV2PoNumber() : null;
+            $paintArray['color2'] = $paint->getColor2();
+            $paintArray['batch2'] = $paint->getBatch2() ? $paint->getBatch2()->getId() : null;
+            $paintArray['batch2_po'] = $paint->getBatch2() ? $paint->getBatch2()->getV2PoNumber() : null;
+            $paintArray['location'] = $paint->getLocation();
+            $dataArray[] = $paintArray;
+        }
+        $serializer = $this->get('serializer');
+        $csvData = $serializer->encode($dataArray, 'csv');
+
+        // Downloads the file to the user's computer
+        $response = new Response();
+        $response->headers->set('Content-type', 'text/csv');
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-Disposition', 'attachment; filename=paint.csv;');
+        $response->sendHeaders();
+        $response->setContent($csvData);
+        return $response;
+
+    }
+
     private function getRalColor($color)
     {
         switch (strtoupper($color)) {
@@ -207,7 +254,7 @@ class PaintController extends Controller
             case "M6" : return "038/90007";
             case "M7" : return "038/60064";
             case "M8" : return "038/20014";
-            case "L1" : return "049/20014";
+            case "L1" : return "049/11111";
             case "L2" : return "038/70035";
             case "L3" : return "049/92900";
             case "L4" : return "049/88888";
@@ -285,10 +332,19 @@ class PaintController extends Controller
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint Color"));   
         }
 
+        // Check if the paint has been already assigned to another batch
+        $oldBatch = $paint->getBatch1();
+        if ($oldBatch) {
+            // if so we need to remove it
+            $oldBatch->removePaint($paint);
+            $this->em->persist($oldBatch);
+        }
+
         $batch = $this->batchRepository->find($batchId);
         if (!$batch) {
             $batch = new Batch();
         }
+
         $batch->addPaint($paint);
         $batch->setColor($paint->getColor1());
         $batch->setRalColor($this->getRalColor($paint->getColor1()));
@@ -322,6 +378,15 @@ class PaintController extends Controller
         if (!$paint->getColor2()) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint Color"));   
         }
+
+        // Check if the paint has been already assigned to another batch
+        $oldBatch = $paint->getBatch2();
+        if ($oldBatch) {
+            // if so we need to remove it
+            $oldBatch->removePaint($paint);
+            $this->em->persist($oldBatch);
+        }
+
         $batch = $this->batchRepository->find($batchId);
         if (!$batch) {
             $batch = new Batch();

@@ -94,6 +94,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $dateNeededTo   = $parameters['date_needed_to'];
 
         $qb = $this->createQueryBuilder('ks')
+            ->addSelect('CASE WHEN ks.dateNeeded IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
@@ -113,7 +114,8 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb
-        // ->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("ordering1", "ASC")
+            ->addOrderBy("ks.dateNeeded", "ASC")
             ->addOrderBy("ks.estimatedDeliveryDate", "ASC")
             ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
             ->getQuery()

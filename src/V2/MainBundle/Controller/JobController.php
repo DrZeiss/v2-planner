@@ -4,6 +4,7 @@ namespace V2\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\EntityManager;
@@ -103,6 +104,55 @@ class JobController extends Controller
             // 'filled_completely' =>  $parameters['filled_completely'],
             'non_shipped'       =>  $parameters['non_shipped'],
         ));
+    }
+
+    /**
+     * @Route("/export/jobs", name="export_jobs")
+     */
+    public function exportJobs(Request $request)
+    {
+        $isAdmin = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        // Check for permissions
+        if (!($isAdmin)) {
+            $this->addFlash('error', 'You have no permission!');
+            return $this->redirect($this->generateUrl('dashboard'));
+        }
+        $defaultParameters = array(
+            'name'              => null,
+            'sales_order'       => null,
+            'esd'               => null,
+            'non_shipped'       => 1,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+        $jobs = $this->jobRepository->findEverything($parameters);
+
+        // Convert to array before it can be encoded into CSV format
+        $dataArray = array();
+        foreach ($jobs as $job) {
+            $jobArray = array();
+            $jobArray['name'] = $job->getName();
+            $jobArray['sales_order'] = $job->getSalesOrder();
+            $jobArray['estimated_ship_date'] = $job->getEstimatedShipDate() ? $job->getEstimatedShipDate()->format('Y-m-d') : null;
+            $jobArray['type'] = $job->getType();
+            $jobArray['model'] = $job->getModel();
+            $jobArray['quantity'] = $job->getQuantity();
+            $jobArray['manufacturing_order'] = $job->getManufacturingOrder();
+            $jobArray['mac_purchase_order'] = $job->getMacPurchaseOrder();
+            $jobArray['build_location'] = $job->getBuildLocation()->getName();
+            $jobArray['planner_estimated_ship_date'] = $job->getPlannerEstimatedShipDate() ? $job->getPlannerEstimatedShipDate()->format('Y-m-d') : null;
+            $dataArray[] = $jobArray;
+        }
+        $serializer = $this->get('serializer');
+        $csvData = $serializer->encode($dataArray, 'csv');
+
+        // Downloads the file to the user's computer
+        $response = new Response();
+        $response->headers->set('Content-type', 'text/csv');
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-Disposition', 'attachment; filename=jobs.csv;');
+        $response->sendHeaders();
+        $response->setContent($csvData);
+        return $response;
     }
 
     /**
@@ -247,6 +297,54 @@ class JobController extends Controller
             'part_number'   =>  $parameters['part_number'],
             'vendor'        =>  $parameters['vendor'],            
         ));
+    }
+
+    /**
+     * @Route("/export/supplyChain", name="export_supply_chain")
+     */
+    public function exportSupplyChain(Request $request)
+    {
+        $isAdmin = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        // Check for permissions
+        if (!($isAdmin)) {
+            $this->addFlash('error', 'You have no permission!');
+            return $this->redirect($this->generateUrl('dashboard'));
+        }
+        $defaultParameters = array(
+            'part_number' => null,
+            'vendor' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+        $parts = $this->kittingShortRepository->findSupplyChainParts($parameters);
+
+        // Convert to array before it can be encoded into CSV format
+        $dataArray = array();
+        foreach ($parts as $part) {
+            $partArray = array();
+            $partArray['part_number'] = $part->getPartNumber();
+            $partArray['date_needed'] = $part->getDateNeeded() ? $part->getDateNeeded()->format('Y-m-d') : null;
+            $partArray['estimated_delivery_date'] = $part->getEstimatedDeliveryDate() ? $part->getEstimatedDeliveryDate()->format('Y-m-d') : null;
+            $partArray['vendor'] = $part->getVendor();
+            $partArray['vendor_po'] = $part->getVendorPoNumber();
+            $partArray['mod_wo'] = $part->getModWo();
+            $partArray['received_date'] = $part->getReceivedDate();
+            $partArray['notes'] = $part->getNotes();
+            $partArray['job_name'] = $part->getKitting() ? $part->getKitting()->getJob()->getName() : null;
+            $partArray['job_so_number'] = $part->getKitting() ? $part->getKitting()->getJob()->getSalesOrder() : null;
+            $partArray['quantity'] = $part->getKitting() ? $part->getKitting()->getJob()->getQuantity() : null;
+            $dataArray[] = $partArray;
+        }
+        $serializer = $this->get('serializer');
+        $csvData = $serializer->encode($dataArray, 'csv');
+
+        // Downloads the file to the user's computer
+        $response = new Response();
+        $response->headers->set('Content-type', 'text/csv');
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-Disposition', 'attachment; filename=supply_chain.csv;');
+        $response->sendHeaders();
+        $response->setContent($csvData);
+        return $response;
     }
 
     /**

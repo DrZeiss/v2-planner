@@ -6,6 +6,10 @@
     <li class="active"><span>Paint: Jobs In Batch</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right"><a href="{{ path('export_paint', {'name': name, 'batch': batch, 'v2_po_number': v2_po_number, 'color': color, 'planner_esd': planner_esd}) }}" class="btn btn-sm btn-success">Export to CSV</a></span>
+{% endblock %}
+
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">
@@ -54,7 +58,7 @@
             <th style="border:solid">Qty</th>
             <th style="border:solid;width:6ch">Color 1</th>
             <th style="border:solid;width:6ch">Batch 1 #</th>
-            <th style="border:solid;width:6ch">Batch 2 PO#</th>
+            <th style="border:solid;width:6ch">Batch 1 PO#</th>
             <th style="border:solid;width:6ch">Color 2</th>
             <th style="border:solid;width:6ch">Batch 2 #</th>
             <th style="border:solid;width:6ch">Batch 2 PO#</th>

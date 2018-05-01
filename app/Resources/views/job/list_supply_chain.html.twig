@@ -7,7 +7,10 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('create_part') }}" class="btn btn-sm btn-warning">Create New Part</a></span>
+    <span style="float:right">
+        <a href="{{ path('export_supply_chain', {'part_number': part_number, 'vendor': vendor}) }}" class="btn btn-sm btn-success">Export to CSV</a>
+        <a href="{{ path('create_part') }}" class="btn btn-sm btn-warning">Create New Part</a>
+    </span>
 {% endblock %}
 
 {% block body %}

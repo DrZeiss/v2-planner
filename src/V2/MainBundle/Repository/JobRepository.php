@@ -223,6 +223,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -324,6 +325,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->where("kitting.filledCompletely IS NULL")
+            ->andWhere("j.manufacturingOrder IS NOT NULL")
             ->orWhere("(kitting.filledCompletely IS NOT NULL AND kitting.location IS NULL)")
             ->andWhere("j.cancelledDate IS NULL");
 
@@ -708,6 +710,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
