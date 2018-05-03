@@ -63,10 +63,12 @@ class PaintController extends Controller
     public function view2(Request $request)
     {
         if ($request->isMethod('POST')) {
+            $color = strtoupper($request->request->get('color'));
             $selectedPaintIds = $request->request->get('selected_paint');
             $paints = $this->paintRepository->findById($selectedPaintIds);
             $nextBatchNum = $this->batchRepository->getNextAvailableBatchNumber();
             return $this->render('paint/add_to_batch.html.twig', array(
+                'color'         =>  $color,
                 'paints'        =>  $paints,
                 'nextBatchNum'  =>  $nextBatchNum,
             ));
@@ -95,14 +97,13 @@ class PaintController extends Controller
     public function addToBatch(Request $request)
     {
         if ($request->isMethod('POST')) {
+            $color = $request->request->get('color');
             $batchId = $request->request->get('next_batch_num');
             $batch = $this->batchRepository->find($batchId);
             if (!$batch) {
                 $batch = new Batch();
             }
             $paints = $this->paintRepository->findById($request->request->get('selected_paint'));
-            // Get the color (only use the color that doesn't have a Batch ID yet)
-            $color = $paints[0]->getBatch1() ? $paints[0]->getColor2() : $paints[0]->getColor1();
             $batch->setColor($color);
             $batch->setRalColor($this->getRalColor($color));
             $batch->setNeededByDate(new \DateTime($request->request->get('needed_by_date')));
@@ -118,10 +119,10 @@ class PaintController extends Controller
                 $batch->addPaint($paint);
                 $this->em->persist($batch);
                 // Figure out whether the color belongs to the Paint's batch #
-                if ($paint->getBatch1()) {
-                    $paint->setBatch2($batch);
-                } else {
+                if ($paint->getColor1() == $color) {
                     $paint->setBatch1($batch);
+                } else {
+                    $paint->setBatch2($batch);
                 }
                 $paint->setLocation('B'.$batch->getId());
                 $paint->setUpdateTime(new \DateTime());
@@ -155,6 +156,30 @@ class PaintController extends Controller
         $batches = $this->batchRepository->findUnreceivedScheduledBatches($parameters);
 
         return $this->render('paint/view_3.html.twig', array(
+            'batches'                   =>  $batches,
+            'color'                     =>  $parameters['color'],
+            'vendor'                    =>  $parameters['vendor'],
+            'estimated_release_date'    =>  $parameters['estimated_release_date'],
+            'show_all_batches'          =>  $parameters['show_all_batches'],
+        ));
+    }
+
+    /**
+     * @Route("/view3/print", name="print_paint_view3")
+     */
+    public function printView3(Request $request)
+    {
+        $defaultParameters = array(
+            'color'                     => null,
+            'vendor'                    => null,
+            'estimated_release_date'    => null,
+            'show_all_batches'          => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $batches = $this->batchRepository->findUnreceivedScheduledBatches($parameters);
+
+        return $this->render('paint/print_view_3.html.twig', array(
             'batches'                   =>  $batches,
             'color'                     =>  $parameters['color'],
             'vendor'                    =>  $parameters['vendor'],

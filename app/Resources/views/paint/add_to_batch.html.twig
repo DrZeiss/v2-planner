@@ -12,7 +12,7 @@
 
 {% block body %}
     <div>
-        <h4>Color: <span class="text-primary"><b>{{ paints[0].batch1 ? paints[0].color2 : paints[0].color1 }}</b></span></h4>
+        <h4>Color: <span class="text-primary"><b>{{ color }}</b></span></h4>
         <h4>Next available batch # is <span class="text-warning"><b>{{ nextBatchNum }}</b></span></h4>
         <form action="{{ path('paint_add_to_batch') }}" method="POST">
             <table class="table table-bordered">
@@ -51,6 +51,7 @@
             <input type="hidden" name="next_batch_num" value="{{ nextBatchNum }}">
 
             <a href="{{ path('paint_view1') }}" class="btn btn-warning">Cancel</a>
+            <input type="hidden" name="color" value="{{ color }}">
             <input type="submit" class="btn btn-info" value="Confirm">
         </form>
     </div>

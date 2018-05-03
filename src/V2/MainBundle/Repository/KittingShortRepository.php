@@ -14,8 +14,11 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
     {
         $partNumber = $parameters['part_number'];
         $vendor     = $parameters['vendor'];
+        $name       = $parameters['name'];
 
         $qb = $this->createQueryBuilder('ks')
+            ->addSelect('CASE WHEN ks.vendor IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
+            ->addSelect('CASE WHEN ks.dateNeeded IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering2')
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
@@ -33,10 +36,17 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('vendor', "%" . $vendor . "%");
         }
 
+        if ($name) {
+            $qb->andWhere("job.name LIKE :name")
+                ->setParameter('name', "%" . $name . "%");
+        }
+
         $results = $qb
-            ->addOrderBy("ks.vendor", "ASC")
-            ->addOrderBy("ks.vendorPoNumber", "ASC")
+            ->addOrderBy("ordering1")
+            ->addOrderBy("ordering1")
+            // ->addOrderBy("ks.vendor", "ASC")
             ->addOrderBy("ks.dateNeeded", "ASC")
+            ->addOrderBy("ks.vendorPoNumber", "ASC")
             ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -92,6 +102,8 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
     {
         $dateNeededFrom = $parameters['date_needed_from'];
         $dateNeededTo   = $parameters['date_needed_to'];
+        $partNumber     = $parameters['part_number'];
+        $salesOrder     = $parameters['sales_order'];
 
         $qb = $this->createQueryBuilder('ks')
             ->addSelect('CASE WHEN ks.dateNeeded IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
@@ -111,6 +123,16 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         if ($dateNeededTo) {
             $qb->andWhere('ks.dateNeeded <= :dateNeededTo')
                 ->setParameter('dateNeededTo', new \DateTime($dateNeededTo . " 23:59:59"));
+        }
+
+        if ($partNumber) {
+            $qb->andWhere("ks.partNumber LIKE :partNumber")
+                ->setParameter('partNumber', "%" . $partNumber . "%");
+        }
+
+        if ($salesOrder) {
+            $qb->andWhere("job.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
         $results = $qb

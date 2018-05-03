@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Paint: Active Batches</title>
+</head>
+<body>
+    <h2>Paint: Active Batches list</h2>
+    <table border='1'>
+        <thead>
+            <tr>
+                <th>Estimated Release Date</th>
+                <th>Notes</th>
+                <th>Batch #</th>
+                <th>Total Pieces</th>
+                <th>Color</th>
+                <th>RAL color</th>
+                <th>Vendor</th>
+                <th>V2 PO#</th>
+                <th>Needed By Date</th>
+                <th>Kit Date</th>
+                <th>EDD</th>
+                <th>RCVD Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for batch in batches %}
+            <tr>
+                <td>{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('m-d') : "" }}</td>
+                <td>{{ batch.notes }}</td>
+                <td>{{ batch.id }}</td>
+                <td>{{ batch.quantity }}</td>
+                <td>{{ batch.color }}</td>
+                <td>{{ batch.ralColor }}</td>
+                <td>{{ batch.vendor }}</td>
+                <td>{{ batch.v2PoNumber }}</td>
+                <td>{{ batch.neededByDate ? batch.neededByDate | date('m-d') : "" }}</td>
+                <td>{{ batch.kitDate ? batch.kitDate | date('m-d') : "" }}</td>
+                <td>{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td>{{ batch.receivedDate ? batch.receivedDate | date('m-d') : "" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

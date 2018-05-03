@@ -6,6 +6,12 @@
     <li class="active"><span>Paint: Active Batches</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right">
+        <a href="{{ path('print_paint_view3', {'color': color, 'vendor': vendor, 'estimated_release_date': estimated_release_date, 'show_all_batches': show_all_batches}) }}" class="btn btn-sm btn-warning">Print</a>
+    </span>
+{% endblock %}
+
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">

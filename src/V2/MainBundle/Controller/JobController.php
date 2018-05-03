@@ -267,15 +267,19 @@ class JobController extends Controller
         $defaultParameters = array(
             'date_needed_from' => null,
             'date_needed_to' => null,
+            'part_number' => null,
+            'sales_order' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $parts = $this->kittingShortRepository->findManufacturerParts($parameters);
 
         return $this->render('job/list_manufacturer.html.twig', array(
-            'parts'              =>  $parts,
+            'parts'             =>  $parts,
             'date_needed_from'  =>  $parameters['date_needed_from'],
-            'date_needed_to'    =>  $parameters['date_needed_to'],            
+            'date_needed_to'    =>  $parameters['date_needed_to'],
+            'part_number'       =>  $parameters['part_number'],
+            'sales_order'       =>  $parameters['sales_order'],
         ));
     }
 
@@ -287,6 +291,7 @@ class JobController extends Controller
         $defaultParameters = array(
             'part_number' => null,
             'vendor' => null,
+            'name' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -295,7 +300,8 @@ class JobController extends Controller
         return $this->render('job/list_supply_chain.html.twig', array(
             'parts'         =>  $parts,
             'part_number'   =>  $parameters['part_number'],
-            'vendor'        =>  $parameters['vendor'],            
+            'vendor'        =>  $parameters['vendor'],
+            'name'          =>  $parameters['name'],
         ));
     }
 
@@ -1689,7 +1695,11 @@ class JobController extends Controller
             $scheduling = new Shipping();
             $scheduling->setJob($job);
         }
-        $scheduling->setCompletionDate(new \DateTime($completionDate));
+        if ($completionDate) {
+            $scheduling->setCompletionDate(new \DateTime($completionDate));
+        } else {
+            $scheduling->setCompletionDate(null);
+        }
         $scheduling->setUpdateTime(new \DateTime());
         $scheduling->setUpdatedBy($this->getUser());
         $this->em->persist($scheduling);

@@ -11,12 +11,21 @@
         <div class="ibox-content">
             <form action="{{ path('manufacturer') }}" method="GET">
                 <div class="row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-4">
                         <label class="form-label">Date Needed Range</label>
                         <div class="input-daterange input-group">
-                        <input type="text" name="date_needed_from" value="{{ date_needed_from }}" class="form-control">
-                        <span class="input-group-addon">to</span>
-                        <input type="text" name="date_needed_to" value="{{ date_needed_to }}" class="form-control">
+                            <input type="text" name="date_needed_from" value="{{ date_needed_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="date_needed_to" value="{{ date_needed_to }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Part number</label>
+                        <input type="text" name="part_number" value="{{ part_number }}" placeholder="Type in part number" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="form-label">Sales Order #</label>
+                        <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -35,14 +44,13 @@
         <thead>
         <tr>
             <th style="border:solid;width:10ch">Part Number</th>
+            <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid;width:7ch">Date Needed</th>
-            <th style="border:solid;width:7ch">EDD</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
             <th style="border:solid;width:7ch">RCVD Date</th>
             <th style="border:solid;min-width:20ch">Notes</th>
             <th style="border:solid;width:10ch">Job Name</th>
             <th style="border:solid;width:6ch">Job SO #</th>
-            <th style="border:solid;width:4ch">Qty</th>
         </tr>
         </thead>
         <tbody>
@@ -53,14 +61,8 @@
                 {% endif %}
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
-                    {% if is_granted('ROLE_MANUFACTURER') %}
-                        <a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', { 'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</a>
-                    {% else %}
-                        {{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}
-                    {% endif %}
-                </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_MANUFACTURER') %}
@@ -72,7 +74,6 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ part.notes }}</td>
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
             </tr>
             {% endfor %}
         </tbody>

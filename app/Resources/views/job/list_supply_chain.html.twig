@@ -8,7 +8,7 @@
 
 {% block afterBreadcrumbs %}
     <span style="float:right">
-        <a href="{{ path('export_supply_chain', {'part_number': part_number, 'vendor': vendor}) }}" class="btn btn-sm btn-success">Export to CSV</a>
+        <a href="{{ path('export_supply_chain', {'part_number': part_number, 'vendor': vendor, 'name': name}) }}" class="btn btn-sm btn-success">Export to CSV</a>
         <a href="{{ path('create_part') }}" class="btn btn-sm btn-warning">Create New Part</a>
     </span>
 {% endblock %}
@@ -25,6 +25,10 @@
                     <div class="col-sm-3">
                         <label class="form-label">Vendor</label>
                         <input type="text" id="vendor" name="vendor" value="{{ vendor }}" placeholder="Type in vendor" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Job Name</label>
+                        <input type="text" name="name" value="{{ name }}" placeholder="Type in job name" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -49,8 +53,9 @@
             <th style="border:solid;width:11ch">Vendor PO#</th>
             <th style="border:solid;width:6ch">Mod WO#</th>
             <th style="border:solid;width:7ch">RCVD Date</th>
-            <th style="border:solid;min-width:20ch">Notes</th>
-            <th style="border:solid;width:10ch">Job Name</th>
+            <th style="border:solid;width:20ch">Notes</th>
+            <th style="border:solid;width:15ch">Job Name</th>
+            <th style="border:solid;width:10ch">Type</th>
             <th style="border:solid;width:6ch">Job SO #</th>
             <th style="border:solid;width:4ch">Qty</th>
         </tr>
@@ -107,7 +112,8 @@
                         {{ part.notes }}
                     {% endif %}
                 </td>
-                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td style="font-size:small;word-break:break-all; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td style="font-size:small;word-break:break-all; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.type }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity : part.quantity }}</td>
             </tr>
@@ -125,7 +131,7 @@
           col: 1
         });
         //toggle `popup` / `inline` mode
-        $.fn.editable.defaults.mode = 'popup';
+        $.fn.editable.defaults.mode = 'inline';
 
         $('.estimatedDeliveryDate').each(function(i, obj) {
             $(this).editable({
