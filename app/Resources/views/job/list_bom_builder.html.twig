@@ -141,15 +141,8 @@
                 url: obj.dataset.url,
                 title: 'Select Serials Generated Date',
                 success: function(response, newValue) {
-console.log(response);
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 },
-//                 validate: function(value) {
-//   if (value === null || value === '') {
-//     alert("EMPTY");
-//     // return 'Empty values not allowed';
-//   } else {alert("NOT");}
-// }
             });
         });
 
