@@ -25,7 +25,7 @@
         <tbody>
             {% for batch in batches %}
             <tr>
-                <td>{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('m-d') : "" }}</td>
+                <td>{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('Y-m-d') : "" }}</td>
                 <td>{{ batch.notes }}</td>
                 <td>{{ batch.id }}</td>
                 <td>{{ batch.quantity }}</td>
@@ -33,10 +33,10 @@
                 <td>{{ batch.ralColor }}</td>
                 <td>{{ batch.vendor }}</td>
                 <td>{{ batch.v2PoNumber }}</td>
-                <td>{{ batch.neededByDate ? batch.neededByDate | date('m-d') : "" }}</td>
-                <td>{{ batch.kitDate ? batch.kitDate | date('m-d') : "" }}</td>
-                <td>{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('m-d') : "" }}</td>
-                <td>{{ batch.receivedDate ? batch.receivedDate | date('m-d') : "" }}</td>
+                <td>{{ batch.neededByDate ? batch.neededByDate | date('Y-m-d') : "" }}</td>
+                <td>{{ batch.kitDate ? batch.kitDate | date('Y-m-d') : "" }}</td>
+                <td>{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                <td>{{ batch.receivedDate ? batch.receivedDate | date('Y-m-d') : "" }}</td>
             </tr>
             {% endfor %}
         </tbody>

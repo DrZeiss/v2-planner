@@ -66,7 +66,7 @@
             <tr>
                 <td style="font-size:small">{{ job.name }}</td>
                 <td>{{ job.salesOrder }}</td>
-                <td>{{ job.estimatedShipDate | date('m-d') }}</td>
+                <td>{{ job.estimatedShipDate | date('Y-m-d') }}</td>
                 <td style=
                     {% if job.estimatedShipDate and job.plannerEstimatedShipDate and date(job.plannerEstimatedShipDate) > date(job.estimatedShipDate) %}
                         "background-color:indianred;color:white"
@@ -75,7 +75,7 @@
                     {% endif %}
                     >
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate | date('m-d') }}
+                        {{ job.plannerEstimatedShipDate | date('Y-m-d') }}
                     {% else %}
                         TBD
                     {% endif %}
@@ -85,7 +85,7 @@
                 <td>{{ job.quantity }}</td>
                 <td>{{ job.macPurchaseOrder }}</td>
                 <td>{{ job.buildLocation.name }}</td>
-                <td>{{ job.createTime | date('m-d') }}</td>
+                <td>{{ job.createTime | date('Y-m-d') }}</td>
             </tr>
             {% endfor %}
         </tbody>

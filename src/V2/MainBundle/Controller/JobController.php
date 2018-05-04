@@ -725,7 +725,11 @@ class JobController extends Controller
             return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
         }
 
-        $job->setEstimatedShipDate(new \DateTime($estimatedShipDate));
+        if (is_null($estimatedShipDate) || $estimatedShipDate == '') {
+            $job->setEstimatedShipDate(null);
+        } else {
+            $job->setEstimatedShipDate(new \DateTime($estimatedShipDate));
+        }
         $job->setUpdateTime(new \DateTime());
         $job->setUpdatedBy($this->getUser());
         $this->em->persist($job);
@@ -883,7 +887,11 @@ class JobController extends Controller
             return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
         }
 
-        $job->setPlannerEstimatedShipDate(new \DateTime($plannerEstimatedShipDate));
+        if (is_null($plannerEstimatedShipDate) || $plannerEstimatedShipDate == '') {
+            $job->setPlannerEstimatedShipDate(null);
+        } else {
+            $job->setPlannerEstimatedShipDate(new \DateTime($plannerEstimatedShipDate));
+        }
         $job->setUpdateTime(new \DateTime());
         $job->setUpdatedBy($this->getUser());
         $this->em->persist($job);
@@ -936,11 +944,16 @@ class JobController extends Controller
             $bom = new Bom();
             $bom->setJob($job);
         }
-        $bom->setSerialsGeneratedDate(new \DateTime($serialsGeneratedDate));
+
+        if(is_null($serialsGeneratedDate) || $serialsGeneratedDate == '') {
+            $bom->setSerialsGeneratedDate(null);
+        } else {
+            $bom->setSerialsGeneratedDate(new \DateTime($serialsGeneratedDate));
+        }
         $this->em->persist($bom);
         $this->em->flush();
 
-        return $this->json(array('status' => 'success'));
+        return $this->json(array('status' => 'success', 'msg'=>$serialsGeneratedDate));
     }
 
     /**
@@ -959,7 +972,12 @@ class JobController extends Controller
             $bom = new Bom();
             $bom->setJob($job);
         }
-        $bom->setIssuedDate(new \DateTime($issuedDate));
+
+        if (is_null($issuedDate) || $issuedDate == '') {
+            $bom->setIssuedDate(null);
+        } else {
+            $bom->setIssuedDate(new \DateTime($issuedDate));
+        }
         $bom->setIssuedBy($this->getUser());
         $bom->setUpdateTime(new \DateTime());
         $bom->setUpdatedBy($this->getUser());
@@ -1036,7 +1054,12 @@ class JobController extends Controller
             $shipping = new Shipping();
             $shipping->setJob($job);
         }
-        $shipping->setSecondShipDate(new \DateTime($secondShipDate));
+
+        if (is_null($secondShipDate) || $secondShipDate == '') {
+            $shipping->setSecondShipDate(null);
+        } else {       
+            $shipping->setSecondShipDate(new \DateTime($secondShipDate));
+        }
         $shipping->setUpdateTime(new \DateTime());
         $shipping->setUpdatedBy($this->getUser());
         $this->em->persist($shipping);
@@ -1110,7 +1133,11 @@ class JobController extends Controller
             $kitting->setJob($job);
         }
 
-        $kitting->setKitDate(new \DateTime($kitDate));
+        if (is_null($kitDate) || $kitDate == '') {
+            $kitting->setKitDate(null);
+        } else {
+            $kitting->setKitDate(new \DateTime($kitDate));
+        }
         $kitting->setCompletionDate(new \DateTime($kitDate)); // completion date and kit date are the same now
         $kitting->setUpdateTime(new \DateTime());
         $kitting->setUpdatedBy($this->getUser());
@@ -1134,7 +1161,11 @@ class JobController extends Controller
             $kitting->setJob($job);
         }
 
-        $kitting->setCompletionDate(new \DateTime($completionDate));
+        if (is_null($completionDate) || $completionDate == '') {
+            $kitting->setCompletionDate(null);
+        } else {
+            $kitting->setCompletionDate(new \DateTime($completionDate));
+        }
         $kitting->setUpdateTime(new \DateTime());
         $kitting->setUpdatedBy($this->getUser());
 
@@ -1174,7 +1205,12 @@ class JobController extends Controller
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setDateNeeded(new \DateTime($dateNeeded));
+
+        if (is_null($dateNeeded) || $dateNeeded == '') {
+            $short->setDateNeeded(null);
+        } else {
+            $short->setDateNeeded(new \DateTime($dateNeeded));
+        }
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
@@ -1194,7 +1230,12 @@ class JobController extends Controller
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setPartsPulledDate(new \DateTime($partsPulledDate));
+
+        if (is_null($partsPulledDate) || $partsPulledDate == '') {
+            $short->setPartsPulledDate(null);
+        } else {
+            $short->setPartsPulledDate(new \DateTime($partsPulledDate));
+        }
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
@@ -1516,7 +1557,12 @@ class JobController extends Controller
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setReceivedDate(new \DateTime($receivedDate));
+
+        if (is_null($receivedDate) || $receivedDate == '') {
+            $short->setReceivedDate(null);
+        } else {
+            $short->setReceivedDate(new \DateTime($receivedDate));
+        }
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
@@ -1545,7 +1591,12 @@ class JobController extends Controller
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setEstimatedDeliveryDate(new \DateTime($estimatedDeliveryDate));
+
+        if (is_null($estimatedDeliveryDate) || $estimatedDeliveryDate == '') {
+            $short->setEstimatedDeliveryDate(null);
+        } else {
+            $short->setEstimatedDeliveryDate(new \DateTime($estimatedDeliveryDate));
+        }
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
@@ -1625,7 +1676,12 @@ class JobController extends Controller
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setModDoneDate(new \DateTime($modDoneDate));
+
+        if (is_null($modDoneDate) || $modDoneDate == '') {
+            $short->setModDoneDate(null);
+        } else {
+            $short->setModDoneDate(new \DateTime($modDoneDate));
+        }
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);
@@ -1695,10 +1751,11 @@ class JobController extends Controller
             $scheduling = new Shipping();
             $scheduling->setJob($job);
         }
-        if ($completionDate) {
-            $scheduling->setCompletionDate(new \DateTime($completionDate));
-        } else {
+
+        if (is_null($completionDate) || $completionDate == '') {
             $scheduling->setCompletionDate(null);
+        } else {
+            $scheduling->setCompletionDate(new \DateTime($completionDate));
         }
         $scheduling->setUpdateTime(new \DateTime());
         $scheduling->setUpdatedBy($this->getUser());

@@ -69,9 +69,9 @@
             {% for batch in batches %}
                 <td>
                     {% if is_granted('ROLE_PAINTER') %}
-                        <a href="#" class="estimatedReleaseDate" data-name="estimatedReleaseDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_release_date', {'batchId': batch.id}) }}">{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('m-d') : "" }}</a>
+                        <a href="#" class="estimatedReleaseDate" data-name="estimatedReleaseDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_release_date', {'batchId': batch.id}) }}">{{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('m-d') : "" }}
+                        {{ batch.estimatedReleaseDate ? batch.estimatedReleaseDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
                 <td>
@@ -105,26 +105,26 @@
                         {{ batch.v2PoNumber }}
                     {% endif %}
                 </td>
-                <td>{{ batch.neededByDate ? batch.neededByDate | date('m-d') : "" }}</td>
+                <td>{{ batch.neededByDate ? batch.neededByDate | date('Y-m-d') : "" }}</td>
                 <td>
                     {% if is_granted('ROLE_PAINTER') %}
-                        <a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('m-d') : "" }}</a>
+                        <a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ batch.kitDate ? batch.kitDate | date('m-d') : "" }}
+                        {{ batch.kitDate ? batch.kitDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
                 <td>
                     {% if is_granted('ROLE_PAINTER') %}
-                        <a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_delivery_date', {'batchId': batch.id}) }}">{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('m-d') : "" }}</a>
+                        <a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_estimated_delivery_date', {'batchId': batch.id}) }}">{{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('m-d') : "" }}
+                        {{ batch.estimatedDeliveryDate ? batch.estimatedDeliveryDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
                 <td>
                     {% if is_granted('ROLE_PAINTER') %}
-                        <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_received_date', {'batchId': batch.id}) }}">{{ batch.receivedDate ? batch.receivedDate | date('m-d') : "" }}</a>
+                        <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_received_date', {'batchId': batch.id}) }}">{{ batch.receivedDate ? batch.receivedDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ batch.receivedDate ? batch.receivedDate | date('m-d') : "" }}
+                        {{ batch.receivedDate ? batch.receivedDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
             </tr>

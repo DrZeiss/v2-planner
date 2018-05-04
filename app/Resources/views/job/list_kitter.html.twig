@@ -78,7 +78,7 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('m-d') }}
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
                     {% else %}
                         TBD
                     {% endif %}
@@ -137,7 +137,7 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                <td class="kitDate_{{job.kitting.id}}" {% if late %}style="color:white"{% endif %}>{{job.kitting.kitDate ? job.kitting.kitDate | date('m-d') : ""}}</td>
+                <td class="kitDate_{{job.kitting.id}}" {% if late %}style="color:white"{% endif %}>{{job.kitting.kitDate ? job.kitting.kitDate | date('Y-m-d') : ""}}</td>
             </tr>
             {% endfor %}
         </tbody>

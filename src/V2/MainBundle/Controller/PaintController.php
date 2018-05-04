@@ -466,7 +466,12 @@ class PaintController extends Controller
         if (!$batch) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Batch ID"));
         }
-        $batch->setEstimatedReleaseDate(new \DateTime($estimatedReleaseDate));
+
+        if (is_null($estimatedReleaseDate) || $estimatedReleaseDate == '') {
+            $batch->setEstimatedReleaseDate(null);
+        } else {
+            $batch->setEstimatedReleaseDate(new \DateTime($estimatedReleaseDate));
+        }
         $batch->setUpdateTime(new \DateTime());
         $batch->setUpdatedBy($this->getUser());
         $this->em->persist($batch);
@@ -546,7 +551,12 @@ class PaintController extends Controller
         if (!$batch) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Batch ID"));
         }
-        $batch->setKitDate(new \DateTime($kitDate));
+
+        if (is_null($kitDate) || $kitDate == '') {
+            $batch->setKitDate(null);
+        } else {
+            $batch->setKitDate(new \DateTime($kitDate));
+        }
         $batch->setUpdateTime(new \DateTime());
         $batch->setUpdatedBy($this->getUser());
         $this->em->persist($batch);
@@ -566,7 +576,12 @@ class PaintController extends Controller
         if (!$batch) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Batch ID"));
         }
-        $batch->setEstimatedDeliveryDate(new \DateTime($estimatedDeliveryDate));
+
+        if (is_null($estimatedDeliveryDate) || $estimatedDeliveryDate == '') {
+            $batch->setEstimatedDeliveryDate(null);
+        } else {
+            $batch->setEstimatedDeliveryDate(new \DateTime($estimatedDeliveryDate));
+        }
         $batch->setUpdateTime(new \DateTime());
         $batch->setUpdatedBy($this->getUser());
         $this->em->persist($batch);
@@ -586,7 +601,11 @@ class PaintController extends Controller
         if (!$batch) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Batch ID"));
         }
-        $batch->setReceivedDate(new \DateTime($receivedDate));
+        if (is_null($receivedDate) || $receivedDate == '') {
+            $batch->setReceivedDate(null);
+        } else {
+            $batch->setReceivedDate(new \DateTime($receivedDate));
+        }
         $batch->setUpdateTime(new \DateTime());
         $batch->setUpdatedBy($this->getUser());
         $this->em->persist($batch);

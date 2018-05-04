@@ -46,7 +46,7 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}
@@ -54,9 +54,9 @@
                 {# Shipped #}
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_SHIPPER') %}
-                        <a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('m-d') : "" }}</a>
+                        <a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('m-d') : "" }}
+                        {{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>
@@ -82,9 +82,9 @@
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_SHIPPER') %}
-                        <a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}</a>
+                        <a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('m-d') : "" }}
+                        {{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>

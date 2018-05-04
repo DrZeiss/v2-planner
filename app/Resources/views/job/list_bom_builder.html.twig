@@ -68,7 +68,7 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}
@@ -82,9 +82,9 @@
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_BOM_BUILDER') %}
-                        <a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "" }}</a>
+                        <a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('m-d') : "" }}
+                        {{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
             </tr>
@@ -141,8 +141,15 @@
                 url: obj.dataset.url,
                 title: 'Select Serials Generated Date',
                 success: function(response, newValue) {
+console.log(response);
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
-                }
+                },
+//                 validate: function(value) {
+//   if (value === null || value === '') {
+//     alert("EMPTY");
+//     // return 'Empty values not allowed';
+//   } else {alert("NOT");}
+// }
             });
         });
 

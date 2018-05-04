@@ -76,7 +76,7 @@
         <tbody>
             {% for paint in paints %}
                 {% set late = 0 %}
-                {% if paint.job.plannerEstimatedShipDate | date('m-d') < (date()|date_modify("+21 days")|date('m-d')) %}
+                {% if paint.job.plannerEstimatedShipDate | date('Y-m-d') < (date()|date_modify("+21 days")|date('Y-m-d')) %}
                     {% set late = 1 %}
                 {% endif %}
             <tr {% if late == 1 %}bgcolor="lightcoral"{% endif %}>
@@ -87,7 +87,7 @@
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if paint.job.plannerEstimatedShipDate %}
-                        {{ paint.job.plannerEstimatedShipDate | date('m-d') }}
+                        {{ paint.job.plannerEstimatedShipDate | date('Y-m-d') }}
                     {% else %}
                         TBD
                     {% endif %}
@@ -102,19 +102,19 @@
                 {# Short #1 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort1.partNumber | default("") }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort1.paintedPart | default("") }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.estimatedDeliveryDate ? paint.job.kitting.kittingShort1.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.estimatedDeliveryDate ? paint.job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 {# Short #2 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort2.partNumber | default("") }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort2.paintedPart | default("") }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.estimatedDeliveryDate ? paint.job.kitting.kittingShort2.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.estimatedDeliveryDate ? paint.job.kitting.kittingShort2.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 {# Short #3 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort3.partNumber | default("") }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort3.paintedPart | default("") }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.estimatedDeliveryDate ? paint.job.kitting.kittingShort3.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.estimatedDeliveryDate ? paint.job.kitting.kittingShort3.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 {# Short #4 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort4.partNumber | default("") }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort4.paintedPart | default("") }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.estimatedDeliveryDate ? paint.job.kitting.kittingShort4.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.estimatedDeliveryDate ? paint.job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
             </tr>
             {% endfor %}
         </tbody>

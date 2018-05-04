@@ -85,7 +85,7 @@
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}
@@ -117,9 +117,9 @@
                 </td>
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
-                        <a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}</a>
+                        <a href="#" class="completionDate" data-name="completionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ job.scheduling.completionDate ? job.scheduling.completionDate | date('m-d') : "" }}
+                        {{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>

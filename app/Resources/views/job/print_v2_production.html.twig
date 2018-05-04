@@ -30,7 +30,7 @@
                 <td>{{ job.manufacturingOrder }}</td>
                 <td>
                     {% if job.plannerEstimatedShipDate %}
-                        {{ job.plannerEstimatedShipDate|date('m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}

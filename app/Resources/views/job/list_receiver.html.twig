@@ -57,16 +57,16 @@
                 {% endif %}
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.vendor }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.vendorPoNumber }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_RECEIVER') %}
-                        <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}</a>
+                        <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</a>
                     {% else %}
-                        {{ part.receivedDate ? part.receivedDate | date('m-d') : "" }}
+                        {{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}
                     {% endif %}
                     </td>
                 <td {% if late %}style="color:white"{% endif %}>

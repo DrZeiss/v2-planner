@@ -69,7 +69,7 @@
             {% for paint in paints %}
                 <td>
                     {% if paint.job.plannerEstimatedShipDate %}
-                        {{ paint.job.plannerEstimatedShipDate | date('m-d') }}
+                        {{ paint.job.plannerEstimatedShipDate | date('Y-m-d') }}
                     {% else %}
                         TBD
                     {% endif %}

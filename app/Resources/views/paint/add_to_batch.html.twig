@@ -28,7 +28,7 @@
                     {% for paint in paints %}
                     <input type="hidden" name="selected_paint[]" value="{{ paint.id }}">
                     <tr>
-                        <td>{{ paint.job.plannerEstimatedShipDate ? paint.job.plannerEstimatedShipDate | date('m-d') : "TBD" }}</td>
+                        <td>{{ paint.job.plannerEstimatedShipDate ? paint.job.plannerEstimatedShipDate | date('Y-m-d') : "TBD" }}</td>
                         <td>{{ paint.job.name }}</td>
                         <td>{{ paint.job.salesOrder }}</td>
                         <td>{{ paint.job.quantity }}</td>
