@@ -66,8 +66,8 @@ class DashboardController extends Controller
         $jobsClearToBuildByStageTexts = array();
         foreach ($jobsByStage as $stageName => $jobs) {
             $stageTexts[$count] = $stageName;
-            $jobsByStageTexts[$count] = count($jobs);
             $jobsClearToBuildByStageTexts[$count] = count($this->em->getRepository('V2MainBundle:Job')->getJobsClearToBuild($stageName));
+            $jobsByStageTexts[$count] = count($jobs) - $jobsClearToBuildByStageTexts[$count];
             $count++;
         }
 
