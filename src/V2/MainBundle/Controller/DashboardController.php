@@ -21,7 +21,9 @@ class DashboardController extends Controller
     public function indexAction()
     {
         // Get the jobs scheduled (by week)
+        $jobsLastWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsLastWeek();
         $jobsByWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsByWeek();
+        $jobsByWeek = array_merge($jobsLastWeek, $jobsByWeek);
         $currentWeek = date('W');
         $weekTexts = array();
         $jobsByWeekTexts = array();
@@ -61,9 +63,11 @@ class DashboardController extends Controller
         $count = 0;
         $stageTexts = array();
         $jobsByStageTexts = array();
+        $jobsClearToBuildByStageTexts = array();
         foreach ($jobsByStage as $stageName => $jobs) {
             $stageTexts[$count] = $stageName;
             $jobsByStageTexts[$count] = count($jobs);
+            $jobsClearToBuildByStageTexts[$count] = count($this->em->getRepository('V2MainBundle:Job')->getJobsClearToBuild($stageName));
             $count++;
         }
 
@@ -86,6 +90,7 @@ class DashboardController extends Controller
             'totalFixturesToBuild' => $totalFixturesToBuild,
             'stageTexts' => json_encode($stageTexts),
             'jobsByStageTexts' => json_encode($jobsByStageTexts),
+            'jobsClearToBuildByStageTexts' => json_encode($jobsClearToBuildByStageTexts),
             'jobsReleasedLastWeek' => $jobsReleasedLastWeek,
             'jobsShippedLastWeek' => $jobsShippedLastWeek,
             'lateJobs' => $lateJobs,

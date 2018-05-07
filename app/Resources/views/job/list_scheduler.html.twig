@@ -27,9 +27,9 @@
                         <label class="form-label">Priority</label>
                         <select name="selected_priority" class="select2-box form-control">
                             <option value="-1" {% if selected_priority == -1 %}selected{% endif %}>ALL</option>
-                            <option value="3" {% if selected_priority == 2 %}selected{% endif %}>Rush</option>
-                            <option value="2" {% if selected_priority == 1 %}selected{% endif %}>Hot</option>
-                            <option value="1" {% if selected_priority == 3 %}selected{% endif %}>Custom</option>
+                            <option value="3" {% if selected_priority == 3 %}selected{% endif %}>Rush</option>
+                            <option value="2" {% if selected_priority == 2 %}selected{% endif %}>Hot</option>
+                            <option value="1" {% if selected_priority == 1 %}selected{% endif %}>Custom</option>
                             <option value="0" {% if selected_priority == 0 %}selected{% endif %}>Normal</option>
                         </select>
                     </div>
@@ -45,12 +45,20 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
+                        <label class="form-label">Planner ESD Week Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_week_from" value="{{ planner_esd_week_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="margin-top:20px">
                         <label class="form-check-label">
                             <input type="checkbox" name="filled_completely" value="1" class="form-check-input" {% if filled_completely %}checked{% endif %}>
                             See only 100% filled
                         </label>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="margin-top:20px">
                         <label class="form-check-label">
                             <input type="hidden" name="non_shipped" value="0" />
                             <input type="checkbox" name="non_shipped" value="1" class="form-check-input" {% if non_shipped %}checked{% endif %}>
@@ -69,7 +77,7 @@
         </div>
     </div>
 
-    <h2>Scheduler Job list</h2>
+    <h2>Scheduler Job list <span style="font-size:70%"> (Total jobs: {{ jobs|length }})</span></h2>
     <table class="table table-bordered">
         <thead>
         <tr>

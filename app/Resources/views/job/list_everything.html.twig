@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('export_jobs', {'name': name, 'sales_order': sales_order, 'esd': esd, 'non_shipped': non_shipped}) }}" class="btn btn-sm btn-success">Export to CSV</a></span>
+    <span style="float:right"><a href="{{ path('export_jobs', {'name': name, 'sales_order': sales_order, 'esd': esd, 'non_shipped': non_shipped, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to}) }}" class="btn btn-sm btn-success">Export to CSV</a></span>
 {% endblock %}
 
 {% block body %}
@@ -29,7 +29,23 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-4">
+                        <label class="form-label">Planner ESD Date Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
+                        </div>
+                    </div>
                     <div class="col-sm-3">
+                        <label class="form-label">Planner ESD Week Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_week_from" value="{{ planner_esd_week_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="margin-top:20px">
                         <label class="form-check-label">
                             <input type="hidden" name="non_shipped" value="0" />
                             <input type="checkbox" name="non_shipped" value="1" class="form-check-input" {% if non_shipped %}checked{% endif %}>
@@ -48,6 +64,7 @@
         </div>
     </div>
 
+    <span style="font-size:70%"> (Total jobs: {{ jobs|length }})</span>
     <table class="table table-bordered">
         <thead>
         <tr>

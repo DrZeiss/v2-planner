@@ -91,18 +91,25 @@ class JobController extends Controller
             'esd'               => null,
             // 'filled_completely' => null,
             'non_shipped'       => 1,
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $jobs = $this->jobRepository->findEverything($parameters);
 
         return $this->render('job/list_everything.html.twig', array(
-            'jobs'              =>  $jobs,
-            'name'              =>  $parameters['name'],
-            'sales_order'       =>  $parameters['sales_order'],
-            'esd'               =>  $parameters['esd'],
-            // 'filled_completely' =>  $parameters['filled_completely'],
-            'non_shipped'       =>  $parameters['non_shipped'],
+            'jobs'                  =>  $jobs,
+            'name'                  =>  $parameters['name'],
+            'sales_order'           =>  $parameters['sales_order'],
+            'esd'                   =>  $parameters['esd'],
+            'non_shipped'           =>  $parameters['non_shipped'],
+            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
+            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
+            'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
+            'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));
     }
 
@@ -122,6 +129,10 @@ class JobController extends Controller
             'sales_order'       => null,
             'esd'               => null,
             'non_shipped'       => 1,
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
         $jobs = $this->jobRepository->findEverything($parameters);
@@ -360,16 +371,22 @@ class JobController extends Controller
     {
         $defaultParameters = array(
             'sales_order' => null,
-            'planner_esd' => null,
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $jobs           = $this->jobRepository->findMacProductionJobs($parameters);
 
         return $this->render('job/list_mac_production.html.twig', array(
-            'jobs'          =>  $jobs,
-            'sales_order'   =>  $parameters['sales_order'],
-            'planner_esd'   =>  $parameters['planner_esd'],            
+            'jobs'                  =>  $jobs,
+            'sales_order'           =>  $parameters['sales_order'],
+            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
+            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
+            'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
+            'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));
     }
 
@@ -380,7 +397,10 @@ class JobController extends Controller
     {
         $defaultParameters = array(
             'sales_order' => null,
-            'planner_esd' => null,
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -389,7 +409,10 @@ class JobController extends Controller
         return $this->render('job/print_mac_production.html.twig', array(
             'jobs'      =>  $jobs,
             'sales_order'   =>  $parameters['sales_order'],
-            'planner_esd'   =>  $parameters['planner_esd'],            
+            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
+            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
+            'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
+            'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));
     }
 
@@ -426,28 +449,40 @@ class JobController extends Controller
     {
         $defaultParameters = array(
             'sales_order' => null,
-            'planner_esd' => null,
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
         $jobs           = $this->jobRepository->findV2ProductionJobs($parameters);
 
         return $this->render('job/print_v2_production.html.twig', array(
-            'jobs'      =>  $jobs,
-            'sales_order'   =>  $parameters['sales_order'],
-            'planner_esd'   =>  $parameters['planner_esd'],            
+            'jobs'                  =>  $jobs,
+            'sales_order'           =>  $parameters['sales_order'],
+            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
+            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
+            'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
+            'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));
     }
 
     /**
      * @Route("/shipper", name="shipper")
      */
-    public function listShipperJobs()
+    public function listShipperJobs(Request $request)
     {
-        $jobs           = $this->jobRepository->findShipperJobs();
+        $defaultParameters = array(
+            'sales_order' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findShipperJobs($parameters);
 
         return $this->render('job/list_shipper.html.twig', array(
-            'jobs'      =>  $jobs,
+            'jobs'          =>  $jobs,
+            'sales_order'   =>  $parameters['sales_order'],
         ));
     }
     /**
@@ -463,6 +498,8 @@ class JobController extends Controller
             'non_shipped'       => 1,
             'selected_location' => 0, // means ALL locations
             'selected_priority' => -1, // means ALL priority
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -470,15 +507,17 @@ class JobController extends Controller
         $locations = $this->em->getRepository('V2MainBundle:BuildLocation')->findAll();
 
         return $this->render('job/list_scheduler.html.twig', array(
-            'jobs'              =>  $jobs,
-            'locations'         =>  $locations,
-            'name'              =>  $parameters['name'],
-            'sales_order'       =>  $parameters['sales_order'],
-            'esd'               =>  $parameters['esd'],
-            'filled_completely' =>  $parameters['filled_completely'],
-            'non_shipped'       =>  $parameters['non_shipped'],
-            'selected_location' =>  $parameters['selected_location'],
-            'selected_priority' =>  $parameters['selected_priority'],
+            'jobs'                  =>  $jobs,
+            'locations'             =>  $locations,
+            'name'                  =>  $parameters['name'],
+            'sales_order'           =>  $parameters['sales_order'],
+            'esd'                   =>  $parameters['esd'],
+            'filled_completely'     =>  $parameters['filled_completely'],
+            'non_shipped'           =>  $parameters['non_shipped'],
+            'selected_location'     =>  $parameters['selected_location'],
+            'selected_priority'     =>  $parameters['selected_priority'],
+            'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
+            'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));
     }
 

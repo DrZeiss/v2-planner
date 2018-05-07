@@ -15,26 +15,24 @@
         <div class="ibox-content">
             <form action="{{ path('v2_production') }}" method="GET">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="col-sm-2">
-                            <label class="form-label">Sales Order #</label>
-                            <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
+                    <div class="col-sm-2">
+                        <label class="form-label">Sales Order #</label>
+                        <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label">Planner ESD Date Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
                         </div>
-                        <div class="col-sm-4">
-                            <label class="form-label">Planner ESD Date Range</label>
-                            <div class="input-daterange input-group">
-                                <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Planner ESD Week Range</label>
-                            <div class="input-daterange input-group">
-                                <input type="text" name="planner_esd_week_from" value="{{ planner_esd_week_from }}" class="form-control">
-                                <span class="input-group-addon">to</span>
-                                <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
-                            </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label">Planner ESD Week Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_week_from" value="{{ planner_esd_week_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
                         </div>
                     </div>
                 </div>

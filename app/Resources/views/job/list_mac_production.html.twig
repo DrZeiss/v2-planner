@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('print_mac_production', {'sales_order': sales_order, 'planner_esd': planner_esd}) }}" class="btn btn-sm btn-warning">Print</a></span>
+    <span style="float:right"><a href="{{ path('print_mac_production', {'sales_order': sales_order, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to}) }}" class="btn btn-sm btn-warning">Print</a></span>
 {% endblock %}
 
 {% block body %}
@@ -15,13 +15,25 @@
         <div class="ibox-content">
             <form action="{{ path('mac_production') }}" method="GET">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <label class="form-label">Sales Order #</label>
                         <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
                     </div>
+                    <div class="col-sm-4">
+                        <label class="form-label">Planner ESD Date Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
+                        </div>
+                    </div>
                     <div class="col-sm-3">
-                        <label class="form-label">Planner ESD</label>
-                        <input type="text" name="planner_esd" value="{{ planner_esd }}" placeholder="Select Planner ESD" class="form-control">
+                        <label class="form-label">Planner ESD Week Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" name="planner_esd_week_from" value="{{ planner_esd_week_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -246,9 +258,12 @@
           col: 2
         });
 
-        $("input[name='planner_esd'").datepicker({
+        $("input[name='planner_esd_date_from'").datepicker({
             dateFormat: 'yy-mm-dd',
-        });        
+        });
+        $("input[name='planner_esd_date_to'").datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
 
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';

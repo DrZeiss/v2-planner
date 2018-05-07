@@ -26,36 +26,56 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function getJobsByWeek()
+    public function getJobsLastWeek()
     {
-        $sql = "SELECT WEEK(planner_estimated_ship_date) AS week_num, 
+        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
                 SUM(IF(s.priority = 0, 1, 0)) AS num_jobs,
                 SUM(IF(s.priority > 0, 1, 0)) AS num_rush_jobs
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 LEFT JOIN shipping ON shipping.job_id = j.id
-                WHERE ((shipping.ship_date IS NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NULL))
+                WHERE shipping.ship_date IS NOT NULL
+                AND WEEK(shipping.ship_date,1) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1)
                 AND cancelled_date IS NULL
-                GROUP BY WEEK(planner_estimated_ship_date);";
+                GROUP BY WEEK(planner_estimated_ship_date,1);";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetchAll();
 
         return $results;
+    }
 
+    public function getJobsByWeek()
+    {
+        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
+                SUM(IF(s.priority = 0, 1, 0)) AS num_jobs,
+                SUM(IF(s.priority > 0, 1, 0)) AS num_rush_jobs
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                LEFT JOIN shipping ON shipping.job_id = j.id
+                WHERE ((shipping.ship_date IS NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NULL))
+                AND planner_estimated_ship_date > NOW()
+                AND cancelled_date IS NULL
+                GROUP BY WEEK(planner_estimated_ship_date,1);"; // need to offset by 1
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        return $results;
     }
 
     public function getProductionByWeek()
     {
-        $sql = "SELECT WEEK(planner_estimated_ship_date) AS week_num, 
+        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
                 SUM(IF(j.build_location = 1, quantity, 0)) AS num_v2_fixtures,
                 SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_fixtures
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 WHERE planner_estimated_ship_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
                 AND cancelled_date IS NULL
-                GROUP BY WEEK(planner_estimated_ship_date);";
+                GROUP BY WEEK(planner_estimated_ship_date,1);";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
@@ -112,7 +132,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('j');
         $results = $qb->join('j.shipping', 'shipping')
-            ->where("j.estimatedShipDate < CURRENT_DATE()")
+            ->where("(j.estimatedShipDate <= CURRENT_DATE() OR j.plannerEstimatedShipDate <= CURRENT_DATE())")
             ->andWhere("((shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL))")
             ->andWhere("j.cancelledDate IS NULL")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
@@ -184,11 +204,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     // Basically returns all the fields of a job
     public function findEverything($parameters)
     {
-        $name               = $parameters['name'];
-        $salesOrder         = $parameters['sales_order'];
-        $esd                = $parameters['esd'];
-        // $filledCompletely   = $parameters['filled_completely'];
-        $nonShipped         = $parameters['non_shipped'];
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('WEEK', 'DoctrineExtensions\Query\Mysql\Week');
+
+        $name                           = $parameters['name'];
+        $salesOrder                     = $parameters['sales_order'];
+        $esd                            = $parameters['esd'];
+        $nonShipped                     = $parameters['non_shipped'];
+        $plannerEstimatedShipDateFrom   = $parameters['planner_esd_date_from'];
+        $plannerEstimatedShipDateTo     = $parameters['planner_esd_date_to'];
+        $plannerEstimatedShipWeekFrom   = $parameters['planner_esd_week_from'];
+        $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
 
         $qb = $this->createQueryBuilder('j')
             ->leftJoin('j.bom', 'bom')
@@ -213,10 +239,25 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('estimatedShipDate', new \DateTime($esd));
         }
 
-        // if ($filledCompletely) {
-        //     $qb->andWhere("kitting.filledCompletely = :filledCompletely")
-        //         ->setParameter('filledCompletely', $filledCompletely);
-        // }
+        if ($plannerEstimatedShipDateFrom) {
+            $qb->andWhere("j.plannerEstimatedShipDate >= :plannerEstimatedShipDateFrom")
+                ->setParameter('plannerEstimatedShipDateFrom', new \DateTime($plannerEstimatedShipDateFrom));
+        }
+
+        if ($plannerEstimatedShipDateTo) {
+            $qb->andWhere("j.plannerEstimatedShipDate <= :plannerEstimatedShipDateTo")
+                ->setParameter('plannerEstimatedShipDateTo', new \DateTime($plannerEstimatedShipDateTo));
+        }
+
+        if ($plannerEstimatedShipWeekFrom) {
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) >= :plannerEstimatedShipWeekFrom")
+                ->setParameter('plannerEstimatedShipWeekFrom', $plannerEstimatedShipWeekFrom);
+        }
+
+        if ($plannerEstimatedShipWeekTo) {
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) <= :plannerEstimatedShipWeekTo")
+                ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
+        }
 
         if ($nonShipped) {
             $qb->andWhere("shipping.shipDate IS NULL");
@@ -509,8 +550,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function findMacProductionJobs($parameters)
     {
-        $salesOrder                 = array_key_exists('sales_order', $parameters) ? $parameters['sales_order'] : null;
-        $plannerEstimatedShipDate   = array_key_exists('planner_esd', $parameters) ? $parameters['planner_esd'] : null;
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('WEEK', 'DoctrineExtensions\Query\Mysql\Week');
+
+        $salesOrder                     = array_key_exists('sales_order', $parameters) ? $parameters['sales_order'] : null;
+        $plannerEstimatedShipDateFrom   = array_key_exists('planner_esd_date_from', $parameters) ? $parameters['planner_esd_date_from'] : null;
+        $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;       
+        $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
+        $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
 
         $qb = $this->createQueryBuilder('j')
             ->addSelect('CASE 
@@ -536,9 +583,24 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
-        if ($plannerEstimatedShipDate) {
-            $qb->andWhere("j.plannerEstimatedShipDate = :plannerEstimatedShipDate")
-                ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
+        if ($plannerEstimatedShipDateFrom) {
+            $qb->andWhere("j.plannerEstimatedShipDate >= :plannerEstimatedShipDateFrom")
+                ->setParameter('plannerEstimatedShipDateFrom', new \DateTime($plannerEstimatedShipDateFrom));
+        }
+
+        if ($plannerEstimatedShipDateTo) {
+            $qb->andWhere("j.plannerEstimatedShipDate <= :plannerEstimatedShipDateTo")
+                ->setParameter('plannerEstimatedShipDateTo', new \DateTime($plannerEstimatedShipDateTo));
+        }
+
+        if ($plannerEstimatedShipWeekFrom) {
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) >= :plannerEstimatedShipWeekFrom")
+                ->setParameter('plannerEstimatedShipWeekFrom', $plannerEstimatedShipWeekFrom);
+        }
+
+        if ($plannerEstimatedShipWeekTo) {
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) <= :plannerEstimatedShipWeekTo")
+                ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
         $results = $qb->addOrderBy("customSortOrder", "ASC")
@@ -606,14 +668,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere("j.plannerEstimatedShipDate >= :plannerEstimatedShipDateFrom")
                 ->setParameter('plannerEstimatedShipDateFrom', new \DateTime($plannerEstimatedShipDateFrom));
         }
+
         if ($plannerEstimatedShipDateTo) {
             $qb->andWhere("j.plannerEstimatedShipDate <= :plannerEstimatedShipDateTo")
                 ->setParameter('plannerEstimatedShipDateTo', new \DateTime($plannerEstimatedShipDateTo));
         }
+
         if ($plannerEstimatedShipWeekFrom) {
             $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) >= :plannerEstimatedShipWeekFrom")
                 ->setParameter('plannerEstimatedShipWeekFrom', $plannerEstimatedShipWeekFrom);
         }
+
         if ($plannerEstimatedShipWeekTo) {
             $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) <= :plannerEstimatedShipWeekTo")
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
@@ -640,14 +705,49 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function findShipperJobs()
+    public function getJobsClearToBuild($location)
     {
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.scheduling', 'scheduling')
+            ->join('j.kitting', 'kitting')
+            ->join('j.buildLocation', 'buildLocation')
+            ->leftJoin('j.paint', 'paint')
+            ->where("kitting.filledCompletely = 1")
+            ->andWhere("paint.location IS NOT NULL")
+            ->andWhere("scheduling.completionDate IS NULL")
+            ->andWhere("j.cancelledDate IS NULL");
+
+        if (strtolower($location) == 'v2 production') {
+            $qb->andWhere("buildLocation.name = 'V2'")
+               ->andWhere("j.macPurchaseOrder IS NULL");
+        } elseif (strtolower($location) == 'mac production') {
+            $qb->andWhere("buildLocation.name = 'MAC'");
+        } else {
+            return null;
+        }
+
+        $results = $qb
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
+    public function findShipperJobs($parameters)
+    {
+        $salesOrder                     = $parameters['sales_order'];
+
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
             ->where('scheduling.completionDate IS NOT NULL')
             ->andWhere("((shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL))")
             ->andWhere("j.cancelledDate IS NULL");
+
+        if ($salesOrder) {
+            $qb->andWhere("j.salesOrder LIKE :salesOrder")
+                ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
@@ -659,13 +759,18 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function findSchedulerJobs($parameters)
     {
-        $name               = $parameters['name'];
-        $salesOrder         = $parameters['sales_order'];
-        $esd                = $parameters['esd'];
-        $filledCompletely   = $parameters['filled_completely'];
-        $nonShipped         = $parameters['non_shipped'];
-        $buildLocation      = $parameters['selected_location'];
-        $priority           = $parameters['selected_priority'];
+        $emConfig = $this->getEntityManager()->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('WEEK', 'DoctrineExtensions\Query\Mysql\Week');
+        
+        $name                           = $parameters['name'];
+        $salesOrder                     = $parameters['sales_order'];
+        $esd                            = $parameters['esd'];
+        $filledCompletely               = $parameters['filled_completely'];
+        $nonShipped                     = $parameters['non_shipped'];
+        $buildLocation                  = $parameters['selected_location'];
+        $priority                       = $parameters['selected_priority'];
+        $plannerEstimatedShipWeekFrom   = $parameters['planner_esd_week_from'];
+        $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.kitting', 'kitting')
@@ -707,6 +812,15 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($priority >= 0) {
             $qb->andWhere("scheduling.priority = :priority")
                 ->setParameter('priority', $priority);
+        }
+
+        if ($plannerEstimatedShipWeekFrom) {
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) >= :plannerEstimatedShipWeekFrom")
+                ->setParameter('plannerEstimatedShipWeekFrom', $plannerEstimatedShipWeekFrom);
+        }
+        if ($plannerEstimatedShipWeekTo) {
+            $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) <= :plannerEstimatedShipWeekTo")
+                ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")

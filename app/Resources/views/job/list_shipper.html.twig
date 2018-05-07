@@ -7,6 +7,26 @@
 {% endblock %}
 
 {% block body %}
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <form action="{{ path('shipper') }}" method="GET">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="form-label">Sales Order #</label>
+                        <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="pull-right">
+                            <input type="submit" class="btn btn-info" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <h2>Shipper Job list</h2>
     <table class="table table-bordered">
         <thead>
@@ -27,7 +47,7 @@
                 <th style="border:solid;width:7ch">Date</th>
                 <th style="border:solid;width:4ch">Complete or Partial</th>
                 <th style="border:solid;width:7ch">2nd Date</th>
-                <th style="border:solid;min-width:20ch">Notes</th>
+                <th style="border:solid;width:20ch">Notes</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +60,7 @@
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
+                <td style="word-break:break-all; {% if late %}color:white{% endif %}">{{ job.type }}</td>
                 <td style="word-break:break-all; {% if late %}color:white{% endif %}">{{ job.model }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.manufacturingOrder }}</td>
@@ -71,13 +91,13 @@
                             {% endif %}
                         </a>
                     {% else %}
-                            {% if job.shipping and job.shipping.isComplete == 2 %}
-                                Complete
-                            {% elseif job.shipping and job.shipping.isComplete == 1 %}
-                                Partial
-                            {% else %}
-                                {# Empty #}
-                            {% endif %}
+                        {% if job.shipping and job.shipping.isComplete == 2 %}
+                            Complete
+                        {% elseif job.shipping and job.shipping.isComplete == 1 %}
+                            Partial
+                        {% else %}
+                            {# Empty #}
+                        {% endif %}
                     {% endif %}
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>

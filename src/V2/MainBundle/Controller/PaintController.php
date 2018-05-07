@@ -124,7 +124,6 @@ class PaintController extends Controller
                 } else {
                     $paint->setBatch2($batch);
                 }
-                $paint->setLocation('B'.$batch->getId());
                 $paint->setUpdateTime(new \DateTime());
                 $paint->setUpdatedBy($this->getUser());
                 $this->em->persist($paint);

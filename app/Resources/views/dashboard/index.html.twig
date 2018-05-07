@@ -39,10 +39,18 @@
                         <td colspan = '2'>Late jobs: {{ lateJobs|length }}
                             <BR>
                             <table class="table">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>SO#</td>
+                                    <td style="width:7ch">ESD</td>
+                                    <td style="width:7ch;font-size:80%">Planner ESD</td>
+                                </tr>
                                 {% for lateJob in lateJobs %}
                                 <tr>
                                     <td>{{ lateJob.name }}</td>
-                                    <td>{{ lateJob.estimatedShipDate|date("m-d-y") }}</td>
+                                    <td>{{ lateJob.salesOrder }}</td>
+                                    <td>{{ lateJob.estimatedShipDate|date("m-d") }}</td>
+                                    <td>{{ lateJob.plannerEstimatedShipDate|date("m-d") }}</td>
                                 </tr>
                                 {% endfor %}
                             </table>
@@ -128,7 +136,7 @@
             title: {
                 display: true,
                 text: 'Production load by location'
-            }
+            },
         }
     });
 
@@ -137,6 +145,8 @@
     var stageTexts = tmp.replace(/&quot;/g, '\"');
     tmp = '{{ jobsByStageTexts }}';
     var jobsByStageTexts = tmp.replace(/&quot;/g, '\"');
+    tmp = '{{ jobsClearToBuildByStageTexts }}';
+    var jobsClearToBuildByStageTexts = tmp.replace(/&quot;/g, '\"');
     var ctx3 = document.getElementById("jobsByStage").getContext('2d');
     var jobsByWeek = new Chart(ctx3, {
         type: 'horizontalBar',
@@ -148,18 +158,26 @@
                     data: JSON.parse(jobsByStageTexts),
                     backgroundColor: "blue",
                 },
-                // {
-                //     label: 'Jobs w/conditional formatting',
-                //     data: JSON.parse(macFixturesByWeek),
-                //     backgroundColor: "orange",
-                // },
+                {
+                    label: 'Jobs (clear to build)',
+                    data: JSON.parse(jobsClearToBuildByStageTexts),
+                    backgroundColor: "orange",
+                },
             ]
         },
         options: {
             title: {
                 display: true,
                 text: 'Scheduling by Job Life Stage'
-            }
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                }],
+                yAxes: [{
+                    stacked: true,
+                }]
+            },
         }
     });
 </script>
