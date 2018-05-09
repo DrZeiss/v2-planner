@@ -23,6 +23,7 @@ class EditUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $roleChoices = array(
+            'User'              => 'ROLE_USER',
             'BOM Builder'       => 'ROLE_BOM_BUILDER',
             'Kitter'            => 'ROLE_KITTER',
             'Short Kits'        => 'ROLE_SHORT_KITS',

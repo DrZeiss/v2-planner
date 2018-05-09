@@ -213,7 +213,7 @@
                             <span class="label label-success">
                               {% if app.user is not null %}
                                 {% for role in app.user.roles %}
-                                  {% if role == 'ROLE_USER' %}
+                                  {% if app.user.roles|length > 1 and role == 'ROLE_USER' %}
                                     {# Don't need to show this #}
                                   {% else %}
                                     {{ constant('V2\\UserBundle\\Entity\\User::' ~ role) }}<BR>
@@ -243,7 +243,7 @@
                               <div class="min-col"><i class="fa fa-sign-out"></i></div>
                             </div></a></li>
                       </ul>
-                      <div style="text-align:right;font-size:6pt;">V1.507</div>
+                      <div style="text-align:right;font-size:6pt;">V1.508</div>
                     </div>
                   </div>
                 </li>

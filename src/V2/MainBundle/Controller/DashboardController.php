@@ -72,9 +72,9 @@ class DashboardController extends Controller
         }
 
         // Get number of jobs released last week
-        $jobsReleasedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobReleasedByDays(7);
+        $jobsReleasedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobReleasedByWeeks(1);
         // Get number of shipped jobs last week
-        $jobsShippedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobShippedByDays(7);
+        $jobsShippedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobShippedByWeeks(1);
 
         // Get late jobs (job name and ESD)
         $lateJobs = $this->em->getRepository('V2MainBundle:Job')->getLateJobs();

@@ -140,6 +140,7 @@ class JobController extends Controller
         // Convert to array before it can be encoded into CSV format
         $dataArray = array();
         foreach ($jobs as $job) {
+            // JOB //
             $jobArray = array();
             $jobArray['name'] = $job->getName();
             $jobArray['sales_order'] = $job->getSalesOrder();
@@ -151,8 +152,116 @@ class JobController extends Controller
             $jobArray['mac_purchase_order'] = $job->getMacPurchaseOrder();
             $jobArray['build_location'] = $job->getBuildLocation()->getName();
             $jobArray['planner_estimated_ship_date'] = $job->getPlannerEstimatedShipDate() ? $job->getPlannerEstimatedShipDate()->format('Y-m-d') : null;
-            $dataArray[] = $jobArray;
+            $jobArray['cancelled_date'] = $job->getCancelledDate() ? $job->getCancelledDate()->format('Y-m-d') : null;
+            // BOM //
+            $bomArray = array();
+            $bomArray['serials_generated_date'] = $job->getBom() && $job->getBom()->getSerialsGeneratedDate() ? $job->getBom()->getSerialsGeneratedDate()->format('Y-m-d') : null;
+            $bomArray['issued_date'] = $job->getBom() && $job->getBom()->getIssuedDate() ? $job->getBom()->getIssuedDate()->format('Y-m-d') : null;
+            $bomArray['issued_by'] = $job->getBom() && $job->getBom()->getIssuedBy() ? $job->getBom()->getIssuedBy()->getInitials() : '';
+            // SHIPPING // 
+            $shippingArray = array();
+            $shippingArray['is_complete'] = 'Empty';
+            if ($job->getShipping() && $job->getShipping()->getIsComplete() == 1) {
+                $shippingArray['is_complete'] = 'Partial';
+            } elseif ($job->getShipping() && $job->getShipping()->getIsComplete() == 2) {
+                $shippingArray['is_complete'] = 'Complete';
+            }
+            $shippingArray['ship_date'] = $job->getShipping() && $job->getShipping()->getShipDate() ? $job->getShipping()->getShipDate()->format('Y-m-d') : null;
+            $shippingArray['second_ship_date'] = $job->getShipping() && $job->getShipping()->getSecondShipDate() ? $job->getShipping()->getSecondShipDate()->format('Y-m-d') : null;
+            $shippingArray['notes'] = $job->getShipping() ? $job->getShipping()->getNotes() : '';
+
+            // KITTING //
+            $kittingArray = array();
+            $kittingArray['kit_date'] = $job->getKitting() && $job->getKitting()->getKitDate() ? $job->getKitting()->getKitDate()->format('Y-m-d') : null;
+            $kittingArray['completion_date'] = $job->getKitting() && $job->getKitting()->getCompletionDate() ? $job->getKitting()->getCompletionDate()->format('Y-m-d') : null;
+            $kittingArray['filled_completely'] = 'Empty';
+            if ($job->getKitting() && $job->getKitting()->getFilledCompletely() == 1) {
+                $kittingArray['filled_completely'] = 'Yes';
+            } elseif ($job->getKitting() && $job->getKitting()->getFilledCompletely() == 0) {
+                $kittingArray['filled_completely'] = 'No';
+            }
+            $kittingArray['kit_location'] = $job->getKitting() ? $job->getKitting()->getLocation() : '';
+            // SHORT 1 //
+            $kittingArray['short1_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
+            $kittingArray['short1_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short1_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getDateNeeded() ? $job->getKitting()->getKittingShort1()->getDateNeeded()->format('Y-m-d') : null;
+            $kittingArray['short1_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getVendor() : null;
+            $kittingArray['short1_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getVendorPoNumber() : null;
+            $kittingArray['short1_mod_wo'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getModWo() : null;
+            $kittingArray['short1_estimated_delivery_date'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getEstimatedDeliveryDate() ? $job->getKitting()->getKittingShort1()->getEstimatedDeliveryDate()->format('Y-m-d') : null;
+            $kittingArray['short1_mod_done_date'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getModDoneDate() ? $job->getKitting()->getKittingShort1()->getModDoneDate()->format('Y-m-d') : null;
+            $kittingArray['short1_received_date'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getReceivedDate() ? $job->getKitting()->getKittingShort1()->getReceivedDate()->format('Y-m-d') : null;
+            $kittingArray['short1_parts_pulled_date'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getPartsPulledDate() ? $job->getKitting()->getKittingShort1()->getPartsPulledDate()->format('Y-m-d') : null;
+            $kittingArray['short1_notes'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getNotes() : null;
+            $kittingArray['short1_quantity'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getQuantity() : null;
+
+            // SHORT 2 //
+            $kittingArray['short2_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
+            $kittingArray['short2_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short2_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getDateNeeded() ? $job->getKitting()->getKittingShort2()->getDateNeeded()->format('Y-m-d') : null;
+            $kittingArray['short2_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getVendor() : null;
+            $kittingArray['short2_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getVendorPoNumber() : null;
+            $kittingArray['short2_mod_wo'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getModWo() : null;
+            $kittingArray['short2_estimated_delivery_date'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getEstimatedDeliveryDate() ? $job->getKitting()->getKittingShort2()->getEstimatedDeliveryDate()->format('Y-m-d') : null;
+            $kittingArray['short2_mod_done_date'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getModDoneDate() ? $job->getKitting()->getKittingShort2()->getModDoneDate()->format('Y-m-d') : null;
+            $kittingArray['short2_received_date'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getReceivedDate() ? $job->getKitting()->getKittingShort2()->getReceivedDate()->format('Y-m-d') : null;
+            $kittingArray['short2_parts_pulled_date'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getPartsPulledDate() ? $job->getKitting()->getKittingShort2()->getPartsPulledDate()->format('Y-m-d') : null;
+            $kittingArray['short2_notes'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getNotes() : null;
+            $kittingArray['short2_quantity'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getQuantity() : null;
+
+            // SHORT 3 //
+            $kittingArray['short3_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
+            $kittingArray['short3_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short3_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getDateNeeded() ? $job->getKitting()->getKittingShort3()->getDateNeeded()->format('Y-m-d') : null;
+            $kittingArray['short3_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getVendor() : null;
+            $kittingArray['short3_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getVendorPoNumber() : null;
+            $kittingArray['short3_mod_wo'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getModWo() : null;
+            $kittingArray['short3_estimated_delivery_date'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getEstimatedDeliveryDate() ? $job->getKitting()->getKittingShort3()->getEstimatedDeliveryDate()->format('Y-m-d') : null;
+            $kittingArray['short3_mod_done_date'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getModDoneDate() ? $job->getKitting()->getKittingShort3()->getModDoneDate()->format('Y-m-d') : null;
+            $kittingArray['short3_received_date'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getReceivedDate() ? $job->getKitting()->getKittingShort3()->getReceivedDate()->format('Y-m-d') : null;
+            $kittingArray['short3_parts_pulled_date'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getPartsPulledDate() ? $job->getKitting()->getKittingShort3()->getPartsPulledDate()->format('Y-m-d') : null;
+            $kittingArray['short3_notes'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getNotes() : null;
+            $kittingArray['short3_quantity'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getQuantity() : null;
+
+            // SHORT 4 //
+            $kittingArray['short4_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
+            $kittingArray['short4_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short4_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getDateNeeded() ? $job->getKitting()->getKittingShort4()->getDateNeeded()->format('Y-m-d') : null;
+            $kittingArray['short4_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getVendor() : null;
+            $kittingArray['short4_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getVendorPoNumber() : null;
+            $kittingArray['short4_mod_wo'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getModWo() : null;
+            $kittingArray['short4_estimated_delivery_date'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getEstimatedDeliveryDate() ? $job->getKitting()->getKittingShort4()->getEstimatedDeliveryDate()->format('Y-m-d') : null;
+            $kittingArray['short4_mod_done_date'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getModDoneDate() ? $job->getKitting()->getKittingShort4()->getModDoneDate()->format('Y-m-d') : null;
+            $kittingArray['short4_received_date'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getReceivedDate() ? $job->getKitting()->getKittingShort4()->getReceivedDate()->format('Y-m-d') : null;
+            $kittingArray['short4_parts_pulled_date'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getPartsPulledDate() ? $job->getKitting()->getKittingShort4()->getPartsPulledDate()->format('Y-m-d') : null;
+            $kittingArray['short4_notes'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getNotes() : null;
+            $kittingArray['short4_quantity'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getQuantity() : null;
+
+            // SCHEDULING //
+            $schedulingArray = array();
+            $schedulingArray['priority'] = 'Normal';
+            if ($job->getScheduling() && $job->getScheduling()->getPriority() == 1) {
+                $schedulingArray['priority'] = 'Custom';
+            } elseif ($job->getScheduling() && $job->getScheduling()->getPriority() == 2) {
+                $schedulingArray['priority'] = 'Hot';
+            } elseif ($job->getScheduling() && $job->getScheduling()->getPriority() == 3) {
+                $schedulingArray['priority'] = 'Rush';
+            }
+            $schedulingArray['sub_ready'] = $job->getScheduling() && $job->getScheduling()->getSubReady() == 1 ? 'Yes' : 'No';
+            $schedulingArray['completion_date'] = $job->getScheduling() && $job->getScheduling()->getCompletionDate() ? $job->getScheduling()->getCompletionDate()->format('Y-m-d') : null;
+            $schedulingArray['built_by'] = $job->getScheduling() ? $job->getScheduling()->getBuiltBy() : ''; // already in Initials
+
+            // PAINT //
+            $paintArray = array();
+            $paintArray['color1'] = $job->getPaint() ? $job->getPaint()->getColor1() : '';
+            $paintArray['batch1'] = $job->getPaint() && $job->getPaint()->getBatch1() ? $job->getPaint()->getBatch1()->getId() : '';
+            $paintArray['color2'] = $job->getPaint() ? $job->getPaint()->getColor2() : '';
+            $paintArray['batch2'] = $job->getPaint() && $job->getPaint()->getBatch2() ? $job->getPaint()->getBatch2()->getId() : '';
+            $paintArray['paint_location'] = $job->getPaint() ? $job->getPaint()->getLocation() : '';
+
+            $dataArray[] = array_merge($jobArray, $bomArray, $shippingArray, $kittingArray, $schedulingArray, $paintArray);
         }
+
         $serializer = $this->get('serializer');
         $csvData = $serializer->encode($dataArray, 'csv');
 

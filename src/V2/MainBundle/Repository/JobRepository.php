@@ -142,16 +142,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
-    public function getNumJobReleasedByDays($numDays)
+    public function getNumJobReleasedByWeeks($numWeeks)
     {
-        $qb = $this->createQueryBuilder('j')
-            ->select('COUNT(j.id) as total')
-            ->where('j.createTime > :createTime')
-            ->andWhere("j.cancelledDate IS NULL")
-            ->setParameter('createTime', date('Y-m-d', strtotime("-$numDays days")));
-        
-        $results = $qb->getQuery()
-            ->getResult();
+        $sql = "SELECT COUNT(j.id) AS total
+                FROM job j
+                WHERE WEEK(j.create_time,1) = WEEK(DATE_SUB(NOW(), INTERVAL $numWeeks WEEK),1)
+                AND cancelled_date IS NULL;";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
         if (count($results) <= 0) {
             return 0;
         }
@@ -184,17 +185,19 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results[0];
     }
 
-    // Gets the number of jobs shipped by a specific number of days
-    public function getNumJobShippedByDays($numDays)
+    // Gets the number of jobs shipped by a specific number of weeks
+    public function getNumJobShippedByWeeks($numWeeks)
     {
-        $qb = $this->createQueryBuilder('j')
-            ->select('COUNT(j.id) as total')
-            ->leftJoin('j.shipping', 'shipping')
-            ->where('shipping.shipDate > :shipDate')
-            ->setParameter('shipDate', date('Y-m-d', strtotime("-$numDays days")));
-        
-        $results = $qb->getQuery()
-            ->getResult();
+        $sql = "SELECT COUNT(j.id) AS total
+                FROM job j
+                LEFT JOIN shipping s ON s.job_id = j.id
+                WHERE WEEK(s.ship_date,1) = WEEK(DATE_SUB(NOW(), INTERVAL $numWeeks WEEK),1)
+                AND cancelled_date IS NULL;";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
         if (count($results) <= 0) {
             return 0;
         }
@@ -264,8 +267,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -686,6 +689,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
         $results = $qb->addOrderBy("customSortOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -751,6 +755,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->getQuery()
             ->getResult();
 
@@ -824,8 +829,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->getQuery()
             ->getResult();
 

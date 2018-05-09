@@ -19,11 +19,11 @@ class User extends BaseUser
     const ROLE_SUPER_ADMIN      = 'SUPER ADMIN';
     const ROLE_ADMIN            = 'ADMIN';
     const ROLE_DEFAULT          = 'ROLE_USER';
-    const ROLE_USER             = 'ROLE_USER';    
+    const ROLE_USER             = 'USER';    
     // Specific roles
-    const ROLE_BOM_BUILDER      = 'BOM_BUILDER';
+    const ROLE_BOM_BUILDER      = 'BOM BUILDER';
     const ROLE_KITTER           = 'KITTER';
-    const ROLE_SHORT_KITS       = 'SHORT_KITS';
+    const ROLE_SHORT_KITS       = 'SHORT KITS';
     const ROLE_RECEIVER         = 'RECEIVER';
     const ROLE_MANUFACTURER     = 'MANUFACTURER';
     const ROLE_SUPPLY_CHAIN     = 'SUPPLY CHAIN';
