@@ -368,8 +368,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j');
         $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
+            ->join('j.bom', 'bom')
             ->where("kitting.filledCompletely IS NULL")
             ->andWhere("j.manufacturingOrder IS NOT NULL")
+            ->andWhere("bom.serialsGeneratedDate IS NOT NULL")
             ->orWhere("(kitting.filledCompletely IS NOT NULL AND kitting.location IS NULL)")
             ->andWhere("j.cancelledDate IS NULL");
 
@@ -395,6 +397,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $name       = $parameters['name'];
         $salesOrder = $parameters['sales_order'];
+        $partNumber = $parameters['part_number'];
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.kitting', 'kitting')
@@ -402,8 +405,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
-            ->leftJoin('kitting.kittingShort4', 'kittingShort4')            
+            ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 0")
+            ->andWhere("(kittingShort1.partNumber != '' AND kittingShort1.paintedPart = 0) OR
+                        (kittingShort2.partNumber != '' AND kittingShort2.paintedPart = 0) OR
+                        (kittingShort3.partNumber != '' AND kittingShort3.paintedPart = 0) OR
+                        (kittingShort4.partNumber != '' AND kittingShort4.paintedPart = 0)")
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
@@ -414,6 +421,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($salesOrder) {
             $qb->andWhere("j.salesOrder LIKE :salesOrder")
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
+        if ($partNumber) {
+            $qb->andWhere("kittingShort1.partNumber LIKE :partNumber OR 
+                           kittingShort2.partNumber LIKE :partNumber OR 
+                           kittingShort3.partNumber LIKE :partNumber OR 
+                           kittingShort4.partNumber LIKE :partNumber")
+                ->setParameter('partNumber', "%" . $partNumber . "%");
         }
         
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
@@ -738,7 +753,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function findShipperJobs($parameters)
     {
-        $salesOrder                     = $parameters['sales_order'];
+
+        $salesOrder     = $parameters['sales_order'];
+        $shipDate       = $parameters['ship_date'];
 
         $qb = $this->createQueryBuilder('j')
             ->join('j.scheduling', 'scheduling')
@@ -752,9 +769,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
+        if ($shipDate) {
+            $emConfig = $this->getEntityManager()->getConfiguration();
+            $emConfig->addCustomDatetimeFunction('DATE', 'DoctrineExtensions\Query\Mysql\Date');
+
+            $qb->andWhere('DATE(shipping.shipDate) = :shipDate')
+                ->setParameter('shipDate', new \DateTime($shipDate));
+        }
+
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->addOrderBy("j.salesOrder", "ASC")
+            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
 

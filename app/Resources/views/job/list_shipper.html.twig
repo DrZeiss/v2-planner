@@ -15,6 +15,10 @@
                         <label class="form-label">Sales Order #</label>
                         <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
                     </div>
+                    <div class="col-sm-2">
+                        <label class="form-label">Ship Date</label>
+                        <input type="text" id="ship_date" name="ship_date" value="{{ ship_date }}" placeholder="YYYY-MM-DD" class="form-control">
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -130,6 +134,10 @@
         });
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
+
+        $("input[name='ship_date'").datepicker({
+            dateFormat: 'yy-mm-dd',
+        });        
 
         $('.shipDate').each(function(i, obj) {
             $(this).editable({

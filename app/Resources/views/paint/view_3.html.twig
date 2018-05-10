@@ -105,7 +105,13 @@
                         {{ batch.v2PoNumber }}
                     {% endif %}
                 </td>
-                <td>{{ batch.neededByDate ? batch.neededByDate | date('Y-m-d') : "" }}</td>
+                <td>
+                    {% if is_granted('ROLE_PAINTER') %}
+                        <a href="#" class="neededByDate" data-name="neededByDate" data-pk="{{ batch.id }}" data-url="{{ path('edit_batch_needed_by_date', { 'batchId': batch.id }) }}">{{ batch.neededByDate ? batch.neededByDate | date('Y-m-d') : "" }}</a>
+                    {% else %}
+                        {{ batch.neededByDate ? batch.neededByDate | date('Y-m-d') : "" }}
+                    {% endif %}
+                </td>
                 <td>
                     {% if is_granted('ROLE_PAINTER') %}
                         <a href="#" class="kitDate" data-name="kitDate" data-pk="{{batch.id}}" data-url="{{ path('edit_batch_kit_date', {'batchId': batch.id}) }}">{{ batch.kitDate ? batch.kitDate | date('Y-m-d') : "" }}</a>
@@ -218,6 +224,19 @@
                 placement: 'left',
                 url: obj.dataset.url,
                 title: 'Select Kit Date',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.neededByDate').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Needed By Date',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

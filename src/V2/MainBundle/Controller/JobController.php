@@ -347,6 +347,7 @@ class JobController extends Controller
         $defaultParameters = array(
             'name' => null,
             'sales_order' => null,
+            'part_number' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -356,6 +357,7 @@ class JobController extends Controller
             'jobs'          =>  $jobs,
             'name'          =>  $parameters['name'],
             'sales_order'   =>  $parameters['sales_order'],
+            'part_number'   =>  $parameters['part_number'],
         ));
     }
 
@@ -584,6 +586,7 @@ class JobController extends Controller
     {
         $defaultParameters = array(
             'sales_order' => null,
+            'ship_date' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -592,6 +595,7 @@ class JobController extends Controller
         return $this->render('job/list_shipper.html.twig', array(
             'jobs'          =>  $jobs,
             'sales_order'   =>  $parameters['sales_order'],
+            'ship_date'     =>  $parameters['ship_date'],
         ));
     }
     /**

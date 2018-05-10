@@ -75,7 +75,13 @@
                 {% endif %}                
             <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="plum"{% endif %}>
                 <td style="font-size:small;word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_SUPPLY_CHAIN') %}
+                        <a href="#" class="dateNeeded" data-name="dateNeeded" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_date_needed', { 'shortId': part.id }) }}">{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</a>
+                        {% else %}
+                            {{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}
+                        {% endif %}
+                </td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_SUPPLY_CHAIN') %}
                         <a href="#" class="estimatedDeliveryDate" data-name="estimatedDeliveryDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_estimated_delivery_date', {'shortId': part.id }) }}">{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</a>
@@ -132,6 +138,19 @@
         });
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
+
+        $('.dateNeeded').each(function(i, obj) {
+            $(this).editable({
+                type: 'date',
+                container: 'body',
+                placement: 'left',
+                url: obj.dataset.url,
+                title: 'Select Date Needed',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
 
         $('.estimatedDeliveryDate').each(function(i, obj) {
             $(this).editable({

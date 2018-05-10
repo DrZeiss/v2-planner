@@ -540,6 +540,31 @@ class PaintController extends Controller
     }
 
     /**
+     * @Route("batch/{batchId}/editNeededByDate", name="edit_batch_needed_by_date")
+     */
+    public function editBatchNeededByDate(Request $request, $batchId)
+    {
+        $neededByDate = $request->request->get('value');
+
+        $batch = $this->batchRepository->find($batchId);
+        if (!$batch) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid Batch ID"));
+        }
+
+        if (is_null($neededByDate) || $neededByDate == '') {
+            $batch->setNeededByDate(null);
+        } else {
+            $batch->setNeededByDate(new \DateTime($neededByDate));
+        }
+        $batch->setUpdateTime(new \DateTime());
+        $batch->setUpdatedBy($this->getUser());
+        $this->em->persist($batch);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
      * @Route("batch/{batchId}/editKitDate", name="edit_batch_kit_date")
      */
     public function editBatchKitDate(Request $request, $batchId)

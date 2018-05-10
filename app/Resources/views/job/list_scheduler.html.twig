@@ -85,7 +85,6 @@
             <th style="border:solid;width:6ch" rowspan=2>SO #</th>
             <th style="border:solid;width:10ch" rowspan=2>Job Type</th>            
             <th style="border:solid;text-align:center" colspan=7>Job</th>
-            <th style="border:solid;text-align:center" colspan=3>Shipped</th>
             <th style="border:solid;text-align:center" colspan=1>BOM</th>
             <th style="border:solid;text-align:center" colspan=3>Kitting</th>
             <th style="border:solid;text-align:center" colspan=5>Short #1</th>
@@ -94,6 +93,7 @@
             <th style="border:solid;text-align:center" colspan=5>Short #4</th>
             <th style="border:solid;text-align:center" colspan=1>Paint</th>
             <th style="border:solid;text-align:center" colspan=3>Scheduling</th>
+            <th style="border:solid;text-align:center" colspan=3>Shipped</th>
         </tr>
         <tr>
             {# Job #}
@@ -104,10 +104,6 @@
             <th style="border:solid;width:6ch">MO#</th>
             <th style="border:solid;width:6ch">MAC PO#</th>
             <th style="border:solid;width:3ch">LOC</th>
-            {# Shipped #}
-            <th style="border:solid;width:7ch">1st Ship Date </th>
-            <th style="border:solid;width:4ch">Complete or Partial</th>
-            <th style="border:solid;width:7ch">2nd Ship Date</th>
             {# BOM #}
             <th style="border:solid;width:7ch;font-size:60%">Issued Date</th>
             {# Kitting #}
@@ -144,6 +140,10 @@
             <th style="border:solid;width:4ch">Sub Ready</th>
             <th style="border:solid;min-width:7ch;font-size:60%">Build Completion Date</th>
             <th style="border:solid;width:4ch">Priority</th>
+            {# Shipped #}
+            <th style="border:solid;width:7ch">1st Ship Date </th>
+            <th style="border:solid;width:4ch">Complete or Partial</th>
+            <th style="border:solid;width:7ch">2nd Ship Date</th>            
         </tr>            
         </thead>
         <tbody>
@@ -176,18 +176,6 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a></td>                    
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="macPurchaseOrder" data-name="macPurchaseOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_mac_purchase_order', {'jobId': job.id}) }}">{{ job.macPurchaseOrder }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="buildLocation" data-name="buildLocation" data-pk="{{job.id}}" data-value="{{job.buildLocation.id}}" data-url="{{ path('edit_job_build_location', {'jobId': job.id}) }}">{{ job.buildLocation.name }}</a></td>
-                {# Shipped #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : '' }}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">
-                    {% if job.shipping and job.shipping.isComplete == 2 %}
-                        Complete
-                    {% elseif job.shipping and job.shipping.isComplete == 1 %}
-                        Partial
-                    {% else %}
-                        Empty
-                    {% endif %}
-                </a></td>
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
                 {# BOM #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="issuedDate" data-name="issuedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_issued_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.issuedDate ? job.bom.issuedDate|date('Y-m-d') : "" }}</a></td>
                 {# Kitting #}
@@ -266,6 +254,18 @@
                         Unknown
                     {% endif %}
                 </a></td>
+                {# Shipped #}
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="shipDate" data-name="shipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.shipDate ? job.shipping.shipDate | date('Y-m-d') : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="isComplete" data-name="isComplete" data-pk="{{job.id}}" data-value="{{job.shipping ? job.shipping.isComplete : '' }}" data-url="{{ path('edit_shipping_is_complete', {'jobId': job.id}) }}">
+                    {% if job.shipping and job.shipping.isComplete == 2 %}
+                        Complete
+                    {% elseif job.shipping and job.shipping.isComplete == 1 %}
+                        Partial
+                    {% else %}
+                        Empty
+                    {% endif %}
+                </a></td>
+                <td {% if late %}style="color:white"{% endif %}><a href="#" class="secondShipDate" data-name="secondShipDate" data-pk="{{job.id}}" data-url="{{ path('edit_shipping_second_ship_date', {'jobId': job.id}) }}">{{ job.shipping and job.shipping.secondShipDate ? job.shipping.secondShipDate | date('Y-m-d') : "" }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
