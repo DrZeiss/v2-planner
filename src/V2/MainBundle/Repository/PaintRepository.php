@@ -19,6 +19,7 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             JOIN job ON job.id = p.job_id
             WHERE color_1 IS NOT NULL
             AND batch_1_id IS NULL
+            AND job.cancelled_date IS NULL
             GROUP BY color_1
                 UNION
             SELECT color_2 AS color, count(job_id), sum(quantity), min(planner_estimated_ship_date) AS planner_esd 
@@ -26,6 +27,7 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             JOIN job ON job.id = p.job_id
             WHERE color_2 IS NOT NULL
             AND batch_2_id IS NULL
+            AND job.cancelled_date IS NULL
             GROUP BY color_2
             ) tmp
         GROUP BY tmp.color";
@@ -48,7 +50,8 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where('p.id > 0');
+            ->where('p.id > 0')
+            ->andWhere('job.cancelledDate IS NULL');
 
         if ($name) {
             $qb->andWhere("job.name LIKE :name")
@@ -86,7 +89,8 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('p.batch1', 'batch1')
             ->leftJoin('p.batch2', 'batch2')
             ->where('p.id > 0')
-            ->andWhere("(p.location IS NULL OR p.location LIKE 'B_%')");
+            ->andWhere("(p.location IS NULL OR p.location LIKE 'B_%')")
+            ->andWhere('job.cancelledDate IS NULL');
 
         if ($name) {
             $qb->andWhere("job.name LIKE :name")
