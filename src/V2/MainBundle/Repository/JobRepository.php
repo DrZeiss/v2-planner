@@ -576,8 +576,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 1")
-            ->andWhere("buildLocation.name = 'MAC'")
+            ->where("buildLocation.name = 'MAC'")
             ->andWhere("scheduling.completionDate IS NULL")
             ->andWhere("j.cancelledDate IS NULL");
 
