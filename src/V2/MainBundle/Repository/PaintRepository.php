@@ -14,17 +14,27 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
 
         $sql = "SELECT max(color) AS color, sum(num_jobs) AS num_jobs, sum(sum_qty) AS sum_qty, min(planner_esd) AS planner_esd 
         FROM (
-            SELECT color_1 AS color, count(job_id) AS num_jobs, sum(quantity) AS sum_qty, min(planner_estimated_ship_date) AS planner_esd 
+            SELECT color_1 AS color, count(DISTINCT p.job_id) AS num_jobs, sum(job.quantity) AS sum_qty, min(planner_estimated_ship_date) AS planner_esd 
             FROM paint p
             JOIN job ON job.id = p.job_id
+            JOIN kitting k ON k.job_id = p.job_id AND (k.kitting_short_1_id IS NOT NULL OR 
+                                                       k.kitting_short_2_id IS NOT NULL OR 
+                                                       k.kitting_short_3_id IS NOT NULL OR 
+                                                       k.kitting_short_4_id IS NOT NULL)
+            LEFT JOIN kitting_short ks on ks.kitting_id = k.id AND ks.painted_part = 1
             WHERE color_1 IS NOT NULL
             AND batch_1_id IS NULL
             AND job.cancelled_date IS NULL
             GROUP BY color_1
                 UNION
-            SELECT color_2 AS color, count(job_id), sum(quantity), min(planner_estimated_ship_date) AS planner_esd 
+            SELECT color_2 AS color, count(DISTINCT p.job_id), sum(job.quantity), min(planner_estimated_ship_date) AS planner_esd 
             FROM paint p
             JOIN job ON job.id = p.job_id
+            JOIN kitting k ON k.job_id = p.job_id AND (k.kitting_short_1_id IS NOT NULL OR 
+                                                       k.kitting_short_2_id IS NOT NULL OR 
+                                                       k.kitting_short_3_id IS NOT NULL OR 
+                                                       k.kitting_short_4_id IS NOT NULL)
+            LEFT JOIN kitting_short ks on ks.kitting_id = k.id AND ks.painted_part = 1
             WHERE color_2 IS NOT NULL
             AND batch_2_id IS NULL
             AND job.cancelled_date IS NULL
@@ -45,12 +55,16 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
 
         $qb = $this->createQueryBuilder('p')
             ->join('p.job', 'job')
-            ->Join('job.kitting', 'kitting')
+            ->join('job.kitting', 'kitting')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where('p.id > 0')
+            ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.paintedPart = 1) OR 
+                        (kitting.kittingShort2 IS NOT NULL AND kittingShort2.paintedPart = 1) OR 
+                        (kitting.kittingShort3 IS NOT NULL AND kittingShort3.paintedPart = 1) OR 
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.paintedPart = 1)")
             ->andWhere('job.cancelledDate IS NULL');
 
         if ($name) {

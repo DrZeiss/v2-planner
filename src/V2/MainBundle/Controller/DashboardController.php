@@ -28,11 +28,15 @@ class DashboardController extends Controller
         $weekTexts = array();
         $jobsByWeekTexts = array();
         $rushJobsByWeekTexts = array();
+        $shippedJobsByWeekTexts = array();
         foreach ($jobsByWeek as $index => $week) {
+            $shippedJobsByWeekTexts[$index] = 0;
             if ($week['week_num'] == $currentWeek - 1) {
                 $weekTexts[$index] = 'Last week';
             } else if ($week['week_num'] == $currentWeek) {
                 $weekTexts[$index] = 'This week';
+                $jobsShippedThisWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsShippedThisWeek();
+                $shippedJobsByWeekTexts[$index] = $jobsShippedThisWeek[0]['num_shipped_jobs'];
             } else if ($week['week_num'] == $currentWeek + 1) {
                 $weekTexts[$index] = 'Next week';
             } else {
@@ -57,6 +61,8 @@ class DashboardController extends Controller
             // Get total too
             $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
         }
+        // Get Fixtures shipped by location (this month)
+        $fixturesShippedThisMonth = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedThisMonth();
 
         // Get Scheduling by Job Life Stage
         $jobsByStage = $this->em->getRepository('V2MainBundle:Job')->getJobsByStage();
@@ -84,10 +90,12 @@ class DashboardController extends Controller
             'weeks' => json_encode($weekTexts),
             'jobsByWeek' => json_encode($jobsByWeekTexts),
             'rushJobsByWeek' => json_encode($rushJobsByWeekTexts),
+            'shippedJobsByWeek' => json_encode($shippedJobsByWeekTexts),
             'totalOpenJobs' => $totalOpenJobs,
             'productionV2ByWeek' => json_encode($productionV2ByWeek),
             'productionMacByWeek' => json_encode($productionMacByWeek),
             'totalFixturesToBuild' => $totalFixturesToBuild,
+            'fixturesShippedThisMonth' => $fixturesShippedThisMonth,
             'stageTexts' => json_encode($stageTexts),
             'jobsByStageTexts' => json_encode($jobsByStageTexts),
             'jobsClearToBuildByStageTexts' => json_encode($jobsClearToBuildByStageTexts),

@@ -23,6 +23,7 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
         $color                  = $parameters['color'];
         $vendor                 = $parameters['vendor'];
         $estimatedReleaseDate   = $parameters['estimated_release_date'];
+        $batch                  = $parameters['batch'];
         $showAllBatches         = $parameters['show_all_batches'];
 
         $qb = $this->createQueryBuilder('b')
@@ -43,6 +44,11 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
         if ($estimatedReleaseDate) {
             $qb->andWhere("b.estimatedReleaseDate = :estimatedReleaseDate")
                 ->setParameter('estimatedReleaseDate', new \DateTime($estimatedReleaseDate));
+        }
+
+        if ($batch) {
+            $qb->andWhere("b.id = :batch")
+                ->setParameter('batch', $batch);
         }
 
         if (!$showAllBatches) {

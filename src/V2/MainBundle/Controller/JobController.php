@@ -240,12 +240,16 @@ class JobController extends Controller
             // SCHEDULING //
             $schedulingArray = array();
             $schedulingArray['priority'] = 'Normal';
-            if ($job->getScheduling() && $job->getScheduling()->getPriority() == 1) {
+            if ($job->getScheduling() && $job->getScheduling()->getPriority() == -1) {
+                $schedulingArray['priority'] = 'Extra';
+            } elseif ($job->getScheduling() && $job->getScheduling()->getPriority() == 1) {
                 $schedulingArray['priority'] = 'Custom';
             } elseif ($job->getScheduling() && $job->getScheduling()->getPriority() == 2) {
                 $schedulingArray['priority'] = 'Hot';
             } elseif ($job->getScheduling() && $job->getScheduling()->getPriority() == 3) {
                 $schedulingArray['priority'] = 'Rush';
+            } elseif ($job->getScheduling() && $job->getScheduling()->getPriority() == 4) {
+                $schedulingArray['priority'] = 'RMA';
             }
             $schedulingArray['sub_ready'] = $job->getScheduling() && $job->getScheduling()->getSubReady() == 1 ? 'Yes' : 'No';
             $schedulingArray['completion_date'] = $job->getScheduling() && $job->getScheduling()->getCompletionDate() ? $job->getScheduling()->getCompletionDate()->format('Y-m-d') : null;
@@ -678,6 +682,7 @@ class JobController extends Controller
 
                     $scheduling = new Scheduling();
                     $scheduling->setJob($job);
+                    $scheduling->setPriority($form->get("priority")->getData());
                     $scheduling->setUpdatedBy($this->getUser());
                     $scheduling->setUpdateTime(new \DateTime());
                     $this->em->persist($scheduling);

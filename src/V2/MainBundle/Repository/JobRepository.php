@@ -55,9 +55,28 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 JOIN scheduling s ON s.job_id = j.id
                 LEFT JOIN shipping ON shipping.job_id = j.id
                 WHERE ((shipping.ship_date IS NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NULL))
-                AND planner_estimated_ship_date > NOW()
+                AND WEEK(planner_estimated_ship_date,1) >= WEEK(NOW(),1)
                 AND cancelled_date IS NULL
                 GROUP BY WEEK(planner_estimated_ship_date,1);"; // need to offset by 1
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        return $results;
+    }
+
+    public function getJobsShippedThisWeek()
+    {
+        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
+                COUNT(j.id) AS num_shipped_jobs
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                LEFT JOIN shipping ON shipping.job_id = j.id
+                WHERE ((shipping.ship_date IS NOT NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NOT NULL))
+                AND WEEK(planner_estimated_ship_date,1) = WEEK(NOW(),1)
+                AND cancelled_date IS NULL
+                GROUP BY WEEK(planner_estimated_ship_date,1);";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
@@ -73,7 +92,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_fixtures
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
-                WHERE planner_estimated_ship_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+                WHERE WEEK(planner_estimated_ship_date,1) >= WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1)
                 AND cancelled_date IS NULL
                 GROUP BY WEEK(planner_estimated_ship_date,1);";
         $em = $this->getEntityManager();
@@ -84,6 +103,25 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
 
     }
+
+    // Returns the actual number of fixtures shipped for the current month
+    public function getFixturesShippedThisMonth()
+    {
+        $sql = "SELECT sum(quantity) AS num_shipped
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                JOIN shipping ON shipping.job_id = j.id
+                WHERE MONTH(planner_estimated_ship_date) = MONTH(NOW())
+                AND ((shipping.ship_date IS NOT NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NOT NULL))
+                AND cancelled_date IS NULL;";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        
+        return $results[0]['num_shipped'];
+    }
+
     public function getJobsByStage()
     {
         $results = array();
@@ -838,7 +876,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('buildLocation', $buildLocation);
         }
 
-        if ($priority >= 0) {
+        if ($priority != 99) { // 99 means ALL
             $qb->andWhere("scheduling.priority = :priority")
                 ->setParameter('priority', $priority);
         }

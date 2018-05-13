@@ -28,10 +28,12 @@ class Scheduling
     private $job;
 
     /**
+     * -1 = extra
      * 0 = normal
      * 1 = custom
      * 2 = hot
      * 3 = rush
+     * 4 = RMA
      *
      * @var int
      *

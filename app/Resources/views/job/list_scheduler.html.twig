@@ -26,11 +26,13 @@
                     <div class="col-sm-2">
                         <label class="form-label">Priority</label>
                         <select name="selected_priority" class="select2-box form-control">
-                            <option value="-1" {% if selected_priority == -1 %}selected{% endif %}>ALL</option>
+                            <option value="99" {% if selected_priority == 99 %}selected{% endif %}>ALL</option>
+                            <option value="4" {% if selected_priority == 4 %}selected{% endif %}>RMA</option>
                             <option value="3" {% if selected_priority == 3 %}selected{% endif %}>Rush</option>
                             <option value="2" {% if selected_priority == 2 %}selected{% endif %}>Hot</option>
                             <option value="1" {% if selected_priority == 1 %}selected{% endif %}>Custom</option>
                             <option value="0" {% if selected_priority == 0 %}selected{% endif %}>Normal</option>
+                            <option value="-1" {% if selected_priority == -1 %}selected{% endif %}>Extra</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
@@ -242,7 +244,9 @@
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="priority" data-name="priority" data-pk="{{job.id}}" data-value="{{ job.scheduling.priority }}" data-url="{{ path('edit_scheduling_priority', {'jobId': job.id}) }}">
-                    {% if job.scheduling.priority == 0 %}
+                    {% if job.scheduling.priority == -1 %}
+                        Extra
+                    {% elseif job.scheduling.priority == 0 %}
                         Normal
                     {% elseif job.scheduling.priority == 1 %}
                         Custom
@@ -250,6 +254,8 @@
                         Urgent
                     {% elseif job.scheduling.priority == 3 %}
                         Rush
+                    {% elseif job.scheduling.priority == 4 %}
+                        RMA
                     {% else %}
                         Unknown
                     {% endif %}
@@ -685,10 +691,12 @@
                 placement: 'left',
                 value: obj.dataset.value,
                 source: [
+                  {value: 4, text: 'RMA'},
                   {value: 3, text: 'Rush'},
                   {value: 2, text: 'Hot'},
                   {value: 1, text: 'Custom'},
                   {value: 0, text: 'Normal'},
+                  {value: -1, text: 'Extra'},
                 ],
                 url: obj.dataset.url,
                 title: 'Enter a priority for the Job',

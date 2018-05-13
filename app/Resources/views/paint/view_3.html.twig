@@ -8,7 +8,7 @@
 
 {% block afterBreadcrumbs %}
     <span style="float:right">
-        <a href="{{ path('print_paint_view3', {'color': color, 'vendor': vendor, 'estimated_release_date': estimated_release_date, 'show_all_batches': show_all_batches}) }}" class="btn btn-sm btn-warning">Print</a>
+        <a href="{{ path('print_paint_view3', {'color': color, 'vendor': vendor, 'estimated_release_date': estimated_release_date, 'batch': batch, 'show_all_batches': show_all_batches}) }}" class="btn btn-sm btn-warning">Print</a>
     </span>
 {% endblock %}
 
@@ -17,7 +17,11 @@
         <div class="ibox-content">
             <form action="{{ path('paint_view3') }}" method="GET">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
+                        <label class="form-label">Batch #</label>
+                        <input type="text" name="batch" value="{{ batch }}" placeholder="Type in batch #" class="form-control">
+                    </div>                    
+                    <div class="col-sm-2">
                         <label class="form-label">Color</label>
                         <input type="text" name="color" value="{{ color }}" placeholder="Type in color" class="form-control">
                     </div>

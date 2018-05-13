@@ -148,6 +148,7 @@ class PaintController extends Controller
             'color'                     => null,
             'vendor'                    => null,
             'estimated_release_date'    => null,
+            'batch'                     => null,
             'show_all_batches'          => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
@@ -159,6 +160,7 @@ class PaintController extends Controller
             'color'                     =>  $parameters['color'],
             'vendor'                    =>  $parameters['vendor'],
             'estimated_release_date'    =>  $parameters['estimated_release_date'],
+            'batch'                     =>  $parameters['batch'],
             'show_all_batches'          =>  $parameters['show_all_batches'],
         ));
     }
