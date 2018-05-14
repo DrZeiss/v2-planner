@@ -36,8 +36,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 LEFT JOIN shipping ON shipping.job_id = j.id
                 WHERE shipping.ship_date IS NOT NULL
                 AND WEEK(shipping.ship_date,1) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1)
-                AND cancelled_date IS NULL
-                GROUP BY WEEK(planner_estimated_ship_date,1);";
+                AND cancelled_date IS NULL";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();

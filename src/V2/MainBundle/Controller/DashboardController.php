@@ -29,6 +29,7 @@ class DashboardController extends Controller
         $jobsByWeekTexts = array();
         $rushJobsByWeekTexts = array();
         $shippedJobsByWeekTexts = array();
+
         foreach ($jobsByWeek as $index => $week) {
             $shippedJobsByWeekTexts[$index] = 0;
             if ($week['week_num'] == $currentWeek - 1) {
@@ -36,7 +37,11 @@ class DashboardController extends Controller
             } else if ($week['week_num'] == $currentWeek) {
                 $weekTexts[$index] = 'This week';
                 $jobsShippedThisWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsShippedThisWeek();
-                $shippedJobsByWeekTexts[$index] = $jobsShippedThisWeek[0]['num_shipped_jobs'];
+                if (count($jobsShippedThisWeek) > 0) {
+                    $shippedJobsByWeekTexts[$index] = $jobsShippedThisWeek[0]['num_shipped_jobs'];
+                } else {
+                    $shippedJobsByWeekTexts[$index] = 0;
+                }
             } else if ($week['week_num'] == $currentWeek + 1) {
                 $weekTexts[$index] = 'Next week';
             } else {
