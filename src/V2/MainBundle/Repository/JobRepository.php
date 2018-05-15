@@ -72,8 +72,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 LEFT JOIN shipping ON shipping.job_id = j.id
-                WHERE ((shipping.ship_date IS NOT NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NOT NULL))
-                AND WEEK(planner_estimated_ship_date,1) = WEEK(NOW(),1)
+                WHERE ((shipping.is_complete = 2) OR (shipping.second_ship_date IS NOT NULL))
+                AND (WEEK(ship_date,1) = WEEK(NOW(),1) OR WEEK(second_ship_date,1) = WEEK(NOW(),1))
                 AND cancelled_date IS NULL
                 GROUP BY WEEK(planner_estimated_ship_date,1);";
         $em = $this->getEntityManager();
@@ -106,7 +106,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     // Returns the actual number of fixtures shipped for the current month
     public function getFixturesShippedThisMonth()
     {
-        $sql = "SELECT sum(quantity) AS num_shipped
+        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
+                SUM(IF(j.build_location = 1, quantity, 0)) AS num_v2_shipped,
+                SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_shipped
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 JOIN shipping ON shipping.job_id = j.id
@@ -118,7 +120,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $stmt->execute();
         $results = $stmt->fetchAll();
         
-        return $results[0]['num_shipped'];
+        return $results[0];
     }
 
     public function getJobsByStage()
@@ -249,7 +251,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
         $name                           = $parameters['name'];
         $salesOrder                     = $parameters['sales_order'];
-        $esd                            = $parameters['esd'];
+        $estimatedShipDateFrom          = $parameters['esd_date_from'];
+        $estimatedShipDateTo            = $parameters['esd_date_to'];
         $nonShipped                     = $parameters['non_shipped'];
         $plannerEstimatedShipDateFrom   = $parameters['planner_esd_date_from'];
         $plannerEstimatedShipDateTo     = $parameters['planner_esd_date_to'];
@@ -274,9 +277,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
-        if ($esd) {
-            $qb->andWhere("j.estimatedShipDate = :estimatedShipDate")
-                ->setParameter('estimatedShipDate', new \DateTime($esd));
+        if ($estimatedShipDateFrom) {
+            $qb->andWhere("j.estimatedShipDate >= :estimatedShipDateFrom")
+                ->setParameter('estimatedShipDateFrom', new \DateTime($estimatedShipDateFrom));
+        }
+
+        if ($estimatedShipDateTo) {
+            $qb->andWhere("j.estimatedShipDate <= :estimatedShipDateTo")
+                ->setParameter('estimatedShipDateTo', new \DateTime($estimatedShipDateTo));
         }
 
         if ($plannerEstimatedShipDateFrom) {
@@ -423,6 +431,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
         
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -658,6 +667,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb->addOrderBy("customSortOrder", "ASC")
+            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();

@@ -17,8 +17,10 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $name       = $parameters['name'];
 
         $qb = $this->createQueryBuilder('ks')
-            ->addSelect('CASE WHEN ks.vendor IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
-            ->addSelect('CASE WHEN ks.dateNeeded IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering2')
+            // ->addSelect('CASE WHEN ks.vendor IS NULL and ks.dateNeeded IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
+            ->addSelect("CASE WHEN (ks.vendor IS NULL OR ks.vendor = '') THEN 1 ELSE 2 END AS HIDDEN ordering2")
+            ->addSelect("CASE WHEN ks.vendorPoNumber IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering3")            
+            ->addSelect("CASE WHEN ks.dateNeeded IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering4")
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
@@ -42,11 +44,13 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $results = $qb
-            ->addOrderBy("ordering1")
-            ->addOrderBy("ordering1")
-            // ->addOrderBy("ks.vendor", "ASC")
+            // ->addOrderBy("ordering1")
+            ->addOrderBy("ordering2")
             ->addOrderBy("ks.dateNeeded", "ASC")
-            ->addOrderBy("ks.vendorPoNumber", "ASC")
+            ->addOrderBy("ordering3")
+            ->addOrderBy("ordering4")
+            // ->addOrderBy("ks.vendor")
+            // ->addOrderBy("ks.vendorPoNumber")
             ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();

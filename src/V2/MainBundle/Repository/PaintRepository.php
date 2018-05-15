@@ -21,9 +21,10 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
                                                        k.kitting_short_2_id IS NOT NULL OR 
                                                        k.kitting_short_3_id IS NOT NULL OR 
                                                        k.kitting_short_4_id IS NOT NULL)
-            LEFT JOIN kitting_short ks on ks.kitting_id = k.id AND ks.painted_part = 1
+            LEFT JOIN kitting_short ks on ks.kitting_id = k.id
             WHERE color_1 IS NOT NULL
             AND batch_1_id IS NULL
+            AND ks.painted_part = 1
             AND job.cancelled_date IS NULL
             GROUP BY color_1
                 UNION
@@ -34,9 +35,10 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
                                                        k.kitting_short_2_id IS NOT NULL OR 
                                                        k.kitting_short_3_id IS NOT NULL OR 
                                                        k.kitting_short_4_id IS NOT NULL)
-            LEFT JOIN kitting_short ks on ks.kitting_id = k.id AND ks.painted_part = 1
+            LEFT JOIN kitting_short ks on ks.kitting_id = k.id
             WHERE color_2 IS NOT NULL
             AND batch_2_id IS NULL
+            AND ks.painted_part = 1
             AND job.cancelled_date IS NULL
             GROUP BY color_2
             ) tmp

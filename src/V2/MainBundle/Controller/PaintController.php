@@ -312,7 +312,11 @@ class PaintController extends Controller
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         }
 
-        $paint->setColor1($color);
+        if (is_null($color) || $color == '') {
+            $paint->setColor1(null);
+        } else {
+            $paint->setColor1($color);
+        }
         $paint->setUpdateTime(new \DateTime());
         $paint->setUpdatedBy($this->getUser());
         $this->em->persist($paint);
@@ -333,7 +337,11 @@ class PaintController extends Controller
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         }
 
-        $paint->setColor2($color);
+        if (is_null($color) || $color == '') {
+            $paint->setColor2(null);
+        } else {
+            $paint->setColor2($color);
+        }
         $paint->setUpdateTime(new \DateTime());
         $paint->setUpdatedBy($this->getUser());
         $this->em->persist($paint);

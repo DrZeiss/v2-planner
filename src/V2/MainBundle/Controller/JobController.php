@@ -85,16 +85,17 @@ class JobController extends Controller
             return $this->redirect($this->generateUrl('dashboard'));
         }
 
+        $today = new \DateTime();
         $defaultParameters = array(
-            'name'              => null,
-            'sales_order'       => null,
-            'esd'               => null,
-            // 'filled_completely' => null,
-            'non_shipped'       => 1,
+            'name'                  => null,
+            'sales_order'           => null,
+            'esd_date_from'         => null,
+            'esd_date_to'           => null,
+            'non_shipped'           => 1,
             'planner_esd_date_from' => null,
-            'planner_esd_date_to' => null,
-            'planner_esd_week_from' => null,
-            'planner_esd_week_to' => null,
+            'planner_esd_date_to'   => null,
+            'planner_esd_week_from' => $today->format('W'),
+            'planner_esd_week_to'   => $today->format('W'),
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -104,7 +105,8 @@ class JobController extends Controller
             'jobs'                  =>  $jobs,
             'name'                  =>  $parameters['name'],
             'sales_order'           =>  $parameters['sales_order'],
-            'esd'                   =>  $parameters['esd'],
+            'esd_date_from'         =>  $parameters['esd_date_from'],
+            'esd_date_to'           =>  $parameters['esd_date_to'],
             'non_shipped'           =>  $parameters['non_shipped'],
             'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],

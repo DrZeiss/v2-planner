@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('export_jobs', {'name': name, 'sales_order': sales_order, 'esd': esd, 'non_shipped': non_shipped, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to}) }}" class="btn btn-sm btn-success">Export to CSV</a></span>
+    <span style="float:right"><a href="{{ path('export_jobs', {'name': name, 'sales_order': sales_order, 'esd_date_from': esd_date_from, 'esd_date_to': esd_date_to, 'non_shipped': non_shipped, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to}) }}" class="btn btn-sm btn-success">Export to CSV</a></span>
 {% endblock %}
 
 {% block body %}
@@ -23,18 +23,22 @@
                         <label class="form-label">Sales Order #</label>
                         <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
                     </div>                    
-                    <div class="col-sm-3">
-                        <label class="form-label">Estimated Ship Date</label>
-                        <input type="text" id="esd" name="esd" value="{{ esd }}" placeholder="YYYY-MM-DD" class="form-control">
+                    <div class="col-sm-4">
+                        <label class="form-label">Estimated Ship Date Range</label>
+                        <div class="input-daterange input-group">
+                            <input type="text" id="esd_date_from" name="esd_date_from" value="{{ esd_date_from }}" class="form-control">
+                            <span class="input-group-addon">to</span>
+                            <input type="text" id="esd_date_to" name="esd_date_to" value="{{ esd_date_to }}" class="form-control">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
                         <label class="form-label">Planner ESD Date Range</label>
                         <div class="input-daterange input-group">
-                            <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
+                            <input type="text" id="planner_esd_date_from" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
                             <span class="input-group-addon">to</span>
-                            <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
+                            <input type="text" id="planner_esd_date_to" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -319,7 +323,16 @@
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
 
-        $('#esd').datepicker({
+        $('#esd_date_from').datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+        $('#esd_date_to').datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+        $('#planner_esd_date_from').datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+        $('#planner_esd_date_to').datepicker({
             dateFormat: 'yy-mm-dd',
         });
 

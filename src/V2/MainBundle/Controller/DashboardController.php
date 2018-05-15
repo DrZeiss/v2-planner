@@ -67,7 +67,8 @@ class DashboardController extends Controller
             $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
         }
         // Get Fixtures shipped by location (this month)
-        $fixturesShippedThisMonth = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedThisMonth();
+        $fixturesV2ShippedThisMonth = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedThisMonth()['num_v2_shipped'];
+        $fixturesMacShippedThisMonth = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedThisMonth()['num_mac_shipped'];
 
         // Get Scheduling by Job Life Stage
         $jobsByStage = $this->em->getRepository('V2MainBundle:Job')->getJobsByStage();
@@ -100,7 +101,8 @@ class DashboardController extends Controller
             'productionV2ByWeek' => json_encode($productionV2ByWeek),
             'productionMacByWeek' => json_encode($productionMacByWeek),
             'totalFixturesToBuild' => $totalFixturesToBuild,
-            'fixturesShippedThisMonth' => $fixturesShippedThisMonth,
+            'fixturesV2ShippedThisMonth' => $fixturesV2ShippedThisMonth,
+            'fixturesMacShippedThisMonth' => $fixturesMacShippedThisMonth,
             'stageTexts' => json_encode($stageTexts),
             'jobsByStageTexts' => json_encode($jobsByStageTexts),
             'jobsClearToBuildByStageTexts' => json_encode($jobsClearToBuildByStageTexts),
