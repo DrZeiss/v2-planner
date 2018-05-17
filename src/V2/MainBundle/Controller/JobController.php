@@ -94,8 +94,8 @@ class JobController extends Controller
             'non_shipped'           => 1,
             'planner_esd_date_from' => null,
             'planner_esd_date_to'   => null,
-            'planner_esd_week_from' => $today->format('W'),
-            'planner_esd_week_to'   => $today->format('W'),
+            'planner_esd_week_from' => null,
+            'planner_esd_week_to'   => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -612,11 +612,12 @@ class JobController extends Controller
         $defaultParameters = array(
             'name'              => null,
             'sales_order'       => null,
-            'esd'               => null,
             'filled_completely' => null,
             'non_shipped'       => 1,
             'selected_location' => 0, // means ALL locations
-            'selected_priority' => -1, // means ALL priority
+            'selected_priority' => 99, // means ALL priority
+            'planner_esd_date_from' => null,
+            'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
         );
@@ -630,11 +631,12 @@ class JobController extends Controller
             'locations'             =>  $locations,
             'name'                  =>  $parameters['name'],
             'sales_order'           =>  $parameters['sales_order'],
-            'esd'                   =>  $parameters['esd'],
             'filled_completely'     =>  $parameters['filled_completely'],
             'non_shipped'           =>  $parameters['non_shipped'],
             'selected_location'     =>  $parameters['selected_location'],
             'selected_priority'     =>  $parameters['selected_priority'],
+            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
+            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));

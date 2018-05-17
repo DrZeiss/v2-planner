@@ -840,11 +840,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         
         $name                           = $parameters['name'];
         $salesOrder                     = $parameters['sales_order'];
-        $esd                            = $parameters['esd'];
         $filledCompletely               = $parameters['filled_completely'];
         $nonShipped                     = $parameters['non_shipped'];
         $buildLocation                  = $parameters['selected_location'];
         $priority                       = $parameters['selected_priority'];
+        $plannerEstimatedShipDateFrom   = $parameters['planner_esd_date_from'];
+        $plannerEstimatedShipDateTo     = $parameters['planner_esd_date_to'];
         $plannerEstimatedShipWeekFrom   = $parameters['planner_esd_week_from'];
         $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
 
@@ -866,11 +867,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
         }
 
-        if ($esd) {
-            $qb->andWhere("j.estimatedShipDate = :estimatedShipDate")
-                ->setParameter('estimatedShipDate', new \DateTime($esd));
-        }
-
         if ($filledCompletely) {
             $qb->andWhere("kitting.filledCompletely = :filledCompletely")
                 ->setParameter('filledCompletely', $filledCompletely);
@@ -888,6 +884,16 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($priority != 99) { // 99 means ALL
             $qb->andWhere("scheduling.priority = :priority")
                 ->setParameter('priority', $priority);
+        }
+
+        if ($plannerEstimatedShipDateFrom) {
+            $qb->andWhere("j.plannerEstimatedShipDate >= :plannerEstimatedShipDateFrom")
+                ->setParameter('plannerEstimatedShipDateFrom', new \DateTime($plannerEstimatedShipDateFrom));
+        }
+
+        if ($plannerEstimatedShipDateTo) {
+            $qb->andWhere("j.plannerEstimatedShipDate <= :plannerEstimatedShipDateTo")
+                ->setParameter('plannerEstimatedShipDateTo', new \DateTime($plannerEstimatedShipDateTo));
         }
 
         if ($plannerEstimatedShipWeekFrom) {
