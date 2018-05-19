@@ -33,6 +33,10 @@
                         <td>{{ jobsReleasedLastWeek }}</td>
                     </tr>
                     <tr>
+                        <td>Jobs released this week</td>
+                        <td>{{ jobsReleasedThisWeek }}</td>
+                    </tr>
+                    <tr>
                         <td>Jobs shipped last week</td>
                         <td>{{ jobsShippedLastWeek }}</td>
                     </tr>
@@ -155,6 +159,8 @@
     var jobsByStageTexts = tmp.replace(/&quot;/g, '\"');
     tmp = '{{ jobsClearToBuildByStageTexts }}';
     var jobsClearToBuildByStageTexts = tmp.replace(/&quot;/g, '\"');
+    tmp = '{{ jobsWithoutPoByStageTexts }}';
+    var jobsWithoutPoByStageTexts = tmp.replace(/&quot;/g, '\"');
     var ctx3 = document.getElementById("jobsByStage").getContext('2d');
     var jobsByWeek = new Chart(ctx3, {
         type: 'horizontalBar',
@@ -170,6 +176,11 @@
                     label: 'Jobs (clear to build)',
                     data: JSON.parse(jobsClearToBuildByStageTexts),
                     backgroundColor: "orange",
+                },
+                {
+                    label: 'Jobs (without PO)',
+                    data: JSON.parse(jobsWithoutPoByStageTexts),
+                    backgroundColor: "red",
                 },
             ]
         },

@@ -798,6 +798,33 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $results;
     }
 
+    public function getJobsWithoutPo($stage)
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->join('j.kitting', 'kitting')
+            ->join('j.scheduling', 'scheduling')
+            ->leftJoin('kitting.kittingShort1', 'kittingShort1')
+            ->leftJoin('kitting.kittingShort2', 'kittingShort2')
+            ->leftJoin('kitting.kittingShort3', 'kittingShort3')
+            ->leftJoin('kitting.kittingShort4', 'kittingShort4')
+            ->where("kitting.filledCompletely = 0")
+            ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.vendorPoNumber IS NULL) OR 
+                        (kitting.kittingShort2 IS NOT NULL AND kittingShort2.vendorPoNumber IS NULL) OR 
+                        (kitting.kittingShort3 IS NOT NULL AND kittingShort3.vendorPoNumber IS NULL) OR 
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.vendorPoNumber IS NULL)")
+            ->andWhere("j.cancelledDate IS NULL");
+
+        if (strtolower($stage) != 'supply chain') {
+            return null;
+        }
+
+        $results = $qb
+            ->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
     public function findShipperJobs($parameters)
     {
 

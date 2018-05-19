@@ -20,6 +20,10 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
+        /////////////////////////////////////////////////
+        // SERVER and DB timezone currently set to UTC //
+        /////////////////////////////////////////////////
+
         // Get the jobs scheduled (by week)
         $jobsLastWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsLastWeek();
         $jobsByWeek = $this->em->getRepository('V2MainBundle:Job')->getJobsByWeek();
@@ -79,12 +83,15 @@ class DashboardController extends Controller
         foreach ($jobsByStage as $stageName => $jobs) {
             $stageTexts[$count] = $stageName;
             $jobsClearToBuildByStageTexts[$count] = count($this->em->getRepository('V2MainBundle:Job')->getJobsClearToBuild($stageName));
-            $jobsByStageTexts[$count] = count($jobs) - $jobsClearToBuildByStageTexts[$count];
+            $jobsWithoutPoByStageTexts[$count] = count($this->em->getRepository('V2MainBundle:Job')->getJobsWithoutPo($stageName));
+            $jobsByStageTexts[$count] = count($jobs) - $jobsClearToBuildByStageTexts[$count] - $jobsWithoutPoByStageTexts[$count];
             $count++;
         }
 
         // Get number of jobs released last week
         $jobsReleasedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobReleasedByWeeks(1);
+        // Get number of jobs released this week
+        $jobsReleasedThisWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobReleasedByWeeks(0);
         // Get number of shipped jobs last week
         $jobsShippedLastWeek = $this->em->getRepository('V2MainBundle:Job')->getNumJobShippedByWeeks(1);
 
@@ -106,7 +113,9 @@ class DashboardController extends Controller
             'stageTexts' => json_encode($stageTexts),
             'jobsByStageTexts' => json_encode($jobsByStageTexts),
             'jobsClearToBuildByStageTexts' => json_encode($jobsClearToBuildByStageTexts),
+            'jobsWithoutPoByStageTexts' => json_encode($jobsWithoutPoByStageTexts),
             'jobsReleasedLastWeek' => $jobsReleasedLastWeek,
+            'jobsReleasedThisWeek' => $jobsReleasedThisWeek,
             'jobsShippedLastWeek' => $jobsShippedLastWeek,
             'lateJobs' => $lateJobs,
         ));
