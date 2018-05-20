@@ -28,14 +28,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function getJobsLastWeek()
     {
-        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
+        $sql = "SELECT WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1) AS week_num, 
                 SUM(IF(s.priority = 0, 1, 0)) AS num_jobs,
                 SUM(IF(s.priority > 0, 1, 0)) AS num_rush_jobs
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
-                LEFT JOIN shipping ON shipping.job_id = j.id
-                WHERE shipping.ship_date IS NOT NULL
-                AND WEEK(shipping.ship_date,1) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1)
+                JOIN shipping ON shipping.job_id = j.id
+                WHERE (shipping.is_complete = 2 OR shipping.second_ship_date IS NOT NULL)
+                AND (WEEK(shipping.ship_date,1) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1) OR WEEK(shipping.second_ship_date,1) = WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1))
                 AND cancelled_date IS NULL";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
@@ -67,15 +67,13 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     public function getJobsShippedThisWeek()
     {
-        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
-                COUNT(j.id) AS num_shipped_jobs
+        $sql = "SELECT COUNT(j.id) AS num_shipped_jobs
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 LEFT JOIN shipping ON shipping.job_id = j.id
                 WHERE ((shipping.is_complete = 2) OR (shipping.second_ship_date IS NOT NULL))
                 AND (WEEK(ship_date,1) = WEEK(NOW(),1) OR WEEK(second_ship_date,1) = WEEK(NOW(),1))
-                AND cancelled_date IS NULL
-                GROUP BY WEEK(planner_estimated_ship_date,1);";
+                AND cancelled_date IS NULL";
         $em = $this->getEntityManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
