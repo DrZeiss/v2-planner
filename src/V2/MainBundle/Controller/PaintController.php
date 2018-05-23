@@ -472,7 +472,7 @@ class PaintController extends Controller
         $location = $request->request->get('value');
 
         $paint = $this->paintRepository->find($paintId);
-return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
+
         if (!$paint) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         }
