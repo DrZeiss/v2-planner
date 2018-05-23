@@ -29,8 +29,8 @@ framework:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
-        cookie_lifetime: 3600 # 60 minutes # 86400 => 24 hours
-        gc_maxlifetime: 1800 # 30 minutes
+        cookie_lifetime: 43200 # 86400 => 24 hours
+        gc_maxlifetime: 3600 # 60 minutes
         # gc_maxlifetime: 50 #50 seconds - only needed for testing. Dont use this in a production environment
         # gc_probability: 1 #only needed for testing. Dont use this in a production environment
         # gc_divisor: 1 #only needed for testing. Dont use this in a production environment

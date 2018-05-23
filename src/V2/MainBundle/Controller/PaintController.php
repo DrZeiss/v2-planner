@@ -374,11 +374,21 @@ class PaintController extends Controller
             $this->em->persist($oldBatch);
         }
 
+        // Handle case user removes the batch
+        if (is_null($batchId) || $batchId == '') {
+            $paint->setBatch1(null);
+            $paint->setUpdateTime(new \DateTime());
+            $paint->setUpdatedBy($this->getUser());
+            $this->em->persist($paint);
+            $this->em->flush();
+            // Immediately return
+            return $this->json(array('status' => 'success'));
+        }
+
         $batch = $this->batchRepository->find($batchId);
         if (!$batch) {
             $batch = new Batch();
         }
-
         $batch->addPaint($paint);
         $batch->setColor($paint->getColor1());
         $batch->setRalColor($this->getRalColor($paint->getColor1()));
@@ -421,6 +431,17 @@ class PaintController extends Controller
             $this->em->persist($oldBatch);
         }
 
+        // Handle case user removes the batch
+        if (is_null($batchId) || $batchId == '') {
+            $paint->setBatch2(null);
+            $paint->setUpdateTime(new \DateTime());
+            $paint->setUpdatedBy($this->getUser());
+            $this->em->persist($paint);
+            $this->em->flush();
+            // Immediately return
+            return $this->json(array('status' => 'success'));
+        }
+
         $batch = $this->batchRepository->find($batchId);
         if (!$batch) {
             $batch = new Batch();
@@ -451,7 +472,7 @@ class PaintController extends Controller
         $location = $request->request->get('value');
 
         $paint = $this->paintRepository->find($paintId);
-
+return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         if (!$paint) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid Paint ID"));
         }

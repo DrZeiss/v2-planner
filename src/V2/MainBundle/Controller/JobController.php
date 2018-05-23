@@ -412,6 +412,30 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/manufacturer/print", name="print_manufacturer")
+     */
+    public function printManufacturerParts(Request $request)
+    {
+        $defaultParameters = array(
+            'date_needed_from' => null,
+            'date_needed_to' => null,
+            'part_number' => null,
+            'sales_order' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $parts = $this->kittingShortRepository->findManufacturerParts($parameters);
+
+        return $this->render('job/print_manufacturer.html.twig', array(
+            'parts'             =>  $parts,
+            'date_needed_from'  =>  $parameters['date_needed_from'],
+            'date_needed_to'    =>  $parameters['date_needed_to'],
+            'part_number'       =>  $parameters['part_number'],
+            'sales_order'       =>  $parameters['sales_order'],
+        ));
+    }
+
+    /**
      * @Route("/supplyChain", name="supply_chain")
      */
     public function listSupplyChainParts(Request $request)

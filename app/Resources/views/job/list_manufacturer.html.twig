@@ -6,6 +6,10 @@
     <li class="active"><span>Manufacturer Parts</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right"><a href="{{ path('print_manufacturer', {'sales_order': sales_order, 'part_number': part_number, 'date_needed_from': date_needed_from, 'date_needed_to': date_needed_to}) }}" class="btn btn-sm btn-warning">Print</a></span>
+{% endblock %}
+
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">
