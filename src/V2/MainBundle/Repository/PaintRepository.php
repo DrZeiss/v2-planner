@@ -93,38 +93,48 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
         $v2PoNumber                 = $parameters['v2_po_number'];
         $plannerEstimatedShipDate   = $parameters['planner_esd'];
 
+        $hasParameters = false;
+
         $qb = $this->createQueryBuilder('p')
             ->addSelect('CASE WHEN (batch1.id IS NOT NULL OR batch2.id IS NOT NULL) THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->join('p.job', 'job')
             ->leftJoin('p.batch1', 'batch1')
             ->leftJoin('p.batch2', 'batch2')
             ->where('p.id > 0')
-            ->andWhere("(p.location IS NULL OR p.location LIKE 'B_%')")
             ->andWhere('job.cancelledDate IS NULL');
 
         if ($name) {
             $qb->andWhere("job.name LIKE :name")
                 ->setParameter('name', "%" . $name . "%");
+            $hasParameters = true;
         }
 
         if ($color) {
             $qb->andWhere("batch1.color = :color OR batch2.color = :color")
                 ->setParameter('color', $color);
+            $hasParameters = true;
         }
 
         if ($batch) {
             $qb->andWhere("batch1.id = :batch OR batch2.id = :batch")
                 ->setParameter('batch', $batch);
+            $hasParameters = true;
         }
 
         if ($v2PoNumber) {
             $qb->andWhere("batch1.v2PoNumber = :v2PoNumber or batch2.v2PoNumber = :v2PoNumber")
                 ->setParameter('v2PoNumber', $v2PoNumber);
+            $hasParameters = true;
         }
 
         if ($plannerEstimatedShipDate) {
             $qb->andWhere("job.plannerEstimatedShipDate = :plannerEstimatedShipDate")
                 ->setParameter('plannerEstimatedShipDate', new \DateTime($plannerEstimatedShipDate));
+            $hasParameters = true;
+        }
+
+        if (!$hasParameters) {
+            $qb->andWhere("(p.location IS NULL OR p.location LIKE 'B2%')");
         }
         
         $results = $qb->addOrderBy("ordering1", "ASC")
