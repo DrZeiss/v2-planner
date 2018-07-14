@@ -59,6 +59,7 @@
                         {% set late = 1 %}
                     {% endif %}
                 {% endif %}
+                {% set late = 0 %}
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td style="font-size:small;{% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>

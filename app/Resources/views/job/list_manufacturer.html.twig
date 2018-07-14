@@ -63,6 +63,7 @@
                 {% if part.dateNeeded and part.dateNeeded < date() and part.modDoneDate is null %}
                     {% set late = 1 %}
                 {% endif %}
+                {% set late = 0 %}
             <tr {% if late %}bgcolor="lightcoral"{% endif %}>
                 <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>

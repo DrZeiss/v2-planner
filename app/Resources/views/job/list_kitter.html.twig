@@ -69,6 +69,7 @@
                 {% if (job.plannerEstimatedShipDate and job.plannerEstimatedShipDate > (date()|date_modify("-14 days"))) and (job.kitting.filledCompletely is null or job.kitting.filledCompletely == 0) %}
                     {% set late = 2 %}
                 {% endif %}
+                {% set late = 0 %}
             <tr {% if late == 1 %}bgcolor="lightcoral"{% elseif late == 2 %}bgcolor="plum"{% endif %}>
                 <td style="font-size:small; {% if late %}color:white{% endif %}">{{ job.name }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   

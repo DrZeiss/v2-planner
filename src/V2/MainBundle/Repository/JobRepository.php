@@ -681,6 +681,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             } else {
                 $results[$index]->customSortOrder = null;
             }
+
+            $results[$index]->customSortOrder = null; // TEMP remove conditional formatting until Ryan figures something new
         }
 
         return $results;
@@ -763,6 +765,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             } else {
                 $results[$index]->customSortOrder = null;
             }
+
+            $results[$index]->customSortOrder = null; // TEMP remove conditional formatting until Ryan figures something new
         }
 
         return $results;
