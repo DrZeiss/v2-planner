@@ -106,7 +106,7 @@ class PaintController extends Controller
             $paints = $this->paintRepository->findById($request->request->get('selected_paint'));
             $batch->setColor($color);
             $batch->setRalColor($this->getRalColor($color));
-            $batch->setNeededByDate(new \DateTime($request->request->get('needed_by_date')));
+            $batch->setEstimatedReleaseDate(new \DateTime($request->request->get('estimated_release_date')));
             $batch->setQuantity($request->request->get('quantity'));
             $batch->setVendor($request->request->get('vendor'));
             $batch->setUpdateTime(new \DateTime());

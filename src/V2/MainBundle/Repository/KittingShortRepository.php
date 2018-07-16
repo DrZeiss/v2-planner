@@ -15,6 +15,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $partNumber = $parameters['part_number'];
         $vendor     = $parameters['vendor'];
         $name       = $parameters['name'];
+        $completed  = $parameters['completed'];
 
         $qb = $this->createQueryBuilder('ks')
             // ->addSelect('CASE WHEN ks.vendor IS NULL and ks.dateNeeded IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
@@ -24,9 +25,8 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
-            ->where('ks.receivedDate IS NULL')
-            ->andWhere("(ks.vendor IS NULL or UPPER(ks.vendor) != 'V2')")
-            ->andWhere("job.cancelledDate IS NULL");
+            ->where("job.cancelledDate IS NULL")
+            ->andWhere("(ks.vendor IS NULL or UPPER(ks.vendor) != 'V2')");
 
         if ($partNumber) {
             $qb->andWhere("ks.partNumber LIKE :partNumber")
@@ -41,6 +41,12 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         if ($name) {
             $qb->andWhere("job.name LIKE :name")
                 ->setParameter('name', "%" . $name . "%");
+        }
+
+        if ($completed) {
+            $qb->andWhere('ks.receivedDate IS NOT NULL');
+        } else {
+            $qb->andWhere('ks.receivedDate IS NULL');
         }
 
         $results = $qb
@@ -60,8 +66,9 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
 
     public function findReceiverParts($parameters)
     {
-        $partNumber = $parameters['part_number'];
+        $partNumber     = $parameters['part_number'];
         $vendorPoNumber = $parameters['vendor_po_number'];
+        $completed      = $parameters['completed'];
 
         $qb = $this->createQueryBuilder('ks')
             ->addSelect('CASE WHEN ks.estimatedDeliveryDate IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
@@ -69,8 +76,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
-            ->where("ks.receivedDate IS NULL")
-            ->andWhere("job.cancelledDate IS NULL");
+            ->where("job.cancelledDate IS NULL");
 
         if ($partNumber) {
             $qb->andWhere("ks.partNumber LIKE :partNumber")
@@ -80,6 +86,12 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         if ($vendorPoNumber) {
             $qb->andWhere("ks.vendorPoNumber LIKE :vendorPoNumber")
                 ->setParameter('vendorPoNumber', "%" . $vendorPoNumber . "%");
+        }
+
+        if ($completed) {
+            $qb->andWhere("ks.receivedDate IS NOT NULL");
+        } else {
+            $qb->andWhere("ks.receivedDate IS NULL");
         }
 
         $results = $qb
@@ -108,16 +120,16 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $dateNeededTo   = $parameters['date_needed_to'];
         $partNumber     = $parameters['part_number'];
         $salesOrder     = $parameters['sales_order'];
+        $completed      = $parameters['completed'];
 
         $qb = $this->createQueryBuilder('ks')
             ->addSelect('CASE WHEN ks.dateNeeded IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
-            ->where("ks.receivedDate IS NULL")
+            ->andWhere("job.cancelledDate IS NULL")
             ->andWhere("UPPER(ks.vendor) = 'V2'")
-            ->andWhere("((kitting.filledCompletely IS NOT NULL AND kitting.filledCompletely = 0) OR kitting.filledCompletely IS NULL)")
-            ->andWhere("job.cancelledDate IS NULL");
+            ->andWhere("((kitting.filledCompletely IS NOT NULL AND kitting.filledCompletely = 0) OR kitting.filledCompletely IS NULL)");
 
         if ($dateNeededFrom) {
             $qb->andWhere('ks.dateNeeded >= :dateNeededFrom')
@@ -137,6 +149,12 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         if ($salesOrder) {
             $qb->andWhere("job.salesOrder LIKE :salesOrder")
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
+        }
+
+        if ($completed) {
+            $qb->andWhere("ks.receivedDate IS NOT NULL");
+        } else {
+            $qb->andWhere("ks.receivedDate IS NULL");
         }
 
         $results = $qb

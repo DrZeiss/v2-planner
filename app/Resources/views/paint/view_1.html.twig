@@ -13,6 +13,7 @@
         <tr>
             <th style="border:solid">Color</th>
             <th style="border:solid"># of jobs</th>
+            <th style="border:solid">Location</th>
             <th style="border:solid">Sum of fixture qty</th>
             <th style="border:solid">Earliest Planner ESD</th>
         </tr>
@@ -23,9 +24,11 @@
                 {% if paint.planner_esd | date('Y-m-d') < (date()|date_modify("+21 days")|date('Y-m-d')) %}
                     {% set late = 1 %}
                 {% endif %}
+                {% set late = 0 %}
             <tr {% if late == 1 %}bgcolor="lightcoral"{% endif %}>
                 <td {% if late %}style="color:white"{% endif %}><a href="{{ path('paint_view2', { 'color': paint.color }) }}">{{ paint.color }}</a></td>
-                <td {% if late %}style="color:white"{% endif %}>{{ paint.num_jobs }}</td>   
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.num_jobs }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.location }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.sum_qty }}</td>
                 <td {% if late %}style="color:white"{% endif %}>
                     {% if paint.planner_esd %}

@@ -19,6 +19,12 @@
                         <label class="form-label">Vendor PO #</label>
                         <input type="text" id="vendor_po_number" name="vendor_po_number" value="{{ vendor_po_number }}" placeholder="Type in Vendor PO #" class="form-control">
                     </div>
+                    <div class="col-sm-3" style="margin-top:20px">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="completed" value="1" class="form-check-input" {% if completed %}checked{% endif %}>
+                            Show Completed only
+                        </label>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -31,7 +37,7 @@
         </div>
     </div>
 
-    <h2>Receiver Part list</h2>
+    <h2>Receiver Part list <span style="font-size:70%"> (Total parts: {{ parts|length }})</span></h2>
     <table class="table table-bordered">
         <thead>
         <tr>

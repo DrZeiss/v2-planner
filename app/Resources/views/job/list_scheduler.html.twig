@@ -43,11 +43,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        <label class="form-label">Planner ESD Date Range</label>
+                        <label class="form-label">ESD Date Range</label>
                         <div class="input-daterange input-group">
-                            <input type="text" name="planner_esd_date_from" value="{{ planner_esd_date_from }}" class="form-control">
+                            <input type="text" name="esd_date_from" value="{{ esd_date_from }}" class="form-control">
                             <span class="input-group-addon">to</span>
-                            <input type="text" name="planner_esd_date_to" value="{{ planner_esd_date_to }}" class="form-control">
+                            <input type="text" name="esd_date_to" value="{{ esd_date_to }}" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -294,10 +294,10 @@
         //toggle `popup` / `inline` mode
         $.fn.editable.defaults.mode = 'popup';
 
-        $("input[name='planner_esd_date_from'").datepicker({
+        $("input[name='esd_date_from'").datepicker({
             dateFormat: 'yy-mm-dd',
         });
-        $("input[name='planner_esd_date_to'").datepicker({
+        $("input[name='esd_date_to'").datepicker({
             dateFormat: 'yy-mm-dd',
         });
 

@@ -79,6 +79,7 @@
                 {% if paint.job.plannerEstimatedShipDate | date('Y-m-d') < (date()|date_modify("+21 days")|date('Y-m-d')) %}
                     {% set late = 1 %}
                 {% endif %}
+                {% set late = 0 %}
             <tr {% if late == 1 %}bgcolor="lightcoral"{% endif %}>
                 <td>
                     <div class="checkbox">

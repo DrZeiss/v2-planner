@@ -63,6 +63,7 @@
             <th style="border:solid;width:6ch">Batch 2 #</th>
             <th style="border:solid;width:6ch">Batch 2 PO#</th>
             <th style="border:solid">Paint Location</th>
+            <th style="border:solid">Kit Location</th>
         </tr>
         </thead>
         <tbody>
@@ -91,6 +92,7 @@
                         {{ paint.location }}
                     {% endif %}
                 </td>
+                <td>{{ paint.job.kitting.location }}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('print_manufacturer', {'sales_order': sales_order, 'part_number': part_number, 'date_needed_from': date_needed_from, 'date_needed_to': date_needed_to}) }}" class="btn btn-sm btn-warning">Print</a></span>
+    <span style="float:right"><a href="{{ path('print_manufacturer', {'sales_order': sales_order, 'part_number': part_number, 'date_needed_from': date_needed_from, 'date_needed_to': date_needed_to, 'completed': completed}) }}" class="btn btn-sm btn-warning">Print</a></span>
 {% endblock %}
 
 {% block body %}
@@ -31,6 +31,12 @@
                         <label class="form-label">Sales Order #</label>
                         <input type="text" name="sales_order" value="{{ sales_order }}" placeholder="Type in SO #" class="form-control">
                     </div>
+                    <div class="col-sm-3" style="margin-top:20px">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="completed" value="1" class="form-check-input" {% if completed %}checked{% endif %}>
+                            Show Completed only
+                        </label>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -43,7 +49,7 @@
         </div>
     </div>
 
-    <h2>Manufacturer Part list</h2>
+    <h2>Manufacturer Part list <span style="font-size:70%"> (Total parts: {{ parts|length }})</h2>
     <table class="table table-bordered">
         <thead>
         <tr>

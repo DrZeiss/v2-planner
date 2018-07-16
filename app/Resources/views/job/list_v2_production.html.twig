@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('print_v2_production', {'sales_order': sales_order, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to}) }}" class="btn btn-sm btn-warning">Print</a></span>
+    <span style="float:right"><a href="{{ path('print_v2_production', {'sales_order': sales_order, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to, 'filled_completely': filled_completely}) }}" class="btn btn-sm btn-warning">Print</a></span>
 {% endblock %}
 
 {% block body %}
@@ -34,6 +34,12 @@
                             <span class="input-group-addon">to</span>
                             <input type="text" name="planner_esd_week_to" value="{{ planner_esd_week_to }}" class="form-control">
                         </div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top:20px">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="filled_completely" value="1" class="form-check-input" {% if filled_completely %}checked{% endif %}>
+                            See only 100% filled
+                        </label>
                     </div>
                 </div>
                 <div class="row">

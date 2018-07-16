@@ -375,6 +375,7 @@ class JobController extends Controller
         $defaultParameters = array(
             'part_number' => null,
             'vendor_po_number' => null,
+            'completed' => false,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -384,6 +385,7 @@ class JobController extends Controller
             'parts'             =>  $parts,
             'part_number'       =>  $parameters['part_number'],
             'vendor_po_number'  =>  $parameters['vendor_po_number'],
+            'completed'         =>  $parameters['completed'],
         ));
     }
 
@@ -397,6 +399,7 @@ class JobController extends Controller
             'date_needed_to' => null,
             'part_number' => null,
             'sales_order' => null,
+            'completed' => false,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -408,6 +411,7 @@ class JobController extends Controller
             'date_needed_to'    =>  $parameters['date_needed_to'],
             'part_number'       =>  $parameters['part_number'],
             'sales_order'       =>  $parameters['sales_order'],
+            'completed'         =>  $parameters['completed'],
         ));
     }
 
@@ -421,6 +425,7 @@ class JobController extends Controller
             'date_needed_to' => null,
             'part_number' => null,
             'sales_order' => null,
+            'completed' => false,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -432,6 +437,7 @@ class JobController extends Controller
             'date_needed_to'    =>  $parameters['date_needed_to'],
             'part_number'       =>  $parameters['part_number'],
             'sales_order'       =>  $parameters['sales_order'],
+            'completed'         =>  $parameters['completed'],
         ));
     }
 
@@ -444,6 +450,7 @@ class JobController extends Controller
             'part_number' => null,
             'vendor' => null,
             'name' => null,
+            'completed' => false,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -454,6 +461,7 @@ class JobController extends Controller
             'part_number'   =>  $parameters['part_number'],
             'vendor'        =>  $parameters['vendor'],
             'name'          =>  $parameters['name'],
+            'completed'     =>  $parameters['completed'],
         ));
     }
 
@@ -471,6 +479,8 @@ class JobController extends Controller
         $defaultParameters = array(
             'part_number' => null,
             'vendor' => null,
+            'name' => null,
+            'completed' => false,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
         $parts = $this->kittingShortRepository->findSupplyChainParts($parameters);
@@ -516,6 +526,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
+            'filled_completely' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -528,6 +539,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
+            'filled_completely'     =>  $parameters['filled_completely'],
         ));
     }
 
@@ -542,6 +554,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
+            'filled_completely' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -554,6 +567,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
+            'filled_completely'     =>  $parameters['filled_completely'],
         ));
     }
 
@@ -568,6 +582,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
+            'filled_completely' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -580,6 +595,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
+            'filled_completely'     =>  $parameters['filled_completely'],
         ));
     }
 
@@ -594,6 +610,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
+            'filled_completely' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -606,6 +623,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
+            'filled_completely'     =>  $parameters['filled_completely'],
         ));
     }
 
@@ -634,16 +652,16 @@ class JobController extends Controller
     public function listSchedulerJobs(Request $request)
     {
         $defaultParameters = array(
-            'name'              => null,
-            'sales_order'       => null,
-            'filled_completely' => null,
-            'non_shipped'       => 1,
-            'selected_location' => 0, // means ALL locations
-            'selected_priority' => 99, // means ALL priority
-            'planner_esd_date_from' => null,
-            'planner_esd_date_to' => null,
+            'name'                  => null,
+            'sales_order'           => null,
+            'filled_completely'     => null,
+            'non_shipped'           => 1,
+            'selected_location'     => 0, // means ALL locations
+            'selected_priority'     => 99, // means ALL priority
+            'esd_date_from'         => null,
+            'esd_date_to'           => null,
             'planner_esd_week_from' => null,
-            'planner_esd_week_to' => null,
+            'planner_esd_week_to'   => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -659,8 +677,8 @@ class JobController extends Controller
             'non_shipped'           =>  $parameters['non_shipped'],
             'selected_location'     =>  $parameters['selected_location'],
             'selected_priority'     =>  $parameters['selected_priority'],
-            'planner_esd_date_from' =>  $parameters['planner_esd_date_from'],
-            'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
+            'esd_date_from'         =>  $parameters['esd_date_from'],
+            'esd_date_to'           =>  $parameters['esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
         ));

@@ -101,6 +101,26 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    // Returns the actual number of fixtures shipped for the current week
+    public function getFixturesShippedThisWeek()
+    {
+        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
+                SUM(IF(j.build_location = 1, quantity, 0)) AS num_v2_shipped,
+                SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_shipped
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                JOIN shipping ON shipping.job_id = j.id
+                WHERE WEEK(planner_estimated_ship_date) = WEEK(NOW(),1)
+                AND ((shipping.ship_date IS NOT NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NOT NULL))
+                AND cancelled_date IS NULL;";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        
+        return $results[0];
+    }
+
     // Returns the actual number of fixtures shipped for the current month
     public function getFixturesShippedThisMonth()
     {
@@ -169,7 +189,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('j');
         $results = $qb->join('j.shipping', 'shipping')
-            ->where("(j.estimatedShipDate <= CURRENT_DATE() OR j.plannerEstimatedShipDate <= CURRENT_DATE())")
+            ->where("j.estimatedShipDate <= CURRENT_DATE()")
             ->andWhere("((shipping.shipDate IS NULL) OR (shipping.isComplete = 1 AND shipping.secondShipDate IS NULL))")
             ->andWhere("j.cancelledDate IS NULL")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
@@ -620,6 +640,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;       
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
+        $filledCompletely               = array_key_exists('filled_completely', $parameters)? $parameters['filled_completely'] : null;
 
         $qb = $this->createQueryBuilder('j')
             ->addSelect('CASE 
@@ -664,6 +685,11 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
+        if ($filledCompletely) {
+            $qb->andWhere("kitting.filledCompletely = :filledCompletely")
+                ->setParameter('filledCompletely', $filledCompletely);
+        }
+
         $results = $qb->addOrderBy("customSortOrder", "ASC")
             ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
@@ -698,6 +724,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
+        $filledCompletely               = array_key_exists('filled_completely', $parameters)? $parameters['filled_completely'] : null;
 
         // 1 (RED) : planner ESD <= today
         // 2 (ORANGE) : priority Rush (3)
@@ -746,6 +773,11 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($plannerEstimatedShipWeekTo) {
             $qb->andWhere("WEEK(j.plannerEstimatedShipDate,1) <= :plannerEstimatedShipWeekTo")
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
+        }
+
+        if ($filledCompletely) {
+            $qb->andWhere("kitting.filledCompletely = :filledCompletely")
+                ->setParameter('filledCompletely', $filledCompletely);
         }
 
         $results = $qb->addOrderBy("customSortOrder", "ASC")
@@ -873,8 +905,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $nonShipped                     = $parameters['non_shipped'];
         $buildLocation                  = $parameters['selected_location'];
         $priority                       = $parameters['selected_priority'];
-        $plannerEstimatedShipDateFrom   = $parameters['planner_esd_date_from'];
-        $plannerEstimatedShipDateTo     = $parameters['planner_esd_date_to'];
+        $estimatedShipDateFrom          = $parameters['esd_date_from'];
+        $estimatedShipDateTo            = $parameters['esd_date_to'];
         $plannerEstimatedShipWeekFrom   = $parameters['planner_esd_week_from'];
         $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
 
@@ -915,14 +947,14 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('priority', $priority);
         }
 
-        if ($plannerEstimatedShipDateFrom) {
-            $qb->andWhere("j.plannerEstimatedShipDate >= :plannerEstimatedShipDateFrom")
-                ->setParameter('plannerEstimatedShipDateFrom', new \DateTime($plannerEstimatedShipDateFrom));
+        if ($estimatedShipDateFrom) {
+            $qb->andWhere("j.estimatedShipDate >= :estimatedShipDateFrom")
+                ->setParameter('estimatedShipDateFrom', new \DateTime($estimatedShipDateFrom));
         }
 
-        if ($plannerEstimatedShipDateTo) {
-            $qb->andWhere("j.plannerEstimatedShipDate <= :plannerEstimatedShipDateTo")
-                ->setParameter('plannerEstimatedShipDateTo', new \DateTime($plannerEstimatedShipDateTo));
+        if ($estimatedShipDateTo) {
+            $qb->andWhere("j.estimatedShipDate <= :estimatedShipDateTo")
+                ->setParameter('estimatedShipDateTo', new \DateTime($estimatedShipDateTo));
         }
 
         if ($plannerEstimatedShipWeekFrom) {
