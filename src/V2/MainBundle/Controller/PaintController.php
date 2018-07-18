@@ -119,7 +119,7 @@ class PaintController extends Controller
                 $batch->addPaint($paint);
                 $this->em->persist($batch);
                 // Figure out whether the color belongs to the Paint's batch #
-                if ($paint->getColor1() == $color) {
+                if ($paint->getColor1() == $color && !$paint->getBatch1()) {
                     $paint->setBatch1($batch);
                 } else {
                     $paint->setBatch2($batch);
