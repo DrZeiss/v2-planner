@@ -110,6 +110,21 @@
                     {% else %}
                         {{ job.paint ? job.paint.location : "" }}
                     {% endif %}
+                    {# Hyperlink to Paint: Active Batches if there's no paint location via Batch number #}
+                    {% if job.paint and job.paint.location is null %}
+                        <p>
+                            {% if (job.paint.color1 and job.paint.batch1 is null) or (job.paint.color2 and job.paint.batch2 is null) %}
+                                <a href="#" data-toggle="tooltip" title="No batch assigned yet"><i class="fa fa-info-circle"></i>INFO</i></a>
+                            {% else %}
+                                {% set batchIds = job.paint.batch1.id %}
+                                {# Concatenate the second batch number if there's two colors #}
+                                {% if job.paint.batch2 %}
+                                    {% set batchIds = batchIds ~ ',' ~ job.paint.batch2.id %}
+                                {% endif %}
+                                <a href="{{path('paint_view3', {'batch': batchIds, 'show_all_batches':1})}}" data-toggle="tooltip" title="Links to Paint: Active Batches view"><i class="fa fa-info-circle"></i>INFO</i></a>
+                            {% endif %}
+                        </p>
+                    {% endif %}
                 </td>
                 {# Scheduling #}                
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>

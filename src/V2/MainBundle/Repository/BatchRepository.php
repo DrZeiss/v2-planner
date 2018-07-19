@@ -47,8 +47,8 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
         }
 
         if ($batch) {
-            $qb->andWhere("b.id = :batch")
-                ->setParameter('batch', $batch);
+            $qb->andWhere("b.id IN (:batch)")
+                ->setParameter('batch', explode(',', $batch));
         }
 
         if (!$showAllBatches) {

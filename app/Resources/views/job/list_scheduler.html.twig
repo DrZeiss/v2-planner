@@ -244,7 +244,24 @@
                     <td {% if late %}style="color:white"{% endif %}><a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{ job.kitting ? job.kitting.id }}" data-url="{{ path('edit_kitting_short_received_date', { 'shortId': (job.kitting and job.kitting.kittingShort1) ? job.kitting.kittingShort1.id : 0}) }}">{{ job.kitting.kittingShort4 and job.kitting.kittingShort4.receivedDate ? job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</a></td>
                 {% endif %}
                 {# Paint #}
-                <td {% if late %}style="color:white"{% endif %}><a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a></td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    <a href="#" class="paintLocation" data-name="paintLocation" data-pk="{{job.id}}" data-value="{{job.paint ? job.paint.location}}" data-url="{{ path('edit_paint_location', {'paintId': job.paint ? job.paint.id : 0}) }}">{{ job.paint ? job.paint.location : "" }}</a>
+                    {# Hyperlink to Paint: Active Batches if there's no paint location via Batch number #}
+                    {% if job.paint and job.paint.location is null %}
+                        <p>
+                            {% if (job.paint.color1 and job.paint.batch1 is null) or (job.paint.color2 and job.paint.batch2 is null) %}
+                                <a href="#" data-toggle="tooltip" title="No batch assigned yet"><i class="fa fa-info-circle"></i>INFO</i></a>
+                            {% else %}
+                                {% set batchIds = job.paint.batch1.id %}
+                                {# Concatenate the second batch number if there's two colors #}
+                                {% if job.paint.batch2 %}
+                                    {% set batchIds = batchIds ~ ',' ~ job.paint.batch2.id %}
+                                {% endif %}
+                                <a href="{{path('paint_view3', {'batch': batchIds, 'show_all_batches':1})}}" data-toggle="tooltip" title="Links to Paint: Active Batches view"><i class="fa fa-info-circle"></i>INFO</i></a>
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </td>
                 {# Scheduling #}
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="subReady" data-name="subReady" data-pk="{{job.id}}" data-value="{{ job.scheduling.subReady }}" data-url="{{ path('edit_scheduling_sub_ready', {'jobId': job.id}) }}">{{ job.scheduling.subReady ? "Yes" : "No"}}</a></td>
                 <td {% if late %}style="color:white"{% endif %}><a href="#" class="schedulingCompletionDate" data-name="schedulingCompletionDate" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_completion_date', {'jobId': job.id}) }}">{{ job.scheduling.completionDate ? job.scheduling.completionDate | date('Y-m-d') : "" }}</a></td>
