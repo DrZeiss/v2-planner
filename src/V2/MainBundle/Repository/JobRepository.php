@@ -101,6 +101,31 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function getFixturesShippedByWeek()
+    {
+        $sql = "SELECT WEEK(ship_date,1) AS week_num, 
+                SUM(IF(j.build_location = 1, quantity, 0)) AS num_v2_fixtures,
+                SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_fixtures
+                FROM job j
+                JOIN scheduling s ON s.job_id = j.id
+                JOIN shipping ON shipping.job_id = j.id
+                WHERE WEEK(ship_date,1) >= WEEK(DATE_SUB(NOW(), INTERVAL 1 WEEK),1)
+                AND ((shipping.ship_date IS NOT NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NOT NULL))
+                AND cancelled_date IS NULL
+                GROUP BY WEEK(ship_date,1);";
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetchAll();
+        // Reformat the array so it's easier to access
+        $results = array();
+        foreach ($res as $data) {
+            $results[$data['week_num']] = array('num_v2_fixtures' => $data['num_v2_fixtures'], 'num_mac_fixtures' => $data['num_mac_fixtures']);
+        }
+
+        return $results;
+    }
+
     // Returns the actual number of fixtures shipped for the current week
     public function getFixturesShippedThisWeek()
     {

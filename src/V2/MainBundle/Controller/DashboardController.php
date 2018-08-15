@@ -66,6 +66,8 @@ class DashboardController extends Controller
 
         // Get Production load by location
         $productionByWeek = $this->em->getRepository('V2MainBundle:Job')->getProductionByWeek();
+        $fixturesShippedByWeek = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedByWeek();
+
         $totalFixturesToBuild = 0;
         $productionV2ByWeek = array();
         $productionMacByWeek = array();
@@ -73,10 +75,12 @@ class DashboardController extends Controller
         foreach ($productionByWeek as $index => $week) {
             $productionV2ByWeek[$index] = $week['num_v2_fixtures'];
             $productionMacByWeek[$index] = $week['num_mac_fixtures'];
-            // Get total only for this week (and don't include fixtures already built)
-            if ($week['week_num'] == $currentWeek) {
-                $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
-                $totalFixturesToBuild -= ($fixturesV2ShippedThisWeek + $fixturesMacShippedThisWeek);
+            // Get total 
+            $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
+            // but don't include fixtures already built
+            if (isset($fixturesShippedByWeek[$week['week_num']])) {
+                $totalFixturesToBuild -= $fixturesShippedByWeek[$week['week_num']]['num_v2_fixtures'];
+                $totalFixturesToBuild -= $fixturesShippedByWeek[$week['week_num']]['num_mac_fixtures'];
             }
         }
 
