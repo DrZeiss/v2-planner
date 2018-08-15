@@ -59,22 +59,26 @@ class DashboardController extends Controller
         $jobStats = $this->em->getRepository('V2MainBundle:Job')->getJobStats()[0];
         $totalOpenJobs = $jobStats['total'];
 
+        // Get Fixtures shipped by location (this week)
+        $fixturesShippedThisWeek = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedThisWeek();
+        $fixturesV2ShippedThisWeek = $fixturesShippedThisWeek['num_v2_shipped'];
+        $fixturesMacShippedThisWeek = $fixturesShippedThisWeek['num_mac_shipped'];
+
         // Get Production load by location
         $productionByWeek = $this->em->getRepository('V2MainBundle:Job')->getProductionByWeek();
         $totalFixturesToBuild = 0;
         $productionV2ByWeek = array();
         $productionMacByWeek = array();
+
         foreach ($productionByWeek as $index => $week) {
             $productionV2ByWeek[$index] = $week['num_v2_fixtures'];
             $productionMacByWeek[$index] = $week['num_mac_fixtures'];
-            // Get total too
-            $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
+            // Get total only for this week (and don't include fixtures already built)
+            if ($week['week_num'] == $currentWeek) {
+                $totalFixturesToBuild += $week['num_v2_fixtures'] + $week['num_mac_fixtures'];
+                $totalFixturesToBuild -= ($fixturesV2ShippedThisWeek + $fixturesMacShippedThisWeek);
+            }
         }
-
-        // Get Fixtures shipped by location (this week)
-        $fixturesShippedThisWeek = $this->em->getRepository('V2MainBundle:Job')->getFixturesShippedThisWeek();
-        $fixturesV2ShippedThisWeek = $fixturesShippedThisWeek['num_v2_shipped'];
-        $fixturesMacShippedThisWeek = $fixturesShippedThisWeek['num_mac_shipped'];
 
         // Get Scheduling by Job Life Stage
         $jobsByStage = $this->em->getRepository('V2MainBundle:Job')->getJobsByStage();

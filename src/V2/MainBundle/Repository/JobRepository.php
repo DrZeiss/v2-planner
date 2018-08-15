@@ -104,13 +104,13 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     // Returns the actual number of fixtures shipped for the current week
     public function getFixturesShippedThisWeek()
     {
-        $sql = "SELECT WEEK(planner_estimated_ship_date,1) AS week_num, 
+        $sql = "SELECT WEEK(ship_date,1) AS week_num, 
                 SUM(IF(j.build_location = 1, quantity, 0)) AS num_v2_shipped,
                 SUM(IF(j.build_location = 2, quantity, 0)) AS num_mac_shipped
                 FROM job j
                 JOIN scheduling s ON s.job_id = j.id
                 JOIN shipping ON shipping.job_id = j.id
-                WHERE WEEK(planner_estimated_ship_date) = WEEK(NOW(),1)
+                WHERE WEEK(ship_date,1) = WEEK(NOW(),1)
                 AND ((shipping.ship_date IS NOT NULL) OR (shipping.is_complete = 1 AND shipping.second_ship_date IS NOT NULL))
                 AND cancelled_date IS NULL;";
         $em = $this->getEntityManager();
@@ -842,10 +842,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 0")
-            ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.vendorPoNumber IS NULL) OR 
-                        (kitting.kittingShort2 IS NOT NULL AND kittingShort2.vendorPoNumber IS NULL) OR 
-                        (kitting.kittingShort3 IS NOT NULL AND kittingShort3.vendorPoNumber IS NULL) OR 
-                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.vendorPoNumber IS NULL)")
+            ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.vendorPoNumber IS NULL AND (kittingShort1.vendor IS NULL or UPPER(kittingShort1.vendor) != 'V2')) OR 
+                        (kitting.kittingShort2 IS NOT NULL AND kittingShort2.vendorPoNumber IS NULL AND (kittingShort2.vendor IS NULL or UPPER(kittingShort2.vendor) != 'V2')) OR 
+                        (kitting.kittingShort3 IS NOT NULL AND kittingShort3.vendorPoNumber IS NULL AND (kittingShort3.vendor IS NULL or UPPER(kittingShort3.vendor) != 'V2')) OR 
+                        (kitting.kittingShort4 IS NOT NULL AND kittingShort4.vendorPoNumber IS NULL AND (kittingShort4.vendor IS NULL or UPPER(kittingShort4.vendor) != 'V2'))")
             ->andWhere("j.cancelledDate IS NULL");
 
         if (strtolower($stage) != 'supply chain') {
