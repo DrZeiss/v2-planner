@@ -111,15 +111,16 @@ class JobType extends AbstractType
             ))
             ->add('priority', ChoiceType::class, array(
                 'mapped'                => false, // since this field is not in Job entity (it's in Schedule)
-                'choices'                  =>  array(
-                    'Extra'         => -1,
-                    'Normal'        => 0,
-                    'Custom'        => 1,
-                    'Hot'           => 2,
-                    'Rush'          => 3,
-                    'RMA'           => 4,
+                'choices'               =>  array(
+                    'Not Vetted'            => -2,
+                    'Extra'                 => -1,
+                    'Normal'                => 0,
+                    'Custom'                => 1,
+                    'Hot'                   => 2,
+                    'Rush'                  => 3,
+                    'RMA'                   => 4,
                     ),
-                'data'                  =>  0, // default value
+                'data'                  =>  -2, // default value
                 'attr'                  =>  array(
                     'class'             =>  'col-sm-2 select2-box',
                 ),                

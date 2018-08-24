@@ -18,6 +18,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $completed  = $parameters['completed'];
 
         $qb = $this->createQueryBuilder('ks')
+            ->addSelect('1 AS HIDDEN late')
             // ->addSelect('CASE WHEN ks.vendor IS NULL and ks.dateNeeded IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->addSelect("CASE WHEN (ks.vendor IS NULL OR ks.vendor = '') THEN 1 ELSE 2 END AS HIDDEN ordering2")
             ->addSelect("CASE WHEN ks.vendorPoNumber IS NULL THEN 1 ELSE 2 END AS HIDDEN ordering3")            
@@ -61,6 +62,16 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
+        foreach($results as $index => $result) {
+            // Conditional formatting: If the EDD is later than the Date Needed it goes to a light red color
+            if ($result->getEstimatedDeliveryDate() && $result->getDateNeeded() && 
+                $result->getDateNeeded()->format('Y-m-d') < $result->getEstimatedDeliveryDate()->format('Y-m-d')) {
+                $results[$index]->late = 1;
+            } else {
+                $results[$index]->late = null;
+            }
+        }
+
         return $results;
     }
 
@@ -71,6 +82,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $completed      = $parameters['completed'];
 
         $qb = $this->createQueryBuilder('ks')
+            ->addSelect('0 AS HIDDEN late')
             ->addSelect('CASE WHEN ks.estimatedDeliveryDate IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->addSelect('CASE WHEN ks.dateNeeded IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering2')
             ->leftJoin('ks.kitting', 'kitting')
@@ -103,11 +115,18 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
-        // Remove any shorts that are from V2 that don't have a job associated to it
-        // The reasoning is that in-house mods will be built and put back into inventory, therefore no need to be received
         foreach($results as $index => $result) {
+            // Remove any shorts that are from V2 that don't have a job associated to it
+            // The reasoning is that in-house mods will be built and put back into inventory, therefore no need to be received
             if (strtoupper($result->getVendor()) == 'V2' && $result->getKitting() == null) {
                 unset($results[$index]);
+                continue;
+            }
+            // Conditional formatting: Once the EDD is past the date it goes to a light red color
+            if ($result->getEstimatedDeliveryDate() && $result->getEstimatedDeliveryDate()->format('Y-m-d') < date('Y-m-d')) {
+                $results[$index]->late = 1;
+            } else {
+                $results[$index]->late = null;
             }
         }
 
@@ -123,6 +142,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
         $completed      = $parameters['completed'];
 
         $qb = $this->createQueryBuilder('ks')
+            ->addSelect('1 AS HIDDEN late')
             ->addSelect('CASE WHEN ks.dateNeeded IS NOT NULL THEN 1 ELSE 2 END AS HIDDEN ordering1')
             ->leftJoin('ks.kitting', 'kitting')
             ->leftJoin('kitting.job', 'job')
@@ -164,6 +184,15 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->addOrderBy("job.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
+
+        foreach($results as $index => $result) {
+            // Conditional formatting: Once the date needed is past the date it goes to a light red color
+            if ($result->getDateNeeded() && $result->getDateNeeded()->format('Y-m-d') < date('Y-m-d')) {
+                $results[$index]->late = 1;
+            } else {
+                $results[$index]->late = null;
+            }
+        }
 
         return $results;
     }

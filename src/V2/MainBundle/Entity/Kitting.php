@@ -98,6 +98,12 @@ class Kitting
     private $kittingShort4;
 
     /**
+     * Clear-To-Kit time: basically when the time it shows up in the Kitting View
+     * @ORM\Column(name="ctk_date", type="datetime", nullable=true)
+     */
+    private $ctkDate;
+
+    /**
      * @ORM\Column(name="create_time", type="datetime")
      */
     private $createTime;
@@ -519,4 +525,29 @@ class Kitting
     {
         return $this->kittingShort4;
     }
+
+    /**
+     * Set ctkDate
+     *
+     * @param \DateTime $ctkDate
+     *
+     * @return Kitting
+     */
+    public function setCtkDate($ctkDate)
+    {
+        $this->ctkDate = $ctkDate;
+
+        return $this;
+    }
+
+    /**
+     * Get ctkDate
+     *
+     * @return \DateTime
+     */
+    public function getCtkDate()
+    {
+        return $this->ctkDate;
+    }
+
 }

@@ -360,6 +360,19 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
+        // Add the custom sort order so that we can use it for conditional formatting
+        foreach ($results as $index => $result) {
+            // if ($result->getPlannerEstimatedShipDate()->format('Y-m-d') <= date('Y-m-d')) {
+            //     $results[$index]->customSortOrder = 1;
+            // } elseif ($result->getScheduling()->getPriority() == 3) {
+            //     $results[$index]->customSortOrder = 2;
+            // } elseif ($result->getScheduling()->getPriority() == 2) {
+            //     $results[$index]->customSortOrder = 3;
+            // } else {
+                $results[$index]->formatting = 0;
+            // }
+        }
+
         return $results;
     }
 
@@ -423,10 +436,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $salesOrder = $parameters['sales_order'];
 
         $qb = $this->createQueryBuilder('j')
+            ->addSelect('1 AS HIDDEN late')
             ->join('j.scheduling', 'scheduling')
             ->join('j.bom', 'bom')
-            ->where("bom.issuedDate IS NULL")
-            ->orWhere("j.manufacturingOrder IS NULL")
+            ->where("j.manufacturingOrder IS NULL")
             ->orWhere("bom.serialsGeneratedDate IS NULL")
             ->andWhere("j.cancelledDate IS NULL");
 
@@ -445,6 +458,23 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
+        // Add the conditional formatting
+        // Once the job has been in BOM view for 3 days it goes to a light red color
+        foreach ($results as $index => $result) {
+            if ($result->getBom()->getBomViewDate() != null &&
+                self::date_diff_weekdays($result->getBom()->getBomViewDate()->format('Y-m-d'), date('Y-m-d')) >= 3) {
+                $results[$index]->late = 1;
+            } else {
+                // If this is the first time the job shows up in Kitting View, we set the CTK date
+                if ($result->getBom()->getBomViewDate() == null) {
+                    $result->getBom()->setBomViewDate(new \DateTime());
+                    $this->_em->flush();
+                }
+
+                $results[$index]->late = null;
+            }
+        }
+
         return $results;
     }
 
@@ -453,14 +483,26 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $name       = $parameters['name'];
         $salesOrder = $parameters['sales_order'];
 
-        $qb = $this->createQueryBuilder('j');
-        $qb->join('j.kitting', 'kitting')
+        // CTK : Clear to kit; jobs vetted and jobs with no shorts or shorts received or shorts class = ignore
+        $qb = $this->createQueryBuilder('j')
+            ->addSelect('1 AS HIDDEN late')
+            ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->join('j.bom', 'bom')
-            ->where("kitting.filledCompletely IS NULL")
-            ->andWhere("j.manufacturingOrder IS NOT NULL")
-            ->andWhere("bom.serialsGeneratedDate IS NOT NULL")
-            ->orWhere("(kitting.filledCompletely IS NOT NULL AND kitting.location IS NULL)")
+            ->leftJoin('kitting.kittingShort1', 'kittingShort1')
+            ->leftJoin('kitting.kittingShort2', 'kittingShort2')
+            ->leftJoin('kitting.kittingShort3', 'kittingShort3')
+            ->leftJoin('kitting.kittingShort4', 'kittingShort4')
+            ->where("(kitting.kitDate IS NULL OR kitting.completionDate IS NULL)")
+            ->andWhere("scheduling.priority != 2")
+            ->andWhere("(kitting.kittingShort1 IS NULL AND 
+                         kitting.kittingShort2 IS NULL AND 
+                         kitting.kittingShort3 IS NULL AND 
+                         kitting.kittingShort4 IS NULL) OR
+                        (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2)) OR
+                        (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort2.shortClass = 2)) OR
+                        (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort3.shortClass = 2)) OR
+                        (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort4.shortClass = 2))") 
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
@@ -479,8 +521,59 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
+        // Add the conditional formatting
+        // Once the job has been in kitting for 4 days it goes to a light red color
+        foreach ($results as $index => $result) {
+            if ($result->getKitting()->getCtkDate() != null &&
+                self::date_diff_weekdays($result->getKitting()->getCtkDate()->format('Y-m-d'), date('Y-m-d')) >= 4) {
+                $results[$index]->late = 1;
+            } else {
+                // If this is the first time the job shows up in Kitting View, we set the CTK date
+                if ($result->getKitting()->getCtkDate() == null) {
+                    $result->getKitting()->setCtkDate(new \DateTime());
+                    $this->_em->flush();
+                }
+
+                $results[$index]->late = null;
+            }
+        }
+
         return $results;
     }
+
+    /**
+     * Calculate number of weekdays between two dates.
+     *
+     * @param string $from  Start date, in format "YYYY-MM-DD"
+     * @param string $to    End datem in format "YYYY-MM-DD"
+     * @return int|null     Number of weekdays between $from and $to. NULL if either $from or $to is NULL.
+     */
+    static function date_diff_weekdays($from, $to) {
+        if ($from === null || $to === null)
+            return null;
+        $date_from = new \DateTime($from);
+        $date_to = new \DateTime($to);
+        // calculate number of weekdays from start of week - start date
+        $from_day = intval($date_from->format('w')); // 0 (for Sunday) through 6 (for Saturday)
+        if ($from_day == 0)
+            $from_day = 7;
+        $from_wdays = $from_day > 5 ? 5 : $from_day;
+        // calculate number of weekdays from start of week - end date
+        $to_day = intval($date_to->format('w'));
+        if ($to_day == 0)
+            $to_day = 7;
+        $to_wdays = $to_day > 5 ? 5 : $to_day;
+        // calculate number of days between the two dates
+        $interval = $date_from->diff($date_to);
+        $days = intval($interval->format('%R%a')); // shows negative values too
+        // calculate number of full weeks between the two dates
+        $weeks_between = floor($days / 7);
+        if ($to_day >= $from_day)
+            $weeks_between -= 1;
+        // complete calculation of number of working days between
+        $diff_wd = 5 * ($weeks_between) + (5 - $from_wdays) + $to_wdays;
+        return $diff_wd;
+    }    
 
     public function findShortKitsJobs($parameters)
     {
@@ -496,10 +589,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("kitting.filledCompletely = 0")
-            ->andWhere("(kittingShort1.partNumber != '' AND kittingShort1.paintedPart = 0) OR
-                        (kittingShort2.partNumber != '' AND kittingShort2.paintedPart = 0) OR
-                        (kittingShort3.partNumber != '' AND kittingShort3.paintedPart = 0) OR
-                        (kittingShort4.partNumber != '' AND kittingShort4.paintedPart = 0)")
+            ->andWhere("(kittingShort1.partNumber != '' AND kittingShort1.shortClass = 0) OR
+                        (kittingShort2.partNumber != '' AND kittingShort2.shortClass = 0) OR
+                        (kittingShort3.partNumber != '' AND kittingShort3.shortClass = 0) OR
+                        (kittingShort4.partNumber != '' AND kittingShort4.shortClass = 0)")
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
@@ -668,12 +761,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $filledCompletely               = array_key_exists('filled_completely', $parameters)? $parameters['filled_completely'] : null;
 
         $qb = $this->createQueryBuilder('j')
-            ->addSelect('CASE 
-                WHEN j.plannerEstimatedShipDate <= CURRENT_DATE() THEN 1
-                WHEN scheduling.priority = 3 THEN 2
-                WHEN scheduling.priority = 2 THEN 3
-                ELSE 99
-                END AS HIDDEN customSortOrder')        
+            ->addSelect('0 AS HIDDEN customSortOrder')        
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
@@ -727,13 +815,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 $results[$index]->customSortOrder = 1;
             } elseif ($result->getScheduling()->getPriority() == 3) {
                 $results[$index]->customSortOrder = 2;
-            } elseif ($result->getScheduling()->getPriority() == 2) {
-                $results[$index]->customSortOrder = 3;
             } else {
                 $results[$index]->customSortOrder = null;
             }
-
-            $results[$index]->customSortOrder = null; // TEMP remove conditional formatting until Ryan figures something new
         }
 
         return $results;
@@ -756,12 +840,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         // 3 (YELLOW) : priority Hot (2)
         // 99 : normal
         $qb = $this->createQueryBuilder('j')
-            ->addSelect('CASE 
-                WHEN j.plannerEstimatedShipDate <= CURRENT_DATE() THEN 1
-                WHEN scheduling.priority = 3 THEN 2
-                WHEN scheduling.priority = 2 THEN 3
-                ELSE 99
-                END AS HIDDEN customSortOrder')
+            ->addSelect('0 AS HIDDEN customSortOrder')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
@@ -817,13 +896,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 $results[$index]->customSortOrder = 1;
             } elseif ($result->getScheduling()->getPriority() == 3) {
                 $results[$index]->customSortOrder = 2;
-            } elseif ($result->getScheduling()->getPriority() == 2) {
-                $results[$index]->customSortOrder = 3;
             } else {
                 $results[$index]->customSortOrder = null;
             }
-
-            $results[$index]->customSortOrder = null; // TEMP remove conditional formatting until Ryan figures something new
         }
 
         return $results;
@@ -928,6 +1003,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $salesOrder                     = $parameters['sales_order'];
         $filledCompletely               = $parameters['filled_completely'];
         $nonShipped                     = $parameters['non_shipped'];
+        $filter                         = $parameters['selected_filter'];
         $buildLocation                  = $parameters['selected_location'];
         $priority                       = $parameters['selected_priority'];
         $estimatedShipDateFrom          = $parameters['esd_date_from'];
@@ -936,12 +1012,86 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
 
         $qb = $this->createQueryBuilder('j')
+            ->addSelect('1 AS HIDDEN cf')
+            ->addSelect("CASE 
+                            WHEN (scheduling.priority = -2) THEN 1 
+                            WHEN (scheduling.priority = 3) THEN 2
+                            WHEN (UPPER(kitting.location) = 'INV') THEN 3
+                            WHEN ((kittingShort1.id IS NOT NULL AND kittingShort1.shortClass = 1) OR
+                                  (kittingShort2.id IS NOT NULL AND kittingShort2.shortClass = 2) OR
+                                  (kittingShort3.id IS NOT NULL AND kittingShort3.shortClass = 3) OR
+                                  (kittingShort4.id IS NOT NULL AND kittingShort4.shortClass = 4)) THEN 4
+                            WHEN (kittingShort1.id IS NOT NULL OR 
+                                  kittingShort2.id IS NOT NULL OR 
+                                  kittingShort3.id IS NOT NULL OR 
+                                  kittingShort4.id IS NOT NULL) THEN 5
+                            WHEN (scheduling.priority != -2 AND 
+                                  paint.location IS NOT NULL AND 
+                                  kitting.location IS NOT NULL) THEN 6
+                            ELSE 99 
+                        END AS HIDDEN customSortOrder")
             ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
             ->leftJoin('j.paint', 'paint')
+            ->leftJoin('kitting.kittingShort1', 'kittingShort1')
+            ->leftJoin('kitting.kittingShort2', 'kittingShort2')
+            ->leftJoin('kitting.kittingShort3', 'kittingShort3')
+            ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where('j.id > 0')
             ->andWhere("j.cancelledDate IS NULL");
+
+        // Filter settings
+        if ($filter) {
+            switch ($filter) {
+        // 0 -> Not vetted 
+                case 0: 
+                    $qb->andWhere("scheduling.priority = -2"); 
+                    break;
+                case 1: 
+        // 1 -> Painted part shorts 
+                    $qb->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.shortClass = 1) OR
+                                   (kitting.kittingShort2 IS NOT NULL AND kittingShort2.shortClass = 1) OR
+                                   (kitting.kittingShort3 IS NOT NULL AND kittingShort3.shortClass = 1) OR
+                                   (kitting.kittingShort4 IS NOT NULL AND kittingShort4.shortClass = 1)"); 
+                    break;
+        // 2 -> All shorts 
+                case 2:
+                    $qb->andWhere("(kitting.kittingShort1 IS NOT NULL) OR
+                                   (kitting.kittingShort2 IS NOT NULL) OR
+                                   (kitting.kittingShort3 IS NOT NULL) OR
+                                   (kitting.kittingShort4 IS NOT NULL)"); 
+                    break;
+        // 3 -> All jobs 
+                case 3: break; 
+        // 4 -> Jobs CTK : Clear to kit; jobs vetted and jobs with no shorts or shorts received or shorts class = ignore
+                case 4:
+                    $qb->andWhere("scheduling.priority != -2")
+                       ->andWhere("(kitting.kittingShort1 IS NULL AND 
+                                    kitting.kittingShort2 IS NULL AND 
+                                    kitting.kittingShort3 IS NULL AND 
+                                    kitting.kittingShort4 IS NULL) OR
+                                   (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2)) OR
+                                   (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort2.shortClass = 2)) OR
+                                   (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort3.shortClass = 2)) OR
+                                   (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort4.shortClass = 2))"); 
+                    break;
+        // 5 -> Jobs CTP : Clear to paint; jobs vetted and jobs with no painted parts shorts or painted parts short received
+                case 5: 
+                    $qb->andWhere("scheduling.priority != -2")
+                       ->andWhere("(kitting.kittingShort1 IS NOT NULL AND (kittingShort1.shortClass = 0 OR (kittingShort1.shortClass = 1 AND kittingShort1.receivedDate IS NOT NULL))) OR
+                                   (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.shortClass = 0 OR (kittingShort2.shortClass = 1 AND kittingShort2.receivedDate IS NOT NULL))) OR
+                                   (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.shortClass = 0 OR (kittingShort3.shortClass = 1 AND kittingShort3.receivedDate IS NOT NULL))) OR
+                                   (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.shortClass = 0 OR (kittingShort4.shortClass = 1 AND kittingShort4.receivedDate IS NOT NULL)))"); 
+                    break;
+        // 6 -> Jobs CTB : Clear to build; jobs vetted and have a paint location and have a kit location
+                case 6: 
+                    $qb->andWhere("scheduling.priority != -2")
+                       ->andWhere("paint.location IS NOT NULL")
+                       ->andWhere("kitting.location IS NOT NULL");
+                    break;
+            }
+        }
 
         if ($name) {
             $qb->andWhere("j.name LIKE :name")
@@ -991,11 +1141,28 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        $results = $qb->addOrderBy("scheduling.priority", "DESC")
+        $results = $qb->addOrderBy("customSortOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
-            ->addOrderBy("j.salesOrder", "ASC")
             ->getQuery()
             ->getResult();
+
+        // Add the custom sort order so that we can use it for conditional formatting
+        foreach ($results as $index => $result) {
+            if ($result->getScheduling()->getPriority() == 3) { // rush
+                $results[$index]->cf = 1;
+            } elseif (($result->getKitting()->getKittingShort1() ||
+                       $result->getKitting()->getKittingShort2() ||
+                       $result->getKitting()->getKittingShort3() ||
+                       $result->getKitting()->getKittingShort4()) &&
+                       self::date_diff_weekdays(date('Y-m-d'), $result->getPlannerEstimatedShipDate()->format('Y-m-d')) <= 7) {
+                $results[$index]->cf = 2;
+            } elseif (strtoupper($result->getKitting()->getLocation()) == 'INV') {
+                $results[$index]->cf = 3;
+            } else {
+                $results[$index]->cf = null;
+            }
+
+        }
 
         return $results;
     }

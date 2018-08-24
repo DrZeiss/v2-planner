@@ -35,11 +35,15 @@ class KittingShort
     private $partNumber;
 
     /**
-     * @var bool
+     * 0  = empty
+     * 1  = painted
+     * 2  = ignore
      *
-     * @ORM\Column(name="painted_part", type="boolean")
+     * @var int
+     *
+     * @ORM\Column(name="short_class", type="integer", length=255)
      */
-    private $paintedPart;
+    private $shortClass;
 
     /**
      * @var \DateTime
@@ -132,7 +136,7 @@ class KittingShort
     public function __construct()
     {
         $this->quantity = 0;
-        $this->paintedPart = false;
+        $this->shortClass = 
         $this->updateTime = new \DateTime();
     }
 
@@ -171,27 +175,27 @@ class KittingShort
     }
 
     /**
-     * Set paintedPart
+     * Set shortClass
      *
-     * @param boolean $paintedPart
+     * @param boolean $shortClass
      *
      * @return KittingShort
      */
-    public function setPaintedPart($paintedPart)
+    public function setShortClass($shortClass)
     {
-        $this->paintedPart = $paintedPart;
+        $this->shortClass = $shortClass;
 
         return $this;
     }
 
     /**
-     * Get paintedPart
+     * Get shortClass
      *
-     * @return bool
+     * @return int
      */
-    public function getPaintedPart()
+    public function getShortClass()
     {
-        return $this->paintedPart;
+        return $this->shortClass;
     }
 
     /**

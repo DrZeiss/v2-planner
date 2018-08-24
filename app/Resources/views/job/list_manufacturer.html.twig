@@ -65,38 +65,33 @@
         </thead>
         <tbody>
             {% for part in parts %}
-                {% set late = 0 %}
-                {% if part.dateNeeded and part.dateNeeded < date() and part.modDoneDate is null %}
-                    {% set late = 1 %}
-                {% endif %}
-                {% set late = 0 %}
-            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
+            <tr {% if part.late %}bgcolor="lightcoral"{% endif %}>
+                <td style="word-break:break-all;{% if part.late %}color:white{% endif %}">{{ part.partNumber}}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_MANUFACTURER') %}
                         <a href="#" class="dateNeeded" data-name="dateNeeded" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_date_needed', { 'shortId': part.id }) }}">{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</a>
                     {% else %}
                         {{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_MANUFACTURER') %}
                         <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_received_date', { 'shortId': part.id }) }}">{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</a>
                     {% else %}
                         {{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if part.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_MANUFACTURER') %}
                         <a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id }) }}">{{ part.notes }}</a>
                     {% else %}
                         {{ part.notes }}
                     {% endif %}
                 </td>
-                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
+                <td style="font-size:small; {% if part.late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
             </tr>
             {% endfor %}
         </tbody>

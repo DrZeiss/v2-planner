@@ -25,7 +25,8 @@
   <body class="sidebar-collapsible sidebar-open">
     <div class="st-wrapper">
       <div class="st-sidebar">
-        <div class="st-sidebar__header"><a class="st-sidebar__logo" href="index.html">
+        
+        <div class="st-sidebar__header" style="background-color:yellow"><a class="st-sidebar__logo" href="{{ path('dashboard') }}">
             <img src="{{ asset('just/dist/img/v2-lighting-group-logo.png') }}" alt="V2 Lighting Group Inc" height="75" width="100"></a>
           <div class="st-sidebar__mico st-sidebar__toggle"><i class="fa fa-bars"></i></div>
         </div>
@@ -73,13 +74,13 @@
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Kitter</span></div>
                     </div></a>
                 </li>
-                <li><a href="{{ path('short_kits') }}">
+{#                 <li><a href="{{ path('short_kits') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-clipboard st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Short Kits</span></div>
                     </div></a>
                 </li>
-                <li><a href="{{ path('receiver') }}">
+ #}                <li><a href="{{ path('receiver') }}">
                     <div class="fluid-cols">
                       <div class="min-col"><i class="fa fa-sign-in st-sidebar__ico"></i></div>
                       <div class="expand-col text-ellipsis"><span class="st-sidebar__title">Receiver</span></div>

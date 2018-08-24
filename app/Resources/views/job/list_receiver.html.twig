@@ -57,42 +57,37 @@
         </thead>
         <tbody>
             {% for part in parts %}
-                {% set late = 0 %}
-                {% if (part.estimatedDeliveryDate and part.estimatedDeliveryDate < date()) or (part.dateNeeded and part.dateNeeded < date()) and part.receivedDate is null %}
-                    {% set late = 1 %}
-                {% endif %}
-                {% set late = 0 %}
-            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ part.partNumber}}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.vendor }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.vendorPoNumber }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
+            <tr {% if part.late %}bgcolor="lightcoral"{% endif %}>
+                <td style="word-break:break-all;{% if part.late %}color:white{% endif %}">{{ part.partNumber}}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.vendor }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.vendorPoNumber }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.modWo }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_RECEIVER') %}
                         <a href="#" class="receivedDate" data-name="receivedDate" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_short_received_date', {'shortId': part.id}) }}">{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</a>
                     {% else %}
                         {{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}
                     {% endif %}
                     </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if part.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_RECEIVER') %}
                         <a href="#" class="location" data-name="location" data-pk="{{part.id}}" data-url="{{ path('edit_kitting_location', {'jobId': part.kitting and part.kitting.job ? part.kitting.job.id : 0}) }}">{{part.kitting and part.kitting.job ? part.kitting.job.kitting.location : "" }}</a>
                     {% else %}
                         {{part.kitting and part.kitting.job ? part.kitting.job.kitting.location : "" }}
                     {% endif %}
                     </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if part.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_RECEIVER') %}
                         <a href="#" class="notes" data-name="notes" data-pk="{{ part.id }}" data-url="{{ path('edit_kitting_short_notes', {'shortId': part.id}) }}">{{ part.notes }}</a>
                     {% else %}
                         {{ part.notes }}
                     {% endif %}
                     </td>
-                <td style="font-size:small; {% if late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
-                <td {% if late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
+                <td style="font-size:small; {% if part.late %}color:white{% endif %}">{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
+                <td {% if part.late %}style="color:white"{% endif %}>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
             </tr>
             {% endfor %}
         </tbody>

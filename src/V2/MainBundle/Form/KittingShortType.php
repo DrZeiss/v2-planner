@@ -27,7 +27,7 @@ class KittingShortType extends AbstractType
                     'class'             =>  'col-sm-4 control-label',
                 ),
             ))
-            // ->add('paintedPart', CheckboxType::class, array(
+            // ->add('shortClass', CheckboxType::class, array(
             //     'label'                 =>  'Part Painted?',
             //     'label_attr'            =>  array(
             //         'class'             =>  'col-sm-3 control-label',

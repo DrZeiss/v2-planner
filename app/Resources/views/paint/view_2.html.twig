@@ -49,23 +49,31 @@
             <th style="border:solid" rowspan=2>Batch #1</th>
             <th style="border:solid" rowspan=2>Color 2</th>
             <th style="border:solid" rowspan=2>Batch #1</th>
-            <th style="border:solid;text-align:center" colspan=2>Short #1</th>
-            <th style="border:solid;text-align:center" colspan=2>Short #2</th>
-            <th style="border:solid;text-align:center" colspan=2>Short #3</th>
-            <th style="border:solid;text-align:center" colspan=2>Short #4</th>
+            <th style="border:solid;text-align:center" colspan=4>Short #1</th>
+            <th style="border:solid;text-align:center" colspan=4>Short #2</th>
+            <th style="border:solid;text-align:center" colspan=4>Short #3</th>
+            <th style="border:solid;text-align:center" colspan=4>Short #4</th>
         </tr>
         <tr>
             {# Short #1 #}
             <th style="border:solid">Part Number</th>
+            <th style="border:solid">Class</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
             <th style="border:solid;min-width:7ch">RCVD</th>
             {# Short #2 #}
             <th style="border:solid">Part Number</th>
+            <th style="border:solid">Class</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
             <th style="border:solid;min-width:7ch">RCVD</th>
             {# Short #3 #}
             <th style="border:solid">Part Number</th>
+            <th style="border:solid">Class</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
             <th style="border:solid;min-width:7ch">RCVD</th>
             {# Short #4 #}
             <th style="border:solid">Part Number</th>
+            <th style="border:solid">Class</th>
+            <th style="border:solid;min-width:7ch">EDD</th>
             <th style="border:solid;min-width:7ch">RCVD</th>
         </tr>
         </thead>
@@ -98,15 +106,55 @@
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.batch2 ? paint.batch2.id }}</a></td>
                 {# Short #1 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort1.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if paint.job.kitting.kittingShort1 == null or paint.job.kitting.kittingShort1.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif paint.job.kitting.kittingShort1.shortClass == 1 %}
+                        Painted
+                    {% elseif paint.job.kitting.kittingShort1.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.estimatedDeliveryDate ? paint.job.kitting.kittingShort1.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort1 and paint.job.kitting.kittingShort1.receivedDate ? paint.job.kitting.kittingShort1.receivedDate | date('Y-m-d') : "" }}</td>
                 {# Short #2 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort2.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if paint.job.kitting.kittingShort2 == null or paint.job.kitting.kittingShort2.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif paint.job.kitting.kittingShort2.shortClass == 1 %}
+                        Painted
+                    {% elseif paint.job.kitting.kittingShort2.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.estimatedDeliveryDate ? paint.job.kitting.kittingShort2.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort2 and paint.job.kitting.kittingShort2.receivedDate ? paint.job.kitting.kittingShort2.receivedDate | date('Y-m-d') : "" }}</td>
                 {# Short #3 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort3.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if paint.job.kitting.kittingShort3 == null or paint.job.kitting.kittingShort3.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif paint.job.kitting.kittingShort3.shortClass == 1 %}
+                        Painted
+                    {% elseif paint.job.kitting.kittingShort3.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.estimatedDeliveryDate ? paint.job.kitting.kittingShort3.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort3 and paint.job.kitting.kittingShort3.receivedDate ? paint.job.kitting.kittingShort3.receivedDate | date('Y-m-d') : "" }}</td>
                 {# Short #4 #}
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting.kittingShort4.partNumber | default("") }}</td>
+                <td {% if late %}style="color:white"{% endif %}>
+                    {% if paint.job.kitting.kittingShort4 == null or paint.job.kitting.kittingShort4.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif paint.job.kitting.kittingShort4.shortClass == 1 %}
+                        Painted
+                    {% elseif paint.job.kitting.kittingShort4.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.estimatedDeliveryDate ? paint.job.kitting.kittingShort4.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.kitting and paint.job.kitting.kittingShort4 and paint.job.kitting.kittingShort4.receivedDate ? paint.job.kitting.kittingShort4.receivedDate | date('Y-m-d') : "" }}</td>
             </tr>
             {% endfor %}

@@ -48,6 +48,13 @@ class Bom
     private $serialsGeneratedDate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="bom_view_date", type="datetime", nullable=true)
+     */
+    private $bomViewDate;
+
+    /**
      * @ORM\Column(name="update_time", type="datetime")
      */
     private $updateTime;
@@ -211,6 +218,30 @@ class Bom
     public function getSerialsGeneratedDate()
     {
         return $this->serialsGeneratedDate;
+    }
+
+    /**
+     * Set bomViewDate
+     *
+     * @param \DateTime $bomViewDate
+     *
+     * @return Bom
+     */
+    public function setBomViewDate($bomViewDate)
+    {
+        $this->bomViewDate = $bomViewDate;
+
+        return $this;
+    }
+
+    /**
+     * Get bomViewDate
+     *
+     * @return \DateTime
+     */
+    public function getBomViewDate()
+    {
+        return $this->bomViewDate;
     }
 
 }

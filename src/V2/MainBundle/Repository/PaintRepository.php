@@ -19,8 +19,10 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             JOIN job ON job.id = p.job_id
             JOIN build_location bl ON bl.id = job.build_location
             JOIN kitting k ON k.job_id = p.job_id 
+            JOIN scheduling s ON s.job_id = p.job_id
             WHERE color_1 IS NOT NULL
             AND batch_1_id IS NULL
+            AND s.priority != -2
             AND job.cancelled_date IS NULL
             GROUP BY color_1
                 UNION
@@ -29,8 +31,10 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
             JOIN job ON job.id = p.job_id
             JOIN build_location bl ON bl.id = job.build_location
             JOIN kitting k ON k.job_id = p.job_id 
+            JOIN scheduling s ON s.job_id = p.job_id
             WHERE color_2 IS NOT NULL
             AND batch_2_id IS NULL
+            AND s.priority != -2
             AND job.cancelled_date IS NULL
             GROUP BY color_2
             ) tmp
@@ -50,15 +54,17 @@ class PaintRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('p')
             ->join('p.job', 'job')
             ->join('job.kitting', 'kitting')
+            ->join('job.scheduling', 'scheduling')
             // ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             // ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             // ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             // ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where('p.id > 0')
-            // ->orWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.paintedPart = 1) OR 
-            //            (kitting.kittingShort2 IS NOT NULL AND kittingShort2.paintedPart = 1) OR 
-            //            (kitting.kittingShort3 IS NOT NULL AND kittingShort3.paintedPart = 1) OR 
-            //            (kitting.kittingShort4 IS NOT NULL AND kittingShort4.paintedPart = 1)")
+            // ->orWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.shortClass = 1) OR 
+            //            (kitting.kittingShort2 IS NOT NULL AND kittingShort2.shortClass = 1) OR 
+            //            (kitting.kittingShort3 IS NOT NULL AND kittingShort3.shortClass = 1) OR 
+            //            (kitting.kittingShort4 IS NOT NULL AND kittingShort4.shortClass = 1)")
+            ->andWhere('scheduling.priority != -2')
             ->andWhere('job.cancelledDate IS NULL');
 
         if ($name) {

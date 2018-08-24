@@ -185,7 +185,12 @@ class JobController extends Controller
             $kittingArray['kit_location'] = $job->getKitting() ? $job->getKitting()->getLocation() : '';
             // SHORT 1 //
             $kittingArray['short1_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
-            $kittingArray['short1_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short1_short_class'] = "Empty";
+            if ($job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getShortClass() == 1) {
+                $kittingArray['short1_short_class'] = "Painted";
+            } elseif ($job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getShortClass() == 2) {
+                $kittingArray['short1_short_class'] = "Ignore";
+            }
             $kittingArray['short1_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort1() && $job->getKitting()->getKittingShort1()->getDateNeeded() ? $job->getKitting()->getKittingShort1()->getDateNeeded()->format('Y-m-d') : null;
             $kittingArray['short1_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getVendor() : null;
             $kittingArray['short1_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort1() ? $job->getKitting()->getKittingShort1()->getVendorPoNumber() : null;
@@ -199,7 +204,12 @@ class JobController extends Controller
 
             // SHORT 2 //
             $kittingArray['short2_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
-            $kittingArray['short2_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short2_short_class'] = "Empty";
+            if ($job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getShortClass() == 1) {
+                $kittingArray['short2_short_class'] = "Painted";
+            } elseif ($job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getShortClass() == 2) {
+                $kittingArray['short2_short_class'] = "Ignore";
+            }
             $kittingArray['short2_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort2() && $job->getKitting()->getKittingShort2()->getDateNeeded() ? $job->getKitting()->getKittingShort2()->getDateNeeded()->format('Y-m-d') : null;
             $kittingArray['short2_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getVendor() : null;
             $kittingArray['short2_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort2() ? $job->getKitting()->getKittingShort2()->getVendorPoNumber() : null;
@@ -213,7 +223,12 @@ class JobController extends Controller
 
             // SHORT 3 //
             $kittingArray['short3_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
-            $kittingArray['short3_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short3_short_class'] = "Empty";
+            if ($job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getShortClass() == 1) {
+                $kittingArray['short3_short_class'] = "Painted";
+            } elseif ($job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getShortClass() == 2) {
+                $kittingArray['short3_short_class'] = "Ignore";
+            }
             $kittingArray['short3_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort3() && $job->getKitting()->getKittingShort3()->getDateNeeded() ? $job->getKitting()->getKittingShort3()->getDateNeeded()->format('Y-m-d') : null;
             $kittingArray['short3_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getVendor() : null;
             $kittingArray['short3_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort3() ? $job->getKitting()->getKittingShort3()->getVendorPoNumber() : null;
@@ -227,7 +242,12 @@ class JobController extends Controller
 
             // SHORT 4 //
             $kittingArray['short4_part_number'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort1()->getPartNumber() : null;
-            $kittingArray['short4_painted_part'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getPaintedPart() ? 'Yes' : '';
+            $kittingArray['short4_short_class'] = "Empty";
+            if ($job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getShortClass() == 1) {
+                $kittingArray['short4_short_class'] = "Painted";
+            } elseif ($job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getShortClass() == 2) {
+                $kittingArray['short4_short_class'] = "Ignore";
+            }
             $kittingArray['short4_date_needed'] = $job->getKitting() && $job->getKitting()->getKittingShort4() && $job->getKitting()->getKittingShort4()->getDateNeeded() ? $job->getKitting()->getKittingShort4()->getDateNeeded()->format('Y-m-d') : null;
             $kittingArray['short4_vendor'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getVendor() : null;
             $kittingArray['short4_vendor_po_number'] = $job->getKitting() && $job->getKitting()->getKittingShort4() ? $job->getKitting()->getKittingShort4()->getVendorPoNumber() : null;
@@ -656,8 +676,9 @@ class JobController extends Controller
             'sales_order'           => null,
             'filled_completely'     => null,
             'non_shipped'           => 1,
+            'selected_filter'       => 0, // means Not Vetted
             'selected_location'     => 0, // means ALL locations
-            'selected_priority'     => 99, // means ALL priority
+            'selected_priority'     => -2, // means Not Vetted
             'esd_date_from'         => null,
             'esd_date_to'           => null,
             'planner_esd_week_from' => null,
@@ -675,6 +696,7 @@ class JobController extends Controller
             'sales_order'           =>  $parameters['sales_order'],
             'filled_completely'     =>  $parameters['filled_completely'],
             'non_shipped'           =>  $parameters['non_shipped'],
+            'selected_filter'       =>  $parameters['selected_filter'],
             'selected_location'     =>  $parameters['selected_location'],
             'selected_priority'     =>  $parameters['selected_priority'],
             'esd_date_from'         =>  $parameters['esd_date_from'],
@@ -1079,6 +1101,27 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/job/{jobId}/editNotes", name="edit_job_notes")
+     */
+    public function editJobNotes(Request $request, $jobId)
+    {
+        $notes = $request->request->get('value');
+
+        $job = $this->jobRepository->find($jobId);
+        if (!$job) {
+            return $this->json(array('status' => 'error', 'msg' => "Invalid job"));
+        }
+
+        $job->setNotes($notes);
+        $job->setUpdateTime(new \DateTime());
+        $job->setUpdatedBy($this->getUser());
+        $this->em->persist($job);
+        $this->em->flush();
+
+        return $this->json(array('status' => 'success'));
+    }
+
+    /**
      * @Route("/job/{jobId}/editPlannerEstimatedShipDate", name="edit_job_planner_estimated_ship_date")
      */
     public function editJobPlannerEstimatedShipDate(Request $request, $jobId)
@@ -1378,17 +1421,17 @@ class JobController extends Controller
     }
 
     /**
-     * @Route("/kittingShort/{shortId}/editPaintedPart", name="edit_kitting_short_painted_part")
+     * @Route("/kittingShort/{shortId}/editShortClass", name="edit_kitting_short_short_class")
      */
-    public function editKittingShortPaintedPart(Request $request, $shortId)
+    public function editKittingShortShortClass(Request $request, $shortId)
     {
-        $paintedPart = $request->request->get('value');
+        $shortClass = $request->request->get('value');
 
         $short = $this->kittingShortRepository->findOneBy(array('id' => $shortId));
         if (!$short) {
             return $this->json(array('status' => 'error', 'msg' => "Invalid kitting short"));
         }
-        $short->setPaintedPart($paintedPart);
+        $short->setShortClass($shortClass);
         $short->setUpdateTime(new \DateTime());
         $short->setUpdatedBy($this->getUser());
         $this->em->persist($short);

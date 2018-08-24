@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <h2>BOM Builder Job list</h2>
+    <h2>BOM Builder Job list <span style="font-size:70%"> (Total jobs: {{ jobs|length }})</span></h2>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -52,36 +52,28 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-                {% set late = 0 %}
-                {% if job.estimatedShipDate and job.plannerEstimatedShipDate and job.plannerEstimatedShipDate < date() and job.manufacturingOrder is null %}
-                    {% set difference = date(job.plannerEstimatedShipDate).diff(date()) %}
-                    {% if difference.days > 3 %}
-                        {% set late = 1 %}
-                    {% endif %}
-                {% endif %}
-                {% set late = 0 %}
-            <tr {% if late %}bgcolor="lightcoral"{% endif %}>
-                <td style="font-size:small;{% if late %}color:white{% endif %}">{{ job.name }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.type }}</td>
-                <td style="word-break:break-all;{% if late %}color:white{% endif %}">{{ job.model }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
-                <td {% if late %}style="color:white"{% endif %}>
+            <tr {% if job.late %}bgcolor="lightcoral"{% endif %}>
+                <td style="font-size:small;{% if job.late %}color:white{% endif %}">{{ job.name }}</td>
+                <td {% if job.late %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>
+                <td {% if job.late %}style="color:white"{% endif %}>{{ job.type }}</td>
+                <td style="word-break:break-all;{% if job.late %}color:white{% endif %}">{{ job.model }}</td>
+                <td {% if job.late %}style="color:white"{% endif %}>{{ job.quantity }}</td>
+                <td {% if job.late %}style="color:white"{% endif %}>{{ job.buildLocation.name }}</td>
+                <td {% if job.late %}style="color:white"{% endif %}>
                     {% if job.plannerEstimatedShipDate %}
                         {{ job.plannerEstimatedShipDate|date('Y-m-d') }} ({{ job.plannerEstimatedShipDate|date('W') }})
                     {% else %}
                         TBD
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_BOM_BUILDER') %}
                         <a href="#" class="manufacturingOrder" data-name="manufacturingOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_manufacturing_order', {'jobId': job.id}) }}">{{ job.manufacturingOrder }}</a>
                     {% else %}
                         {{ job.manufacturingOrder }}
                     {% endif %}
                 </td>
-                <td {% if late %}style="color:white"{% endif %}>
+                <td {% if job.late %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_BOM_BUILDER') %}
                         <a href="#" class="serialsGeneratedDate" data-name="serialsGeneratedDate" data-pk="{{job.id}}" data-url="{{ path('edit_bom_serials_generated_date', {'jobId': job.id}) }}">{{ job.bom and job.bom.serialsGeneratedDate ? job.bom.serialsGeneratedDate|date('Y-m-d') : "" }}</a>
                     {% else %}

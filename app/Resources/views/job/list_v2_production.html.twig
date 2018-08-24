@@ -64,12 +64,12 @@
             <th style="border:solid;width:4ch">Qty</th>
             <th style="border:solid;width:6ch">MO #</th>
             <th style="border:solid;font-size:x-small;width:7ch">Planner ESD (Week#)</th>
-            <th style="border:solid;font-size:x-small;width:3ch">Kitting Filled Completely?</th>
             <th style="border:solid;width:4ch">Kitting LOC</th>
             <th style="border:solid;width:4ch">Paint LOC</th>
             <th style="border:solid;width:4ch">Sub Built</th>
             <th style="border:solid;width:7ch">Build Completion Date</th>
             <th style="border:solid;width:3ch">Built By</th>
+            <th style="border:solid;min-width:20ch">Notes</th>
         </thead>
         <tbody>
             {% for job in jobs %}
@@ -77,9 +77,7 @@
             {% if job.customSortOrder == 1 %}
                 bgcolor="lightcoral"
             {% elseif job.customSortOrder == 2 %}
-                bgcolor="orange"
-            {% elseif job.customSortOrder == 3 %}
-                bgcolor="gold"
+                bgcolor="lightgreen"
             {% endif %}>
                 <td style="font-size:small; {% if job.customSortOrder %}color:white{% endif %}">{{job.customSortOrder}} {{ job.name }}</td>
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.salesOrder }}</td>   
@@ -95,7 +93,6 @@
                     {% endif %}
                 </td>
                 {# Kitting #}
-                <td {% if job.customSortOrder %}style="color:white"{% endif %}>{{ job.kitting.filledCompletely ? "Yes" : "No" }}</td>
                 <td {% if job.customSortOrder %}style="color:white"{% endif %}>
                     {% if is_granted('ROLE_V2_PRODUCTION') %}
                         <a href="#" class="location" data-name="location" data-pk="{{job.kitting.id}}" data-url="{{ path('edit_kitting_location', {'jobId': job.id}) }}">{{ job.kitting.location }}</a>
@@ -146,6 +143,13 @@
                         <a href="#" class="builtBy" data-name="builtBy" data-pk="{{job.id}}" data-url="{{ path('edit_scheduling_built_by', {'jobId': job.id}) }}">{{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}</a>
                     {% else %}
                         {{ job.scheduling.builtBy ? job.scheduling.builtBy : "" }}
+                    {% endif %}
+                </td>
+                <td {% if job.customSortOrder %}style="color:white"{% endif %}>
+                    {% if is_granted('ROLE_V2_PRODUCTION') %}
+                        <a href="#" class="notes" data-name="notes" data-pk="{{job.id}}" data-url="{{ path('edit_job_notes', {'jobId': job.id}) }}">{{ job.notes ? job.notes : "" }}</a>
+                    {% else %}
+                        {{ job.notes ? job.notes : "" }}
                     {% endif %}
                 </td>
             </tr>
@@ -307,6 +311,18 @@
                 container: 'body',
                 url: obj.dataset.url,
                 title: 'Enter Built By Initials',
+                success: function(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+            });
+        });
+
+        $('.notes').each(function(i, obj) {
+            $(this).editable({
+                type: 'textarea',
+                container: 'body',
+                url: obj.dataset.url,
+                title: 'Enter Job Notes',
                 success: function(response, newValue) {
                     if (response.status == 'error') return response.msg; //msg will be shown in editable form
                 }

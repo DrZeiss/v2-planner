@@ -98,6 +98,13 @@ class Job
     private $cancelledDate;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="notes", type="string", length=255, nullable=true)
+     */
+    private $notes;
+
+    /**
      * @ORM\OneToOne(targetEntity="V2\MainBundle\Entity\Bom", mappedBy="job")
      */
     private $bom;
@@ -426,6 +433,30 @@ class Job
     }
 
     /**
+     * Set notes
+     *
+     * @param string $notes
+     *
+     * @return Job
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes
+     *
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
      * Set createTime
      *
      * @param \DateTime $createTime
@@ -640,4 +671,5 @@ class Job
     {
         return $this->paint;
     }
+
 }
