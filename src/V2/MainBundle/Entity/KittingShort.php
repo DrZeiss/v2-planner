@@ -136,7 +136,7 @@ class KittingShort
     public function __construct()
     {
         $this->quantity = 0;
-        $this->shortClass = 
+        $this->shortClass = 0;
         $this->updateTime = new \DateTime();
     }
 
