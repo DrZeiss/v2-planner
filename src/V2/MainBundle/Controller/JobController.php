@@ -671,20 +671,30 @@ class JobController extends Controller
      */
     public function listSchedulerJobs(Request $request)
     {
+        // Grab values from session data (if any)
+        $session = $request->getSession();
+        $selectedFilterParameter = $session->get('scheduler_parameter_selected_filter');
+        $selectedLocationParameter = $session->get('scheduler_parameter_selected_location');
+        $selectedPriorityParameter = $session->get('scheduler_parameter_selected_priority');
+
         $defaultParameters = array(
             'name'                  => null,
             'sales_order'           => null,
             'filled_completely'     => null,
             'non_shipped'           => 1,
-            'selected_filter'       => 0, // means Not Vetted
-            'selected_location'     => 0, // means ALL locations
-            'selected_priority'     => -2, // means Not Vetted
+            'selected_filter'       => $selectedFilterParameter != null ? $selectedFilterParameter : 0, // means Not Vetted
+            'selected_location'     => $selectedLocationParameter != null ? $selectedLocationParameter : 0, // means ALL locations
+            'selected_priority'     => $selectedPriorityParameter != null ? $selectedPriorityParameter : -2, // means Not Vetted
             'esd_date_from'         => null,
             'esd_date_to'           => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to'   => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
+        // Save search settings
+        $session->set('scheduler_parameter_selected_filter', $parameters['selected_filter']);
+        $session->set('scheduler_parameter_selected_location', $parameters['selected_location']);
+        $session->set('scheduler_parameter_selected_priority', $parameters['selected_priority']);
 
         $jobs = $this->jobRepository->findSchedulerJobs($parameters);
         $locations = $this->em->getRepository('V2MainBundle:BuildLocation')->findAll();

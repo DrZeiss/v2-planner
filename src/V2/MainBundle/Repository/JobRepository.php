@@ -1029,8 +1029,29 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                                   paint.location IS NOT NULL AND 
                                   kitting.location IS NOT NULL) THEN 6
                             ELSE 99 
-                        END AS HIDDEN customSortOrder")
-            ->join('j.kitting', 'kitting')
+                        END AS HIDDEN customSortOrder");
+        if ($filter == 4) { // CTK
+            $qb->addSelect("CASE WHEN (kitting.location IS NOT NULL) THEN 1 ELSE 99 END AS HIDDEN extraSortOrder");
+        } elseif ($filter == 5) { // CTP
+            $qb->addSelect("CASE
+                                WHEN (paint.location IS NOT NULL AND paint.location != '') THEN 1
+                                WHEN (paint.location IS NULL AND
+                                      (paint.batch1 IS NOT NULL OR 
+                                       paint.batch2 IS NOT NULL)) THEN 2
+                                WHEN (paint.location IS NULL) THEN 3
+                                ELSE 99 
+                            END AS HIDDEN extraSortOrder");
+        } elseif ($filter == 6) { // CTB
+            $qb->addSelect("CASE WHEN (scheduling.priority = 3) THEN 1 
+                                 WHEN (scheduling.priority = 4) THEN 2
+                                 WHEN (scheduling.priority = 1) THEN 3
+                                 ELSE 99 
+                            END AS HIDDEN extraSortOrder");
+        } else {
+            $qb->addSelect("99 AS HIDDEN extraSortOrder");
+        }
+
+        $qb->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
             ->leftJoin('j.shipping', 'shipping')
             ->leftJoin('j.paint', 'paint')
@@ -1141,10 +1162,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        $results = $qb->addOrderBy("customSortOrder", "ASC")
-            ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
-            ->getQuery()
-            ->getResult();
+
+        $results = $qb->addOrderBy("extraSortOrder", "ASC") // for CTK, CTP, CTB filters
+                      ->addOrderBy("customSortOrder", "ASC")
+                      ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
+                      ->getQuery()
+                      ->getResult();
 
         // Add the custom sort order so that we can use it for conditional formatting
         foreach ($results as $index => $result) {
