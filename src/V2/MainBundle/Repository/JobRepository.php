@@ -758,13 +758,18 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;       
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
-        $filledCompletely               = array_key_exists('filled_completely', $parameters)? $parameters['filled_completely'] : null;
+        $ctk                            = array_key_exists('ctk', $parameters)? $parameters['ctk'] : null;
 
         $qb = $this->createQueryBuilder('j')
-            ->addSelect('0 AS HIDDEN customSortOrder')        
+            ->addSelect('CASE 
+                            WHEN (j.plannerEstimatedShipDate <= CURRENT_TIMESTAMP()) THEN 1 
+                            WHEN (scheduling.priority = 3) THEN 2
+                            ELSE 99 
+                        END AS HIDDEN customSortOrder')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
+            ->leftJoin('j.paint', 'paint')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
@@ -798,10 +803,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        if ($filledCompletely) {
-            $qb->andWhere("kitting.filledCompletely = :filledCompletely")
-                ->setParameter('filledCompletely', $filledCompletely);
+        if ($ctk) {
+            // CTK : Clear to kit; has non null paint location and kit location
+            $qb->andWhere("kitting.completionDate IS NOT NULL")
+               ->andWhere("paint.location IS NOT NULL"); 
         }
+
 
         $results = $qb->addOrderBy("customSortOrder", "ASC")
             ->addOrderBy("j.salesOrder", "ASC")
@@ -833,14 +840,18 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
-        $filledCompletely               = array_key_exists('filled_completely', $parameters)? $parameters['filled_completely'] : null;
+        $ctk                            = array_key_exists('ctk', $parameters)? $parameters['ctk'] : null;
 
         // 1 (RED) : planner ESD <= today
         // 2 (ORANGE) : priority Rush (3)
         // 3 (YELLOW) : priority Hot (2)
         // 99 : normal
         $qb = $this->createQueryBuilder('j')
-            ->addSelect('0 AS HIDDEN customSortOrder')
+            ->addSelect('CASE 
+                            WHEN (j.plannerEstimatedShipDate <= CURRENT_TIMESTAMP()) THEN 1 
+                            WHEN (scheduling.priority = 3) THEN 2
+                            ELSE 99 
+                        END AS HIDDEN customSortOrder')
             ->join('j.scheduling', 'scheduling')
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
@@ -879,9 +890,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        if ($filledCompletely) {
-            $qb->andWhere("kitting.filledCompletely = :filledCompletely")
-                ->setParameter('filledCompletely', $filledCompletely);
+        if ($ctk) {
+            // CTK : Clear to kit; has non null paint location and kit location
+            $qb->andWhere("kitting.location IS NOT NULL")
+               ->andWhere("paint.location IS NOT NULL"); 
         }
 
         $results = $qb->addOrderBy("customSortOrder", "ASC")
@@ -1071,17 +1083,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                     break;
                 case 1: 
         // 1 -> Painted part shorts 
-                    $qb->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.shortClass = 1) OR
-                                   (kitting.kittingShort2 IS NOT NULL AND kittingShort2.shortClass = 1) OR
-                                   (kitting.kittingShort3 IS NOT NULL AND kittingShort3.shortClass = 1) OR
-                                   (kitting.kittingShort4 IS NOT NULL AND kittingShort4.shortClass = 1)"); 
+                    $qb->andWhere("((kitting.kittingShort1 IS NOT NULL AND kittingShort1.shortClass = 1) OR
+                                    (kitting.kittingShort2 IS NOT NULL AND kittingShort2.shortClass = 1) OR
+                                    (kitting.kittingShort3 IS NOT NULL AND kittingShort3.shortClass = 1) OR
+                                    (kitting.kittingShort4 IS NOT NULL AND kittingShort4.shortClass = 1))"); 
                     break;
         // 2 -> All shorts 
                 case 2:
-                    $qb->andWhere("(kitting.kittingShort1 IS NOT NULL) OR
-                                   (kitting.kittingShort2 IS NOT NULL) OR
-                                   (kitting.kittingShort3 IS NOT NULL) OR
-                                   (kitting.kittingShort4 IS NOT NULL)"); 
+                    $qb->andWhere("((kitting.kittingShort1 IS NOT NULL) OR
+                                    (kitting.kittingShort2 IS NOT NULL) OR
+                                    (kitting.kittingShort3 IS NOT NULL) OR
+                                    (kitting.kittingShort4 IS NOT NULL))"); 
                     break;
         // 3 -> All jobs 
                 case 3: break; 

@@ -546,7 +546,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'filled_completely' => null,
+            'ctk' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -559,7 +559,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'filled_completely'     =>  $parameters['filled_completely'],
+            'ctk'                   =>  $parameters['ctk'],
         ));
     }
 
@@ -574,7 +574,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'filled_completely' => null,
+            'ctk' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -587,7 +587,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'filled_completely'     =>  $parameters['filled_completely'],
+            'ctk'                   =>  $parameters['ctk'],
         ));
     }
 
@@ -602,7 +602,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'filled_completely' => null,
+            'ctk' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -615,7 +615,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'filled_completely'     =>  $parameters['filled_completely'],
+            'ctk'                   =>  $parameters['ctk'],
         ));
     }
 
@@ -630,7 +630,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'filled_completely' => null,
+            'ctk' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -643,7 +643,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'filled_completely'     =>  $parameters['filled_completely'],
+            'ctk'                   =>  $parameters['ctk'],
         ));
     }
 
@@ -684,7 +684,7 @@ class JobController extends Controller
             'non_shipped'           => 1,
             'selected_filter'       => $selectedFilterParameter != null ? $selectedFilterParameter : 0, // means Not Vetted
             'selected_location'     => $selectedLocationParameter != null ? $selectedLocationParameter : 0, // means ALL locations
-            'selected_priority'     => $selectedPriorityParameter != null ? $selectedPriorityParameter : -2, // means Not Vetted
+            'selected_priority'     => $selectedPriorityParameter != null ? $selectedPriorityParameter : 99, // means ALL
             'esd_date_from'         => null,
             'esd_date_to'           => null,
             'planner_esd_week_from' => null,
@@ -695,7 +695,10 @@ class JobController extends Controller
         $session->set('scheduler_parameter_selected_filter', $parameters['selected_filter']);
         $session->set('scheduler_parameter_selected_location', $parameters['selected_location']);
         $session->set('scheduler_parameter_selected_priority', $parameters['selected_priority']);
-
+        // Check if the filter is set to Not Vetted, we automatically set the priority to follow the same
+        if ($parameters['selected_filter'] == 0) {
+            $parameters['selected_priority'] = -2; // means Not vetter
+        }
         $jobs = $this->jobRepository->findSchedulerJobs($parameters);
         $locations = $this->em->getRepository('V2MainBundle:BuildLocation')->findAll();
 
