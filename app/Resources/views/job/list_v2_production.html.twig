@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block afterBreadcrumbs %}
-    <span style="float:right"><a href="{{ path('print_v2_production', {'sales_order': sales_order, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to, 'ctk': ctk}) }}" class="btn btn-sm btn-warning">Print</a></span>
+    <span style="float:right"><a href="{{ path('print_v2_production', {'sales_order': sales_order, 'planner_esd_date_from': planner_esd_date_from, 'planner_esd_date_to': planner_esd_date_to, 'planner_esd_week_from': planner_esd_week_from, 'planner_esd_week_to': planner_esd_week_to, 'ctb': ctb}) }}" class="btn btn-sm btn-warning">Print</a></span>
 {% endblock %}
 
 {% block body %}
@@ -37,8 +37,8 @@
                     </div>
                     <div class="col-sm-2" style="margin-top:20px">
                         <label class="form-check-label">
-                            <input type="checkbox" name="ctk" value="1" class="form-check-input" {% if ctk %}checked{% endif %}>
-                            See only CTK
+                            <input type="checkbox" name="ctb" value="1" class="form-check-input" {% if ctb %}checked{% endif %}>
+                            See only CTB
                         </label>
                     </div>
                 </div>

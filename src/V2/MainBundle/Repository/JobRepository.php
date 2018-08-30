@@ -758,7 +758,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;       
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
-        $ctk                            = array_key_exists('ctk', $parameters)? $parameters['ctk'] : null;
+        $ctb                            = array_key_exists('ctb', $parameters)? $parameters['ctb'] : null;
 
         $qb = $this->createQueryBuilder('j')
             ->addSelect('CASE 
@@ -803,8 +803,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        if ($ctk) {
-            // CTK : Clear to kit; has non null paint location and kit location
+        if ($ctb) {
+            // CTB : Clear to build; has non null paint location and kit location
             $qb->andWhere("kitting.completionDate IS NOT NULL")
                ->andWhere("paint.location IS NOT NULL"); 
         }
@@ -840,7 +840,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipDateTo     = array_key_exists('planner_esd_date_to', $parameters) ? $parameters['planner_esd_date_to'] : null;
         $plannerEstimatedShipWeekFrom   = array_key_exists('planner_esd_week_from', $parameters) ? $parameters['planner_esd_week_from'] : null;
         $plannerEstimatedShipWeekTo     = array_key_exists('planner_esd_week_to', $parameters) ? $parameters['planner_esd_week_to'] : null;
-        $ctk                            = array_key_exists('ctk', $parameters)? $parameters['ctk'] : null;
+        $ctb                            = array_key_exists('ctb', $parameters)? $parameters['ctb'] : null;
 
         // 1 (RED) : planner ESD <= today
         // 2 (ORANGE) : priority Rush (3)
@@ -890,8 +890,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('plannerEstimatedShipWeekTo', $plannerEstimatedShipWeekTo);
         }
 
-        if ($ctk) {
-            // CTK : Clear to kit; has non null paint location and kit location
+        if ($ctb) {
+            // CTB : Clear to build; has non null paint location and kit location
             $qb->andWhere("kitting.location IS NOT NULL")
                ->andWhere("paint.location IS NOT NULL"); 
         }

@@ -546,7 +546,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'ctk' => null,
+            'ctb' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -559,7 +559,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'ctk'                   =>  $parameters['ctk'],
+            'ctb'                   =>  $parameters['ctb'],
         ));
     }
 
@@ -574,7 +574,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'ctk' => null,
+            'ctb' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -587,7 +587,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'ctk'                   =>  $parameters['ctk'],
+            'ctb'                   =>  $parameters['ctb'],
         ));
     }
 
@@ -602,7 +602,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'ctk' => null,
+            'ctb' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -615,7 +615,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'ctk'                   =>  $parameters['ctk'],
+            'ctb'                   =>  $parameters['ctb'],
         ));
     }
 
@@ -630,7 +630,7 @@ class JobController extends Controller
             'planner_esd_date_to' => null,
             'planner_esd_week_from' => null,
             'planner_esd_week_to' => null,
-            'ctk' => null,
+            'ctb' => null,
         );
         $parameters = array_merge($defaultParameters, $request->query->all());
 
@@ -643,7 +643,7 @@ class JobController extends Controller
             'planner_esd_date_to'   =>  $parameters['planner_esd_date_to'],
             'planner_esd_week_from' =>  $parameters['planner_esd_week_from'],
             'planner_esd_week_to'   =>  $parameters['planner_esd_week_to'],
-            'ctk'                   =>  $parameters['ctk'],
+            'ctb'                   =>  $parameters['ctb'],
         ));
     }
 
