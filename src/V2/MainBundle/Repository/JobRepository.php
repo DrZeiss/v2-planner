@@ -495,14 +495,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
             ->where("(kitting.kitDate IS NULL OR kitting.completionDate IS NULL)")
             ->andWhere("scheduling.priority != 2")
-            ->andWhere("(kitting.kittingShort1 IS NULL AND 
-                         kitting.kittingShort2 IS NULL AND 
-                         kitting.kittingShort3 IS NULL AND 
-                         kitting.kittingShort4 IS NULL) OR
-                        (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2)) OR
-                        (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort2.shortClass = 2)) OR
-                        (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort3.shortClass = 2)) OR
-                        (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort4.shortClass = 2))") 
+            ->andWhere("kitting.kittingShort1 IS NULL OR (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
+            ->andWhere("kitting.kittingShort2 IS NULL OR (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
+            ->andWhere("kitting.kittingShort3 IS NULL OR (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
+            ->andWhere("kitting.kittingShort4 IS NULL OR (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($name) {
@@ -1083,10 +1079,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                     break;
                 case 1: 
         // 1 -> Painted part shorts 
-                    $qb->andWhere("((kitting.kittingShort1 IS NOT NULL AND kittingShort1.shortClass = 1) OR
-                                    (kitting.kittingShort2 IS NOT NULL AND kittingShort2.shortClass = 1) OR
-                                    (kitting.kittingShort3 IS NOT NULL AND kittingShort3.shortClass = 1) OR
-                                    (kitting.kittingShort4 IS NOT NULL AND kittingShort4.shortClass = 1))"); 
+                    $qb->andWhere("((kitting.kittingShort1 IS NOT NULL AND kittingShort1.shortClass = 1 AND kittingShort1.receivedDate IS NULL) OR
+                                    (kitting.kittingShort2 IS NOT NULL AND kittingShort2.shortClass = 1 AND kittingShort2.receivedDate IS NULL) OR
+                                    (kitting.kittingShort3 IS NOT NULL AND kittingShort3.shortClass = 1 AND kittingShort3.receivedDate IS NULL) OR
+                                    (kitting.kittingShort4 IS NOT NULL AND kittingShort4.shortClass = 1 AND kittingShort4.receivedDate IS NULL))"); 
                     break;
         // 2 -> All shorts 
                 case 2:
@@ -1100,14 +1096,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         // 4 -> Jobs CTK : Clear to kit; jobs vetted and jobs with no shorts or shorts received or shorts class = ignore
                 case 4:
                     $qb->andWhere("scheduling.priority != -2")
-                       ->andWhere("(kitting.kittingShort1 IS NULL AND 
-                                    kitting.kittingShort2 IS NULL AND 
-                                    kitting.kittingShort3 IS NULL AND 
-                                    kitting.kittingShort4 IS NULL) OR
-                                   (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2)) OR
-                                   (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort2.shortClass = 2)) OR
-                                   (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort3.shortClass = 2)) OR
-                                   (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort4.shortClass = 2))"); 
+                       ->andWhere("kitting.kittingShort1 IS NULL OR (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
+                       ->andWhere("kitting.kittingShort2 IS NULL OR (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
+                       ->andWhere("kitting.kittingShort3 IS NULL OR (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
+                       ->andWhere("kitting.kittingShort4 IS NULL OR (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))");
                     break;
         // 5 -> Jobs CTP : Clear to paint; jobs vetted and jobs with no painted parts shorts or painted parts short received
                 case 5: 
