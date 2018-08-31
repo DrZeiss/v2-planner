@@ -680,7 +680,6 @@ class JobController extends Controller
         $defaultParameters = array(
             'name'                  => null,
             'sales_order'           => null,
-            'filled_completely'     => null,
             'non_shipped'           => 1,
             'selected_filter'       => $selectedFilterParameter != null ? $selectedFilterParameter : 0, // means Not Vetted
             'selected_location'     => $selectedLocationParameter != null ? $selectedLocationParameter : 0, // means ALL locations
@@ -707,7 +706,6 @@ class JobController extends Controller
             'locations'             =>  $locations,
             'name'                  =>  $parameters['name'],
             'sales_order'           =>  $parameters['sales_order'],
-            'filled_completely'     =>  $parameters['filled_completely'],
             'non_shipped'           =>  $parameters['non_shipped'],
             'selected_filter'       =>  $parameters['selected_filter'],
             'selected_location'     =>  $parameters['selected_location'],

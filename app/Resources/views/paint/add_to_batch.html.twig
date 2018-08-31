@@ -20,7 +20,7 @@
                 <tr>
                     <th>Planner ESD</th>
                     <th>Job Name</th>
-                    <th>SO #</th>
+                    <th>MO #</th>
                     <th>QTY</th>
                 </tr>
                 </thead>
@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{ paint.job.plannerEstimatedShipDate ? paint.job.plannerEstimatedShipDate | date('Y-m-d') : "TBD" }}</td>
                         <td>{{ paint.job.name }}</td>
-                        <td>{{ paint.job.salesOrder }}</td>
+                        <td>{{ paint.job.manufacturingOrder }}</td>
                         <td>{{ paint.job.quantity }}</td>
                     </tr>
                 {% endfor %}

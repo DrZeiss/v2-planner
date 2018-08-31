@@ -158,7 +158,7 @@
         </thead>
         <tbody>
             {% for job in jobs %}
-            <tr {% if job.formatting == 1 %}bgcolor="lightgreen"{% elseif formatting == 2 %}bgcolor="lightcoral"{% elseif job.formatting == 3 %}bgcolor="lightyellow"{% endif %}>
+            <tr {% if job.formatting == 1 %}bgcolor="lightgreen"{% elseif job.formatting == 2 %}bgcolor="lightcoral"{% elseif job.formatting == 3 %}bgcolor="lightyellow"{% endif %}>
                 {# Job #}
                 <td style="font-size:small; {% if job.formatting > 0 %}color:white{% endif %}"><a href="#" class="name" data-name="name" data-pk="{{job.id}}" data-url="{{ path('edit_job_name', {'jobId': job.id}) }}">{{ job.name }}</a></td>
                 <td {% if job.formatting > 0 %}style="color:white"{% endif %}><a href="#" class="salesOrder" data-name="salesOrder" data-pk="{{job.id}}" data-url="{{ path('edit_job_sales_order', {'jobId': job.id}) }}">{{ job.salesOrder }}</a></td>   

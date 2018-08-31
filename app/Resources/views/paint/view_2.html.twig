@@ -43,7 +43,7 @@
             <th style="border:solid;font-size:x-small" rowspan=2>Add to Batch</th>
             <th style="border:solid;min-width:7ch" rowspan=2>Planner ESD</th>
             <th style="border:solid" rowspan=2>Job Name</th>
-            <th style="border:solid" rowspan=2>SO #</th>
+            <th style="border:solid" rowspan=2>MO #</th>
             <th style="border:solid" rowspan=2>Job Qty</th>
             <th style="border:solid" rowspan=2>Color 1</th>
             <th style="border:solid" rowspan=2>Batch #1</th>
@@ -98,7 +98,7 @@
                     {% endif %}
                 </td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.name }}</td>
-                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.salesOrder }}</td>
+                <td {% if late %}style="color:white"{% endif %}>{{ paint.job.manufacturingOrder }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.job.quantity }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.color1 }}</td>
                 <td {% if late %}style="color:white"{% endif %}>{{ paint.batch1 ? paint.batch1.id }}</a></td>

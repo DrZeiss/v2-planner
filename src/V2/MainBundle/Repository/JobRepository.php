@@ -303,6 +303,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $plannerEstimatedShipWeekTo     = $parameters['planner_esd_week_to'];
 
         $qb = $this->createQueryBuilder('j')
+            ->addSelect('0 AS HIDDEN formatting')
             ->leftJoin('j.bom', 'bom')
             ->leftJoin('j.shipping', 'shipping')
             ->leftjoin('j.kitting', 'kitting')
@@ -1009,7 +1010,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         
         $name                           = $parameters['name'];
         $salesOrder                     = $parameters['sales_order'];
-        $filledCompletely               = $parameters['filled_completely'];
         $nonShipped                     = $parameters['non_shipped'];
         $filter                         = $parameters['selected_filter'];
         $buildLocation                  = $parameters['selected_location'];
@@ -1097,9 +1097,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 case 4:
                     $qb->andWhere("scheduling.priority != -2")
                        ->andWhere("kitting.kittingShort1 IS NULL OR (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
-                       ->andWhere("kitting.kittingShort2 IS NULL OR (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
-                       ->andWhere("kitting.kittingShort3 IS NULL OR (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
-                       ->andWhere("kitting.kittingShort4 IS NULL OR (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))");
+                       ->andWhere("kitting.kittingShort2 IS NULL OR (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort2.shortClass = 2))")
+                       ->andWhere("kitting.kittingShort3 IS NULL OR (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort3.shortClass = 2))")
+                       ->andWhere("kitting.kittingShort4 IS NULL OR (kitting.kittingShort4 IS NOT NULL AND (kittingShort4.receivedDate IS NOT NULL OR kittingShort4.shortClass = 2))");
                     break;
         // 5 -> Jobs CTP : Clear to paint; jobs vetted and jobs with no painted parts shorts or painted parts short received
                 case 5: 
@@ -1126,11 +1126,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if ($salesOrder) {
             $qb->andWhere("j.salesOrder LIKE :salesOrder")
                 ->setParameter('salesOrder', "%" . $salesOrder . "%");
-        }
-
-        if ($filledCompletely) {
-            $qb->andWhere("kitting.filledCompletely = :filledCompletely")
-                ->setParameter('filledCompletely', $filledCompletely);
         }
 
         if ($nonShipped) {
