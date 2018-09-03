@@ -494,7 +494,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("(kitting.kitDate IS NULL OR kitting.completionDate IS NULL)")
+            ->where("(kitting.kitDate IS NULL AND kitting.location IS NULL) OR kitting.completionDate IS NULL")
             ->andWhere("scheduling.priority != 2")
             ->andWhere("kitting.kittingShort1 IS NULL OR (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
             ->andWhere("kitting.kittingShort2 IS NULL OR (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
