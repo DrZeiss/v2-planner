@@ -494,8 +494,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("(kitting.kitDate IS NULL AND kitting.location IS NULL) OR kitting.completionDate IS NULL")
-            ->andWhere("scheduling.priority != 2")
+            ->where("scheduling.priority != -2")
+            ->andWhere("(kitting.kitDate IS NULL AND kitting.location IS NULL) OR kitting.completionDate IS NULL")
             ->andWhere("kitting.kittingShort1 IS NULL OR (kitting.kittingShort1 IS NOT NULL AND (kittingShort1.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
             ->andWhere("kitting.kittingShort2 IS NULL OR (kitting.kittingShort2 IS NOT NULL AND (kittingShort2.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
             ->andWhere("kitting.kittingShort3 IS NULL OR (kitting.kittingShort3 IS NOT NULL AND (kittingShort3.receivedDate IS NOT NULL OR kittingShort1.shortClass = 2))")
@@ -513,7 +513,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         }
         
         $results = $qb->addOrderBy("scheduling.priority", "DESC")
-            ->addOrderBy("j.salesOrder", "ASC")
             ->addOrderBy("j.plannerEstimatedShipDate", "ASC")
             ->getQuery()
             ->getResult();
@@ -585,7 +584,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0")
+            ->where("scheduling.priority != -2")
             ->andWhere("(kittingShort1.partNumber != '' AND kittingShort1.shortClass = 0) OR
                         (kittingShort2.partNumber != '' AND kittingShort2.shortClass = 0) OR
                         (kittingShort3.partNumber != '' AND kittingShort3.shortClass = 0) OR
@@ -634,7 +633,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0")
+            ->where("scheduling.priority != -2")
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.receivedDate IS NULL) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.receivedDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.receivedDate IS NULL) OR 
@@ -677,7 +676,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0")
+            ->where("scheduling.priority != -2")
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.modDoneDate IS NULL) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.modDoneDate IS NULL) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.modDoneDate IS NULL) OR 
@@ -714,7 +713,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0")
+            ->where("scheduling.priority != -2")
             ->andWhere("j.cancelledDate IS NULL");
 
         if ($partNumber) {
@@ -920,8 +919,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             ->join('j.kitting', 'kitting')
             ->join('j.buildLocation', 'buildLocation')
             ->leftJoin('j.paint', 'paint')
-            ->where("kitting.filledCompletely = 1")
+            ->where("scheduling.priority != -2")
             ->andWhere("paint.location IS NOT NULL")
+            ->andWhere("kitting.location IS NOT NULL")
             ->andWhere("scheduling.completionDate IS NULL")
             ->andWhere("j.cancelledDate IS NULL");
 
@@ -946,11 +946,15 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('j')
             ->join('j.kitting', 'kitting')
             ->join('j.scheduling', 'scheduling')
+            ->leftJoin('j.paint', 'paint')
             ->leftJoin('kitting.kittingShort1', 'kittingShort1')
             ->leftJoin('kitting.kittingShort2', 'kittingShort2')
             ->leftJoin('kitting.kittingShort3', 'kittingShort3')
             ->leftJoin('kitting.kittingShort4', 'kittingShort4')
-            ->where("kitting.filledCompletely = 0")
+            ->where("scheduling.priority != -2")
+            ->andWhere("kitting.location IS NOT NULL")
+            ->andWhere("paint.location IS NOT NULL")
+            ->andWhere("scheduling.completionDate IS NULL")
             ->andWhere("(kitting.kittingShort1 IS NOT NULL AND kittingShort1.vendorPoNumber IS NULL AND (kittingShort1.vendor IS NULL or UPPER(kittingShort1.vendor) != 'V2')) OR 
                         (kitting.kittingShort2 IS NOT NULL AND kittingShort2.vendorPoNumber IS NULL AND (kittingShort2.vendor IS NULL or UPPER(kittingShort2.vendor) != 'V2')) OR 
                         (kitting.kittingShort3 IS NOT NULL AND kittingShort3.vendorPoNumber IS NULL AND (kittingShort3.vendor IS NULL or UPPER(kittingShort3.vendor) != 'V2')) OR 

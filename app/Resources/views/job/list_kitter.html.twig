@@ -75,7 +75,7 @@
             {% for job in jobs %}
             <tr {% if job.late == 1 %}bgcolor="lightcoral"{% endif %}>
                 <td style="font-size:small; {% if job.late %}color:black{% endif %}">{{ job.name }}</td>
-                <td {% if job.late %}style="color:black"{% endif %}>{{ job.salesOrder }}</td>   
+                <td {% if job.late %}style="color:black"{% endif %}>{{ job.salesOrder }}<br>{{job.scheduling.priority}}</td>   
                 <td {% if job.late %}style="color:black"{% endif %}>{{ job.type }}</td>
                 <td {% if job.late %}style="color:black"{% endif %}>{{ job.quantity }}</td>
                 <td {% if job.late %}style="color:black"{% endif %}>{{ job.manufacturingOrder }}</td>

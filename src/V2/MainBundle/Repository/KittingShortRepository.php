@@ -149,7 +149,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('job.scheduling', 'scheduling')
             ->andWhere("job.cancelledDate IS NULL")
             ->andWhere("UPPER(ks.vendor) = 'V2'")
-            ->andWhere("((kitting.filledCompletely IS NOT NULL AND kitting.filledCompletely = 0) OR kitting.filledCompletely IS NULL)");
+            ->andWhere("scheduling.priority != -2");
 
         if ($dateNeededFrom) {
             $qb->andWhere('ks.dateNeeded >= :dateNeededFrom')
