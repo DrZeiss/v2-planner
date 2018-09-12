@@ -27,7 +27,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('kitting.job', 'job')
             ->leftJoin('job.scheduling', 'scheduling')
             ->where("job.cancelledDate IS NULL")
-            ->andWhere("(ks.vendor IS NULL or UPPER(ks.vendor) != 'V2')");
+            ->andWhere("(ks.vendor IS NOT NULL AND UPPER(ks.vendor) != 'V2') OR ks.vendor IS NULL");
 
         if ($partNumber) {
             $qb->andWhere("ks.partNumber LIKE :partNumber")
@@ -149,7 +149,7 @@ class KittingShortRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('job.scheduling', 'scheduling')
             ->andWhere("job.cancelledDate IS NULL")
             ->andWhere("UPPER(ks.vendor) = 'V2'")
-            ->andWhere("scheduling.priority != -2");
+            ->andWhere("(scheduling.id IS NOT NULL AND scheduling.priority != -2) OR scheduling.id IS NULL");
 
         if ($dateNeededFrom) {
             $qb->andWhere('ks.dateNeeded >= :dateNeededFrom')
