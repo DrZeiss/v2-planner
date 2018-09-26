@@ -6,6 +6,10 @@
     <li class="active"><span>Receiver Parts</span></li>
 {% endblock %}
 
+{% block afterBreadcrumbs %}
+    <span style="float:right"><a href="{{ path('print_receiver', {'part_number': part_number, 'vendor_po_number': vendor_po_number, 'completed': completed}) }}" class="btn btn-sm btn-warning">Print</a></span>
+{% endblock %}
+
 {% block body %}
     <div class="ibox float-e-margins">
         <div class="ibox-content">

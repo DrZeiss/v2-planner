@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kitter Job</title>
+</head>
+<body>
+    <h2>Kitter Job list</h2>
+    <table border='1'>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>SO #</th>
+            <th>Job Type</th>
+            <th>Job Qty</th>
+            <th>Job MO#</th>
+            <th>Job Build LOC</th>
+            <th>Job Planner ESD</th>
+            <th>Kitting Short #1</th>
+            <th>Short #1 Class</th>
+            <th>Kitting Short #2</th>
+            <th>Short #2 Class</th>
+            <th>Kitting Short #3</th>
+            <th>Short #3 Class</th>
+            <th>Kitting Short #4</th>
+            <th>Short #4 Class</th>
+            <th>Kitting LOC</th>
+            <th>Kitting Date Kitted</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.name }}</td>
+                <td>{{ job.salesOrder }}<br>{{job.scheduling.priority}}</td>   
+                <td>{{ job.type }}</td>
+                <td>{{ job.quantity }}</td>
+                <td>{{ job.manufacturingOrder }}</td>
+                <td>{{ job.buildLocation.name }}</td>
+                <td>
+                    {% if job.plannerEstimatedShipDate %}
+                        {{ job.plannerEstimatedShipDate|date('Y-m-d') }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+                <td>{{ job.kitting.kittingShort1 ? job.kitting.kittingShort1.partNumber : null }}</td>
+                <td>
+                    {% if (job.kitting.kittingShort1 is null) or job.kitting.kittingShort1.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif job.kitting.kittingShort1.shortClass == 1 %}
+                        Painted part
+                    {% elseif job.kitting.kittingShort1.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td>{{ job.kitting.kittingShort2 ? job.kitting.kittingShort2.partNumber : null }}</td>
+                <td>
+                    {% if (job.kitting.kittingShort2 is null) or job.kitting.kittingShort2.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif job.kitting.kittingShort2.shortClass == 1 %}
+                        Painted part
+                    {% elseif job.kitting.kittingShort2.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td>{{ job.kitting.kittingShort3 ? job.kitting.kittingShort3.partNumber : null }}</td>
+                <td>
+                    {% if (job.kitting.kittingShort3 is null) or job.kitting.kittingShort3.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif job.kitting.kittingShort3.shortClass == 1 %}
+                        Painted part
+                    {% elseif job.kitting.kittingShort3.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td>{{ job.kitting.kittingShort4 ? job.kitting.kittingShort4.partNumber : null }}</td>
+                <td>
+                    {% if (job.kitting.kittingShort4 is null) or job.kitting.kittingShort4.shortClass == 0 %}
+                        {# Empty #}
+                    {% elseif job.kitting.kittingShort4.shortClass == 1 %}
+                        Painted part
+                    {% elseif job.kitting.kittingShort4.shortClass == 2 %}
+                        Ignore
+                    {% endif %}
+                </td>
+                <td>{{ job.kitting.location }}</td>
+                <td>{{ job.kitting.kitDate ? job.kitting.kitDate | date('Y-m-d') : "" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

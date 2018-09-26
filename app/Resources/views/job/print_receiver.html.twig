@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Receiver Parts</title>
+</head>
+<body>
+    <h2>Receiver Part list</h2>
+    <table border='1'>
+        <thead>
+        <tr>
+            <th>Part #</th>
+            <th>Date Needed</th>
+            <th>EDD</th>
+            <th>Vendor</th>
+            <th>Vendor PO#</th>
+            <th>Mod WO#</th>
+            <th>RCVD Date</th>
+            <th>LOC</th>
+            <th>Notes</th>
+            <th>Job Name</th>
+            <th>Job SO #</th>
+            <th>Qty</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for part in parts %}
+            <tr>
+                <td>{{ part.partNumber}}</td>
+                <td>{{ part.dateNeeded ? part.dateNeeded | date('Y-m-d') : "" }}</td>
+                <td>{{ part.estimatedDeliveryDate ? part.estimatedDeliveryDate | date('Y-m-d') : "" }}</td>
+                <td>{{ part.vendor }}</td>
+                <td>{{ part.vendorPoNumber }}</td>
+                <td>{{ part.modWo }}</td>
+                <td>{{ part.receivedDate ? part.receivedDate | date('Y-m-d') : "" }}</td>
+                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.kitting.location : "" }}</td>
+                <td>{{ part.notes }}</td>
+                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.name }}</td>
+                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.salesOrder }}</td>   
+                <td>{{ part.kitting and part.kitting.job ? part.kitting.job.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

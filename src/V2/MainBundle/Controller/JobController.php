@@ -366,6 +366,26 @@ class JobController extends Controller
     }
 
     /**
+     * @Route("/kitter/print", name="print_kitter")
+     */
+    public function printKitterJobs(Request $request)
+    {
+        $defaultParameters = array(
+            'name' => null,
+            'sales_order' => null,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $jobs           = $this->jobRepository->findKitterJobs($parameters);
+
+        return $this->render('job/print_kitter.html.twig', array(
+            'jobs'          =>  $jobs,
+            'name'          =>  $parameters['name'],
+            'sales_order'   =>  $parameters['sales_order'],
+        ));
+    }
+
+    /**
      * @Route("/short_kits", name="short_kits")
      */
     public function listShortKitsJobs(Request $request)
@@ -402,6 +422,28 @@ class JobController extends Controller
         $parts = $this->kittingShortRepository->findReceiverParts($parameters);
 
         return $this->render('job/list_receiver.html.twig', array(
+            'parts'             =>  $parts,
+            'part_number'       =>  $parameters['part_number'],
+            'vendor_po_number'  =>  $parameters['vendor_po_number'],
+            'completed'         =>  $parameters['completed'],
+        ));
+    }
+
+    /**
+     * @Route("/receiver/print", name="print_receiver")
+     */
+    public function printReceiverParts(Request $request)
+    {
+        $defaultParameters = array(
+            'part_number' => null,
+            'vendor_po_number' => null,
+            'completed' => false,
+        );
+        $parameters = array_merge($defaultParameters, $request->query->all());
+
+        $parts = $this->kittingShortRepository->findReceiverParts($parameters);
+
+        return $this->render('job/print_receiver.html.twig', array(
             'parts'             =>  $parts,
             'part_number'       =>  $parameters['part_number'],
             'vendor_po_number'  =>  $parameters['vendor_po_number'],
